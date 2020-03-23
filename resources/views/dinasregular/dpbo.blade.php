@@ -1,0 +1,120 @@
+<?php 
+use App\Libraries\Common;
+$common = new Common();
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daftar Pembayaran Biaya Operasional Inspektorat</title>
+<link rel="stylesheet" href="{!! asset('css/bootstrap.min.css') !!}">
+<style type="text/css" media="print">
+    @page {
+    	size: auto;
+    	
+    }
+</style>
+<style type="text/css">
+    body {
+    	margin: 0px;
+    }
+    
+    * {
+    	font-family: 'Times New Roman', Times, serif;
+    	font-size: 10pt;
+    }
+    
+    h4 {
+    	font-size: 14pt;
+    }
+   
+</style>
+</head>
+<body onload="window.print()">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<strong><u><h4 class="text-center">Inspektorat Daerah Provinsi Jawa Barat</h4></u></strong>
+				<table width="100%">
+					<tr>
+						<td>DAFTAR</td>
+						<td> : </td>
+						<td>PENERIMAAN  BIAYA OPERASIONAL INSPEKTORAT </td>
+					</tr>
+				</table>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th width="2%" style="text-align: center;vertical-align:middle;">NO</th>
+							<th width="20%" style="text-align:center;vertical-align:middle;">NAMA</th>
+							<th width="15%" style="text-align:center;vertical-align:middle;">JABATAN &nbsp; GOL</th>
+							<th width="7%" style="text-align:center;vertical-align:middle;">BIAYA OPERASIONAL</th>
+							<th width="2%" style="text-align:center;vertical-align:middle;">UANG SAKU</th>
+							<th width="2%" style="text-align:center;vertical-align:middle;">TRANSPORTASI</th>
+							<th width="10%" style="text-align:center;vertical-align:middle;">JUMLAH YANG DITERIMA</th>
+							<th width="10%" style="text-align:center;vertical-align:middle;">TANDA TANGAN PENERIMA</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td style="text-align: center;">1</td>
+							<td>{!! $dinasboptim->tim['wakilpenanggungjawab']['nama'] !!}</td>
+							<td style="text-align: center;">WAKIL PENANGGUNGJAWAB {!! $dinasboptim->tim['wakilpenanggungjawab']['golongan'] !!}</td>
+							<td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['wakilpenanggungjawab']['total']) !!}</td>
+							<td></td>
+							<td></td>
+							<td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['wakilpenanggungjawab']['total']) !!}</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td style="text-align: center;">2</td>
+							<td>{!! $dinasboptim->tim['pengendaliteknis']['nama'] !!}</td>
+							<td style="text-align: center;">PENGENDALI TEKNIS {!! $dinasboptim->tim['pengendaliteknis']['golongan'] !!}</td>
+							<td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['pengendaliteknis']['total']) !!}</td>
+							<td></td>
+							<td></td>
+							<td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['pengendaliteknis']['total']) !!}</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td style="text-align: center;">3</td>
+							<td>{!! $dinasboptim->tim['ketuatim']['nama'] !!}</td>
+							<td style="text-align: center;">KETUA TIM {!! $dinasboptim->tim['ketuatim']['golongan'] !!}</td>
+							<td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['ketuatim']['total']) !!}</td>
+							<td></td>
+							<td></td>
+							<td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['ketuatim']['total']) !!}</td>
+							<td></td>
+						</tr>
+						<?php $i = 3; ?>
+						@foreach($dinasboptim->tim['anggota'] as $v)
+    						<tr>
+    							<td style="text-align: center;">{!! ++$i !!}</td>
+    							<td>{!! $v['nama'] !!}</td>
+    							<td style="text-align: center;">ANGGOTA {!! $v['golongan'] !!}</td>
+    							<td style="text-align: right;">Rp.{!! $common->rupiah($v['total']) !!}</td>
+    							<td></td>
+    							<td></td>
+    							<td style="text-align: right;">Rp.{!! $common->rupiah($v['total']) !!}</td>
+    							<td></td>
+    						</tr>
+						@endforeach
+						<tr>
+							<td style="text-align: center;">{!! $i + 1 !!}</td>
+							<td>{!! $dinasboptim->tim['driver']['nama'] !!}</td>
+							<td style="text-align: center;">PENGEMUDI {!! $dinasboptim->tim['driver']['golongan'] !!}</td>
+							<td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['driver']['total']) !!}</td>
+							<td></td>
+							<td></td>
+							<td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['driver']['total']) !!}</td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

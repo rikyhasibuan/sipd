@@ -1,0 +1,336 @@
+<template>
+    <div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <v-alert :alert=alert></v-alert>
+                        <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
+                        <form method="POST" v-on:submit.prevent="onSubmit">
+                            <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="username">Nomor Surat Perintah </label>
+                                        <input type="text" class="form-control" v-model="dinasregular.nomor_sp" placeholder="Isi Nomor Surat Perintah" required="required">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="username">Tanggal Surat Perintah </label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                            <date-picker 
+                                                id="tgl_sp"
+                                                name="tgl_sp"
+                                                v-model="dinasregular.tgl_sp"
+                                                :config="options"
+                                                class="form-control"
+                                                placeholder="Tanggal Surat SP" 
+                                                autocomplete="false">
+                                            </date-picker>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="bidang">Program *</label>
+                                    <select v-model="dinasregular.program_id" @change="onChangeProgram($event)" class="form-control" required="required">
+                                        <option value="">Pilih Program</option>
+                                        <option v-for="v in this.program" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_program }}</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="bidang">Kegiatan *</label>
+                                    <select v-model="dinasregular.kegiatan_id" @change="onChangeKegiatan($event)" class="form-control" required="required">
+                                        <option value="">Pilih Kegiatan</option>
+                                        <option v-for="v in this.kegiatan" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_kegiatan }}</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="bidang">Belanja *</label>
+                                    <select v-model="dinasregular.belanja_id" class="form-control" required="required">
+                                        <option value="">Pilih Belanja</option>
+                                        <option v-for="v in this.belanja" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_belanja }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label for="nama">Dasar *</label>
+                                    <textarea class="form-control" v-model="dinasregular.dasar[0]" required="required" rows="3"></textarea>
+                                    <br>
+                                    <textarea class="form-control" v-model="dinasregular.dasar[1]" rows="3"></textarea>
+                                    <br>
+                                    <textarea class="form-control" v-model="dinasregular.dasar[2]" rows="3"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label for="nama">Peruntukan *</label>
+                                    <textarea class="form-control" v-model="dinasregular.untuk[0]" required="required" rows="3"></textarea>
+                                    <br>
+                                    <textarea class="form-control" v-model="dinasregular.untuk[1]" rows="3"></textarea>
+                                    <br>
+                                    <textarea class="form-control" v-model="dinasregular.untuk[2]" rows="3"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="nama">Tanggal Mulai *</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                        <date-picker 
+                                            id="dari"
+                                            name="dari"
+                                            v-model="dinasregular.dari"
+                                            :config="options"
+                                            class="form-control"
+                                            placeholder="Tanggal Mulai Pemeriksaan" 
+                                            autocomplete="false" 
+                                            required="required">
+                                        </date-picker>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="nama">Tanggal Selesai *</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                        <date-picker 
+                                            id="sampai"
+                                            name="sampai"
+                                            v-model="dinasregular.sampai"
+                                            :config="options"
+                                            class="form-control"
+                                            placeholder="Tanggal Selesai Pemeriksaan" 
+                                            autocomplete="false" 
+                                            required="required">
+                                        </date-picker>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="bidang">Irban *</label>
+                                    <select v-model="dinasregular.irban_id" @change="onChangeIrban($event)" class="form-control" required="required">
+                                        <option value="">Pilih Irban</option>
+                                        <option v-for="v in this.irban_data" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_irban }}</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group col-md-6">
+                                    <label for="bidang">Auditan *</label>
+                                    <select v-model="dinasregular.auditan" class="form-control" required="required">
+                                        <option value="">Pilih Auditan</option>
+                                        <option v-for="(v,k) in this.auditan" :key="k" :value="v">{{ v }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label for="bidang">Personil *</label>
+                                    <multiselect 
+                                        :multiple="true"
+                                        :taggable="true"
+                                        placeholder="Pilih Anggota"
+                                        v-model="dinasregular.tim"
+                                        :options="anggota_data"
+                                        track-by="key"
+                                        label="label"
+                                        :allow-empty="true"
+                                    >
+                                    </multiselect>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Simpan Data</button>
+                                    <a :href="route" class="btn btn-danger"><i class="fa fa-arrow-left"></i> Kembali</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    import service from './../../services.js';
+    
+    export default {
+        data() {
+            return {
+                dinasregular: {
+                    'program_id': '',
+                    'kegiatan_id': '',
+                    'belanja_id': '',
+                    'irban_id': '',
+                    'nomor_sp': '',
+                    'tgl_sp': '',
+                    'dasar': [],
+                    'auditan': '',
+                    'untuk': [],
+                    'dari': '',
+                    'sampai': '',
+                    'tim': []
+                },
+                irban: '',
+                auditan: '',
+                program: '',
+                kegiatan: '',
+                belanja: '',
+                personil_data: [],
+                anggota_data: [],
+                options: {
+                    format: 'YYYY-MM-DD',
+                    useCurrent: false,
+                    locale: 'id'
+                },
+                alert: {
+                    error: false,
+                    save: false,
+                    duplicate: false
+                },
+                isLoading: false
+            }
+        },
+        props: [
+            'program_data',
+            'kegiatan_data',
+            'belanja_data',
+            'tujuan_data',
+            'irban_data',
+            'auditan_data',
+            'api',
+            'route'
+        ],
+        methods: {
+            onSubmit(evt) {
+                service.postData(this.api, this.dinasregular)
+                    .then(result => {
+                        this.response(result);
+                    }).catch(error => {
+                        this.$Progress.finish();
+                        this.errorAlert = true;
+                        this.saveAlert = false;
+                        this.duplicateAlert = false;
+                        window.scroll({
+                            top: 0,
+                            left: 0,
+                            behavior: 'smooth'
+                        });
+                        console.log(error);
+                    });
+
+            },
+            onChangeIrban(evt) {
+                const irban = evt.target.value;
+
+                // ambil data auditan berdasarkan irban
+                service.fetchData('../api/ajax/dinasregular/tujuan/' + irban)
+                    .then(response => {
+                        this.dinasregular.auditan = '';
+                        this.auditan = response;
+                    })
+                    .catch(error => {
+                        this.isLoading = false;
+                        this.alert.error = true;
+                        console.log(error);
+                    });
+
+                // ambil data personil berdasarkan irban
+                service.fetchData('../api/ajax/dinasregular/personil/' + irban)
+                    .then(response => {
+                        this.personil_data = response;
+                        this.personil_data.forEach(item => {
+                            this.anggota_data.push({
+                                'label': item.pegawai.nama,
+                                'key': item.pegawai.nip
+                            })
+                        });
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            },
+            onChangeProgram(evt) {
+                const program = evt.target.value;
+                service.fetchData('../api/ajax/kegiatan/' + program)
+                    .then(response => {
+                        this.dinasregular.kegiatan_id = '';
+                        this.dinasregular.belanja_id = '';
+                        this.kegiatan = response;
+                        this.belanja = [];
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            },
+            onChangeKegiatan(evt) {
+                const kegiatan = evt.target.value;
+                service.fetchData('../api/ajax/belanja/' + kegiatan)
+                    .then(response => {
+                        this.dinasregular.belanja_id = '';
+                        this.belanja = response;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            },
+
+            response(result) {
+                if (result.status === 'OK') {
+                    this.alert.error = false;
+                    this.alert.duplicate = false;
+                    this.alert.save = true;
+                    window.scroll({
+                        top: 0,
+                        left: 0,
+                        behavior: 'smooth'
+                    })
+                    this.reset();
+                    setTimeout(() => this.alert.save = false, 2000);
+                } else if (result.status === 'DUPLICATE') {
+                    this.alert.duplicate = true;
+                    this.alert.error = false;
+                    this.alert.save = false;
+                    window.scroll({
+                        top: 0,
+                        left: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            },
+            reset() {
+                this.dinasregular.program_id = '';
+                this.dinasregular.kegiatan_id = '';
+                this.dinasregular.belanja_id = '';
+                this.dinasregular.dasar = '';
+                this.dinasregular.untuk = [];
+                this.dinasregular.dari = '';
+                this.dinasregular.sampai = '';
+            }
+        },
+        created() {
+            this.isLoading = true;
+            this.program = this.program_data;
+            this.kegiatan = this.kegiatan_data;
+            this.belanja = this.belanja_data;
+        },
+        mounted() {
+            this.isLoading = false;
+        }
+    };
+</script>

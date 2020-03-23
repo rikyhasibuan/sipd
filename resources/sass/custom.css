@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700&display=swap');
+body {
+    font-family: "Lato", sans-serif !important;
+    font-size: 12px;
+    line-height: 22px;
+    font-weight: 400;
+}
+h2 {
+    font-size: 1.5rem;
+}
+
+.form-control {
+    height:2rem;
+    font-size:0.75rem;
+}
+.btn, .btn-sm {
+    font-size: 0.75rem;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity .5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.bootstrap-datetimepicker-widget {
+    font-size: 12px !important;
+}
+
+.brand-link {
+    font-size: 1.15rem !important;
+    line-height: 2 !important;
+}
+
+.dropdown-item {
+    font-size: 0.7rem;
+}

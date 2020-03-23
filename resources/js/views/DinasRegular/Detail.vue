@@ -1,0 +1,327 @@
+<template>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body table-responsive">
+                    <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
+                    <transition name="fade">
+                        <table class="table table-hover table-striped table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td style="width:15%;"><b>Program</b></td>
+                                    <td>{{ dinasregular.program.nama_program }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:15%;"><b>Kegiatan</b></td>
+                                    <td>{{ dinasregular.kegiatan.nama_kegiatan }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:15%;"><b>Belanja</b></td>
+                                    <td >{{ dinasregular.belanja.nama_belanja }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:15%;"><b>Anggaran Tersedia</b></td>
+                                    <td>Rp.{{ anggaran_tersedia | rupiah }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:15%;"><b>Tempat Tujuan</b></td>
+                                    <td>{{ dinasregular.auditan }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:15%;"><b>Nomor Surat Perintah</b></td>
+                                    <td>{{ dinasregular.no_sp }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:15%;"><b>Tanggal Surat Perintah</b></td>
+                                    <td>{{ dinasregular.tgl_sp | moment }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:15%;"><b>Dasar Surat Perintah</b></td>
+                                    <td>
+                                        <ol>
+                                            <li v-for="v in dinasregular.dasar" :key="v">
+                                                {{ v }}
+                                            </li>
+                                        </ol>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:15%;"><b>Waktu</b></td>
+                                    <td>{{ dinasregular.dari | moment }} s.d {{ dinasregular.sampai | moment }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:15%;"><b>Tujuan</b></td>
+                                    <td>
+                                        <ol>
+                                            <li v-for="v in dinasregular.untuk" :key="v">
+                                                {{ v }}
+                                            </li>
+                                        </ol>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </transition>
+
+                    <div style="margin-top:25px;"></div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Daftar Personil</h4>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <transition name="fade">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2" style="width:15%;text-align:center;vertical-align:middle;">Nama</th>
+                                            <th rowspan="2" style="width:10%;text-align:center;vertical-align:middle;">Pangkat/Golongan</th>
+                                            <th rowspan="2" style="width:15%;text-align:center;vertical-align:middle;">Jabatan</th>
+                                            <th rowspan="2" style="width:3%;text-align:center;vertical-align:middle;">Uang Harian</th>
+                                            <th rowspan="2" style="width:3%;text-align:center;vertical-align:middle;">Akomodasi</th>
+                                            <th colspan="3" style="width:15%;text-align:center;vertical-align:middle;">Transportasi</th>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:3%;text-align:center;vertical-align:middle;">BBM</th>
+                                            <th style="width:3%;text-align:center;vertical-align:middle;">Travel</th>
+                                            <th style="width:3%;text-align:center;vertical-align:middle;">Tiket</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(v,k) in dinasregular.tim" :value="k" :key="k">
+                                            <td>
+                                                {{ v.nama }}
+                                            </td>
+                                            <td>
+                                                {{ v.pangkat }} {{ v.golongan}}
+                                            </td>
+                                            <td>
+                                                {{ v.jabatan }}
+                                            </td>
+                                            <td style="text-align:right;">
+                                                {{ v.total_harian | rupiah }}
+                                            </td>
+                                            <td style="text-align:right;">
+                                                {{ v.total_akomodasi | rupiah }}
+                                            </td>
+                                            <td style="vertical-align:middle;" v-if="k === 0" :rowspan="dinasregular.tim.length">
+                                                <div v-if="(dinasregular.total_transportasi.total > 0) && (dinasregular.total_transportasi.jenis === 'BBM')" >
+                                                    <center>{{ dinasregular.total_transportasi.total | rupiah }}</center>
+                                                </div>
+                                            </td>
+                                            <td style="vertical-align:middle;" v-if="k === 0" :rowspan="dinasregular.tim.length">
+                                                <div v-if="(dinasregular.total_transportasi.total > 0) && (dinasregular.total_transportasi.jenis === 'Travel')" >
+                                                    <center>{{ dinasregular.total_transportasi.total | rupiah }}</center>
+                                                </div>
+                                            </td>
+                                            <td v-if="k === 0" :rowspan="dinasregular.tim.length" style="vertical-align:middle;">
+                                                <div v-if="(dinasregular.total_transportasi.total > 0) && (dinasregular.total_transportasi.jenis === 'Tiket')" >
+                                                    <center>{{ dinasregular.total_transportasi.total | rupiah }}</center>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="text-align:right;"></td>
+                                            <td style="text-align:right;">{{ dinasregular.total_harian | rupiah }}</td>
+                                            <td style="text-align:right;">{{ dinasregular.total_akomodasi | rupiah }}</td>
+                                            <td style="text-align:right;" v-if="(dinasregular.total_transportasi.total > 0) && (dinasregular.total_transportasi.jenis === 'BBM')" >{{ dinasregular.total_transportasi.total | rupiah }}</td>
+                                            <td v-else></td>
+                                            <td style="text-align:right;" v-if="(dinasregular.total_transportasi.total > 0) && (dinasregular.total_transportasi.jenis === 'Travel')" >{{ dinasregular.total_transportasi.total | rupiah }}</td>
+                                            <td v-else></td>
+                                            <td style="text-align:right;" v-if="(dinasregular.total_transportasi.total > 0) && (dinasregular.total_transportasi.jenis === 'Tiket')" >{{ dinasregular.total_transportasi.total | rupiah }}</td>
+                                            <td v-else></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5" style="text-align:right;"><strong>Total</strong></td>
+                                            <td colspan="3">
+                                                <b>Rp.{{ total_biaya | rupiah }}</b>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </transition>
+
+                            <!-- Transportasi Modal -->
+                            <transition name="fade" id="transportasi">
+                                <div class="modal" id="transportasimodal" tabindex="-1" role="dialog" v-if="showTransportasiModal" @close="showTransportasiModal = false">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Form Transportasi</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="POST">
+                                                    <div class="row">
+                                                        <div class="form-group col-md-12 col-xs-12">
+                                                            <label for="bidang">Jenis Transportasi *</label>
+                                                            <select v-model="transportasi.jenis" class="form-control" @change="onChangeJenisTransportasi" required="required">
+                                                                <option value="">Pilih Jenis Transportasi</option>
+                                                                <option v-for="(v,k) in this.jenis_transportasi" v-bind:value="v" v-bind:key="k">{{ v }}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row" v-if="show_liter === true">
+                                                        <div class="form-group col-md-12 col-xs-12">
+                                                            <label>Liter *</label>
+                                                            <select v-model="transportasi.liter" class="form-control" @change="onChangeLiter($event)">
+                                                                <option value="">Pilih Jumlah Liter</option>
+                                                                <option v-for="(v,k) in this.takaran_liter" v-bind:value="v" v-bind:key="k">{{ v }} Liter</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="form-group col-md-12 col-xs-12">
+                                                            <label for="nama">Total Biaya *</label>
+                                                            <input type="text" v-model="transportasi.total" class="form-control" required="required">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="form-group col-md-12">
+                                                            <button type="button" class="btn btn-flat btn-success" @click.prevent="simpanTransportasi(id)"><i class="fa fa-check"></i> Simpan</button>
+                                                            <button type="button" class="btn btn-flat btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </transition>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="#" @click="transportasiModal(dinasregular.id)" data-toggle="modal" data-target="#transportasimodal" class="btn btn-warning btn-sm"><i class="fa fa-refresh"></i> Ubah Transportasi</a>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default"><i class="fa fa-print"></i> Print</button>
+                            <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                                <span class="sr-only">Toggle Dropdown</span>
+                                <div class="dropdown-menu" role="menu">
+                                    <a class="dropdown-item" href="#" @click="print_personil(dinasregular.id)">Daftar Personil</a>
+                                    <a class="dropdown-item" href="#" @click="print_sp(dinasregular.id)">Surat Perintah</a>
+                                    <a class="dropdown-item" href="#" @click="print_spd(dinasregular.id)">Surat Perjalanan Dinas (SPD)</a>
+                                    <a class="dropdown-item" href="#" @click="print_rbpd(dinasregular.id)">Rincian Biaya Perjalanan Dinas</a>
+                                    <a class="dropdown-item" href="#" @click="print_dpbo(dinasregular.id)">Daftar Pembayaran</a>
+                                </div>
+                            </button>
+                        </div>
+                        <a :href="route" class="btn btn-danger"><i class="fa fa-arrow-left"></i> Kembali</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+
+import service from './../../services.js';
+export default {
+    data() {
+        return {
+            isLoading: false,
+            options: {},
+            alert: {
+                error:false,
+                empty:false,
+                delete:false
+            },
+            transportasi : {
+                total:0,
+                liter:'',
+                jenis:''
+            },
+            total_biaya:0,
+            anggaran_tersedia: 0,
+            showTable: false,
+            show_liter: false,
+            id:'',
+            showTransportasiModal: false,
+            counter:0
+        }
+    },
+    props: ['dinasregular', 'jenis_transportasi', 'takaran_liter', 'route', 'api'],
+    methods: {
+        print_sp(id) {
+            let new_window = window.open();
+            new_window.location = this.api + '/print/sp/'+ id;
+        },
+        print_spd(id) {
+            let new_window = window.open();
+            new_window.location = this.api + '/print/spd/'+ id;
+        },
+        print_rbpd(id) {
+            let new_window = window.open();
+            new_window.location = this.api + '/print/rbpd/'+ id;
+        },
+        print_personil(id) {
+            let new_window = window.open();
+            new_window.location = this.api + '/print/personil/'+ id;
+        },
+        print_dpbo(id) {
+            let new_window = window.open();
+            new_window.location = this.api + '/print/dpbo/'+ id;
+        },
+        onChangeLiter(evt) {
+            const jumlah_liter = evt.target.value;
+            service.postData('../api/ajax/totalhargabbm/', {'jumlah_liter':jumlah_liter})
+            .then(response => {
+                this.transportasi.total = response.total_bbm;
+            }).catch(error => {
+                console.log(error);
+            });
+        },
+        onChangeJenisTransportasi(evt) {
+            const jenistransportasi = evt.target.value;
+            if (jenistransportasi === 'BBM') {
+                this.show_liter = true;
+            } else {
+                this.show_liter = false;
+                this.transportasi.liter = '';
+                this.transportasi.total = 0;
+            }
+        },
+        transportasiModal(id) {
+            this.showTransportasiModal = true;
+            this.id = id;
+        },
+        simpanTransportasi(evt) {
+            service.putData(this.api + '/transportasi?id=' + this.dinasregular.id, this.transportasi)
+                .then(result => {
+                    $('#transportasimodal').modal('hide');
+                    alert('PROSES SIMPAN DATA BERHASIL!');
+                    location.reload();
+                }).catch(error => {
+                    $('#transportasimodal').modal('hide');
+                    alert('TERJADI KESALAHAN! SILAHKAN ULANGI KEMBALI!.')
+                    console.log(error);
+                });
+        },
+        getAnggaranTersedia() {
+            service.postData('../api/ajax/sisa_anggaran', {'tahun': this.dinasregular.created_at, 'belanja': this.dinasregular.belanja_id })
+                .then(result => {
+                    this.anggaran_tersedia = parseInt(result.sisa_anggaran) + parseInt(this.total_biaya);
+                }).catch(error => {
+                    console.log(error);
+                });
+        }
+    },
+    created() {
+        this.isLoading = true;
+        this.getAnggaranTersedia();
+    },
+    mounted() {
+        this.isLoading = false;
+        this.total_biaya = parseInt(this.dinasregular.total_harian) + parseInt(this.dinasregular.total_akomodasi) + parseInt(this.dinasregular.total_transportasi.total);
+    }
+};
+</script>
