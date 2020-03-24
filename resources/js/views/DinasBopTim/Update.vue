@@ -227,8 +227,6 @@
                 this.audit_data = response;
             })
             .catch(error => {
-                this.isLoading = false;
-                this.alert.error = true;
                 console.log(error);
             });
 
@@ -241,8 +239,6 @@
                 });
             })
             .catch(error => {
-                this.isLoading = false;
-                this.alert.error = true;
                 console.log(error);
             });
 
@@ -250,7 +246,6 @@
             anggota.forEach(item => {
                 this.tim.anggota.push({'label':item.nama,'key':item.nip});
             });
-
         },
         mounted() {
             this.isLoading = false;

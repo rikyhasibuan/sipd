@@ -59,27 +59,27 @@
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label for="nama">Dasar *</label>
-                                    <textarea class="form-control" v-model="dinasregular.dasar[0]" required="required" rows="3"></textarea>
+                                    <input type="text" class="form-control" v-model="dinasregular.dasar[0]" required="required">
                                     <br>
-                                    <textarea class="form-control" v-model="dinasregular.dasar[1]" rows="3"></textarea>
+                                    <input type="text" class="form-control" v-model="dinasregular.dasar[1]">
                                     <br>
-                                    <textarea class="form-control" v-model="dinasregular.dasar[2]" rows="3"></textarea>
+                                    <input type="text" class="form-control" v-model="dinasregular.dasar[2]">
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-12">
-                                    <label for="nama">Peruntukan *</label>
-                                    <textarea class="form-control" v-model="dinasregular.untuk[0]" required="required" rows="3"></textarea>
+                                    <label for="nama">Tujuan Pemeriksaan *</label>
+                                    <input type="text" class="form-control" v-model="dinasregular.untuk[0]" required="required">
                                     <br>
-                                    <textarea class="form-control" v-model="dinasregular.untuk[1]" rows="3"></textarea>
+                                    <input type="text" class="form-control" v-model="dinasregular.untuk[1]">
                                     <br>
-                                    <textarea class="form-control" v-model="dinasregular.untuk[2]" rows="3"></textarea>
+                                    <input type="text" class="form-control" v-model="dinasregular.untuk[2]">
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label for="nama">Tanggal Mulai *</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
@@ -97,7 +97,7 @@
                                         </date-picker>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label for="nama">Tanggal Selesai *</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
@@ -115,27 +115,17 @@
                                         </date-picker>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="bidang">Irban *</label>
-                                    <select v-model="dinasregular.irban_id" @change="onChangeIrban($event)" class="form-control" required="required">
-                                        <option value="">Pilih Irban</option>
-                                        <option v-for="v in this.irban_data" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_irban }}</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="form-group col-md-6">
-                                    <label for="bidang">Auditan *</label>
+                                <div class="form-group col-md-4">
+                                    <label for="bidang">Tujuan *</label>
                                     <select v-model="dinasregular.auditan" class="form-control" required="required">
-                                        <option value="">Pilih Auditan</option>
-                                        <option v-for="(v,k) in this.auditan" :key="k" :value="v">{{ v }}</option>
+                                        <option value="">Pilih Tujuan</option>
+                                        <option v-for="v in this.auditan_data" :key="v.id" :value="v.nama_kabkota">{{ v.nama_kabkota }}</option>
                                     </select>
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row">                                
                                 <div class="form-group col-md-12">
                                     <label for="bidang">Personil *</label>
                                     <multiselect 
@@ -143,7 +133,7 @@
                                         :taggable="true"
                                         placeholder="Pilih Anggota"
                                         v-model="dinasregular.tim"
-                                        :options="anggota_data"
+                                        :options="personil_data"
                                         track-by="key"
                                         label="label"
                                         :allow-empty="true"
@@ -176,7 +166,6 @@
                     'program_id': '',
                     'kegiatan_id': '',
                     'belanja_id': '',
-                    'irban_id': '',
                     'nomor_sp': '',
                     'tgl_sp': '',
                     'dasar': [],
@@ -186,13 +175,11 @@
                     'sampai': '',
                     'tim': []
                 },
-                irban: '',
                 auditan: '',
                 program: '',
                 kegiatan: '',
                 belanja: '',
                 personil_data: [],
-                anggota_data: [],
                 options: {
                     format: 'YYYY-MM-DD',
                     useCurrent: false,
@@ -211,8 +198,8 @@
             'kegiatan_data',
             'belanja_data',
             'tujuan_data',
-            'irban_data',
             'auditan_data',
+            'anggota_data',
             'api',
             'route'
         ],
@@ -234,36 +221,6 @@
                         console.log(error);
                     });
 
-            },
-            onChangeIrban(evt) {
-                const irban = evt.target.value;
-
-                // ambil data auditan berdasarkan irban
-                service.fetchData('../api/ajax/dinasregular/tujuan/' + irban)
-                    .then(response => {
-                        this.dinasregular.auditan = '';
-                        this.auditan = response;
-                    })
-                    .catch(error => {
-                        this.isLoading = false;
-                        this.alert.error = true;
-                        console.log(error);
-                    });
-
-                // ambil data personil berdasarkan irban
-                service.fetchData('../api/ajax/dinasregular/personil/' + irban)
-                    .then(response => {
-                        this.personil_data = response;
-                        this.personil_data.forEach(item => {
-                            this.anggota_data.push({
-                                'label': item.pegawai.nama,
-                                'key': item.pegawai.nip
-                            })
-                        });
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
             },
             onChangeProgram(evt) {
                 const program = evt.target.value;
@@ -328,6 +285,9 @@
             this.program = this.program_data;
             this.kegiatan = this.kegiatan_data;
             this.belanja = this.belanja_data;
+            this.anggota_data.forEach(item => {
+                this.personil_data.push({'label':item.nama,'key':item.nip})
+            });
         },
         mounted() {
             this.isLoading = false;

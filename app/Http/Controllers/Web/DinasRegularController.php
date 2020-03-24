@@ -11,7 +11,6 @@ use App\Models\Program;
 use App\Models\Belanja;
 use App\Models\DinasRegular;
 use App\Models\DinasRegularTim;
-use App\Models\Irban;
 use App\Models\Pegawai;
 use App\Models\Kabkota;
 use App\Models\Bbm;
@@ -72,11 +71,11 @@ class DinasRegularController extends Controller
         $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data';
 
         $program = Program::all();
-        $irban = Irban::all();
 
         $kegiatan = [];
         $belanja = [];
-        $auditan = [];
+        $auditan = Kabkota::all();
+        $anggota = Pegawai::all();
 
         $data = array();
         $data['title']  = $this->title;
@@ -87,8 +86,8 @@ class DinasRegularController extends Controller
         $data['program'] = $program;
         $data['kegiatan'] = $kegiatan;
         $data['belanja'] = $belanja;
-        $data['irban'] = $irban;
         $data['auditan'] = $auditan;
+        $data['anggota'] = $anggota;
         $data['route'] = url($this->route);
         return View::make('dinasregular.form', $data);
     }
@@ -103,11 +102,11 @@ class DinasRegularController extends Controller
         $dinasregular = DinasRegular::find($request['id']);
         
         $program = Program::all();
-        $irban = Irban::all();
-        
+        $auditan = Kabkota::all();
+        $anggota = Pegawai::all();
+
         $kegiatan = [];
         $belanja = [];
-        $auditan = [];
 
         $data = array();
         $data['title']  = $this->title;
@@ -119,8 +118,8 @@ class DinasRegularController extends Controller
         $data['program'] = $program;
         $data['kegiatan'] = $kegiatan;
         $data['belanja'] = $belanja;
-        $data['irban'] = $irban;
         $data['auditan'] = $auditan;
+        $data['anggota'] = $anggota;
         $data['route'] = url($this->route);
         return View::make('dinasregular.form', $data);
     }

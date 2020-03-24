@@ -29,7 +29,7 @@
                                 </tr>
                                 <tr>
                                     <td style="width:15%;"><b>Nomor Surat Perintah</b></td>
-                                    <td>{{ dinasregular.no_sp }}</td>
+                                    <td>{{ dinasregular.nomor_sp }}</td>
                                 </tr>
                                 <tr>
                                     <td style="width:15%;"><b>Tanggal Surat Perintah</b></td>

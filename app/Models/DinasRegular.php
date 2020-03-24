@@ -28,11 +28,6 @@ class DinasRegular extends Model
     {
         return $this->belongsTo('App\Models\Belanja', 'belanja_id');
     }
-
-    public function irban()
-    {
-        return $this->belongsTo('App\Models\Irban', 'irban_id');
-    }
     
     public function tim()
     {

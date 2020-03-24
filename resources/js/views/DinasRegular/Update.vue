@@ -7,19 +7,43 @@
                     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
                     <form method="POST" v-on:submit.prevent="onSubmit">
                         <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="username">Nomor Surat Perintah </label>
+                                <input type="text" class="form-control" v-model="dinasregular.nomor_sp" placeholder="Isi Nomor Surat Perintah" required="required">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="username">Tanggal Surat Perintah </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                    <date-picker 
+                                        id="tgl_sp"
+                                        name="tgl_sp"
+                                        v-model="dinasregular.tgl_sp"
+                                        :config="options"
+                                        class="form-control"
+                                        placeholder="Tanggal Surat SP" 
+                                        autocomplete="false">
+                                    </date-picker>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
                             <div class="form-group col-md-4">
                                 <label for="bidang">Program *</label>
-                                <select v-model="dinasregular.program_id" class="form-control" required="required">
+                                <select v-model="dinasregular.program_id" @change="onChangeProgram($event)" class="form-control" required="required">
                                     <option value="">Pilih Program</option>
-                                    <option v-for="v in this.program_data" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_program }}</option>
+                                    <option v-for="v in this.program" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_program }}</option>
                                 </select>
                             </div>
 
                             <div class="form-group col-md-4">
                                 <label for="bidang">Kegiatan *</label>
-                                <select v-model="dinasregular.kegiatan_id" class="form-control" required="required">
+                                <select v-model="dinasregular.kegiatan_id" @change="onChangeKegiatan($event)" class="form-control" required="required">
                                     <option value="">Pilih Kegiatan</option>
-                                    <option v-for="v in this.kegiatan_data" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_kegiatan }}</option>
+                                    <option v-for="v in this.kegiatan" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_kegiatan }}</option>
                                 </select>
                             </div>
 
@@ -27,7 +51,7 @@
                                 <label for="bidang">Belanja *</label>
                                 <select v-model="dinasregular.belanja_id" class="form-control" required="required">
                                     <option value="">Pilih Belanja</option>
-                                    <option v-for="v in this.belanja_data" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_belanja }}</option>
+                                    <option v-for="v in this.belanja" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_belanja }}</option>
                                 </select>
                             </div>
                         </div>
@@ -35,51 +59,86 @@
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label for="nama">Dasar *</label>
-                                <textarea class="form-control" v-model="dinasregular.dasar" required="required" rows="3"></textarea>
+                                <input type="text" class="form-control" v-model="dinasregular.dasar[0]" required="required">
                                 <br>
-                                <textarea class="form-control" v-model="dinasregular.dasar" rows="3"></textarea>
+                                <input type="text" class="form-control" v-model="dinasregular.dasar[1]">
                                 <br>
-                                <textarea class="form-control" v-model="dinasregular.dasar" rows="3"></textarea>
-                                <br>
-                                <textarea class="form-control" v-model="dinasregular.dasar" rows="3"></textarea>
-                                <br>
-                                <textarea class="form-control" v-model="dinasregular.dasar" rows="3"></textarea>
+                                <input type="text" class="form-control" v-model="dinasregular.dasar[2]">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label for="nama">Peruntukan *</label>
-                                <textarea class="form-control" v-model="dinasregular.untuk" required="required" rows="5"></textarea>
+                                <label for="nama">Tujuan Pemeriksaan *</label>
+                                <input type="text" class="form-control" v-model="dinasregular.untuk[0]" required="required">
+                                <br>
+                                <input type="text" class="form-control" v-model="dinasregular.untuk[1]">
+                                <br>
+                                <input type="text" class="form-control" v-model="dinasregular.untuk[2]">
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label for="nama">Tanggal Mulai *</label>
-                                <input type="date" class="form-control" v-model="dinasregular.mulai" required="required">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                    <date-picker 
+                                        id="dari"
+                                        name="dari"
+                                        v-model="dinasregular.dari"
+                                        :config="options"
+                                        class="form-control"
+                                        placeholder="Tanggal Mulai Pemeriksaan" 
+                                        autocomplete="false" 
+                                        required="required">
+                                    </date-picker>
+                                </div>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label for="nama">Tanggal Selesai *</label>
-                                <input type="date" class="form-control" v-model="dinasregular.selesai" required="required">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                    <date-picker 
+                                        id="sampai"
+                                        name="sampai"
+                                        v-model="dinasregular.sampai"
+                                        :config="options"
+                                        class="form-control"
+                                        placeholder="Tanggal Selesai Pemeriksaan" 
+                                        autocomplete="false" 
+                                        required="required">
+                                    </date-picker>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label for="bidang">Tujuan *</label>
+                                <select v-model="dinasregular.auditan" class="form-control" required="required">
+                                    <option value="">Pilih Tujuan</option>
+                                    <option v-for="v in this.auditan_data" :key="v.id" :value="v.nama_kabkota">{{ v.nama_kabkota }}</option>
+                                </select>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label for="bidang">Irban *</label>
-                                <select v-model="dinasregular.irban" class="form-control" required="required">
-                                    <option value="">Pilih Irban</option>
-                                    <option v-for="(k,v) in this.tujuan_data" v-bind:value="v" v-bind:key="v">{{ v }}</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label for="bidang">Tujuan *</label>
-                                <select v-model="dinasregular.tujuan" class="form-control" required="required">
-                                    <option value="">Pilih Tujuan</option>
-                                    <option v-for="(k,v) in this.tujuan_data" v-bind:value="v" v-bind:key="v">{{ v }}</option>
-                                </select>
+                        <div class="row">                                
+                            <div class="form-group col-md-12">
+                                <label for="bidang">Personil *</label>
+                                <multiselect 
+                                    :multiple="true"
+                                    :taggable="true"
+                                    placeholder="Pilih Anggota"
+                                    v-model="tim_data"
+                                    :options="personil_data"
+                                    track-by="key"
+                                    label="label"
+                                    :allow-empty="true"
+                                >
+                                </multiselect>
                             </div>
                         </div>
 
@@ -105,14 +164,36 @@
                     error: false,
                     update: false
                 },
+                auditan: '',
+                program: '',
+                kegiatan: '',
+                belanja: '',
+                personil_data: [],
+                tim_data:[],
+                options: {
+                    format: 'YYYY-MM-DD',
+                    useCurrent: false,
+                    locale: 'id'
+                },
                 isLoading: false,
             }
         },
-        props: ['program_data','kegiatan_data','belanja_data','bulan_data','tahun_data','anggaran', 'api', 'route'],
+        props: [
+            'dinasregular',
+            'program_data',
+            'kegiatan_data',
+            'belanja_data',
+            'tujuan_data',
+            'auditan_data',
+            'anggota_data',
+            'api',
+            'route'
+        ],
         methods: {
             onSubmit(evt) {
                 this.isLoading = false;
-                service.putData(this.api, this.kegiatan)
+                this.dinasregular.tim = this.tim_data;
+                service.putData(this.api, this.dinasregular)
                     .then(result => {
                         this.response(result);
                     }).catch(error => {
@@ -123,6 +204,30 @@
                             left: 0,
                             behavior: 'smooth'
                         });
+                        console.log(error);
+                    });
+            },
+            onChangeProgram(evt) {
+                const program = evt.target.value;
+                service.fetchData('../api/ajax/kegiatan/' + program)
+                    .then(response => {
+                        this.dinasregular.kegiatan_id = '';
+                        this.dinasregular.belanja_id = '';
+                        this.kegiatan = response;
+                        this.belanja = [];
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            },
+            onChangeKegiatan(evt) {
+                const kegiatan = evt.target.value;
+                service.fetchData('../api/ajax/belanja/' + kegiatan)
+                    .then(response => {
+                        this.dinasregular.belanja_id = '';
+                        this.belanja = response;
+                    })
+                    .catch(error => {
                         console.log(error);
                     });
             },
@@ -142,6 +247,34 @@
         },
         created() {
             this.isLoading = true;
+            this.program = this.program_data;
+            this.kegiatan = this.kegiatan_data;
+            this.belanja = this.belanja_data;
+
+            service.fetchData('../api/ajax/kegiatan/' + this.dinasregular.program_id)
+            .then(response => {
+                this.kegiatan = response;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+
+            service.fetchData('../api/ajax/belanja/' + this.dinasregular.kegiatan_id)
+            .then(response => {
+                this.belanja = response;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+
+
+            this.anggota_data.forEach(item => {
+                this.personil_data.push({'label':item.nama,'key':item.nip})
+            });
+
+            this.dinasregular.tim.forEach(item => {
+                this.tim_data.push({'label':item.nama,'key':item.nip})
+            });
         },
         mounted() {
             this.isLoading = false;
