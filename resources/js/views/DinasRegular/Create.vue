@@ -8,29 +8,6 @@
                         <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
                         <form method="POST" v-on:submit.prevent="onSubmit">
                             <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label for="username">Nomor Surat Perintah </label>
-                                        <input type="text" class="form-control" v-model="dinasregular.nomor_sp" placeholder="Isi Nomor Surat Perintah" required="required">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="username">Tanggal Surat Perintah </label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                                            </div>
-                                            <date-picker 
-                                                id="tgl_sp"
-                                                name="tgl_sp"
-                                                v-model="dinasregular.tgl_sp"
-                                                :config="options"
-                                                class="form-control"
-                                                placeholder="Tanggal Surat SP" 
-                                                autocomplete="false">
-                                            </date-picker>
-                                        </div>
-                                    </div>
-                                </div>
-                            <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="bidang">Program *</label>
                                     <select v-model="dinasregular.program_id" @change="onChangeProgram($event)" class="form-control" required="required">
@@ -55,26 +32,48 @@
                                     </select>
                                 </div>
                             </div>
-
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="username">Nomor Surat Perintah </label>
+                                    <input type="text" class="form-control" v-model="dinasregular.nomor_sp" placeholder="Isi Nomor Surat Perintah" required="required">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="username">Tanggal Surat Perintah </label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                        <date-picker 
+                                            id="tgl_sp"
+                                            name="tgl_sp"
+                                            v-model="dinasregular.tgl_sp"
+                                            :config="options"
+                                            class="form-control"
+                                            placeholder="Tanggal Surat Perintah" 
+                                            autocomplete="false">
+                                        </date-picker>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="form-group col-md-12">
-                                    <label for="nama">Dasar *</label>
-                                    <input type="text" class="form-control" v-model="dinasregular.dasar[0]" required="required">
+                                    <label>Dasar Surat Perintah (wajib diisi minimal 1 kolom) *</label>
+                                    <input type="text" class="form-control" placeholder="Dasar 1" v-model="dinasregular.dasar[0]" required="required">
                                     <br>
-                                    <input type="text" class="form-control" v-model="dinasregular.dasar[1]">
+                                    <input type="text" class="form-control" placeholder="Dasar 2" v-model="dinasregular.dasar[1]">
                                     <br>
-                                    <input type="text" class="form-control" v-model="dinasregular.dasar[2]">
+                                    <input type="text" class="form-control" placeholder="Dasar 3" v-model="dinasregular.dasar[2]">
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-12">
-                                    <label for="nama">Tujuan Pemeriksaan *</label>
-                                    <input type="text" class="form-control" v-model="dinasregular.untuk[0]" required="required">
+                                    <label for="nama">Tujuan (wajib diisi minimal 1 kolom)*</label>
+                                    <input type="text" class="form-control" placeholder="Tujuan 1" v-model="dinasregular.untuk[0]" required="required">
                                     <br>
-                                    <input type="text" class="form-control" v-model="dinasregular.untuk[1]">
+                                    <input type="text" class="form-control" placeholder="Tujuan 2" v-model="dinasregular.untuk[1]">
                                     <br>
-                                    <input type="text" class="form-control" v-model="dinasregular.untuk[2]">
+                                    <input type="text" class="form-control" placeholder="Tujuan 3" v-model="dinasregular.untuk[2]">
                                 </div>
                             </div>
 
@@ -91,7 +90,7 @@
                                             v-model="dinasregular.dari"
                                             :config="options"
                                             class="form-control"
-                                            placeholder="Tanggal Mulai Pemeriksaan" 
+                                            placeholder="Tanggal Selesai" 
                                             autocomplete="false" 
                                             required="required">
                                         </date-picker>
@@ -109,7 +108,7 @@
                                             v-model="dinasregular.sampai"
                                             :config="options"
                                             class="form-control"
-                                            placeholder="Tanggal Selesai Pemeriksaan" 
+                                            placeholder="Tanggal Selesai" 
                                             autocomplete="false" 
                                             required="required">
                                         </date-picker>
@@ -117,9 +116,9 @@
                                 </div>
 
                                 <div class="form-group col-md-4">
-                                    <label for="bidang">Tujuan *</label>
+                                    <label for="bidang">Tempat Tujuan *</label>
                                     <select v-model="dinasregular.auditan" class="form-control" required="required">
-                                        <option value="">Pilih Tujuan</option>
+                                        <option value="">Pilih Tempat Tujuan</option>
                                         <option v-for="v in this.auditan_data" :key="v.id" :value="v.nama_kabkota">{{ v.nama_kabkota }}</option>
                                     </select>
                                 </div>

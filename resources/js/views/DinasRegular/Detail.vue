@@ -158,10 +158,20 @@
                                                 <form method="POST">
                                                     <div class="row">
                                                         <div class="form-group col-md-12 col-xs-12">
+                                                            <label>Akomodasi  *</label>
+                                                            <select v-model="transportasi.durasi" class="form-control">
+                                                                <option value="">Pilih Jumlah Hari</option>
+                                                                <option v-for="(v,k) in this.durasi_inap" :value="v" :key="k">{{ v }} Hari</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="form-group col-md-12 col-xs-12">
                                                             <label for="bidang">Jenis Transportasi *</label>
                                                             <select v-model="transportasi.jenis" class="form-control" @change="onChangeJenisTransportasi" required="required">
                                                                 <option value="">Pilih Jenis Transportasi</option>
-                                                                <option v-for="(v,k) in this.jenis_transportasi" v-bind:value="v" v-bind:key="k">{{ v }}</option>
+                                                                <option v-for="(v,k) in this.jenis_transportasi" :value="v" :key="k">{{ v }}</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -171,14 +181,14 @@
                                                             <label>Liter *</label>
                                                             <select v-model="transportasi.liter" class="form-control" @change="onChangeLiter($event)">
                                                                 <option value="">Pilih Jumlah Liter</option>
-                                                                <option v-for="(v,k) in this.takaran_liter" v-bind:value="v" v-bind:key="k">{{ v }} Liter</option>
+                                                                <option v-for="(v,k) in this.takaran_liter" :value="v" :key="k">{{ v }} Liter</option>
                                                             </select>
                                                         </div>
                                                     </div>
 
                                                     <div class="row">
                                                         <div class="form-group col-md-12 col-xs-12">
-                                                            <label for="nama">Total Biaya *</label>
+                                                            <label for="nama">Total Transportasi *</label>
                                                             <input type="text" v-model="transportasi.total" class="form-control" required="required">
                                                         </div>
                                                     </div>
@@ -200,7 +210,7 @@
                         </div>
                     </div>
                     <div>
-                        <a href="#" @click="transportasiModal(dinasregular.id)" data-toggle="modal" data-target="#transportasimodal" class="btn btn-warning btn-sm"><i class="fa fa-refresh"></i> Ubah Transportasi</a>
+                        <a href="#" @click="transportasiModal(dinasregular.id)" data-toggle="modal" data-target="#transportasimodal" class="btn btn-warning btn-sm"><i class="fa fa-car"></i> Transportasi & Akomodasi</a>
                         <div class="btn-group">
                             <button type="button" class="btn btn-default"><i class="fa fa-print"></i> Print</button>
                             <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
@@ -238,10 +248,12 @@ export default {
             transportasi : {
                 total:0,
                 liter:'',
-                jenis:''
+                jenis:'',
+                durasi:'',
             },
             total_biaya:0,
             anggaran_tersedia: 0,
+            durasi_inap:[],
             showTable: false,
             show_liter: false,
             id:'',
@@ -307,7 +319,7 @@ export default {
                 });
         },
         getAnggaranTersedia() {
-            service.postData('../api/ajax/sisa_anggaran', {'tahun': this.dinasregular.created_at, 'belanja': this.dinasregular.belanja_id })
+            service.postData('../api/ajax/sisa_anggaran', { 'tahun': this.dinasregular.created_at, 'belanja': this.dinasregular.belanja_id })
                 .then(result => {
                     this.anggaran_tersedia = parseInt(result.sisa_anggaran) + parseInt(this.total_biaya);
                 }).catch(error => {
@@ -322,6 +334,19 @@ export default {
     mounted() {
         this.isLoading = false;
         this.total_biaya = parseInt(this.dinasregular.total_harian) + parseInt(this.dinasregular.total_akomodasi) + parseInt(this.dinasregular.total_transportasi.total);
+
+        const date_diff = this.$options.filters.short_difference(this.dinasregular.dari, this.dinasregular.sampai);
+
+        for (let i = 1; i <= date_diff; i++) {
+            this.durasi_inap.push(i);
+        }
+
+        if (this.dinasregular.total_transportasi !== null) {
+            this.transportasi.liter = this.dinasregular.total_transportasi.liter;
+            this.transportasi.jenis = this.dinasregular.total_transportasi.jenis;
+            this.transportasi.total = this.dinasregular.total_transportasi.total;
+            this.transportasi.durasi = this.dinasregular.lama_inap;
+        }
     }
 };
 </script>

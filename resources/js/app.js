@@ -77,6 +77,20 @@ Vue.filter('difference', function (date) {
     }
 });
 
+// Short Date Filtering
+Vue.filter('short_difference', function (since, until) {
+    const from = moment(new Date(since));
+    const end = moment(new Date(until));
+
+    const duration = moment.duration(end.diff(from));
+    let days = duration.asDays();
+    if (parseInt(days) > 0) {
+        return days;
+    } else if (parseInt(days) == 0) {
+        return 1;
+    }
+});
+
 // Filter Generate Date
 Vue.filter('month', function (month) {
     switch (month) {

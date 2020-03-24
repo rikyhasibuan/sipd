@@ -151,6 +151,7 @@ class DinasRegularController extends Controller
     public function put_transportasi_data(Request $request)
     {
         $dinasregular = DinasRegular::find($request['id']);
+        $_durasi = ($request->input('durasi') !== '') ? $request->input('durasi') : '';
         $_jenis = ($request->input('jenis') !== '') ? $request->input('jenis') : '';
         $_liter = ($request->input('liter') !== 0) ? $request->input('liter') : 0;
         $_total = $request->input('total');
@@ -172,6 +173,11 @@ class DinasRegularController extends Controller
                 break;
         }
 
+        $timdinasregular = new TimDinas();
+        $anggaran_akomodasi = $timdinasregular->calculate_regular_accomodation($_durasi, $dinasregular->auditan, $dinasregular->tim);
+        $dinasregular->tim = $anggaran_akomodasi['tim'];
+        $dinasregular->total_akomodasi = $anggaran_akomodasi['akomodasi'];
+        $dinasregular->lama_inap = $_durasi;
         $dinasregular->total_transportasi = $transportasi;
         if ($dinasregular->save()) {
             return response()->json(['status' => 'OK'], 200);

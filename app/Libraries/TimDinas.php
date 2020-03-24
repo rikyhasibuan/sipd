@@ -34,6 +34,14 @@ use App\Libraries\Common;
 
 class TimDinas
 {
+
+    protected $_common;
+
+    public function __construct()
+    {
+        $this->_common = new Common();
+    }
+
     /**
      * membuat sebuah array berisi tim dinas bop
      * @param array $parameter
@@ -41,7 +49,6 @@ class TimDinas
      */
     public function generate_tim_bop($parameter)
     {
-        $common = new Common();
         $tim = [];
         $query_dinasbop = DinasBop::find($parameter['dinasbop']);
         $diff = date_diff($query_dinasbop->dari, $query_dinasbop->sampai);
@@ -128,7 +135,7 @@ class TimDinas
         
         // Driver
         $query_pegawai = Pegawai::searchNip($parameter['driver'])->first();
-        $golongan = $common->split_golongan($query_pegawai['golongan']);
+        $golongan = $this->_common->split_golongan($query_pegawai['golongan']);
         $check_driver = self::check_personil_bop($query_pegawai['nip']);
 
         if (($golongan == 'I') || ($golongan == 'II')) {
@@ -164,23 +171,20 @@ class TimDinas
      */
     public function generate_tim_regular($parameter)
     {
-        $common = new Common();
         $tim = [];
         $query_kabkota = Kabkota::where('nama_kabkota', $parameter['auditan'])->first();
-        $query_harian = Harian::where('kabkota_id',$query_kabkota['id'])->first();
-        $query_akomodasi = Akomodasi::where('kabkota_id',$query_kabkota['id'])->first();
+        $query_harian = Harian::where('kabkota_id', $query_kabkota['id'])->first();
         $diff = date_diff(date_create($parameter['dari']), date_create($parameter['sampai']));
         $total_harian = 0;
         $total_akomodasi = 0;
-
         $tim = [];
         $i = 0;
         
         foreach ($parameter['tim'] as $t) {
             $pegawai = Pegawai::searchNip($t['key'])->first();
-            $roman_golongan = $common->split_golongan($pegawai['golongan']);
-            $eselon = $common->generate_eselon($roman_golongan, $pegawai['eselon']);
-            $golongan = $common->generate_golongan($roman_golongan);
+            $roman_golongan = $this->_common->split_golongan($pegawai['golongan']);
+            $eselon = $this->_common->generate_eselon($roman_golongan, $pegawai['eselon']);
+            $golongan = $this->_common->generate_golongan($roman_golongan);
             $check_personil = self::check_personil_regular($t['key']);
 
             $tim[$i]['nip'] = $pegawai['nip'];
@@ -188,15 +192,17 @@ class TimDinas
             $tim[$i]['pangkat'] = $pegawai['pangkat'];
             $tim[$i]['golongan'] = $pegawai['golongan'];
             $tim[$i]['jabatan'] = $pegawai['jabatan'];
+            $tim[$i]['eselon'] = $pegawai['eselon'];
             $tim[$i]['hari'] = $diff->days;
+            $tim[$i]['inap'] = 0;
 
             if ($check_personil == true) {
                 $tim[$i]['biaya_harian'] = $query_harian[$golongan];
                 $tim[$i]['total_harian'] = $diff->days * $query_harian[$golongan];
-                $tim[$i]['biaya_akomodasi'] = $query_akomodasi[$eselon];
-                $tim[$i]['total_akomodasi'] = $diff->days * $query_akomodasi[$eselon];
+                $tim[$i]['biaya_akomodasi'] = 0;
+                $tim[$i]['total_akomodasi'] = 0;
                 $total_harian += $diff->days * $query_harian[$golongan];
-                $total_akomodasi += ($diff->days * $query_akomodasi[$eselon]);
+                $total_akomodasi += 0;
             } else {
                 $tim[$i]['biaya_harian'] = 0;
                 $tim[$i]['total_harian'] = 0;
@@ -209,6 +215,43 @@ class TimDinas
         }
         $callback = ['tim'=>$tim, 'total_harian'=>$total_harian, 'total_akomodasi'=>$total_akomodasi];
         return $callback;
+    }
+
+    /**
+     * menghitung akomodasi
+     *
+     * @param int $durasi
+     * @param array $tim
+     * @return array $akomodasi
+     */
+    public function calculate_regular_accomodation($durasi, $tujuan, $tim)
+    {
+        $kabkota = Kabkota::where('nama_kabkota', $tujuan)->first();
+        $akomodasi = Akomodasi::where('kabkota_id', $kabkota['id'])->first();
+        $output = [];
+        $total_akomodasi = 0;
+        $i = 0;
+        foreach ($tim as $v) {
+            $roman_golongan = $this->_common->split_golongan($v['golongan']);
+            $eselon = $this->_common->generate_eselon($roman_golongan, $v['eselon']);
+            $golongan = $this->_common->generate_golongan($roman_golongan);
+
+            $output[$i]['nip'] = $v['nip'];
+            $output[$i]['nama'] = $v['nama'];
+            $output[$i]['pangkat'] = $v['pangkat'];
+            $output[$i]['golongan'] = $v['golongan'];
+            $output[$i]['eselon'] = $v['eselon'];
+            $output[$i]['jabatan'] = $v['jabatan'];
+            $output[$i]['hari'] = $v['hari'];
+            $output[$i]['inap'] = $durasi;
+            $output[$i]['biaya_harian'] = $v['biaya_harian'];
+            $output[$i]['total_harian'] = $v['total_harian'];
+            $output[$i]['biaya_akomodasi'] = $akomodasi[$eselon];
+            $output[$i]['total_akomodasi'] = $durasi * $akomodasi[$eselon];
+            $total_akomodasi += ($durasi * $akomodasi[$eselon]);
+            $i++;
+        }
+        return ['tim'=> $output, 'akomodasi' => $total_akomodasi];
     }
 
     /**
