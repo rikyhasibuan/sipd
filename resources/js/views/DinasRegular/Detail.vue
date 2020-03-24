@@ -73,15 +73,15 @@
                     <div class="row">
                         <div class="col-md-12">
                             <transition name="fade">
-                                <table class="table table-bordered">
+                                <table class="table table-bordered table-responsive">
                                     <thead>
                                         <tr>
-                                            <th rowspan="2" style="width:15%;text-align:center;vertical-align:middle;">Nama</th>
-                                            <th rowspan="2" style="width:10%;text-align:center;vertical-align:middle;">Pangkat/Golongan</th>
-                                            <th rowspan="2" style="width:15%;text-align:center;vertical-align:middle;">Jabatan</th>
-                                            <th rowspan="2" style="width:3%;text-align:center;vertical-align:middle;">Uang Harian</th>
-                                            <th rowspan="2" style="width:3%;text-align:center;vertical-align:middle;">Akomodasi</th>
-                                            <th colspan="3" style="width:15%;text-align:center;vertical-align:middle;">Transportasi</th>
+                                            <th rowspan="2" style="width:12%;text-align:center;vertical-align:middle;">Nama</th>
+                                            <th rowspan="2" style="width:5%;text-align:center;vertical-align:middle;">Pangkat/Golongan</th>
+                                            <th rowspan="2" style="width:10%;text-align:center;vertical-align:middle;">Jabatan</th>
+                                            <th rowspan="2" style="width:11%;text-align:center;vertical-align:middle;">Harian</th>
+                                            <th rowspan="2" style="width:11%;text-align:center;vertical-align:middle;">Akomodasi</th>
+                                            <th colspan="3" style="width:11%;text-align:center;vertical-align:middle;">Transportasi</th>
                                         </tr>
                                         <tr>
                                             <th style="width:3%;text-align:center;vertical-align:middle;">BBM</th>
@@ -91,20 +91,14 @@
                                     </thead>
                                     <tbody>
                                         <tr v-for="(v,k) in dinasregular.tim" :value="k" :key="k">
-                                            <td>
-                                                {{ v.nama }}
+                                            <td style="vertical-align:middle;">{{ v.nama }}</td>
+                                            <td style="text-align:center;vertical-align:middle;">{{ v.pangkat }} {{ v.golongan}}</td>
+                                            <td style="text-align:center;vertical-align:middle;">{{ v.jabatan }}</td>
+                                            <td style="text-align:right;vertical-align:middle;">
+                                                {{ v.hari }} hari x {{ v.biaya_harian | rupiah }} = {{ v.total_harian | rupiah }}
                                             </td>
-                                            <td>
-                                                {{ v.pangkat }} {{ v.golongan}}
-                                            </td>
-                                            <td>
-                                                {{ v.jabatan }}
-                                            </td>
-                                            <td style="text-align:right;">
-                                                {{ v.total_harian | rupiah }}
-                                            </td>
-                                            <td style="text-align:right;">
-                                                {{ v.total_akomodasi | rupiah }}
+                                            <td style="text-align:right;vertical-align:middle;">
+                                                {{ v.inap }} hari x {{ v.biaya_akomodasi | rupiah }} = {{ v.total_akomodasi | rupiah }}
                                             </td>
                                             <td style="vertical-align:middle;" v-if="k === 0" :rowspan="dinasregular.tim.length">
                                                 <div v-if="(dinasregular.total_transportasi.total > 0) && (dinasregular.total_transportasi.jenis === 'BBM')" >
@@ -124,13 +118,13 @@
                                         </tr>
                                         <tr>
                                             <td colspan="3" style="text-align:right;"></td>
-                                            <td style="text-align:right;">{{ dinasregular.total_harian | rupiah }}</td>
-                                            <td style="text-align:right;">{{ dinasregular.total_akomodasi | rupiah }}</td>
-                                            <td style="text-align:right;" v-if="(dinasregular.total_transportasi.total > 0) && (dinasregular.total_transportasi.jenis === 'BBM')" >{{ dinasregular.total_transportasi.total | rupiah }}</td>
+                                            <td style="text-align:right;">Rp.{{ dinasregular.total_harian | rupiah }}</td>
+                                            <td style="text-align:right;">Rp.{{ dinasregular.total_akomodasi | rupiah }}</td>
+                                            <td style="text-align:right;" v-if="(dinasregular.total_transportasi.total > 0) && (dinasregular.total_transportasi.jenis === 'BBM')" >Rp.{{ dinasregular.total_transportasi.total | rupiah }}</td>
                                             <td v-else></td>
-                                            <td style="text-align:right;" v-if="(dinasregular.total_transportasi.total > 0) && (dinasregular.total_transportasi.jenis === 'Travel')" >{{ dinasregular.total_transportasi.total | rupiah }}</td>
+                                            <td style="text-align:right;" v-if="(dinasregular.total_transportasi.total > 0) && (dinasregular.total_transportasi.jenis === 'Travel')" >Rp.{{ dinasregular.total_transportasi.total | rupiah }}</td>
                                             <td v-else></td>
-                                            <td style="text-align:right;" v-if="(dinasregular.total_transportasi.total > 0) && (dinasregular.total_transportasi.jenis === 'Tiket')" >{{ dinasregular.total_transportasi.total | rupiah }}</td>
+                                            <td style="text-align:right;" v-if="(dinasregular.total_transportasi.total > 0) && (dinasregular.total_transportasi.jenis === 'Tiket')" >Rp.{{ dinasregular.total_transportasi.total | rupiah }}</td>
                                             <td v-else></td>
                                         </tr>
                                         <tr>

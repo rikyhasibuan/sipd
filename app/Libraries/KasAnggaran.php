@@ -89,7 +89,7 @@ class KasAnggaran
         }
     }
 
-     /**
+    /**
      * mengakumulasi biaya anggaran pada dinas bop tertentu
      * @param int $id
      * @return int $anggaran_bop
@@ -98,5 +98,22 @@ class KasAnggaran
     {
         $anggaran_bop = DinasBopTim::where('dinasbop_id', $id)->sum('total_anggaran');
         return $anggaran_bop;
+    }
+
+    /**
+     * mengecek apakah sisa anggaran mencukupi untuk biaya dinas
+     * @param string $tahun
+     * @param string $belanja
+     * @return integer $resapan_anggaran
+     */
+    public function calculate_available_fee($tahun, $bulan, $belanja, $total_biaya)
+    {
+        $anggaran = self::show_sisa_anggaran($tahun, $bulan, $belanja);
+        $sisa_anggaran = $anggaran - $total_biaya;
+        if ($sisa_anggaran <= 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
