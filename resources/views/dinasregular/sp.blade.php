@@ -1,3 +1,10 @@
+<?php 
+use App\Libraries\Common;
+use App\Libraries\TimDinas;
+$common = new Common();
+$timdinas = new TimDinas();
+$inspektur = $timdinas->get_inspektur();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -125,6 +132,7 @@
                                         <td width="10%" style="text-align: right;">{!! Carbon\Carbon::parse(date('Y-m-d'))->formatLocalized('%d %B %Y') !!}</td>
                                     </tr>
                                 </table>
+                                <br>
                                 <table cellpadding="2" cellspacing="2" style="width:100%;">
                                     <tr>
                                         <td width="20%" style="text-align: center;"><b>INSPEKTUR PROVINSI JAWA BARAT</b></td>
@@ -133,13 +141,13 @@
                                         <td width="10%" style="text-align: center;"><br><br><br><br></td>
                                     </tr>
                                     <tr>
-                                        <td width="10%" style="text-align: center;">Dr.Ir.FERRY SOFWAN ARIF,M.Si</td>
+                                        <td width="10%" style="text-align: center;">{!! $inspektur['nama'] !!}</td>
                                     </tr>
                                     <tr>
-                                        <td width="10%" style="text-align: center;">Pembina Utama Madya</td>
+                                        <td width="10%" style="text-align: center;">{!! $inspektur['pangkat'] !!}</td>
                                     </tr>
                                     <tr>
-                                        <td width="10%" style="text-align: center;">NIP. 19621121 198909 1 001</td>
+                                        <td width="10%" style="text-align: center;">NIP. {!! $inspektur['nip'] !!}</td>
                                     </tr>
                                 </table>
                             </td>
