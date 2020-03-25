@@ -210,9 +210,8 @@
                             <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
                                 <span class="sr-only">Toggle Dropdown</span>
                                 <div class="dropdown-menu" role="menu">
-                                    <a class="dropdown-item" href="#" @click="print_personil(dinasregular.id)">Daftar Personil</a>
                                     <a class="dropdown-item" href="#" @click="print_sp(dinasregular.id)">Surat Perintah</a>
-                                    <a class="dropdown-item" href="#" @click="print_spd(dinasregular.id)">Surat Perjalanan Dinas (SPD)</a>
+                                    <a class="dropdown-item" href="#" @click="print_spd(dinasregular.id)">Surat Perjalanan Dinas</a>
                                     <a class="dropdown-item" href="#" @click="print_rbpd(dinasregular.id)">Rincian Biaya Perjalanan Dinas</a>
                                     <a class="dropdown-item" href="#" @click="print_dpbo(dinasregular.id)">Daftar Pembayaran</a>
                                 </div>
@@ -268,10 +267,6 @@ export default {
         print_rbpd(id) {
             let new_window = window.open();
             new_window.location = this.api + '/print/rbpd/'+ id;
-        },
-        print_personil(id) {
-            let new_window = window.open();
-            new_window.location = this.api + '/print/personil/'+ id;
         },
         print_dpbo(id) {
             let new_window = window.open();

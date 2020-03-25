@@ -51,7 +51,7 @@ $inspektur = $timdinas->get_inspektur();
                         <tbody>
                             <tr>
                                 <td style="text-align: center;vertical-align:middle;">
-                                   1
+                                    1
                                 </td>
                                 <td style="text-align: center;vertical-align:middle;">
                                     {!! $dinasboptim->auditan !!}

@@ -219,17 +219,6 @@ class DinasRegularController extends Controller
         }
     }
 
-    public function get_print_personil(Request $request)
-    {
-        try {
-            $_id = isset($request['id']) ? $request['id'] : '';
-            $dinasregular = DinasRegular::find($_id);
-            return View::make('dinasregular.daftar_personil', ['dinasregular'=>$dinasregular]);
-        } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    }
-
     public function get_print_dpbo(Request $request)
     {
         try {
