@@ -38,7 +38,7 @@ $inspektur = $timdinas->get_inspektur();
             <div class="col-md-12">
                 <div style="text-align:center;"><img src="{!! asset('img/kop.png') !!}" style="width:100%;"></div>
                 <h3 class="text-center">SURAT PERINTAH</h3>
-                <h4 class="text-center">No. {!! $dinasregular->no_sp !!}</h4>
+                <h4 class="text-center">No. {!! $dinasregular->nomor_sp !!}</h4>
                 <div style="margin-top:15px;"></div>
                 <div style="padding-left:1cm;padding-right:1cm;">
                     <table cellpadding="5" cellspacing="5" style="width:100%;">
@@ -46,16 +46,20 @@ $inspektur = $timdinas->get_inspektur();
                             <td width="10%" style="text-align: left; vertical-align:text-top;">Dasar</td>
                             <td width="5%" style="text-align: center; vertical-align:text-top;">:</td>
                             <td width="80%" style="text-align: justify; vertical-align:text-top;">
-                                <ol style="margin-left: -25px;">
-                                    @foreach ( $dinasregular->dasar as $dasar)
-                                        <li>{!! $dasar !!}</li>
-                                    @endforeach
-                                </ol>
+                                @if (count($dinasregular->dasar) > 1)
+                                    <ol style="margin-left: -25px;">
+                                        @foreach ( $dinasregular->dasar as $dasar)
+                                            <li>{!! $dasar !!}</li>
+                                        @endforeach
+                                    </ol>
+                                @else 
+                                    {!! $dinasregular->dasar[0]; !!}
+                                @endif
                             </td>
                         </tr>
                     </table>
 
-                    <div style="margin-top:5px;"></div>
+                    <div style="margin-top:50px;"></div>
                     <h4 class="text-center">MEMERINTAHKAN :</h4>
                     <div style="margin-top:5px;"></div>
                     <table cellpadding="5" cellspacing="5" style="width:100%;">
@@ -97,11 +101,15 @@ $inspektur = $timdinas->get_inspektur();
                             <td width="10%" style="text-align:left; vertical-align:text-top;">Tujuan</td>
                             <td width="5%" style="text-align:center; vertical-align:text-top;">:</td>
                             <td width="80%" style="text-align:justify; vertical-align:text-top;">
-                                <ol style="margin-left: -25px;">
-                                    @foreach ( $dinasregular->untuk as $untuk)
-                                        <li>{!! $untuk !!}</li>
-                                    @endforeach
-                                </ol>
+                                @if(count($dinasregular->untuk) > 0)
+                                    <ol style="margin-left: -25px;">
+                                        @foreach ( $dinasregular->untuk as $untuk)
+                                            <li>{!! $untuk !!}</li>
+                                        @endforeach
+                                    </ol>
+                                @else 
+                                    {!! $dinasregular->untuk[0] !!}
+                                @endif
                             </td>
                         </tr>
                     </table>
