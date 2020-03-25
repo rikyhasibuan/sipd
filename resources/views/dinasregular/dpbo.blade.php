@@ -1,6 +1,12 @@
 <?php 
 use App\Libraries\Common;
+use App\Libraries\TimDinas;
 $common = new Common();
+$timdinas = new TimDinas();
+$diff = date_diff($dinasregular->dari, $dinasregular->sampai);
+$durasi = $diff->days;
+$total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasregular->total_transportasi['total'];
+$kpa = $timdinas->get_sekretaris();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,24 +18,22 @@ $common = new Common();
 <link rel="stylesheet" href="{!! asset('css/bootstrap.min.css') !!}">
 <style type="text/css" media="print">
     @page {
-    	size: auto;
-    	
+			size: auto;
     }
 </style>
 <style type="text/css">
     body {
-    	margin: 0px;
+			margin: 0px;
     }
     
     * {
-    	font-family: 'Times New Roman', Times, serif;
-    	font-size: 10pt;
+			font-family: 'Times New Roman', Times, serif;
+			font-size: 9pt;
     }
     
     h4 {
-    	font-size: 14pt;
+			font-size: 14pt;
     }
-   
 </style>
 </head>
 <body onload="window.print()">
@@ -37,20 +41,24 @@ $common = new Common();
 		<div class="row">
 			<div class="col-md-12">
 				<strong><u><h4 class="text-center">Inspektorat Daerah Provinsi Jawa Barat</h4></u></strong>
-				<table width="100%">
-					<tr>
-						<td>DAFTAR</td>
-						<td> : </td>
-						<td>PENERIMAAN  BIAYA OPERASIONAL INSPEKTORAT </td>
-					</tr>
-				</table>
+				<br>
+				<center>
+					<table width="75%">
+						<tr>
+							<td style="width:2%;vertical-align: top;">DAFTAR</td>
+							<td style="width:2%;vertical-align: top;">: </td>
+							<td style="width:70%;vertical-align: top;text-align: justify;">PENERIMAAN BIAYA OPERASIONAL INSPEKTORAT BELANJA {!! strtoupper($dinasregular->belanja->nama_belanja) !!} SELAMA {!! $durasi !!} ({!! strtoupper($common->terbilang($durasi)) !!}) HARI MULAI TANGGAL {!! strtoupper(Carbon\Carbon::parse($dinasregular->dari)->formatLocalized('%d %B %Y')) !!} SAMPAI DENGAN {!! strtoupper(Carbon\Carbon::parse($dinasregular->sampai)->formatLocalized('%d %B %Y')) !!} UNTUK MELAKUKAN {!! strtoupper($dinasregular->program->nama_program) !!} PADA {!! strtoupper($dinasregular->auditan) !!}</td>
+						</tr>
+					</table>
+				</center>
+				<br>
 				<table class="table table-bordered">
 					<thead>
 						<tr>
 							<th width="2%" style="text-align: center;vertical-align:middle;">NO</th>
 							<th width="20%" style="text-align:center;vertical-align:middle;">NAMA</th>
-							<th width="15%" style="text-align:center;vertical-align:middle;">JABATAN &nbsp; GOL</th>
-							<th width="7%" style="text-align:center;vertical-align:middle;">BIAYA OPERASIONAL</th>
+							<th width="15%" style="text-align:center;vertical-align:middle;">PANGKAT &nbsp; GOL</th>
+							<th width="7%" style="text-align:center;vertical-align:middle;">UANG HARIAN</th>
 							<th width="2%" style="text-align:center;vertical-align:middle;">UANG SAKU</th>
 							<th width="2%" style="text-align:center;vertical-align:middle;">TRANSPORTASI</th>
 							<th width="10%" style="text-align:center;vertical-align:middle;">JUMLAH YANG DITERIMA</th>
@@ -58,61 +66,101 @@ $common = new Common();
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td style="text-align: center;">1</td>
-							<td>{!! $dinasboptim->tim['wakilpenanggungjawab']['nama'] !!}</td>
-							<td style="text-align: center;">WAKIL PENANGGUNGJAWAB {!! $dinasboptim->tim['wakilpenanggungjawab']['golongan'] !!}</td>
-							<td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['wakilpenanggungjawab']['total']) !!}</td>
-							<td></td>
-							<td></td>
-							<td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['wakilpenanggungjawab']['total']) !!}</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td style="text-align: center;">2</td>
-							<td>{!! $dinasboptim->tim['pengendaliteknis']['nama'] !!}</td>
-							<td style="text-align: center;">PENGENDALI TEKNIS {!! $dinasboptim->tim['pengendaliteknis']['golongan'] !!}</td>
-							<td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['pengendaliteknis']['total']) !!}</td>
-							<td></td>
-							<td></td>
-							<td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['pengendaliteknis']['total']) !!}</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td style="text-align: center;">3</td>
-							<td>{!! $dinasboptim->tim['ketuatim']['nama'] !!}</td>
-							<td style="text-align: center;">KETUA TIM {!! $dinasboptim->tim['ketuatim']['golongan'] !!}</td>
-							<td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['ketuatim']['total']) !!}</td>
-							<td></td>
-							<td></td>
-							<td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['ketuatim']['total']) !!}</td>
-							<td></td>
-						</tr>
-						<?php $i = 3; ?>
-						@foreach($dinasboptim->tim['anggota'] as $v)
-    						<tr>
-    							<td style="text-align: center;">{!! ++$i !!}</td>
-    							<td>{!! $v['nama'] !!}</td>
-    							<td style="text-align: center;">ANGGOTA {!! $v['golongan'] !!}</td>
-    							<td style="text-align: right;">Rp.{!! $common->rupiah($v['total']) !!}</td>
-    							<td></td>
-    							<td></td>
-    							<td style="text-align: right;">Rp.{!! $common->rupiah($v['total']) !!}</td>
-    							<td></td>
-    						</tr>
+						<?php $i = 0; ?>
+						@foreach($dinasregular->tim as $v)
+							<tr>
+								<td style="text-align: center;">{!! ++$i !!}</td>
+								<td>{!! $v['nama'] !!}</td>
+								<td style="text-align: center;">{!! $v['pangkat'] !!} {!! $v['golongan'] !!}</td>
+								<td style="text-align: right;">Rp.{!! $common->rupiah($v['total_harian']) !!}</td>
+								<td></td>
+								<td></td>
+								<td style="text-align: right;">Rp.{!! $common->rupiah($v['total_harian']) !!}</td>
+								<td></td>
+							</tr>
 						@endforeach
 						<tr>
-							<td style="text-align: center;">{!! $i + 1 !!}</td>
-							<td>{!! $dinasboptim->tim['driver']['nama'] !!}</td>
-							<td style="text-align: center;">PENGEMUDI {!! $dinasboptim->tim['driver']['golongan'] !!}</td>
-							<td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['driver']['total']) !!}</td>
+							<td style="text-align: center;"></td>
+							<td>TRANSPORTASI</td>
+							<td style="text-align: center;"></td>
+							<td style="text-align: right;"></td>
 							<td></td>
+							<td style="text-align:right;">Rp.{!! $common->rupiah($dinasregular->total_transportasi['total']) !!}</td>
+							<td style="text-align:right;">Rp.{!! $common->rupiah($dinasregular->total_transportasi['total']) !!}</td>
 							<td></td>
-							<td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['driver']['total']) !!}</td>
+						</tr>
+						<tr>
+							<td colspan="6" style="text-align: center;"><b>JUMLAH</b></td>
+							<td style="text-align: right;">Rp.{!! $common->rupiah($total) !!}</td>
 							<td></td>
 						</tr>
 					</tbody>
 				</table>
+				Terbilang : <i><b>{!! $common->terbilang($total) !!} rupiah *</b></i>
+				<br><br>
+				
+				<table width="100%">
+					<tr>
+						<td width="25%"></td>
+						<td width="25%">
+							<center>
+								<table cellpadding="2" cellspacing="2" style="width:30%;">
+										<tr>
+												<td width="10%" style="text-align: center;">
+													Bandung, {!! Carbon\Carbon::parse(date('Y-m-d'))->formatLocalized('%d %B %Y') !!}
+												</td>
+										</tr>
+								</table>
+							</center>
+						</td>
+					</tr>
+					<tr>
+							<td width="25%">
+									<table cellpadding="2" cellspacing="2" style="width:100%;">
+										<tr>
+													<td width="20%" style="text-align: center;">Setuju dibayar</td>
+											</tr>
+											<tr>
+													<td width="20%" style="text-align: center;"><b>KUASA PENGGUNA ANGGARAN</b></td>
+											</tr>
+											<tr>
+													<td width="10%" style="text-align: center;"><br><br><br><br></td>
+											</tr>
+											<tr>
+													<td width="10%" style="text-align: center;">{!! $kpa['nama'] !!}</td>
+											</tr>
+											<tr>
+													<td width="10%" style="text-align: center;">{!! $kpa['pangkat'] !!}</td>
+											</tr>
+											<tr>
+													<td width="10%" style="text-align: center;">NIP. {!! $kpa['nip'] !!}</td>
+											</tr>
+									</table>
+							</td>
+							<td width="25%">
+									<table cellpadding="2" cellspacing="2" style="width:100%;">
+										<tr>
+													<td width="20%" style="text-align: center;">Lunas dibayar</td>
+											</tr>
+											<tr>
+													<td width="20%" style="text-align: center;"><b>BENDAHARA PENGELUARAN PEMBANTU</b></td>
+											</tr>
+											<tr>
+													<td width="10%" style="text-align: center;"><br><br><br><br></td>
+											</tr>
+											<tr>
+													<td width="10%" style="text-align: center;">{!! $dinasregular->kegiatan->pegawai->nama !!}</td>
+											</tr>
+											<tr>
+													<td width="10%" style="text-align: center;">{!! $dinasregular->kegiatan->pegawai->pangkat !!}</td>
+											</tr>
+											<tr>
+													<td width="10%" style="text-align: center;">NIP. {!! $dinasregular->kegiatan->pegawai->nip !!}</td>
+											</tr>
+									</table>
+							</td>
+					</tr>
+			</table>
 			</div>
 		</div>
 	</div>
