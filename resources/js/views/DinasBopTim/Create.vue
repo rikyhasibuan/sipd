@@ -15,7 +15,14 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="username">Tanggal Surat Perintah *</label>
-                                        <input type="date" class="form-control" v-model="dinasboptim.tgl_sp" placeholder="Isi Tanggal Surat Perintah" required="required">
+                                        <date-picker 
+                                            id="tgl_sp"
+                                            name="tgl_sp"
+                                            v-model="dinasboptim.tgl_sp"
+                                            :config="options"
+                                            class="form-control"
+                                            placeholder="Tanggal Surat Perintah" autocomplete="off">
+                                        </date-picker>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -23,7 +30,7 @@
                                         <label for="bidang">Irban *</label>
                                         <select v-model="dinasboptim.irban_id" @change="onChangeIrban($event)" class="form-control" required="required">
                                             <option value="">Pilih Irban</option>
-                                            <option v-for="v in this.irban_data" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_irban }}</option>
+                                            <option v-for="v in this.irban_data" :value="v.id" :key="v.id">{{ v.nama_irban }}</option>
                                         </select>
                                     </div>
                                     
@@ -89,7 +96,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="bidang">Lampirkan Bukti Pendukung (PDF / DOC / JPG / RAR / ZIP) *</label>
-                                        <input type="file" ref="file" class="form-control" required="required" @change="handleFileUpload()">
+                                        <input type="file" ref="file" required="required" @change="handleFileUpload()">
                                     </div>
                                 </div>
 
@@ -114,6 +121,11 @@
     export default {
         data() {
             return {
+                options: {
+                    format: 'YYYY-MM-DD',
+                    useCurrent: false,
+                    locale: 'id'
+                },
                 dinasboptim: {
                     'nomor_sp': '',
                     'tgl_sp': '',
@@ -191,21 +203,17 @@
             },
             onChangeIrban(evt) {
                 const irban = evt.target.value;
-
-                // ambil data auditan berdasarkan irban
-                service.fetchData('../api/dinasbop/tujuan/'+ irban)
+                service.fetchData('../../api/ajax/dinasbop/tujuan/'+ irban)
                 .then(response => {
                     this.dinasboptim.auditan = '';
                     this.audit_data = response;
                 })
                 .catch(error => {
-                    this.isLoading = false;
-                    this.alert.error = true;
                     console.log(error);
                 });
 
                 // ambil data personil berdasarkan irban
-                service.fetchData('../api/dinasbop/personil/'+ irban)
+                service.fetchData('../../api/ajax/dinasbop/personil/'+ irban)
                 .then(response => {
                     this.dinasboptim.wakilpenanggungjawab = '';
                     this.dinasboptim.pengendaliteknis = '';
@@ -217,8 +225,6 @@
                     });
                 })
                 .catch(error => {
-                    this.isLoading = false;
-                    this.alert.error = true;
                     console.log(error);
                 });
             },

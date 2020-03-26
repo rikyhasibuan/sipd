@@ -11,14 +11,14 @@
                                 <label for="bidang">Program *</label>
                                 <select v-model="dinasbop.program_id" @change="onChangeProgram($event)" class="form-control" required="required">
                                     <option value="">Pilih Program</option>
-                                    <option v-for="v in this.program" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_program }}</option>
+                                    <option v-for="v in this.program" :value="v.id" :key="v.id">{{ v.nama_program }}</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="bidang">Kegiatan *</label>
                                 <select v-model="dinasbop.kegiatan_id" @change="onChangeKegiatan($event)" class="form-control" required="required">
                                     <option value="">Pilih Kegiatan</option>
-                                    <option v-for="v in this.kegiatan" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_kegiatan }}</option>
+                                    <option v-for="v in this.kegiatan" :value="v.id" :key="v.id">{{ v.nama_kegiatan }}</option>
                                 </select>
                             </div>
 
@@ -26,28 +26,28 @@
                                 <label for="bidang">Belanja *</label>
                                 <select v-model="dinasbop.belanja_id" class="form-control" required="required">
                                     <option value="">Pilih Belanja</option>
-                                    <option v-for="v in this.belanja" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_belanja }}</option>
+                                    <option v-for="v in this.belanja" :value="v.id" :key="v.id">{{ v.nama_belanja }}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label for="nama">Dasar *</label>
-                                <textarea class="form-control" v-model="dinasbop.dasar[0]" required="required" rows="3"></textarea>
+                                <label for="nama">Dasar Surat Perintah *</label>
+                                <input type="text" class="form-control" placeholder="Dasar 1" v-model="dinasbop.dasar[0]" required="required">
                                 <br>
-                                <textarea class="form-control" v-model="dinasbop.dasar[1]" rows="3"></textarea>
+                                <input type="text" class="form-control" placeholder="Dasar 2" v-model="dinasbop.dasar[1]">
                                 <br>
-                                <textarea class="form-control" v-model="dinasbop.dasar[2]" rows="3"></textarea>
+                                <input type="text" class="form-control" placeholder="Dasar 3" v-model="dinasbop.dasar[2]">
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label for="nama">Peruntukan *</label>
-                                <textarea class="form-control" v-model="dinasbop.untuk[0]" required="required" rows="3"></textarea>
+                                <label for="nama">Tujuan Pemeriksaan *</label>
+                                <input type="text" class="form-control" placeholder="Tujuan 1" v-model="dinasbop.untuk[0]" required="required">
                                 <br>
-                                <textarea class="form-control" v-model="dinasbop.untuk[1]" rows="3"></textarea>
+                                <input type="text" class="form-control" placeholder="Tujuan 2" v-model="dinasbop.untuk[1]">
                                 <br>
-                                <textarea class="form-control" v-model="dinasbop.untuk[2]" rows="3"></textarea>
+                                <input type="text" class="form-control" placeholder="Tujuan 3" v-model="dinasbop.untuk[2]">
                             </div>
                         </div>
                         <div class="row">
@@ -59,7 +59,7 @@
                                     v-model="dinasbop.dari"
                                     :config="options"
                                     class="form-control"
-                                    placeholder="Tanggal Mulai Pemeriksaan" autocomplete="false">
+                                    placeholder="Tanggal Mulai Pemeriksaan" autocomplete="off">
                                 </date-picker>
                             </div>
                             <div class="form-group col-md-6">
@@ -70,7 +70,7 @@
                                     v-model="dinasbop.sampai"
                                     :config="options"
                                     class="form-control"
-                                    placeholder="Tanggal Akhir Pemeriksaan" autocomplete="false">
+                                    placeholder="Tanggal Akhir Pemeriksaan" autocomplete="off">
                                 </date-picker>
                             </div>
                         </div>

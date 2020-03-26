@@ -124,8 +124,8 @@ class DinasBopController extends Controller
         $dinasboptim->created_at = date('Y-m-d H:i:s');
         if ($dinasboptim->save()) {
             $kasanggaran = new KasAnggaran();
-            $biaya_bop = $kasanggaran->show_biaya_bop($request['id']);
-            $dinasbop = DinasBop::find($request['id']);
+            $biaya_bop = $kasanggaran->show_biaya_bop($request['dinasbop']);
+            $dinasbop = DinasBop::find($request['dinasbop']);
             $dinasbop->total_anggaran = $biaya_bop + $timdinasbop['total_anggaran'];
             if ($dinasbop->save()) {
                 return response()->json(['status'=>'OK'], 200);
@@ -182,7 +182,13 @@ class DinasBopController extends Controller
     public function delete_tim_data(Request $request)
     {
         $dinasboptim = DinasBopTim::find($request['id']);
+        $dinasbop_id = $dinasboptim->dinasbop_id;
+        $anggaran = $dinasboptim->total_anggaran;
         if ($dinasboptim->delete()) {
+            $dinasbop = DinasBop::find($dinasbop_id);
+            $total_anggaran = $dinasbop->total_anggaran;
+            $dinasbop->total_anggaran = $total_anggaran - $anggaran;
+            $dinasbop->save();
             return response()->json(['status' => 'OK'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);

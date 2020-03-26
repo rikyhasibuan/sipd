@@ -12,21 +12,30 @@ $inspektur = $timdinas->get_inspektur();
     <title>Surat Perintah</title>
     <link rel="stylesheet" href="{!! asset('css/bootstrap.min.css') !!}">
     <style>
-        @page  { 
-            size: auto;
-            margin: 2.54cm 2.54cm 25cm 25cm;  
-        } 
-        body {
-            margin: 0px;
-        }
-        
-        * {
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 12pt;
-        }
+        @media print {
+            @page  { 
+                size: 'legal';
+                margin-top: 0.5cm;
+                margin-left: 2cm;
+                margin-right: 2cm;
+                margin-bottom: 2cm;  
+            } 
+            body {
+                margin: 0px;
+            }
+            
+            * {
+                font-family: 'Times New Roman', Times, serif;
+                font-size: 12pt;
+            }
 
-        h4 {
-            font-size: 14pt;
+            h4 {
+                font-size: 14pt;
+            }
+
+            .table td {
+                padding: 1.5px !important;
+            }
         }
     </style>
 </head>
@@ -38,28 +47,41 @@ $inspektur = $timdinas->get_inspektur();
                 <h3 class="text-center">SURAT PERINTAH</h3>
                 <h4 class="text-center">No. {!! $dinasboptim->nomor_sp !!}</h4>
                 <div style="margin-top:15px;"></div>
-                <div style="padding-left:1cm;padding-right:1cm;">
-                    <table cellpadding="5" cellspacing="5" style="width:100%;">
+                <div style="padding-left:0.5cm;padding-right:0.5cm;">
+                    <table cellpadding="2" cellspacing="2" style="width:100%;">
                         <tr>
-                            <td width="10%" style="text-align: left; vertical-align:text-top;">Dasar</td>
+                            <td width="7%" style="text-align: left; vertical-align:text-top;">Dasar</td>
                             <td width="5%" style="text-align: center; vertical-align:text-top;">:</td>
                             <td width="80%" style="text-align: justify; vertical-align:text-top;">
-                                <ol>
-                                    @foreach ( $dinasboptim->dinasbop->dasar as $dasar)
-                                        <li>{!! $dasar !!}</li>
-                                    @endforeach
-                                </ol>
+                                <table cellpadding="2" cellspacing="2" style="width:100%;table-layout:fixed;">
+                                    @if(count($dinasboptim->dinasbop->dasar) > 1)
+                                        <?php $n = 0; ?>
+                                        @foreach($dinasboptim->dinasbop->dasar as $v)
+                                            <tr>
+                                                <td width="3%" style="text-align: left; vertical-align:text-top;">{!! ++$n !!}.</td>
+                                                <td width="95%" style="text-align: justify; vertical-align:text-top;">
+                                                    {!! $v !!}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td width="100%" style="text-align: justify; vertical-align:text-top;">
+                                                {!! $dinasboptim->dinasbop->dasar[0] !!}
+                                            </td>
+                                        </tr>
+                                    @endif
+                                </table>
                             </td>
                         </tr>
                     </table>
 
-                    <div style="margin-top:20px;"></div>
+                    <div style="margin-top:10px;"></div>
                     <h4 class="text-center">MEMERINTAHKAN :</h4>
-
                     <div style="margin-top:20px;"></div>
-                    <table cellpadding="5" cellspacing="5" style="width:100%;">
+                    <table cellpadding="2" cellspacing="2" style="width:100%;">
                         <tr>
-                            <td width="10%" style="text-align: left; vertical-align:text-top;">Kepada</td>
+                            <td width="7%" style="text-align: left; vertical-align:text-top;">Kepada</td>
                             <td width="5%" style="text-align: center; vertical-align:text-top;">:</td>
                             <td width="80%" style="text-align: justify;">
                                 <span style="margin-right:20px;">1.</span>
@@ -113,40 +135,39 @@ $inspektur = $timdinas->get_inspektur();
                         </tr>
                     </table>
 
-                    <div style="margin-top:20px;"></div>
-                    <table cellpadding="5" cellspacing="5" style="width:100%;">
+                    <div style="margin-top:5px;"></div>
+                    <table cellpadding="2" cellspacing="2" style="width:100%;">
                         <tr>
-                            <td width="10%" style="text-align: left; vertical-align:text-top;">Untuk</td>
+                            <td width="7%" style="text-align: left; vertical-align:text-top;">Untuk</td>
                             <td width="5%" style="text-align: center; vertical-align:text-top;">:</td>
                             <td width="80%" style="text-align: justify; vertical-align:text-top;">
-                                <table cellpadding="5" cellspacing="5" style="width:100%;table-layout: fixed;">
-                                    <tr>
-                                        <td width="3%" style="text-align: left; vertical-align:text-top;">1.</td>
-                                        <td width="95%" style="text-align: justify; vertical-align:text-top;">
-                                            {!! $dinasboptim->auditan !!}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="10%" style="text-align: left; vertical-align:text-top;">2.</td>
-                                        <td width="70%" style="text-align: justify; vertical-align:text-top;">
-                                            Menyusun Program Kerja Pemeriksaan (PKP)
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="10%" style="text-align: left; vertical-align:text-top;">3.</td>
-                                        <td width="70%" style="text-align: justify; vertical-align:text-top;">
-                                            melaporkan hasilnya kepada Inspektur Provinsi Jawa Barat.
-                                        </td>
-                                    </tr>
+                                <table cellpadding="2" cellspacing="2" style="width:100%;table-layout:fixed;">
+                                    @if(count($dinasboptim->dinasbop->untuk) > 1)
+                                        <?php $n = 0; ?>
+                                        @foreach($dinasboptim->dinasbop->untuk as $v)
+                                            <tr>
+                                                <td width="3%" style="text-align: left; vertical-align:text-top;">{!! ++$n !!}.</td>
+                                                <td width="95%" style="text-align: justify; vertical-align:text-top;">
+                                                    {!! $v !!}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td width="95%" style="text-align: justify; vertical-align:text-top;">
+                                                {!! $dinasboptim->dinasbop->untuk[0] !!}
+                                            </td>
+                                        </tr>
+                                    @endif
                                 </table>
                             </td>
                         </tr>
                     </table>
 
-                    <div style="margin-top:20px;"></div>
-                    <table cellpadding="5" cellspacing="5" style="width:100%;">
+                    <div style="margin-top:5px;"></div>
+                    <table cellpadding="2" cellspacing="2" style="width:100%;">
                         <tr>
-                            <td width="10%" style="text-align: left; vertical-align:text-top;">Waktu</td>
+                            <td width="7%" style="text-align: left; vertical-align:text-top;">Waktu</td>
                             <td width="5%" style="text-align: center; vertical-align:text-top;">:</td>
                             <td width="80%" style="text-align: justify; vertical-align:text-top;">
                                 Mulai tanggal {!! Carbon\Carbon::parse($dinasboptim->dinasbop->dari)->formatLocalized('%d %B %Y') !!} 
@@ -155,7 +176,18 @@ $inspektur = $timdinas->get_inspektur();
                         </tr>
                     </table>
 
-                    <div style="margin-top:20px;"></div>
+                    <div style="margin-top:5px;"></div>
+                    <table cellpadding="2" cellspacing="2" style="width:100%;">
+                        <tr>
+                            <td width="7%" style="text-align:left;vertical-align:text-top;">Pengemudi</td>
+                            <td width="5%" style="text-align:center; vertical-align:text-top;">:</td>
+                            <td width="80%" style="text-align: justify; vertical-align:text-top;">
+                                {!! $dinasboptim->tim['driver']['nama'] !!}
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div style="margin-top:5px;"></div>
                     <table width="100%">
                         <tr>
                             <td width="50%"></td>

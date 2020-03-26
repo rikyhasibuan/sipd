@@ -184,7 +184,7 @@
                             <button type="button" class="btn btn-success" @click="approve()" v-show="dinasbop.status === 0" style="margin-right:5px;"><i class="fa fa-check"></i> Setujui</button>
                             <button type="button" class="btn btn-warning" @click="revisi()" v-show="dinasbop.status === 0" style="margin-right:5px;"><i class="fa fa-info"></i> Revisi</button>
                         -->
-                        <button type="button" class="btn btn-default" @click="print_personil_all(dinasbop.id)" style="margin-right:5px;"><i class="fa fa-print"></i> Cetak Daftar Personil</button>
+                        <button v-if="dinasbop.tim != null" type="button" class="btn btn-default" @click="print_personil_all(dinasbop.id)" style="margin-right:5px;"><i class="fa fa-print"></i> Cetak Daftar Personil</button>
                         <a :href="route" class="btn btn-danger"><i class="fa fa-arrow-left"></i> Kembali</a>
                     </div>
                 </div>

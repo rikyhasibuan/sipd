@@ -1,8 +1,12 @@
 <?php 
 use App\Libraries\Common;
+use App\Libraries\TimDinas;
+
 $common = new Common();
+$timdinas = new TimDinas();
 $diff = date_diff($dinasboptim->dinasbop->dari, $dinasboptim->dinasbop->sampai);
 $durasi = $diff->days;
+$kpa = $timdinas->get_sekretaris();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,24 +17,23 @@ $durasi = $diff->days;
 <title>Daftar Pembayaran Biaya Operasional Inspektorat</title>
 <link rel="stylesheet" href="{!! asset('css/bootstrap.min.css') !!}">
 <style type="text/css" media="print">
-    @page {
-    	size: auto;
-    }
+	@page {
+		size: auto;
+	}
 </style>
 <style type="text/css">
-    body {
-    	margin: 0px;
-    }
-    
-    * {
-    	font-family: 'Times New Roman', Times, serif;
-    	font-size: 8pt;
-    }
-    
-    h4 {
-    	font-size: 14pt;
-    }
-   
+	body {
+		margin: 0px;
+	}
+	
+	* {
+		font-family: 'Times New Roman', Times, serif;
+		font-size: 9pt;
+	}
+	
+	h4 {
+		font-size: 14pt;
+	}
 </style>
 </head>
 <body onload="window.print()">
@@ -95,16 +98,16 @@ $durasi = $diff->days;
 						</tr>
 						<?php $i = 3; ?>
 						@foreach($dinasboptim->tim['anggota'] as $v)
-    						<tr>
-    							<td style="text-align: center;">{!! ++$i !!}</td>
-    							<td>{!! $v['nama'] !!}</td>
-    							<td style="text-align: center;">ANGGOTA {!! $v['golongan'] !!}</td>
-    							<td style="text-align: right;">Rp.{!! $common->rupiah($v['total']) !!}</td>
-    							<td></td>
-    							<td></td>
-    							<td style="text-align: right;">Rp.{!! $common->rupiah($v['total']) !!}</td>
-    							<td></td>
-    						</tr>
+							<tr>
+								<td style="text-align: center;">{!! ++$i !!}</td>
+								<td>{!! $v['nama'] !!}</td>
+								<td style="text-align: center;">ANGGOTA {!! $v['golongan'] !!}</td>
+								<td style="text-align: right;">Rp.{!! $common->rupiah($v['total']) !!}</td>
+								<td></td>
+								<td></td>
+								<td style="text-align: right;">Rp.{!! $common->rupiah($v['total']) !!}</td>
+								<td></td>
+							</tr>
 						@endforeach
 						<tr>
 							<td style="text-align: center;">{!! $i + 1 !!}</td>
@@ -117,75 +120,74 @@ $durasi = $diff->days;
 							<td></td>
 						</tr>
 						<tr>
-							<td colspan="6" style="text-align: center;">JUMLAH</td>
-							<td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->dinasbop->total_anggaran) !!}</td>
+							<td colspan="6" style="text-align: center;"><b>JUMLAH</b></td>
+							<td style="text-align: right;"><b>Rp.{!! $common->rupiah($dinasboptim->dinasbop->total_anggaran) !!}</b></td>
 							<td></td>
 						</tr>
 					</tbody>
 				</table>
 				Terbilang : <i>{!! $common->terbilang($dinasboptim->dinasbop->total_anggaran) !!} rupiah *</i>
 				<br><br>
-				
 				<table width="100%">
 					<tr>
 						<td width="25%"></td>
 						<td width="25%">
 							<center>
-							<table cellpadding="2" cellspacing="2" style="width:30%;">
-			                    <tr>
-			                        <td width="10%" style="text-align: center;">Bandung, {!! Carbon\Carbon::parse(date('Y-m-d'))->formatLocalized('%d %B %Y') !!}</td>
-			                    </tr>
-			                </table>
-			                </center>
+								<table cellpadding="2" cellspacing="2" style="width:30%;">
+									<tr>
+										<td width="10%" style="text-align: center;">Bandung, {!! Carbon\Carbon::parse(date('Y-m-d'))->formatLocalized('%d %B %Y') !!}</td>
+									</tr>
+								</table>
+							</center>
 						</td>
 					</tr>
-                    <tr>
-                        <td width="25%">
-                            <table cellpadding="2" cellspacing="2" style="width:100%;">
-                            	<tr>
-                                    <td width="20%" style="text-align: center;">Setuju dibayar</td>
-                                </tr>
-                                <tr>
-                                    <td width="20%" style="text-align: center;"><b>KUASA PENGGUNA ANGGARAN</b></td>
-                                </tr>
-                                <tr>
-                                    <td width="10%" style="text-align: center;"><br><br><br><br></td>
-                                </tr>
-                                <tr>
-                                    <td width="10%" style="text-align: center;">Drs. H. SUBANDRIO IB</td>
-                                </tr>
-                                <tr>
-                                    <td width="10%" style="text-align: center;">Pembina Tk. I</td>
-                                </tr>
-                                <tr>
-                                    <td width="10%" style="text-align: center;">NIP. 19650717 199209 1 001</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td width="25%">
-                            <table cellpadding="2" cellspacing="2" style="width:100%;">
-                            	<tr>
-                                    <td width="20%" style="text-align: center;">Lunas dibayar</td>
-                                </tr>
-                                <tr>
-                                    <td width="20%" style="text-align: center;"><b>Bendahara Pengeluaran Pembantu</b></td>
-                                </tr>
-                                <tr>
-                                    <td width="10%" style="text-align: center;"><br><br><br><br></td>
-                                </tr>
-                                <tr>
-                                    <td width="10%" style="text-align: center;">ONEH ROHANAH, SE</td>
-                                </tr>
-                                <tr>
-                                    <td width="10%" style="text-align: center;">Penata</td>
-                                </tr>
-                                <tr>
-                                    <td width="10%" style="text-align: center;">NIP. 19720406 200801 2 008</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
+					<tr>
+							<td width="25%">
+								<table cellpadding="2" cellspacing="2" style="width:100%;">
+									<tr>
+										<td width="20%" style="text-align: center;">Setuju dibayar</td>
+									</tr>
+									<tr>
+											<td width="20%" style="text-align: center;"><b>KUASA PENGGUNA ANGGARAN</b></td>
+									</tr>
+									<tr>
+											<td width="10%" style="text-align: center;"><br><br><br><br></td>
+									</tr>
+									<tr>
+											<td width="10%" style="text-align: center;">{!! $kpa['nama'] !!}</td>
+									</tr>
+									<tr>
+											<td width="10%" style="text-align: center;">{!! $kpa['pangkat'] !!}</td>
+									</tr>
+									<tr>
+											<td width="10%" style="text-align: center;">NIP. {!! $kpa['nip'] !!}</td>
+									</tr>
+								</table>
+							</td>
+							<td width="25%">
+								<table cellpadding="2" cellspacing="2" style="width:100%;">
+									<tr>
+										<td width="20%" style="text-align: center;">Lunas dibayar</td>
+									</tr>
+									<tr>
+											<td width="20%" style="text-align: center;"><b>Bendahara Pengeluaran Pembantu</b></td>
+									</tr>
+									<tr>
+											<td width="10%" style="text-align: center;"><br><br><br><br></td>
+									</tr>
+									<tr>
+											<td width="10%" style="text-align: center;">{!! $dinasboptim->dinasbop->kegiatan->pegawai->nama !!}</td>
+									</tr>
+									<tr>
+											<td width="10%" style="text-align: center;">{!! $dinasboptim->dinasbop->kegiatan->pegawai->pangkat !!}</td>
+									</tr>
+									<tr>
+											<td width="10%" style="text-align: center;">NIP. {!! $dinasboptim->dinasbop->kegiatan->pegawai->nip !!}</td>
+									</tr>
+								</table>
+							</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>
