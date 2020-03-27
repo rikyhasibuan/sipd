@@ -36,12 +36,18 @@
                         </li>
                     </ul>
                 </li>
-                <?php $routes = ['program','kegiatan','belanja','pegawai','anggaran','bop','harian','akomodasi','bbm','hargabbm','perangkatdaerah']; ?>
+                <?php $routes = ['program','kegiatan','belanja','pegawai','anggaran','bop','harian','akomodasi','bbm','hargabbm','perangkatdaerah','user']; ?>
                 <li @if (in_array($link, $routes)) class="nav-item has-treeview" @else class="nav-item has-treeview" @endif>
                     <a class="nav-link" href="#"><i class="nav-icon fa fa-database"></i>
                         <p>Data Master <i class="fa fa-angle-left right"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{!! url('user') !!}">
+                                <i class="nav-icon fa fa-circle-o"></i>
+                                <p>User</p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{!! url('pegawai') !!}">
                                 <i class="nav-icon fa fa-circle-o"></i>

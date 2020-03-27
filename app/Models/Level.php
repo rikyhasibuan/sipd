@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Level extends Model
 {
-    protected $table = 'master_level';
+    protected $table = 'level';
     public $timestamps = false;
 }

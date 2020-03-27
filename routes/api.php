@@ -78,6 +78,13 @@ Route::post('pegawai', 'Api\PegawaiController@post_data');
 Route::put('pegawai', 'Api\PegawaiController@put_data');
 Route::delete('pegawai', 'Api\PegawaiController@delete_data');
 
+// user
+Route::get('user', 'Api\UserController@get_data');
+Route::get('user/{id}', 'Api\UserController@show_data');
+Route::post('user', 'Api\UserController@post_data');
+Route::put('user', 'Api\UserController@put_data');
+Route::delete('user', 'Api\UserController@delete_data');
+
 // perangkat daerah
 Route::get('perangkatdaerah', 'Api\PerangkatDaerahController@get_data');
 Route::get('perangkatdaerah/{id}', 'Api\PerangkatDaerahController@show_data');

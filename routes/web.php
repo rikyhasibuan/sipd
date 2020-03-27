@@ -56,6 +56,11 @@ Route::get('pegawai', 'Web\PegawaiController@index');
 Route::get('pegawai/create', 'Web\PegawaiController@create');
 Route::get('pegawai/edit', 'Web\PegawaiController@edit');
 
+// user
+Route::get('user', 'Web\UserController@index');
+Route::get('user/create', 'Web\UserController@create');
+Route::get('user/edit', 'Web\UserController@edit');
+
 // perangkat daerah
 Route::get('perangkatdaerah', 'Web\PerangkatDaerahController@index');
 Route::get('perangkatdaerah/create', 'Web\PerangkatDaerahController@create');
