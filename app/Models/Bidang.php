@@ -6,7 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Bidang
+ *
  * @package App\Models
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Bidang newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Bidang newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Bidang query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Bidang searchBidang($q)
+ * @mixin \Eloquent
  */
 class Bidang extends Model
 {

@@ -81,11 +81,7 @@
                         this.errorAlert = true;
                         this.saveAlert = false;
                         this.duplicateAlert = false;
-                        window.scroll({
-                            top: 0,
-                            left: 0,
-                            behavior: 'smooth'
-                        });
+                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                         console.log(error);
                     });
             },
@@ -101,14 +97,10 @@
                 });
             },
             response(result) {
-                if (result.status === 'OK') {
+                if (result.status === 'ok') {
                     this.alert.error = false;
                     this.alert.update = true;
-                    window.scroll({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    })
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(() => this.alert.update = false, 5000);
                 }
             }

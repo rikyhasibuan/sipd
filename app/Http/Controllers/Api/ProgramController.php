@@ -6,6 +6,7 @@ use App\Models\Program;
 use Illuminate\Http\Request;
 use Exception;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProgramStoreRequest;
 
 class ProgramController extends Controller
 {
@@ -27,14 +28,24 @@ class ProgramController extends Controller
 
     public function post_data(Request $request)
     {
-        $program = new Program();
-        $program->kode_program = $request->input('kode_program');
-        $program->nama_program = $request->input('nama_program');
-        $program->created_at = date('Y-m-d H:i:s');
-        if ($program->save()) {
-            return response()->json(['status'=>'OK'], 200);
+        $check = Program::where(
+                                [
+                                    'kode_program'=> $request->input('kode_program'),
+                                    'nama_program'=>$request->input('nama_program')
+                                ]
+                                )->count();
+        if ($check == 0) {                 
+            $program = new Program();
+            $program->kode_program = $request->input('kode_program');
+            $program->nama_program = $request->input('nama_program');
+            $program->created_at = date('Y-m-d H:i:s');
+            if ($program->save()) {
+                return response()->json(['status'=>'ok'], 200);
+            } else {
+                return response()->json(['status'=>'failed'], 500);
+            }
         } else {
-            return response()->json(['status'=>'failed'], 500);
+            return response()->json(['status'=>'duplicate'], 200);
         }
     }
 
@@ -45,7 +56,7 @@ class ProgramController extends Controller
         $program->nama_program = $request->input('nama_program');
         $program->updated_at = date('Y-m-d H:i:s');
         if ($program->save()) {
-            return response()->json(['status' => 'OK'], 200);
+            return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);
         }
@@ -55,7 +66,7 @@ class ProgramController extends Controller
     {
         $program = Program::find($request['id']);
         if ($program->delete()) {
-            return response()->json(['status' => 'OK'], 200);
+            return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);
         }

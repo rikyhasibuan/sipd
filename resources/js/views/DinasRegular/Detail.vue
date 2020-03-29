@@ -162,7 +162,7 @@
 
                                                     <div class="row">
                                                         <div class="form-group col-md-12 col-xs-12">
-                                                            <label for="bidang">Jenis Transportasi *</label>
+                                                            <label>Jenis Transportasi *</label>
                                                             <select v-model="transportasi.jenis" class="form-control" @change="onChangeJenisTransportasi" required="required">
                                                                 <option value="">Pilih Jenis Transportasi</option>
                                                                 <option v-for="(v,k) in this.jenis_transportasi" :value="v" :key="k">{{ v }}</option>
@@ -182,7 +182,7 @@
 
                                                     <div class="row">
                                                         <div class="form-group col-md-12 col-xs-12">
-                                                            <label for="nama">Total Transportasi *</label>
+                                                            <label>Total Transportasi *</label>
                                                             <input type="text" v-model="transportasi.total" class="form-control" required="required">
                                                         </div>
                                                     </div>

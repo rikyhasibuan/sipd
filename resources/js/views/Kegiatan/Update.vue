@@ -86,7 +86,7 @@
                     });
             },
             response(result) {
-                if (result.status === 'OK') {
+                if (result.status === 'ok') {
                     this.alert.error = false;
                     this.alert.update = true;
                     window.scroll({

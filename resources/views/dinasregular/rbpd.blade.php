@@ -1,10 +1,10 @@
-<?php 
+<?php
 use App\Libraries\Common;
 use App\Libraries\TimDinas;
 $common = new Common();
 $timdinas = new TimDinas();
 $diff = date_diff($dinasregular->dari, $dinasregular->sampai);
-$durasi = $diff->days;
+$durasi = ($diff->days + 1);
 $kpa = $timdinas->get_sekretaris();
 $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasregular->total_transportasi['total'];
 ?>
@@ -41,7 +41,7 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
 
             @media print {
                 @page {
-                    size: 'legal';
+                    size: "legal";
                 }
 
                 .table td {
@@ -58,7 +58,7 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
     <body onload="window.print()">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-lg-12">
                     <div style="text-align:center;"><img src="{!! asset('img/kop.png') !!}" style="width:100%;"></div>
                     <strong><u><h4 class="text-center">RINCIAN BIAYA PERJALANAN DINAS</h4></u></strong>
                     <br>
@@ -68,13 +68,13 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
                                 <td style="width:5%;"></td>
                                 <td style="width:20%;"></td>
                                 <td style="width:2%;">Nomor BKU</td>
-                                <td style="width:20%;">: {!! $dinasregular->kegiatan->kode_kegiatan !!}</td>
+                                <td style="width:20%;">: </td>
                             </tr>
                             <tr>
                                 <td style="width:5%;">Lampiran SPD Nomor</td>
                                 <td style="width:20%;">: {!! $dinasregular->nomor_sp !!}</td>
                                 <td style="width:2%;">Tanggal BKU</td>
-                                <td style="width:20%;">: {!! Carbon\Carbon::parse(date('Y-m-d'))->formatLocalized('%d %B %Y') !!}</td>
+                                <td style="width:20%;">: </td>
                             </tr>
                             <tr>
                                 <td style="width:5%;">Tanggal</td>
@@ -104,7 +104,7 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
                             </tr>
                             <tr>
                                 <td style="text-align: center;">1</td>
-                                <td><b>Biaya Operasional Inspektorat</b></td>
+                                <td><b>Uang Harian</b></td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -147,7 +147,7 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
 														</tr>
 														<tr>
                                 <td style="text-align:center;"></td>
-                                <td><b>Jumlah Biaya Operasional Inspektorat</b></td>
+                                <td><b>Jumlah Uang Harian</b></td>
                                 <td style="text-align: right;vertical-align:middle;">
                                     <b>Rp.{!! $common->rupiah($dinasregular->total_harian) !!}</b>
 								</td>
@@ -239,7 +239,7 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
                             <td width="25%"></td>
                             <td width="25%">
                                 <center>
-                                    <table cellpadding="2" cellspacing="2" style="width:30%;">
+                                    <table style="width:30%;">
                                         <tr>
                                             <td width="10%" style="text-align: center;">Bandung, {!!
                                                 Carbon\Carbon::parse(date('Y-m-d'))->formatLocalized('%d %B %Y') !!}
@@ -306,7 +306,6 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
                             </td>
                         </tr>
                     </table>
-                    <br><br>
                     <div class="col-lg-12">
                         <hr style="border: 1px solid #000;">
                         <div style="margin-top:20px;"></div>

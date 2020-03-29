@@ -41,16 +41,28 @@ class KegiatanController extends Controller
 
     public function post_data(Request $request)
     {
-        $kegiatan = new Kegiatan();
-        $kegiatan->program_id = $request->input('program_id');
-        $kegiatan->kode_kegiatan = $request->input('kode_kegiatan');
-        $kegiatan->nama_kegiatan = $request->input('nama_kegiatan');
-        $kegiatan->bendahara = $request->input('bendahara');
-        $kegiatan->created_at = date('Y-m-d H:i:s');
-        if ($kegiatan->save()) {
-            return response()->json(['status'=>'OK'], 200);
+        $check = Kegiatan::where(
+                                    [
+                                        'program_id' => $request->input('program_id'),
+                                        'kode_kegiatan' => $request->input('kode_kegiatan'),
+                                        'nama_kegiatan' => $request->input('nama_kegiatan'),
+                                        'bendahara' => $request->input('bendahara'),
+                                    ]
+                                )->count();
+        if ($check == 0) {
+            $kegiatan = new Kegiatan();
+            $kegiatan->program_id = $request->input('program_id');
+            $kegiatan->kode_kegiatan = $request->input('kode_kegiatan');
+            $kegiatan->nama_kegiatan = $request->input('nama_kegiatan');
+            $kegiatan->bendahara = $request->input('bendahara');
+            $kegiatan->created_at = date('Y-m-d H:i:s');
+            if ($kegiatan->save()) {
+                return response()->json(['status'=>'ok'], 200);
+            } else {
+                return response()->json(['status'=>'failed'], 500);
+            }
         } else {
-            return response()->json(['status'=>'failed'], 500);
+            return response()->json(['status'=>'duplicate'], 200);
         }
     }
 
@@ -63,7 +75,7 @@ class KegiatanController extends Controller
         $kegiatan->bendahara = $request->input('bendahara');
         $kegiatan->updated_at = date('Y-m-d H:i:s');
         if ($kegiatan->save()) {
-            return response()->json(['status' => 'OK'], 200);
+            return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);
         }
@@ -73,7 +85,7 @@ class KegiatanController extends Controller
     {
         $kegiatan = Kegiatan::find($request['id']);
         if ($kegiatan->delete()) {
-            return response()->json(['status' => 'OK'], 200);
+            return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);
         }

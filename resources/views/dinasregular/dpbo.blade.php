@@ -1,11 +1,11 @@
-<?php 
+<?php
 use App\Libraries\Common;
 use App\Libraries\TimDinas;
 $common = new Common();
 $timdinas = new TimDinas();
 $diff = date_diff($dinasregular->dari, $dinasregular->sampai);
-$durasi = $diff->days;
-$total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasregular->total_transportasi['total'];
+$durasi = ($diff->days + 1);
+$total = $dinasregular->total_harian + $dinasregular->total_transportasi['total'];
 $kpa = $timdinas->get_sekretaris();
 ?>
 <!DOCTYPE html>
@@ -14,7 +14,7 @@ $kpa = $timdinas->get_sekretaris();
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Daftar Pembayaran Biaya Operasional Inspektorat</title>
+<title>Daftar Pembayaran Uang Harian & Transport</title>
 <link rel="stylesheet" href="{!! asset('css/bootstrap.min.css') !!}">
 <style type="text/css" media="print">
     @page {
@@ -25,12 +25,12 @@ $kpa = $timdinas->get_sekretaris();
     body {
 			margin: 0px;
     }
-    
+
     * {
 			font-family: 'Times New Roman', Times, serif;
 			font-size: 9pt;
     }
-    
+
     h4 {
 			font-size: 14pt;
     }
@@ -40,17 +40,15 @@ $kpa = $timdinas->get_sekretaris();
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
-				<strong><u><h4 class="text-center">Inspektorat Daerah Provinsi Jawa Barat</h4></u></strong>
+				<strong><u><h4 class="text-center">INSPEKTORAT DAERAH PROVINSI JAWA BARAT</h4></u></strong>
 				<br>
-				<center>
-					<table width="75%">
+					<table width="95%">
 						<tr>
 							<td style="width:2%;vertical-align: top;">DAFTAR</td>
 							<td style="width:2%;vertical-align: top;">: </td>
-							<td style="width:70%;vertical-align: top;text-align: justify;">PENERIMAAN BIAYA OPERASIONAL INSPEKTORAT BELANJA {!! strtoupper($dinasregular->belanja->nama_belanja) !!} SELAMA {!! $durasi !!} ({!! strtoupper($common->terbilang($durasi)) !!}) HARI MULAI TANGGAL {!! strtoupper(Carbon\Carbon::parse($dinasregular->dari)->formatLocalized('%d %B %Y')) !!} SAMPAI DENGAN {!! strtoupper(Carbon\Carbon::parse($dinasregular->sampai)->formatLocalized('%d %B %Y')) !!} UNTUK MELAKUKAN {!! strtoupper($dinasregular->program->nama_program) !!} PADA {!! strtoupper($dinasregular->auditan) !!}</td>
+							<td style="width:70%;vertical-align: top;text-align: justify;">PENERIMAAN UANG HARIAN DAN TRANSPORTASI UNTUK {!! strtoupper($dinasregular->belanja->nama_belanja) !!} SELAMA {!! $durasi !!} ({!! strtoupper($common->terbilang($durasi)) !!}) HARI MULAI TANGGAL {!! strtoupper(Carbon\Carbon::parse($dinasregular->dari)->formatLocalized('%d %B %Y')) !!} SAMPAI DENGAN {!! strtoupper(Carbon\Carbon::parse($dinasregular->sampai)->formatLocalized('%d %B %Y')) !!} UNTUK MELAKUKAN {!! strtoupper($dinasregular->program->nama_program) !!} PADA {!! strtoupper($dinasregular->auditan) !!}</td>
 						</tr>
 					</table>
-				</center>
 				<br>
 				<table class="table table-bordered">
 					<thead>
@@ -71,7 +69,7 @@ $kpa = $timdinas->get_sekretaris();
 							<tr>
 								<td style="text-align: center;">{!! ++$i !!}</td>
 								<td>{!! $v['nama'] !!}</td>
-								<td style="text-align: center;">{!! $v['pangkat'] !!} {!! $v['golongan'] !!}</td>
+								<td style="text-align: center;">{!! strtoupper($v['pangkat']) !!} {!! $v['golongan'] !!}</td>
 								<td style="text-align: right;">Rp.{!! $common->rupiah($v['total_harian']) !!}</td>
 								<td></td>
 								<td></td>
@@ -98,7 +96,7 @@ $kpa = $timdinas->get_sekretaris();
 				</table>
 				Terbilang : <i><b>{!! $common->terbilang($total) !!} rupiah *</b></i>
 				<br><br>
-				
+
 				<table width="100%">
 					<tr>
 						<td width="25%"></td>

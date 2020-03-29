@@ -36,16 +36,26 @@ class BelanjaController extends Controller
 
     public function post_data(Request $request)
     {
-        $belanja = new Belanja();
-        $belanja->program_id = $request->input('program_id');
-        $belanja->kegiatan_id = $request->input('kegiatan_id');
-        $belanja->kode_belanja = $request->input('kode_belanja');
-        $belanja->nama_belanja = $request->input('nama_belanja');
-        $belanja->created_at = date('Y-m-d H:i:s');
-        if ($belanja->save()) {
-            return response()->json(['status' => 'OK'], 200);
+        $check = Belanja::where([
+                                'kode_belanja' => $request->input('kode_belanja'),
+                                'nama_belanja' => $request->input('nama_belanja'),
+                                'program_id' => $request->input('program_id'),
+                                'kegiatan_id' => $request->input('kegiatan_id')
+                                ])->count();
+        if($check == 0) {
+            $belanja = new Belanja();
+            $belanja->program_id = $request->input('program_id');
+            $belanja->kegiatan_id = $request->input('kegiatan_id');
+            $belanja->kode_belanja = $request->input('kode_belanja');
+            $belanja->nama_belanja = $request->input('nama_belanja');
+            $belanja->created_at = date('Y-m-d H:i:s');
+            if ($belanja->save()) {
+                return response()->json(['status' => 'ok'], 200);
+            } else {
+                return response()->json(['status' => 'failed'], 500);
+            }
         } else {
-            return response()->json(['status' => 'failed'], 500);
+            return response()->json(['status'=>'duplicate'], 200);
         }
     }
 

@@ -12,8 +12,7 @@
                                     <label for="bidang">Program *</label>
                                     <select v-model="kegiatan.program_id" class="form-control" required="required">
                                         <option value="">Pilih Program</option>
-                                        <option v-for="v in this.program_data" v-bind:value="v.id" v-bind:key="v.id">
-                                            {{ v.nama_program }}</option>
+                                        <option v-for="v in this.program_data" :value="v.id" :key="v.id">{{ v.nama_program }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -23,8 +22,7 @@
                                     <label for="bidang">Bendahara *</label>
                                     <select v-model="kegiatan.bendahara" class="form-control" required="required">
                                         <option value="">Pilih Bendahara</option>
-                                        <option v-for="v in this.bendahara_data" v-bind:value="v.id" v-bind:key="v.id">
-                                            {{ v.nama }}</option>
+                                        <option v-for="v in this.bendahara_data" :value="v.id" :key="v.id">{{ v.nama }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -59,7 +57,7 @@
 
 <script>
     import service from './../../services.js';
-
+    
     export default {
         data() {
             return {
@@ -80,43 +78,33 @@
         props: ['bendahara_data','program_data', 'api', 'route'],
         methods: {
             onSubmit(evt) {
+                evt.preventDefault();
+                this.isLoading = true;
                 service.postData(this.api, this.kegiatan)
                     .then(result => {
                         this.response(result);
                     }).catch(error => {
-                        this.$Progress.finish();
-                        this.errorAlert = true;
-                        this.saveAlert = false;
-                        this.duplicateAlert = false;
-                        window.scroll({
-                            top: 0,
-                            left: 0,
-                            behavior: 'smooth'
-                        });
+                        this.alert.error = true;
+                        this.alert.duplicate = false;
+                        this.alert.save = true;
+                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                         console.log(error);
                     });
             },
             response(result) {
-                if (result.status === 'OK') {
+                setTimeout(() => { this.isLoading = false }, 1000);
+                if (result.status === 'ok') {
                     this.alert.error = false;
                     this.alert.duplicate = false;
                     this.alert.save = true;
-                    window.scroll({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    })
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     this.reset();
                     setTimeout(() => this.alert.save = false, 5000);
-                } else if (result.status === 'DUPLICATE') {
+                } else if (result.status === 'duplicate') {
                     this.alert.duplicate = true;
                     this.alert.error = false;
                     this.alert.save = false;
-                    window.scroll({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    });
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 }
             },
             reset() {

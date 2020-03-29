@@ -170,7 +170,7 @@ export default {
         deleteData(id) {
             service.deleteData(this.api + '?id=' + id)
             .then(response => {
-                if(response.status === 'OK') {
+                if(response.status === 'ok') {
                     this.fetchData();
                     this.alert.delete = true;
                     $('#deletemodal').modal('hide');

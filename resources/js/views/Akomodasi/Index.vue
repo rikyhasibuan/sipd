@@ -169,25 +169,6 @@ export default {
         generateParams() {
             let queryString = Object.keys(this.search).map(key => key + '=' + this.search[key]).join('&');
             return queryString;
-        },
-        deleteData(id) {
-            service.deleteData(this.api + '?id=' + id)
-            .then(response => {
-                if(response.status === 'OK') {
-                    this.alert.delete = true;
-                    $('#deletemodal').modal('hide');
-                    this.fetchData();
-                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-                    setTimeout(() => this.alert.delete=false, 5000);
-                }
-            }).catch(error => {
-                this.alert.delete = false;
-                this.alert.error = true;
-                $('#deletemodal').modal('hide');
-                window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-                this.fetchData();
-                console.log(error);
-            });
         }
     },
     created() {

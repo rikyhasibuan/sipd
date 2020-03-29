@@ -57,12 +57,12 @@ class AnggaranController extends Controller
             $anggaran->tahun = $request->input('tahun');
             $anggaran->created_at = date('Y-m-d H:i:s');
             if ($anggaran->save()) {
-                return response()->json(['status'=>'OK'], 200);
+                return response()->json(['status'=>'ok'], 200);
             } else {
                 return response()->json(['status'=>'failed'], 500);
             }
         } else {
-            return response()->json(['status'=>'DUPLICATE'], 200);
+            return response()->json(['status'=>'duplicate'], 200);
         }
     }
 
@@ -77,7 +77,7 @@ class AnggaranController extends Controller
         $anggaran->tahun = $request->input('tahun');
         $anggaran->updated_at = date('Y-m-d H:i:s');
         if ($anggaran->save()) {
-            return response()->json(['status' => 'OK'], 200);
+            return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);
         }
@@ -87,7 +87,7 @@ class AnggaranController extends Controller
     {
         $anggaran = Anggaran::find($request['id']);
         if ($anggaran->delete()) {
-            return response()->json(['status' => 'OK'], 200);
+            return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);
         }

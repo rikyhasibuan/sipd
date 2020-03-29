@@ -13,7 +13,7 @@ use Closure;
 
 class AkomodasiController extends Controller
 {
-    protected $title = 'Besaran Akomodasi';
+    protected $title = 'Besaran Uang Akomodasi';
     protected $link  = 'akomodasi';
     protected $api   = 'api/akomodasi';
     protected $route = 'akomodasi';

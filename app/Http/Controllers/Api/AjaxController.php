@@ -10,6 +10,7 @@ use App\Models\IrbanPokja;
 use App\Models\HargaBbm;
 use App\Libraries\Common;
 use App\Libraries\KasAnggaran;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -21,7 +22,7 @@ class AjaxController extends Controller
     /**
      * menampilkan data kegiatan berdasarkan program tertentu
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show_kegiatan_by_program(Request $request)
     {
@@ -31,7 +32,7 @@ class AjaxController extends Controller
     /**
      * menampilkan data belanja berdasarkan kegiatan tertentu
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show_belanja_by_kegiatan(Request $request)
     {
@@ -41,7 +42,7 @@ class AjaxController extends Controller
     /**
      * menampilkan total anggaran yang tersedia pada tahun dan kode belanja tertentu
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show_total_anggaran(Request $request)
     {
@@ -56,25 +57,24 @@ class AjaxController extends Controller
     /**
      * menampilkan sisa anggaran pada tahun dan kode belanja tertentu
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show_sisa_anggaran(Request $request)
     {
         $common = new Common();
         $tahun = $common->generate_year_from_date($request->input('tahun'));
-        $bulan = date('n');
         $belanja = $request->input('belanja');
-        
+
         $kas = new KasAnggaran();
-        $sisa_anggaran = $kas->show_sisa_anggaran($tahun, $bulan, $belanja);
-        
+        $sisa_anggaran = $kas->show_sisa_anggaran($tahun, '', $belanja);
+
         return response()->json(['sisa_anggaran'=>$sisa_anggaran], 200);
     }
 
     /**
      * menampilkan dinas / auditan berdasarkan irban tertentu pada dinas BOP
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show_tujuan_bop(Request $request)
     {
@@ -96,7 +96,7 @@ class AjaxController extends Controller
     /**
      * menampilkan pokja berdasarkan irban tertentu pada dinas BOP
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show_personil_bop(Request $request)
     {
@@ -107,7 +107,7 @@ class AjaxController extends Controller
     /**
      * menampilkan dinas / auditan berdasarkan irban tertentu pada dinas regular
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show_tujuan_regular(Request $request)
     {
@@ -116,14 +116,14 @@ class AjaxController extends Controller
         foreach ($kabkota as $v) {
             $response[$v->kabkota->nama_kabkota] = $v->kabkota->nama_kabkota;
         }
-        
+
         return response()->json($response, 200);
     }
 
     /**
      * menampilkan pokja berdasarkan irban tertentu pada dinas regular
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show_personil_regular(Request $request)
     {
@@ -134,7 +134,7 @@ class AjaxController extends Controller
     /**
      * hitung harga bbm
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show_harga_bbm(Request $request)
     {

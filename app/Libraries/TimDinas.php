@@ -118,7 +118,7 @@ class TimDinas
             }
             $n++;
         }
-        
+
         // Driver
         $query_pegawai = Pegawai::searchNip($parameter['driver'])->first();
         $golongan = $this->_common->split_golongan($query_pegawai['golongan']);
@@ -129,7 +129,7 @@ class TimDinas
         } elseif ($$golongan == 'III') {
             $jabatanbop = 'Penunjang Administrasi Kesekretariatan (Gol. III)';
         }
-        
+
         $query_bop = Bop::where('jabatan', $jabatanbop)->first();
         $tim['driver']['nip'] = $query_pegawai['nip'];
         $tim['driver']['nama'] = $query_pegawai['nama'];
@@ -149,7 +149,7 @@ class TimDinas
         $callback = ['tim'=>$tim,'total_anggaran'=>$total_anggaran];
         return $callback;
     }
-    
+
     /**
      * generate tim untuk dinas regular
      *
@@ -166,11 +166,10 @@ class TimDinas
         $total_akomodasi = 0;
         $tim = [];
         $i = 0;
-        
+
         foreach ($parameter['tim'] as $t) {
             $pegawai = Pegawai::searchNip($t['key'])->first();
             $roman_golongan = $this->_common->split_golongan($pegawai['golongan']);
-            $eselon = $this->_common->generate_eselon($roman_golongan, $pegawai['eselon']);
             $golongan = $this->_common->generate_golongan($roman_golongan);
             $check_personil = self::check_personil_regular($t['key']);
 
@@ -180,7 +179,7 @@ class TimDinas
             $tim[$i]['golongan'] = $pegawai['golongan'];
             $tim[$i]['jabatan'] = $pegawai['jabatan'];
             $tim[$i]['eselon'] = $pegawai['eselon'];
-            $tim[$i]['hari'] = $diff->days;
+            $tim[$i]['hari'] = ($diff->days + 1);
             $tim[$i]['inap'] = 0;
 
             if ($check_personil == true) {
@@ -188,7 +187,7 @@ class TimDinas
                 $tim[$i]['total_harian'] = $diff->days * $query_harian[$golongan];
                 $tim[$i]['biaya_akomodasi'] = 0;
                 $tim[$i]['total_akomodasi'] = 0;
-                $total_harian += $diff->days * $query_harian[$golongan];
+                $total_harian += ($diff->days + 1) * $query_harian[$golongan];
                 $total_akomodasi += 0;
             } else {
                 $tim[$i]['biaya_harian'] = 0;
@@ -200,7 +199,7 @@ class TimDinas
             }
             $i++;
         }
-        $callback = ['tim'=>$tim, 'total_harian'=>$total_harian, 'total_akomodasi'=>$total_akomodasi];
+        $callback = ['tim' => $tim, 'total_harian' => $total_harian, 'total_akomodasi' => $total_akomodasi];
         return $callback;
     }
 
@@ -221,7 +220,6 @@ class TimDinas
         foreach ($tim as $v) {
             $roman_golongan = $this->_common->split_golongan($v['golongan']);
             $eselon = $this->_common->generate_eselon($roman_golongan, $v['eselon']);
-            $golongan = $this->_common->generate_golongan($roman_golongan);
 
             $output[$i]['nip'] = $v['nip'];
             $output[$i]['nama'] = $v['nama'];
@@ -261,10 +259,10 @@ class TimDinas
             foreach ($dinasbop->tim as $v) {
                 if ($v['wakilpenanggungjawab']['nip'] == $nip) {
                     $i++;
-                } 
+                }
                 if ($v['pengendaliteknis']['nip'] == $nip) {
                     $i++;
-                } 
+                }
                 if ($v['ketuatim']['nip'] == $nip) {
                     $i++;
                 }
@@ -296,7 +294,7 @@ class TimDinas
     {
         $current_date = date('Y-m-d');
         $dinasregular = DinasRegular::where('dari', '<=', $current_date)->where('sampai', '>=', $current_date)->get();
-        
+
         if (count($dinasregular) > 0) {
             $i = 0;
             foreach ($dinasregular->tim as $v) {
