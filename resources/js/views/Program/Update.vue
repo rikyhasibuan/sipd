@@ -8,14 +8,14 @@
                     <form method="POST" v-on:submit.prevent="onSubmit">
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="kode_program">Kode Program *</label>
+                                <label>Kode Program *</label>
                                 <input type="text" class="form-control" v-model="program.kode_program" required="required">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="nama">Nama Program *</label>
+                                <label>Nama Program *</label>
                                 <input type="text" class="form-control" v-model="program.nama_program" required="required">
                             </div>
                         </div>
@@ -55,11 +55,7 @@
                     }).catch(error => {
                         this.isLoading = false;
                         this.alert.error = true;
-                        window.scroll({
-                            top: 0,
-                            left: 0,
-                            behavior: 'smooth'
-                        });
+                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                         console.log(error);
                     });
             },
@@ -67,11 +63,7 @@
                 if (result.status === 'ok') {
                     this.alert.error = false;
                     this.alert.update = true;
-                    window.scroll({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    });
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(() => this.alert.update = false, 5000);
                 }
                 this.isLoading = false;

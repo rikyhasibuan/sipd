@@ -48,7 +48,7 @@
                                             <div style="text-align: center;" v-if="(access.update === 1) & (access.delete === 1)">
                                                 <a :href="route + '/edit?id=' + skpd.id" class="btn btn-flat btn-sm btn-warning"><i class="fa fa-wrench"></i> Ubah</a>
                                                 &nbsp;
-                                                <a href="#" @click="toggleModal(skpd.id)" data-toggle="modal" data-target="#modal" 
+                                                <a href="#" @click="toggleModal(skpd.id)" data-toggle="modal" data-target="#modal"
                                                     class="btn btn-flat btn-sm btn-danger">
                                                         <i class="fa fa-trash-o"></i> Hapus
                                                 </a>
@@ -63,7 +63,7 @@
                                 </tbody>
                             </table>
                         </transition>
-                        
+
                         <transition name="fade"><v-modal :id="id" @delete="deleteData"></v-modal></transition>
                         <transition name="fade">
                             <div class="card-footer clearfix">
@@ -107,7 +107,7 @@ export default {
             showTable: false,
             id:''
         }
-    }, 
+    },
     props: ['action','api','route','access'],
     methods: {
         clear() {
@@ -157,8 +157,7 @@ export default {
             this.isLoading = false;
         },
         generateParams() {
-            let queryString = Object.keys(this.search).map(key => key + '=' + this.search[key]).join('&');
-            return queryString;
+            return Object.keys(this.search).map(key => key + '=' + this.search[key]).join('&');
         },
         deleteData(id) {
             service.deleteData(this.api + '?id=' + id)

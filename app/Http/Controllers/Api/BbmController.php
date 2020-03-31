@@ -9,10 +9,10 @@ use App\Http\Controllers\Controller;
 
 class BbmController extends Controller
 {
-    public function get_data(Request $request)
+    public function get_data()
     {
         try {
-            $bbm = Bbm::with('kabkota')->orderBy('id', 'DESC')->paginate(10);
+            $bbm = Bbm::with('kabkota')->orderBy('id', 'DESC')->get();
             return response()->json($bbm, 200);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -35,7 +35,7 @@ class BbmController extends Controller
         $bbm->liter = $request->input('liter');
         $bbm->updated_at = date('Y-m-d H:i:s');
         if ($bbm->save()) {
-            return response()->json(['status' => 'OK'], 200);
+            return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);
         }

@@ -26,14 +26,18 @@ class BopController extends Controller
 
     public function put_data(Request $request)
     {
-        $bop = Bop::find($request['id']);
-        $bop->jabatan = $request->input('jabatan');
-        $bop->biaya_per_hari = $request->input('biaya_per_hari');
-        $bop->updated_at = date('Y-m-d H:i:s');
-        if ($bop->save()) {
-            return response()->json(['status' => 'OK'], 200);
-        } else {
-            return response()->json(['status' => 'failed'], 500);
+        try {
+            $bop = Bop::find($request['id']);
+            $bop->jabatan = $request->input('jabatan');
+            $bop->biaya_per_hari = $request->input('biaya_per_hari');
+            $bop->updated_at = date('Y-m-d H:i:s');
+            if ($bop->save()) {
+                return response()->json(['status' => 'ok'], 200);
+            } else {
+                return response()->json(['status' => 'failed'], 500);
+            }
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }

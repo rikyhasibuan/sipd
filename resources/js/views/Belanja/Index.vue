@@ -20,13 +20,13 @@
                                             <div class="form-group col-md-4">
                                                 <select v-model="search.program" class="form-control" @change="onChangeProgram($event)">
                                                     <option value="">Pilih Program</option>
-                                                    <option v-for="val in this.program" v-bind:value="val.id" v-bind:key="val.id">{{ val.nama_program }}</option>
+                                                    <option v-for="val in this.program" :value="val.id" :key="val.id">{{ val.nama_program }}</option>
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <select v-model="search.kegiatan" class="form-control">
                                                     <option value="">Pilih Kegiatan</option>
-                                                    <option v-for="val in this.kegiatan" v-bind:value="val.id" v-bind:key="val.id">{{ val.nama_kegiatan }}</option>
+                                                    <option v-for="val in this.kegiatan" :value="val.id" :key="val.id">{{ val.nama_kegiatan }}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -186,13 +186,14 @@ export default {
             this.isLoading = false;
         },
         generateParams() {
-            let queryString = Object.keys(this.search).map(key => key + '=' + this.search[key]).join('&');
-            return queryString;
+            return Object.keys(this.search).map(key => key + '=' + this.search[key]).join('&');
         },
         deleteData(id) {
+            this.isLoading = true;
             service.deleteData(this.api + '?id=' + id)
             .then(response => {
                 if(response.status === 'ok') {
+                    this.isLoading = false;
                     this.alert.delete = true;
                     $('#deletemodal').modal('hide');
                     this.fetchData();
@@ -200,6 +201,7 @@ export default {
                     setTimeout(() => this.alert.delete=false, 5000);
                 }
             }).catch(error => {
+                this.isLoading = false;
                 this.alert.delete = false;
                 this.alert.error = true;
                 $('#deletemodal').modal('hide');
@@ -222,7 +224,7 @@ export default {
             } else {
                 this.kegiatan = [];
                 this.search.kegiatan = '';
-            }   
+            }
         }
     },
     created() {

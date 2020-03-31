@@ -20,9 +20,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="v in akomodasi" :key="v.id">
+                                    <tr v-for="v in bbm" :key="v.id">
                                         <td>{{ v.kabkota.nama_kabkota }}</td>
-                                        <td style="text-align:right;">{{ v.liter }}</td>
+                                        <td style="text-align:center;">{{ v.liter }}</td>
                                         <td>
                                             <div style="text-align: center;" v-if="(access.update === 1) & (access.delete === 1)">
                                                 <a :href="route + '/edit?id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
@@ -37,18 +37,6 @@
                                 </tbody>
                             </table>
                         </transition>
-
-                        <transition name="fade"><v-modal :id="id" @delete="deleteData"></v-modal></transition>
-                        <transition name="fade">
-                            <div class="card-footer clearfix">
-                                <v-pagination
-                                    :pagination="pagination"
-                                    v-on:next="nextPage"
-                                    v-on:previous="prevPage"
-                                    v-if="showTable === true">
-                                </v-pagination>
-                            </div>
-                        </transition>
                     </div>
                 </div>
             </div>
@@ -57,58 +45,27 @@
 </template>
 
 <script>
-import service from './../../services.js';
+    import service from './../../services.js';
 
-export default {
+    export default {
     data: function() {
         return {
             bbm: {},
-            search: {
-                kabkota:''
-            },
             alert: {
                 error:false,
                 empty:false,
                 delete:false
             },
-            pagination: {
-                page: 1,
-                last:0,
-                total:0,
-                to:0,
-                from:0
-            },
             isLoading: false,
-            showForm: false,
             showTable: false,
             id:''
         }
     },
-    props: ['kabkota_data', 'api','route','access'],
+    props: ['api','route','access'],
     methods: {
-        toggle() {
-            this.showForm = !this.showForm
-        },
-        clear() {
-            this.search.kabkota = '';
-            this.fetchData();
-        },
-        nextPage() {
-            this.pagination.page++;
-            this.fetchData();
-        },
-        prevPage() {
-            this.pagination.page--;
-            this.fetchData();
-        },
-        toggleModal(id) {
-            $("#deletemodal").modal('show');
-            this.id = id;
-        },
         fetchData() {
             this.isLoading = true;
-            let query  = this.generateParams();
-            service.fetchData(this.api + '?'+ query + '&page='+ this.pagination.page)
+            service.fetchData(this.api)
             .then(response => {
                 this.renderData(response);
             })
@@ -127,17 +84,9 @@ export default {
                 this.showTable = true;
                 this.alert.empty = false;
                 this.alert.error = false;
-                this.akomodasi = response.data;
-                this.pagination.last = response.last_page;
-                this.pagination.from = response.from;
-                this.pagination.to = response.to;
-                this.pagination.total = response.total;
+                this.bbm = response;
             }
             this.isLoading = false;
-        },
-        generateParams() {
-            let queryString = Object.keys(this.search).map(key => key + '=' + this.search[key]).join('&');
-            return queryString;
         }
     },
     created() {

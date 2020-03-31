@@ -16,7 +16,6 @@
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Simpan Data</button>
-                                <a :href="route" class="btn btn-danger"><i class="fa fa-arrow-left"></i> Kembali</a>
                             </div>
                         </div>
                     </form>
@@ -48,23 +47,15 @@
                     }).catch(error => {
                         this.isLoading = false;
                         this.alert.error = true;
-                        window.scroll({
-                            top: 0,
-                            left: 0,
-                            behavior: 'smooth'
-                        });
+                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                         console.log(error);
                     });
             },
             response(result) {
-                if (result.status === 'OK') {
+                if (result.status === 'ok') {
                     this.alert.error = false;
                     this.alert.update = true;
-                    window.scroll({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    });
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(() => this.alert.update = false, 5000);
                 }
                 this.isLoading = false;

@@ -19,7 +19,7 @@
 
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="bidang">Level *</label>
+                                <label>Level *</label>
                                 <select v-model="user.level_id" class="form-control" required="required">
                                     <option value="">Pilih Level</option>
                                     <option v-for="v in this.level_data" :value="v.id" :key="v.id">{{ v.nama_level }}</option>
@@ -29,7 +29,7 @@
 
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="bidang">Status *</label>
+                                <label>Status *</label>
                                 <select v-model="user.status" class="form-control" required="required">
                                     <option value="">Pilih Status</option>
                                     <option v-for="(v,k) in this.status" :value="k" :key="k">{{ v }}</option>
@@ -76,23 +76,15 @@
                     }).catch(error => {
                         this.isLoading = false;
                         this.alert.error = true;
-                        window.scroll({
-                            top: 0,
-                            left: 0,
-                            behavior: 'smooth'
-                        });
+                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                         console.log(error);
                     });
             },
             response(result) {
-                if (result.status === 'OK') {
+                if (result.status === 'ok') {
                     this.alert.error = false;
                     this.alert.update = true;
-                    window.scroll({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    });
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(() => this.alert.update = false, 5000);
                 }
                 this.isLoading = false;

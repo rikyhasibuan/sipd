@@ -8,14 +8,14 @@
                     <form method="POST" v-on:submit.prevent="onSubmit">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label for="bidang">Program *</label>
+                                <label>Program *</label>
                                 <select v-model="dinasbop.program_id" @change="onChangeProgram($event)" class="form-control" required="required">
                                     <option value="">Pilih Program</option>
                                     <option v-for="v in this.program" :value="v.id" :key="v.id">{{ v.nama_program }}</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="bidang">Kegiatan *</label>
+                                <label>Kegiatan *</label>
                                 <select v-model="dinasbop.kegiatan_id" @change="onChangeKegiatan($event)" class="form-control" required="required">
                                     <option value="">Pilih Kegiatan</option>
                                     <option v-for="v in this.kegiatan" :value="v.id" :key="v.id">{{ v.nama_kegiatan }}</option>
@@ -23,7 +23,7 @@
                             </div>
 
                             <div class="form-group col-md-4">
-                                <label for="bidang">Belanja *</label>
+                                <label>Belanja *</label>
                                 <select v-model="dinasbop.belanja_id" class="form-control" required="required">
                                     <option value="">Pilih Belanja</option>
                                     <option v-for="v in this.belanja" :value="v.id" :key="v.id">{{ v.nama_belanja }}</option>
@@ -32,7 +32,7 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label for="nama">Dasar Surat Perintah *</label>
+                                <label>Dasar Surat Perintah *</label>
                                 <input type="text" class="form-control" placeholder="Dasar 1" v-model="dinasbop.dasar[0]" required="required">
                                 <br>
                                 <input type="text" class="form-control" placeholder="Dasar 2" v-model="dinasbop.dasar[1]">
@@ -42,7 +42,7 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label for="nama">Tujuan Pemeriksaan *</label>
+                                <label>Tujuan Pemeriksaan *</label>
                                 <input type="text" class="form-control" placeholder="Tujuan 1" v-model="dinasbop.untuk[0]" required="required">
                                 <br>
                                 <input type="text" class="form-control" placeholder="Tujuan 2" v-model="dinasbop.untuk[1]">
@@ -52,8 +52,8 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="nama">Tanggal Mulai Pemeriksaaan *</label>
-                                <date-picker 
+                                <label>Tanggal Mulai Pemeriksaaan *</label>
+                                <date-picker
                                     id="dari"
                                     name="dari"
                                     v-model="dinasbop.dari"
@@ -63,8 +63,8 @@
                                 </date-picker>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="nama">Tanggal Selesai Pemeriksaan *</label>
-                                <date-picker 
+                                <label>Tanggal Selesai Pemeriksaan *</label>
+                                <date-picker
                                     id="sampai"
                                     name="sampai"
                                     v-model="dinasbop.sampai"
@@ -152,23 +152,15 @@
                     }).catch(error => {
                         this.isLoading = false;
                         this.alert.error = true;
-                        window.scroll({
-                            top: 0,
-                            left: 0,
-                            behavior: 'smooth'
-                        });
+                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                         console.log(error);
                     });
             },
             response(result) {
-                if (result.status === 'OK') {
+                if (result.status === 'ok') {
                     this.alert.error = false;
                     this.alert.update = true;
-                    window.scroll({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    });
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(() => this.alert.update = false, 5000);
                 }
                 this.isLoading = false;

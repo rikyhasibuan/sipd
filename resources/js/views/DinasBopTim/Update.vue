@@ -6,105 +6,105 @@
                     <v-alert :alert=alert></v-alert>
                     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
                     <form method="POST" v-on:submit.prevent="onSubmit">
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="username">Nomor Surat Perintah *</label>
-                                    <input type="text" class="form-control" v-model="tim.nomor_sp" placeholder="Isi Nomor Surat Perintah" required="required">
-                                </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>Nomor Surat Perintah *</label>
+                                <input type="text" class="form-control" v-model="tim.nomor_sp" placeholder="Isi Nomor Surat Perintah" required="required">
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="username">Tanggal Surat Perintah *</label>
-                                    <input type="date" class="form-control" v-model="tim.tgl_sp" placeholder="Isi Tanggal Surat Perintah" required="required">
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>Tanggal Surat Perintah *</label>
+                                <input type="date" class="form-control" v-model="tim.tgl_sp" placeholder="Isi Tanggal Surat Perintah" required="required">
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="bidang">Irban *</label>
-                                    <select v-model="tim.irban_id" @change="onChangeIrban($event)" class="form-control" required="required">
-                                        <option value="">Pilih Irban</option>
-                                        <option v-for="v in this.irban_data" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_irban }}</option>
-                                    </select>
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>Irban *</label>
+                                <select v-model="tim.irban_id" @change="onChangeIrban($event)" class="form-control" required="required">
+                                    <option value="">Pilih Irban</option>
+                                    <option v-for="v in this.irban_data" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_irban }}</option>
+                                </select>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="bidang">Auditan *</label>
-                                    <select v-model="tim.auditan" class="form-control" required="required">
-                                        <option value="">Pilih Auditan</option>
-                                        <optgroup v-for="(k,v) in this.audit_data" :key="v" :label="v">
-                                            <option v-for="val in k" :key="val" :value="val">{{ val }}</option>
-                                        </optgroup>
-                                    </select>
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>Auditan *</label>
+                                <select v-model="tim.auditan" class="form-control" required="required">
+                                    <option value="">Pilih Auditan</option>
+                                    <optgroup v-for="(k,v) in this.audit_data" :key="v" :label="v">
+                                        <option v-for="val in k" :key="val" :value="val">{{ val }}</option>
+                                    </optgroup>
+                                </select>
                             </div>
+                        </div>
 
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="bidang">Wakil Penanggung Jawab *</label>
-                                    <select v-model="tim.wakilpenanggungjawab" class="form-control" required="required">
-                                        <option value="">Pilih Wakil Penanggung Jawab</option>
-                                        <option v-for="v in personil_data" :key="v.pegawai.id" :value="v.pegawai.nip">{{ v.pegawai.nip }} - {{ v.pegawai.nama }}</option>
-                                    </select>
-                                </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>Wakil Penanggung Jawab *</label>
+                                <select v-model="tim.wakilpenanggungjawab" class="form-control" required="required">
+                                    <option value="">Pilih Wakil Penanggung Jawab</option>
+                                    <option v-for="v in personil_data" :key="v.pegawai.id" :value="v.pegawai.nip">{{ v.pegawai.nip }} - {{ v.pegawai.nama }}</option>
+                                </select>
                             </div>
+                        </div>
 
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="bidang">Pengendali Teknis *</label>
-                                    <select v-model="tim.pengendaliteknis" class="form-control" required="required">
-                                        <option value="">Pilih Pengendali Teknis</option>
-                                        <option v-for="v in personil_data" :key="v.pegawai.id" :value="v.pegawai.nip">{{ v.pegawai.nama }}</option>
-                                    </select>
-                                </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>Pengendali Teknis *</label>
+                                <select v-model="tim.pengendaliteknis" class="form-control" required="required">
+                                    <option value="">Pilih Pengendali Teknis</option>
+                                    <option v-for="v in personil_data" :key="v.pegawai.id" :value="v.pegawai.nip">{{ v.pegawai.nama }}</option>
+                                </select>
                             </div>
+                        </div>
 
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="bidang">Ketua Tim *</label>
-                                    <select v-model="tim.ketuatim" class="form-control" required="required">
-                                        <option value="">Pilih Ketua Tim</option>
-                                        <option v-for="v in personil_data" :key="v.pegawai.id" :value="v.pegawai.nip">{{ v.pegawai.nama }}</option>
-                                    </select>
-                                </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>Ketua Tim *</label>
+                                <select v-model="tim.ketuatim" class="form-control" required="required">
+                                    <option value="">Pilih Ketua Tim</option>
+                                    <option v-for="v in personil_data" :key="v.pegawai.id" :value="v.pegawai.nip">{{ v.pegawai.nama }}</option>
+                                </select>
                             </div>
+                        </div>
 
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="bidang">Anggota *</label>
-                                    <multiselect 
-                                        :multiple="true"
-                                        :taggable="true"
-                                        placeholder="Pilih Anggota"
-                                        v-model="tim.anggota"
-                                        :value="anggota_data.key"
-                                        :options="anggota_data"
-                                        track-by="key"
-                                        label="label"
-                                        :allow-empty="true"
-                                        class="multiselect"
-                                    >
-                                    </multiselect>
-                                </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>Anggota *</label>
+                                <multiselect
+                                    :multiple="true"
+                                    :taggable="true"
+                                    placeholder="Pilih Anggota"
+                                    v-model="tim.anggota"
+                                    :value="anggota_data.key"
+                                    :options="anggota_data"
+                                    track-by="key"
+                                    label="label"
+                                    :allow-empty="true"
+                                    class="multiselect"
+                                >
+                                </multiselect>
                             </div>
+                        </div>
 
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="bidang">Pengemudi *</label>
-                                    <select v-model="tim.driver" class="form-control" required="required">
-                                        <option value="">Pilih Pengemudi</option>
-                                        <option v-for="v in driver_data" :key="v.id" :value="v.nip">{{ v.nama }}</option>
-                                    </select>
-                                </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>Pengemudi *</label>
+                                <select v-model="tim.driver" class="form-control" required="required">
+                                    <option value="">Pilih Pengemudi</option>
+                                    <option v-for="v in driver_data" :key="v.id" :value="v.nip">{{ v.nama }}</option>
+                                </select>
                             </div>
+                        </div>
 
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Simpan Data</button>
-                                    <a :href="route" class="btn btn-danger"><i class="fa fa-arrow-left"></i> Kembali</a>
-                                </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Simpan Data</button>
+                                <a :href="route" class="btn btn-danger"><i class="fa fa-arrow-left"></i> Kembali</a>
                             </div>
-                        </form>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -153,23 +153,15 @@
                     }).catch(error => {
                         this.isLoading = false;
                         this.alert.error = true;
-                        window.scroll({
-                            top: 0,
-                            left: 0,
-                            behavior: 'smooth'
-                        });
+                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                         console.log(error);
                     });
             },
             response(result) {
-                if (result.status === 'OK') {
+                if (result.status === 'ok') {
                     this.alert.error = false;
                     this.alert.update = true;
-                    window.scroll({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    });
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(() => this.alert.update = false, 5000);
                 }
                 this.isLoading = false;
@@ -218,7 +210,7 @@
             this.tim.pengendaliteknis = this.dinasboptim.tim.pengendaliteknis.nip;
             this.tim.ketuatim = this.dinasboptim.tim.ketuatim.nip;
             this.tim.driver = this.dinasboptim.tim.driver.nip;
-            
+
             const irban = this.dinasboptim.irban_id;
 
             // ambil data auditan berdasarkan irban

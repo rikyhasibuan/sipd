@@ -20,7 +20,7 @@
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="bidang">Level *</label>
+                                    <label>Level *</label>
                                     <select v-model="user.level_id" class="form-control" required="required">
                                         <option value="">Pilih Level</option>
                                         <option v-for="v in this.level_data" :value="v.id" :key="v.id">{{ v.nama_level }}</option>
@@ -30,7 +30,7 @@
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="bidang">Status *</label>
+                                    <label>Status *</label>
                                     <select v-model="user.status" class="form-control" required="required">
                                         <option value="">Pilih Status</option>
                                         <option v-for="(v,k) in this.status" :value="k" :key="k">{{ v }}</option>
@@ -88,35 +88,23 @@ export default {
                     this.alert.error = true;
                     this.alert.duplicate = false;
                     this.alert.save = false;
-                    window.scroll({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    });
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     console.log(error);
                 });
         },
         response(result) {
-            if (result.status === 'OK') {
+            if (result.status === 'ok') {
                 this.alert.error = false;
                 this.alert.duplicate = false;
                 this.alert.save = true;
-                window.scroll({
-                    top: 0,
-                    left: 0,
-                    behavior: 'smooth'
-                })
+                window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 this.reset();
                 setTimeout(() => this.alert.save = false, 5000);
-            } else if (result.status === 'DUPLICATE') {
+            } else if (result.status === 'duplicate') {
                 this.alert.duplicate = true;
                 this.alert.error = false;
                 this.alert.save = false;
-                window.scroll({
-                    top: 0,
-                    left: 0,
-                    behavior: 'smooth'
-                });
+                window.scroll({ top: 0, left: 0, behavior: 'smooth' });
             }
         },
         reset() {

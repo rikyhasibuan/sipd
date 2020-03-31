@@ -34,6 +34,7 @@ class TimDinas
         $tim = [];
         $query_dinasbop = DinasBop::find($parameter['dinasbop']);
         $diff = date_diff($query_dinasbop->dari, $query_dinasbop->sampai);
+        $durasi = $diff->days + 1;
         $total_anggaran = 0;
 
         // Wakil Penanggung Jawab
@@ -44,11 +45,11 @@ class TimDinas
         $tim['wakilpenanggungjawab']['nama'] = $query_pegawai['nama'];
         $tim['wakilpenanggungjawab']['golongan'] = $query_pegawai['golongan'];
         $tim['wakilpenanggungjawab']['pangkat'] = $query_pegawai['pangkat'];
-        $tim['wakilpenanggungjawab']['hari'] = $diff->days;
+        $tim['wakilpenanggungjawab']['hari'] = $durasi;
         if ($check_wp == true) {
             $tim['wakilpenanggungjawab']['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['wakilpenanggungjawab']['total'] = $diff->days * $query_bop['biaya_per_hari'];
-            $total_anggaran += $diff->days * $query_bop['biaya_per_hari'];
+            $tim['wakilpenanggungjawab']['total'] = $durasi * $query_bop['biaya_per_hari'];
+            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
         } else {
             $tim['wakilpenanggungjawab']['biaya'] = 0;
             $tim['wakilpenanggungjawab']['total'] = 0;
@@ -63,11 +64,11 @@ class TimDinas
         $tim['pengendaliteknis']['nama'] = $query_pegawai['nama'];
         $tim['pengendaliteknis']['golongan'] = $query_pegawai['golongan'];
         $tim['pengendaliteknis']['pangkat'] = $query_pegawai['pangkat'];
-        $tim['pengendaliteknis']['hari'] = $diff->days;
+        $tim['pengendaliteknis']['hari'] = $durasi;
         if ($check_dalnis == true) {
             $tim['pengendaliteknis']['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['pengendaliteknis']['total'] = $diff->days * $query_bop['biaya_per_hari'];
-            $total_anggaran += $diff->days * $query_bop['biaya_per_hari'];
+            $tim['pengendaliteknis']['total'] = $durasi * $query_bop['biaya_per_hari'];
+            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
         } else {
             $tim['pengendaliteknis']['biaya'] = 0;
             $tim['pengendaliteknis']['total'] = 0;
@@ -82,11 +83,11 @@ class TimDinas
         $tim['ketuatim']['nama'] = $query_pegawai['nama'];
         $tim['ketuatim']['golongan'] = $query_pegawai['golongan'];
         $tim['ketuatim']['pangkat'] = $query_pegawai['pangkat'];
-        $tim['ketuatim']['hari'] = $diff->days;
+        $tim['ketuatim']['hari'] = $durasi;
         if ($check_ketua == true) {
             $tim['ketuatim']['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['ketuatim']['total'] = $diff->days * $query_bop['biaya_per_hari'];
-            $total_anggaran += $diff->days * $query_bop['biaya_per_hari'];
+            $tim['ketuatim']['total'] = $durasi * $query_bop['biaya_per_hari'];
+            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
         } else {
             $tim['ketuatim']['biaya'] = 0;
             $tim['ketuatim']['total'] = 0;
@@ -103,14 +104,14 @@ class TimDinas
             $tim['anggota'][$n]['nama'] = $query_pegawai['nama'];
             $tim['anggota'][$n]['golongan'] = $query_pegawai['golongan'];
             $tim['anggota'][$n]['pangkat'] = $query_pegawai['pangkat'];
-            $tim['anggota'][$n]['hari'] = $diff->days;
+            $tim['anggota'][$n]['hari'] = $durasi;
             $tim['anggota'][$n]['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['anggota'][$n]['total'] = $diff->days * $query_bop['biaya_per_hari'];
-            $total_anggaran += $diff->days * $query_bop['biaya_per_hari'];
+            $tim['anggota'][$n]['total'] = $durasi * $query_bop['biaya_per_hari'];
+            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
             if ($check_anggota == true) {
                 $tim['anggota'][$n]['biaya'] = $query_bop['biaya_per_hari'];
-                $tim['anggota'][$n]['total'] = $diff->days * $query_bop['biaya_per_hari'];
-                $total_anggaran += $diff->days * $query_bop['biaya_per_hari'];
+                $tim['anggota'][$n]['total'] = $durasi * $query_bop['biaya_per_hari'];
+                $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
             } else {
                 $tim['anggota'][$n]['biaya'] = 0;
                 $tim['anggota'][$n]['total'] = 0;
@@ -119,35 +120,7 @@ class TimDinas
             $n++;
         }
 
-        // Driver
-        $query_pegawai = Pegawai::searchNip($parameter['driver'])->first();
-        $golongan = $this->_common->split_golongan($query_pegawai['golongan']);
-        $check_driver = self::check_personil_bop($parameter['dinasbop'], $query_pegawai['nip']);
-
-        if (($golongan == 'I') || ($golongan == 'II')) {
-            $jabatanbop = 'Penunjang Administrasi Kesekretariatan (Gol. I/II)';
-        } elseif ($$golongan == 'III') {
-            $jabatanbop = 'Penunjang Administrasi Kesekretariatan (Gol. III)';
-        }
-
-        $query_bop = Bop::where('jabatan', $jabatanbop)->first();
-        $tim['driver']['nip'] = $query_pegawai['nip'];
-        $tim['driver']['nama'] = $query_pegawai['nama'];
-        $tim['driver']['golongan'] = $query_pegawai['golongan'];
-        $tim['driver']['pangkat'] = $query_pegawai['pangkat'];
-        $tim['driver']['hari'] = $diff->days;
-        if ($check_driver == true) {
-            $tim['driver']['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['driver']['total'] = $diff->days * $query_bop['biaya_per_hari'];
-            $total_anggaran += $diff->days * $query_bop['biaya_per_hari'];
-        } else {
-            $tim['driver']['biaya'] = 0;
-            $tim['driver']['total'] = 0;
-            $total_anggaran += 0;
-        }
-
-        $callback = ['tim'=>$tim,'total_anggaran'=>$total_anggaran];
-        return $callback;
+        return ['tim' => $tim, 'total_anggaran' => $total_anggaran];
     }
 
     /**
@@ -158,10 +131,10 @@ class TimDinas
      */
     public function generate_tim_regular($parameter)
     {
-        $tim = [];
         $query_kabkota = Kabkota::where('nama_kabkota', $parameter['auditan'])->first();
         $query_harian = Harian::where('kabkota_id', $query_kabkota['id'])->first();
         $diff = date_diff(date_create($parameter['dari']), date_create($parameter['sampai']));
+        $durasi = $diff->days + 1;
         $total_harian = 0;
         $total_akomodasi = 0;
         $tim = [];
@@ -179,15 +152,15 @@ class TimDinas
             $tim[$i]['golongan'] = $pegawai['golongan'];
             $tim[$i]['jabatan'] = $pegawai['jabatan'];
             $tim[$i]['eselon'] = $pegawai['eselon'];
-            $tim[$i]['hari'] = ($diff->days + 1);
+            $tim[$i]['hari'] = $durasi;
             $tim[$i]['inap'] = 0;
 
             if ($check_personil == true) {
                 $tim[$i]['biaya_harian'] = $query_harian[$golongan];
-                $tim[$i]['total_harian'] = $diff->days * $query_harian[$golongan];
+                $tim[$i]['total_harian'] = $durasi * $query_harian[$golongan];
                 $tim[$i]['biaya_akomodasi'] = 0;
                 $tim[$i]['total_akomodasi'] = 0;
-                $total_harian += ($diff->days + 1) * $query_harian[$golongan];
+                $total_harian += $durasi * $query_harian[$golongan];
                 $total_akomodasi += 0;
             } else {
                 $tim[$i]['biaya_harian'] = 0;
@@ -199,14 +172,14 @@ class TimDinas
             }
             $i++;
         }
-        $callback = ['tim' => $tim, 'total_harian' => $total_harian, 'total_akomodasi' => $total_akomodasi];
-        return $callback;
+        return ['tim' => $tim, 'total_harian' => $total_harian, 'total_akomodasi' => $total_akomodasi];
     }
 
     /**
      * menghitung akomodasi
      *
      * @param int $durasi
+     * @param string $tujuan
      * @param array $tim
      * @return array $akomodasi
      */
@@ -243,6 +216,7 @@ class TimDinas
      * cek personil pada dinas bop apakah personil tersebut sudah ada dalam tim lain atau belum
      *
      * @param string $nip
+     * @param int $id_dinasbop
      * @return boolean
      */
     public function check_personil_bop($id_dinasbop, $nip)
@@ -317,22 +291,20 @@ class TimDinas
     /**
      * mengambil data pegawai dengan jabatan sebagai kepala inspektur
      *
-     * @return array $pegawai
+     * @return object
      */
     public function get_inspektur()
     {
-        $pegawai = Pegawai::where('jabatan', 'Inspektur')->first();
-        return $pegawai;
+        return Pegawai::where('jabatan', 'Inspektur')->first();
     }
 
     /**
      * mengambil data pegawai dengan jabatan sebagai sekretaris
      *
-     * @return array $pegawai
+     * @return object
      */
     public function get_sekretaris()
     {
-        $pegawai = Pegawai::where('jabatan', 'Sekretaris')->first();
-        return $pegawai;
+        return Pegawai::where('jabatan', 'Sekretaris')->first();
     }
 }

@@ -21,7 +21,7 @@ class UserController extends Controller
                         ->with('level','pegawai')
                         ->orderBy('id', 'DESC')
                         ->paginate(10);
-                        
+
             return response()->json($user, 200);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -37,9 +37,9 @@ class UserController extends Controller
         $user->status = $request->input('status');
         $user->created_at = date('Y-m-d H:i:s');
         if ($user->save()) {
-            return response()->json(['status'=>'OK'], 200);
+            return response()->json(['status'=>'ok'], 200);
         } else {
-            return response()->json(['status'=>'FAILED'], 500);
+            return response()->json(['status'=>'failed'], 500);
         }
     }
 
@@ -56,9 +56,9 @@ class UserController extends Controller
         $user->status = $request->input('status');
         $user->updated_at = date('Y-m-d H:i:s');
         if ($user->save()) {
-            return response()->json(['status' => 'OK'], 200);
+            return response()->json(['status' => 'ok'], 200);
         } else {
-            return response()->json(['status' => 'FAILED'], 500);
+            return response()->json(['status' => 'failed'], 500);
         }
     }
 
@@ -66,9 +66,9 @@ class UserController extends Controller
     {
         $user = User::find($request['id']);
         if ($user->delete()) {
-            return response()->json(['status' => 'OK'], 200);
+            return response()->json(['status' => 'ok'], 200);
         } else {
-            return response()->json(['status' => 'FAILED'], 500);
+            return response()->json(['status' => 'failed'], 500);
         }
     }
 }

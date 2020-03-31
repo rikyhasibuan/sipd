@@ -8,10 +8,10 @@
                     <form method="POST" v-on:submit.prevent="onSubmit">
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="bidang">Kabupaten / Kota *</label>
+                                <label>Kabupaten / Kota *</label>
                                 <select v-model="bbm.kabkota_id" class="form-control" required="required">
                                     <option value="">Pilih Kabupaten / Kota</option>
-                                    <option v-for="v in this.kabkota_data" v-bind:value="v.id" v-bind:key="v.id">
+                                    <option v-for="v in this.kabkota_data" :value="v.id" :key="v.id">
                                         {{ v.nama_kabkota }}</option>
                                 </select>
                             </div>
@@ -52,33 +52,25 @@
         props: ['kabkota_data', 'api', 'route', 'bbm'],
         methods: {
             onSubmit(evt) {
-                this.isLoading = false;
+                this.isLoading = true;
                 service.putData(this.api, this.bbm)
                     .then(result => {
                         this.response(result);
                     }).catch(error => {
                         this.isLoading = false;
                         this.alert.error = true;
-                        window.scroll({
-                            top: 0,
-                            left: 0,
-                            behavior: 'smooth'
-                        });
+                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                         console.log(error);
                     });
             },
             response(result) {
+                this.isLoading = false;
                 if (result.status === 'ok') {
                     this.alert.error = false;
                     this.alert.update = true;
-                    window.scroll({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    });
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(() => this.alert.update = false, 5000);
                 }
-                this.isLoading = false;
             }
         },
         created() {

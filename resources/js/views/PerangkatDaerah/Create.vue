@@ -10,19 +10,19 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label>Nama Perangkat Daerah</label>
-                                    <input type="text" class="form-control" id="nama_skpd" v-model="skpd.nama_skpd"  placeholder="Nama Perangkat Daerah" required="required">
+                                    <input type="text" class="form-control" id="nama_skpd" v-model="skpd.nama_skpd" placeholder="Nama Perangkat Daerah" required="required">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label>Kontak</label>
-                                    <input type="text" class="form-control" id="kontak" v-model="skpd.kontak"  placeholder="Nomor Telepon" required="required">
+                                    <input type="text" class="form-control" id="kontak" v-model="skpd.kontak" placeholder="Nomor Telepon" required="required">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label>Alamat</label>
-                                    <textarea class="form-control" id="alamat" v-model="skpd.alamat"  required="required"></textarea>
+                                    <textarea class="form-control" id="alamat" v-model="skpd.alamat" required="required"></textarea>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -88,35 +88,23 @@ export default {
                 this.alert.error = true;
                 this.alert.duplicate = false;
                 this.alert.save = false;
-                window.scroll({
-                    top: 0,
-                    left: 0,
-                    behavior: 'smooth'
-                });
+                window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 console.log(error);
             });
         },
         response(result) {
-            if (result.status === 'OK') {
+            if (result.status === 'ok') {
                 this.alert.error = false;
                 this.alert.duplicate = false;
                 this.alert.save = true;
-                window.scroll({
-                    top: 0,
-                    left: 0,
-                    behavior: 'smooth'
-                })
+                window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 this.reset();
                 setTimeout(() => this.alert.save = false, 5000);
-            } else if (result.status === 'DUPLICATE') {
+            } else if (result.status === 'duplicate') {
                 this.alert.duplicate = true;
                 this.alert.error = false;
                 this.alert.save = false;
-                window.scroll({
-                    top: 0,
-                    left: 0,
-                    behavior: 'smooth'
-                });
+                window.scroll({ top: 0, left: 0, behavior: 'smooth' });
             }
         },
     },

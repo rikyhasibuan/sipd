@@ -9,57 +9,57 @@
                         <form method="POST" v-on:submit.prevent="onSubmit">
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="bidang">Program *</label>
+                                    <label>Program *</label>
                                     <select v-model="anggaran.program_id" class="form-control" required="required" @change="onChangeProgram($event)">
                                         <option value="">Pilih Program</option>
-                                        <option v-for="v in this.program" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_program }}</option>
+                                        <option v-for="v in this.program" :value="v.id" :key="v.id">{{ v.nama_program }}</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="bidang">Kegiatan *</label>
+                                    <label>Kegiatan *</label>
                                     <select v-model="anggaran.kegiatan_id" class="form-control" required="required" @change="onChangeKegiatan($event)">
                                         <option value="">Pilih Kegiatan</option>
-                                        <option v-for="v in this.kegiatan" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_kegiatan }}</option>
+                                        <option v-for="v in this.kegiatan" :value="v.id" :key="v.id">{{ v.nama_kegiatan }}</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="bidang">Belanja *</label>
+                                    <label>Belanja *</label>
                                     <select v-model="anggaran.belanja_id" class="form-control" required="required">
                                         <option value="">Pilih Belanja</option>
-                                        <option v-for="v in this.belanja" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_belanja }}</option>
+                                        <option v-for="v in this.belanja" :value="v.id" :key="v.id">{{ v.nama_belanja }}</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="nama">Jumlah Anggaran *</label>
+                                    <label>Jumlah Anggaran *</label>
                                     <input type="text" class="form-control" v-model="anggaran.jumlah" required="required">
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="bidang">Bulan *</label>
+                                    <label>Bulan *</label>
                                     <select v-model="anggaran.bulan" class="form-control" required="required">
                                         <option value="">Pilih Bulan</option>
-                                        <option v-for="(v,k) in this.bulan_data" v-bind:value="k" v-bind:key="k">{{ v }}</option>
+                                        <option v-for="(v,k) in this.bulan_data" :value="k" :key="k">{{ v }}</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="bidang">Tahun *</label>
+                                    <label>Tahun *</label>
                                     <select v-model="anggaran.tahun" class="form-control" required="required">
                                         <option value="">Pilih Tahun</option>
-                                        <option v-for="v in this.tahun_data" v-bind:value="v" v-bind:key="v">{{ v }}</option>
+                                        <option v-for="v in this.tahun_data" :value="v" :key="v">{{ v }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -107,7 +107,6 @@
         methods: {
             onChangeProgram(evt) {
                 const program = evt.target.value;
-                // ambil data kegiatan berdasarkan program
                 service.fetchData('../api/ajax/kegiatan/' + program)
                 .then(response => {
                     this.anggaran.kegiatan_id = '';
@@ -121,7 +120,6 @@
             },
             onChangeKegiatan(evt) {
                 const kegiatan = evt.target.value;
-                // ambil data kegiatan berdasarkan program
                 service.fetchData('../api/ajax/belanja/' + kegiatan)
                 .then(response => {
                     this.anggaran.belanja_id = '';
@@ -136,39 +134,27 @@
                     .then(result => {
                         this.response(result);
                     }).catch(error => {
-                        this.$Progress.finish();
-                        this.errorAlert = true;
-                        this.saveAlert = false;
-                        this.duplicateAlert = false;
-                        window.scroll({
-                            top: 0,
-                            left: 0,
-                            behavior: 'smooth'
-                        });
+                        this.isLoading = false
+                        this.alert.error = true;
+                        this.alert.save = false;
+                        this.alert.duplicate = false;
+                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                         console.log(error);
                     });
             },
             response(result) {
-                if (result.status === 'OK') {
+                if (result.status === 'ok') {
+                    this.reset();
                     this.alert.error = false;
                     this.alert.duplicate = false;
                     this.alert.save = true;
-                    window.scroll({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    })
-                    this.reset();
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(() => this.alert.save = false, 5000);
-                } else if (result.status === 'DUPLICATE') {
+                } else if (result.status === 'duplicate') {
                     this.alert.duplicate = true;
                     this.alert.error = false;
                     this.alert.save = false;
-                    window.scroll({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    });
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 }
             },
             reset() {

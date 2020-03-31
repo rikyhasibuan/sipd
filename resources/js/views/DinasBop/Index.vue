@@ -17,19 +17,19 @@
                                             <div class="form-group col-md-4">
                                                 <select v-model="search.program" class="form-control">
                                                     <option value="">Pilih Program</option>
-                                                    <option v-for="val in this.program_data" v-bind:value="val.id" v-bind:key="val.id">{{ val.nama_program }}</option>
+                                                    <option v-for="val in this.program_data" :value="val.id" :key="val.id">{{ val.nama_program }}</option>
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <select v-model="search.kegiatan" class="form-control">
                                                     <option value="">Pilih Kegiatan</option>
-                                                    <option v-for="val in this.kegiatan_data" v-bind:value="val.id" v-bind:key="val.id">{{ val.nama_kegiatan }}</option>
+                                                    <option v-for="val in this.kegiatan_data" :value="val.id" :key="val.id">{{ val.nama_kegiatan }}</option>
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <select v-model="search.belanja" class="form-control">
                                                     <option value="">Pilih Kode Belanja</option>
-                                                    <option v-for="val in this.belanja_data" v-bind:value="val.id" v-bind:key="val.id">{{ val.nama_belanja }}</option>
+                                                    <option v-for="val in this.belanja_data" :value="val.id" :key="val.id">{{ val.nama_belanja }}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -194,13 +194,12 @@ export default {
             this.isLoading = false;
         },
         generateParams() {
-            let queryString = Object.keys(this.search).map(key => key + '=' + this.search[key]).join('&');
-            return queryString;
+            return Object.keys(this.search).map(key => key + '=' + this.search[key]).join('&');
         },
         deleteData(id) {
             service.deleteData(this.api + '?id=' + id)
             .then(response => {
-                if(response.status === 'OK') {
+                if(response.status === 'ok') {
                     this.alert.delete = true;
                     $('#deletemodal').modal('hide');
                     this.fetchData();

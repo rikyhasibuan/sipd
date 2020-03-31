@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Anggaran;
-use App\Models\Belanja;
 use Illuminate\Http\Request;
 use Exception;
 use App\Http\Controllers\Controller;
@@ -85,10 +84,14 @@ class AnggaranController extends Controller
 
     public function delete_data(Request $request)
     {
-        $anggaran = Anggaran::find($request['id']);
-        if ($anggaran->delete()) {
-            return response()->json(['status' => 'ok'], 200);
-        } else {
+        try {
+            $anggaran = Anggaran::find($request['id']);
+            if ($anggaran->delete()) {
+                return response()->json(['status' => 'ok'], 200);
+            } else {
+                return response()->json(['status' => 'failed'], 500);
+            }
+        } catch (Exception $e) {
             return response()->json(['status' => 'failed'], 500);
         }
     }

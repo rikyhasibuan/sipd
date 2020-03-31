@@ -99,13 +99,13 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{!! url('akomodasi') !!}">
                                 <i class="nav-icon fa fa-circle-o"></i>
-                                <p>Besaran Akomodasi</p>
+                                <p>Besaran Uang Akomodasi</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{!! url('bbm') !!}">
                                 <i class="nav-icon fa fa-circle-o"></i>
-                                <p>Besaran Uang BBM</p>
+                                <p>Besaran BBM Per Liter</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -117,14 +117,6 @@
                     </ul>
                 </li>
 
-<!--                 <li class="nav-item">
-    <a @if($link=='report') class="nav-link active" @else class="nav-link" @endif
-    href="{!! url('report') !!}">
-        <i class="nav-icon fa fa-file-excel-o"></i>
-        <p>Laporan</p>
-    </a>
-</li> -->
-
                 <li class="nav-item">
                     <a @if($link=='profile' ) class="nav-link active" @else class="nav-link" @endif
                         href="{!! url('profile') !!}">
@@ -132,7 +124,7 @@
                         <p>Ganti Password</p>
                     </a>
                 </li>
-                
+
                 <li class="nav-item">
                     <a class="nav-link" href="{!! url('logout') !!}">
                         <i class="nav-icon fa fa-sign-out"></i>

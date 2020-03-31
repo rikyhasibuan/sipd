@@ -213,13 +213,12 @@ export default {
             this.isLoading = false;
         },
         generateParams() {
-            let queryString = Object.keys(this.search).map(key => key + '=' + this.search[key]).join('&');
-            return queryString;
+            return Object.keys(this.search).map(key => key + '=' + this.search[key]).join('&');
         },
         deleteData(id) {
             service.deleteData(this.api + '?id=' + id)
             .then(response => {
-                if(response.status === 'OK') {
+                if(response.status === 'ok') {
                     this.alert.delete = true;
                     $('#deletemodal').modal('hide');
                     this.fetchData();
@@ -253,7 +252,7 @@ export default {
                 this.search.kegiatan = '';
                 this.belanja = [];
                 this.search.belanja = '';
-            }   
+            }
         },
         onChangeKegiatan(evt) {
             const kegiatan = evt.target.value;

@@ -9,31 +9,31 @@
                         <form autocomplete="off" method="POST" v-on:submit.prevent="onSubmit">
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label for="bidang">Program *</label>
+                                    <label>Program *</label>
                                     <select v-model="dinasbop.program_id" @change="onChangeProgram($event)" class="form-control" required="required">
                                         <option value="">Pilih Program</option>
-                                        <option v-for="v in this.program" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_program }}</option>
+                                        <option v-for="v in this.program" :value="v.id" :key="v.id">{{ v.nama_program }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label for="bidang">Kegiatan *</label>
+                                    <label>Kegiatan *</label>
                                     <select v-model="dinasbop.kegiatan_id" @change="onChangeKegiatan($event)" class="form-control" required="required">
                                         <option value="">Pilih Kegiatan</option>
-                                        <option v-for="v in this.kegiatan" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_kegiatan }}</option>
+                                        <option v-for="v in this.kegiatan" :value="v.id" :key="v.id">{{ v.nama_kegiatan }}</option>
                                     </select>
                                 </div>
 
                                 <div class="form-group col-md-4">
-                                    <label for="bidang">Belanja *</label>
+                                    <label>Belanja *</label>
                                     <select v-model="dinasbop.belanja_id" class="form-control" required="required">
                                         <option value="">Pilih Belanja</option>
-                                        <option v-for="v in this.belanja" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_belanja }}</option>
+                                        <option v-for="v in this.belanja" :value="v.id" :key="v.id">{{ v.nama_belanja }}</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-12">
-                                    <label for="nama">Dasar Surat Perintah *</label>
+                                    <label>Dasar Surat Perintah *</label>
                                     <input type="text" class="form-control" placeholder="Dasar 1" v-model="dinasbop.dasar[0]" required="required">
                                     <br>
                                     <input type="text" class="form-control" placeholder="Dasar 2" v-model="dinasbop.dasar[1]">
@@ -43,7 +43,7 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-12">
-                                    <label for="nama">Tujuan Pemeriksaan *</label>
+                                    <label>Tujuan Pemeriksaan *</label>
                                     <input type="text" class="form-control" placeholder="Tujuan 1" v-model="dinasbop.untuk[0]" required="required">
                                     <br>
                                     <input type="text" class="form-control" placeholder="Tujuan 2" v-model="dinasbop.untuk[1]">
@@ -53,27 +53,27 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="nama">Tanggal Mulai *</label>
-                                    <date-picker 
+                                    <label>Tanggal Mulai *</label>
+                                    <date-picker
                                         id="dari"
                                         name="dari"
                                         v-model="dinasbop.dari"
                                         :config="options"
                                         class="form-control"
-                                        placeholder="Tanggal Mulai" 
+                                        placeholder="Tanggal Mulai"
                                         required="required"
                                         autocomplete="off">
                                     </date-picker>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="nama">Tanggal Selesai *</label>
-                                    <date-picker 
+                                    <label>Tanggal Selesai *</label>
+                                    <date-picker
                                         id="sampai"
                                         name="sampai"
                                         v-model="dinasbop.sampai"
                                         :config="options"
                                         class="form-control"
-                                        placeholder="Tanggal Selesai" 
+                                        placeholder="Tanggal Selesai"
                                         required="required"
                                         autocomplete="off">
                                     </date-picker>
@@ -143,14 +143,10 @@
                     this.errorAlert = true;
                     this.saveAlert = false;
                     this.duplicateAlert = false;
-                    window.scroll({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    });
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     console.log(error);
                 });
-                
+
             },
             onChangeProgram(evt) {
                 const program = evt.target.value;
@@ -188,26 +184,18 @@
                 }
             },
             response(result) {
-                if (result.status === 'OK') {
+                if (result.status === 'ok') {
                     this.alert.error = false;
                     this.alert.duplicate = false;
                     this.alert.save = true;
-                    window.scroll({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    })
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     this.reset();
                     setTimeout(() => this.alert.save = false, 2000);
-                } else if (result.status === 'DUPLICATE') {
+                } else if (result.status === 'duplicate') {
                     this.alert.duplicate = true;
                     this.alert.error = false;
                     this.alert.save = false;
-                    window.scroll({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    });
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 }
             },
             reset() {

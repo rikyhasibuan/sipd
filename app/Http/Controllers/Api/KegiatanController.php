@@ -83,11 +83,15 @@ class KegiatanController extends Controller
 
     public function delete_data(Request $request)
     {
-        $kegiatan = Kegiatan::find($request['id']);
-        if ($kegiatan->delete()) {
-            return response()->json(['status' => 'ok'], 200);
-        } else {
-            return response()->json(['status' => 'failed'], 500);
+        try {
+            $kegiatan = Kegiatan::find($request['id']);
+            if ($kegiatan->delete()) {
+                return response()->json(['status' => 'ok'], 200);
+            } else {
+                return response()->json(['status' => 'failed'], 500);
+            }
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }

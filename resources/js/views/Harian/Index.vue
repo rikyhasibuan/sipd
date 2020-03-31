@@ -16,7 +16,7 @@
                                             <div class="form-group col-md-6">
                                                 <select v-model="search.kabkota" class="form-control">
                                                     <option value="">Pilih Kabupaten / Kota</option>
-                                                    <option v-for="val in this.kabkota_data" v-bind:value="val.id" v-bind:key="val.id">{{ val.nama_kabkota }}</option>
+                                                    <option v-for="val in this.kabkota_data" :value="val.id" :key="val.id">{{ val.nama_kabkota }}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -158,8 +158,7 @@ export default {
             this.isLoading = false;
         },
         generateParams() {
-            let queryString = Object.keys(this.search).map(key => key + '=' + this.search[key]).join('&');
-            return queryString;
+            return Object.keys(this.search).map(key => key + '=' + this.search[key]).join('&');
         }
     },
     created() {

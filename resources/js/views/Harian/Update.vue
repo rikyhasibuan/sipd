@@ -8,10 +8,10 @@
                     <form method="POST" v-on:submit.prevent="onSubmit">
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="bidang">Kabupaten / Kota *</label>
+                                <label>Kabupaten / Kota *</label>
                                 <select v-model="harian.kabkota_id" class="form-control" required="required">
                                     <option value="">Pilih Kabupaten / Kota</option>
-                                    <option v-for="v in this.kabkota_data" v-bind:value="v.id" v-bind:key="v.id">
+                                    <option v-for="v in this.kabkota_data" :value="v.id" :key="v.id">
                                         {{ v.nama_kabkota }}</option>
                                 </select>
                             </div>
@@ -19,28 +19,28 @@
 
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="nip">Golongan I *</label>
+                                <label>Golongan I *</label>
                                 <input type="text" class="form-control" v-model="harian.gol_1" required="required">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="nama">Golongan II *</label>
+                                <label>Golongan II *</label>
                                 <input type="text" class="form-control" v-model="harian.gol_2" required="required">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="nama">Golongan III *</label>
+                                <label>Golongan III *</label>
                                 <input type="text" class="form-control" v-model="harian.gol_3" required="required">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="nama">Golongan IV *</label>
+                                <label>Golongan IV *</label>
                                 <input type="text" class="form-control" v-model="harian.gol_4" required="required">
                             </div>
                         </div>
@@ -80,23 +80,15 @@
                     }).catch(error => {
                         this.isLoading = false;
                         this.alert.error = true;
-                        window.scroll({
-                            top: 0,
-                            left: 0,
-                            behavior: 'smooth'
-                        });
+                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                         console.log(error);
                     });
             },
             response(result) {
-                if (result.status === 'OK') {
+                if (result.status === 'ok') {
                     this.alert.error = false;
                     this.alert.update = true;
-                    window.scroll({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    });
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(() => this.alert.update = false, 5000);
                 }
                 this.isLoading = false;

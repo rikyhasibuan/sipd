@@ -20,13 +20,13 @@
                                             <div class="form-group col-md-4">
                                                 <select v-model="search.program" class="form-control">
                                                     <option value="">Pilih Program</option>
-                                                    <option v-for="val in this.program_data" v-bind:value="val.id" v-bind:key="val.id">{{ val.nama_program }}</option>
+                                                    <option v-for="val in this.program_data" :value="val.id" :key="val.id">{{ val.nama_program }}</option>
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <select v-model="search.bendahara" class="form-control">
                                                     <option value="">Pilih Bendahara</option>
-                                                    <option v-for="v in this.bendahara_data" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama }}</option>
+                                                    <option v-for="v in this.bendahara_data" :value="v.id" :key="v.id">{{ v.nama }}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -183,8 +183,7 @@ export default {
             this.isLoading = false;
         },
         generateParams() {
-            let queryString = Object.keys(this.search).map(key => key + '=' + this.search[key]).join('&');
-            return queryString;
+            return Object.keys(this.search).map(key => key + '=' + this.search[key]).join('&');
         },
         deleteData(id) {
             service.deleteData(this.api + '?id=' + id)
@@ -197,6 +196,7 @@ export default {
                     setTimeout(() => this.alert.delete=false, 5000);
                 }
             }).catch(error => {
+                this.isLoading = false;
                 this.alert.delete = false;
                 this.alert.error = true;
                 $('#deletemodal').modal('hide');

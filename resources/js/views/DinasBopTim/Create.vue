@@ -10,12 +10,12 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label for="username">Nomor Surat Perintah *</label>
+                                        <label>Nomor Surat Perintah *</label>
                                         <input type="text" class="form-control" v-model="dinasboptim.nomor_sp" placeholder="Isi Nomor Surat Perintah" required="required">
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="username">Tanggal Surat Perintah *</label>
-                                        <date-picker 
+                                        <label>Tanggal Surat Perintah *</label>
+                                        <date-picker
                                             id="tgl_sp"
                                             name="tgl_sp"
                                             v-model="dinasboptim.tgl_sp"
@@ -27,15 +27,15 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label for="bidang">Irban *</label>
+                                        <label>Irban *</label>
                                         <select v-model="dinasboptim.irban_id" @change="onChangeIrban($event)" class="form-control" required="required">
                                             <option value="">Pilih Irban</option>
                                             <option v-for="v in this.irban_data" :value="v.id" :key="v.id">{{ v.nama_irban }}</option>
                                         </select>
                                     </div>
-                                    
+
                                     <div class="form-group col-md-6">
-                                        <label for="bidang">Auditan *</label>
+                                        <label>Auditan *</label>
                                         <select v-model="dinasboptim.auditan" class="form-control" required="required">
                                             <option value="">Pilih Auditan</option>
                                             <optgroup v-for="(k,v) in this.audit_data" :key="v" :label="v">
@@ -47,21 +47,21 @@
 
                                 <div class="row">
                                     <div class="form-group col-md-4">
-                                        <label for="bidang">Wakil Penanggung Jawab *</label>
+                                        <label>Wakil Penanggung Jawab *</label>
                                         <select v-model="dinasboptim.wakilpenanggungjawab" class="form-control" required="required">
                                             <option value="">Pilih Wakil Penanggung Jawab</option>
                                             <option v-for="v in personil_data" :key="v.pegawai.id" :value="v.pegawai.nip">{{ v.pegawai.nama }}</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label for="bidang">Pengendali Teknis *</label>
+                                        <label>Pengendali Teknis *</label>
                                         <select v-model="dinasboptim.pengendaliteknis" class="form-control" required="required">
                                             <option value="">Pilih Pengendali Teknis</option>
                                             <option v-for="v in personil_data" :key="v.pegawai.id" :value="v.pegawai.nip">{{ v.pegawai.nama }}</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label for="bidang">Ketua Tim *</label>
+                                        <label>Ketua Tim *</label>
                                         <select v-model="dinasboptim.ketuatim" class="form-control" required="required">
                                             <option value="">Pilih Ketua Tim</option>
                                             <option v-for="v in personil_data" :key="v.pegawai.id" :value="v.pegawai.nip">{{ v.pegawai.nama }}</option>
@@ -71,8 +71,8 @@
 
                                 <div class="row">
                                     <div class="form-group col-md-12">
-                                        <label for="bidang">Anggota *</label>
-                                        <multiselect 
+                                        <label>Anggota *</label>
+                                        <multiselect
                                             :multiple="true"
                                             :taggable="true"
                                             placeholder="Pilih Anggota"
@@ -88,14 +88,14 @@
 
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label for="bidang">Pengemudi *</label>
+                                        <label>Pengemudi *</label>
                                         <select v-model="dinasboptim.driver" class="form-control" required="required">
                                             <option value="">Pilih Pengemudi</option>
                                             <option v-for="v in driver_data" :key="v.id" :value="v.nip">{{ v.nama }}</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="bidang">Lampirkan Bukti Pendukung (PDF / DOC / JPG / RAR / ZIP) *</label>
+                                        <label>Lampirkan Bukti Pendukung (PDF / DOC / JPG / RAR / ZIP) *</label>
                                         <input type="file" ref="file" required="required" @change="handleFileUpload()">
                                     </div>
                                 </div>
@@ -193,11 +193,7 @@
                     this.errorAlert = true;
                     this.saveAlert = false;
                     this.duplicateAlert = false;
-                    window.scroll({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    });
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     console.log(error);
                 });
             },
@@ -212,7 +208,6 @@
                     console.log(error);
                 });
 
-                // ambil data personil berdasarkan irban
                 service.fetchData('../../api/ajax/dinasbop/personil/'+ irban)
                 .then(response => {
                     this.dinasboptim.wakilpenanggungjawab = '';
@@ -229,26 +224,18 @@
                 });
             },
             response(result) {
-                if (result.status === 'OK') {
+                if (result.status === 'ok') {
                     this.alert.error = false;
                     this.alert.duplicate = false;
                     this.alert.save = true;
-                    window.scroll({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    })
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     this.reset();
                     setTimeout(() => this.alert.save = false, 2000);
-                } else if (result.status === 'DUPLICATE') {
+                } else if (result.status === 'duplicate') {
                     this.alert.duplicate = true;
                     this.alert.error = false;
                     this.alert.save = false;
-                    window.scroll({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    });
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 }
             },
             reset() {

@@ -8,21 +8,21 @@
                     <form method="POST" v-on:submit.prevent="onSubmit">
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="nip">NIP *</label>
+                                <label>NIP *</label>
                                 <input type="text" class="form-control" v-model="pegawai.nip" required="required">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="nama">Nama *</label>
+                                <label>Nama *</label>
                                 <input type="text" class="form-control" v-model="pegawai.nama" required="required">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="bidang">Pangkat *</label>
+                                <label>Pangkat *</label>
                                 <select v-model="pegawai.pangkat" class="form-control" required="required">
                                     <option value="">Pilih Pangkat</option>
                                     <option v-for="v in this.pangkat_data" v-bind:value="v.nama_pangkat" v-bind:key="v.id">{{ v.nama_pangkat }}</option>
@@ -32,7 +32,7 @@
 
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="bidang">Golongan *</label>
+                                <label>Golongan *</label>
                                 <select v-model="pegawai.golongan" class="form-control" required="required">
                                     <option value="">Pilih Golongan</option>
                                     <option v-for="(k,v) in this.golongan_data" v-bind:value="k" v-bind:key="k">{{ v }}</option>
@@ -42,7 +42,7 @@
 
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="bidang">Jabatan *</label>
+                                <label>Jabatan *</label>
                                 <select v-model="pegawai.jabatan" class="form-control" required="required">
                                     <option value="">Pilih Jabatan</option>
                                     <option v-for="v in this.jabatan_data" v-bind:value="v.nama_jabatan" v-bind:key="v.id">{{ v.nama_jabatan }}</option>
@@ -52,7 +52,7 @@
 
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="bidang">Eselon</label>
+                                <label>Eselon</label>
                                 <select v-model="pegawai.eselon" class="form-control">
                                     <option value="">Pilih Eselon</option>
                                     <option v-for="(k,v) in this.eselon_data" v-bind:value="k" v-bind:key="k">{{ v }}</option>
@@ -95,11 +95,7 @@
                     }).catch(error => {
                         this.isLoading = false;
                         this.alert.error = true;
-                        window.scroll({
-                            top: 0,
-                            left: 0,
-                            behavior: 'smooth'
-                        });
+                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                         console.log(error);
                     });
             },
@@ -107,11 +103,7 @@
                 if (result.status === 'OK') {
                     this.alert.error = false;
                     this.alert.update = true;
-                    window.scroll({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    });
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(() => this.alert.update = false, 5000);
                 }
                 this.isLoading = false;

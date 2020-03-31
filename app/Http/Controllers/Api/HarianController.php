@@ -35,7 +35,7 @@ class HarianController extends Controller
         $harian->gol_4 = $request->input('gol_4');
         $harian->created_at = date('Y-m-d H:i:s');
         if ($harian->save()) {
-            return response()->json(['status'=>'OK'], 200);
+            return response()->json(['status'=>'ok'], 200);
         } else {
             return response()->json(['status'=>'failed'], 500);
         }
@@ -51,7 +51,7 @@ class HarianController extends Controller
         $harian->gol_4 = $request->input('gol_4');
         $harian->updated_at = date('Y-m-d H:i:s');
         if ($harian->save()) {
-            return response()->json(['status' => 'OK'], 200);
+            return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);
         }
@@ -61,7 +61,7 @@ class HarianController extends Controller
     {
         $harian = Harian::find($request['id']);
         if ($harian->delete()) {
-            return response()->json(['status' => 'OK'], 200);
+            return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);
         }

@@ -2,13 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\DinasRegular;
-use App\Models\DinasBop;
-use App\Models\DinasRegularTim;
-use App\Models\DinasBopTim;
 use App\Models\Anggaran;
 use App\Libraries\KasAnggaran;
-use Illuminate\Http\Request;
 use Exception;
 use App\Http\Controllers\Controller;
 
@@ -20,7 +15,6 @@ class DashboardController extends Controller
             $kas = new KasAnggaran();
             $year = date('Y');
             $sql_anggaran = Anggaran::with('belanja')->where('tahun', $year)->get();
-            $resapan_anggaran = 0;
             $resapan1   = [];
             $anggaran1  = [];
             $resapan2   = [];
@@ -82,7 +76,7 @@ class DashboardController extends Controller
                     $resapan = $kas->show_resapan_anggaran($year, '12', $v->belanja_id);
                     array_push($resapan1, intval($resapan));
                     array_push($anggaran1, intval($v->jumlah));
-                }        
+                }
 
                 // 5.2.2.15.03
                 if ($v->belanja->kode_belanja == '5.2.2.15.03' && $v->bulan == 1) {
@@ -292,34 +286,34 @@ class DashboardController extends Controller
             $anggaran = [
                             'kodering' =>
                                 [
-                                    '5221502' => 
+                                    '5221502' =>
                                                     [
-                                                        'deskripsi' => 'Perjalanan Dinas Dalam Daerah PNS Provinsi', 
-                                                        'anggaran' => $anggaran1, 
+                                                        'deskripsi' => 'Perjalanan Dinas Dalam Daerah PNS Provinsi',
+                                                        'anggaran' => $anggaran1,
                                                         'resapan'=> $resapan1
                                                     ],
-                                    '5221503' => 
+                                    '5221503' =>
                                                     [
                                                         'deskripsi' => 'Perjalanan Dinas Luar Provinsi PNS Provinsi',
-                                                        'anggaran' => $anggaran2, 
+                                                        'anggaran' => $anggaran2,
                                                         'resapan'=> $resapan2
-                                                    ], 
-                                    '5221602' => 
+                                                    ],
+                                    '5221602' =>
                                                     [
                                                         'deskripsi' => 'Perjalanan Dinas Dalam Daerah  PNS Non Provinsi',
-                                                        'anggaran' => $anggaran3, 
+                                                        'anggaran' => $anggaran3,
                                                         'resapan'=> $resapan3
-                                                    ], 
-                                    '5221702' => 
+                                                    ],
+                                    '5221702' =>
                                                     [
-                                                        'deskripsi' => 'Perjalanan Dinas Dalam Daerah Non PNS', 
-                                                        'anggaran' => $anggaran4, 
+                                                        'deskripsi' => 'Perjalanan Dinas Dalam Daerah Non PNS',
+                                                        'anggaran' => $anggaran4,
                                                         'resapan'=> $resapan4
-                                                    ], 
-                                    '5221703' => 
+                                                    ],
+                                    '5221703' =>
                                                     [
-                                                        'deskripsi' => 'Perjalanan Dinas Luar Provinsi Non PNS', 
-                                                        'anggaran' => $anggaran5, 
+                                                        'deskripsi' => 'Perjalanan Dinas Luar Provinsi Non PNS',
+                                                        'anggaran' => $anggaran5,
                                                         'resapan'=> $resapan5
                                                     ]
                                 ]

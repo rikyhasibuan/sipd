@@ -9,34 +9,34 @@
                         <form method="POST" v-on:submit.prevent="onSubmit">
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="bidang">Program *</label>
+                                    <label>Program *</label>
                                     <select v-model="belanja.program_id" @change="onChangeProgram($event)" class="form-control" required="required">
                                         <option value="">Pilih Program</option>
-                                        <option v-for="v in this.program" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_program }}</option>
+                                        <option v-for="v in this.program" :value="v.id" :key="v.id">{{ v.nama_program }}</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="bidang">Kegiatan *</label>
+                                    <label>Kegiatan *</label>
                                     <select v-model="belanja.kegiatan_id" class="form-control" required="required">
                                         <option value="">Pilih Kegiatan</option>
-                                        <option v-for="v in this.kegiatan" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_kegiatan }}</option>
+                                        <option v-for="v in this.kegiatan" :value="v.id" :key="v.id">{{ v.nama_kegiatan }}</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="nip">Kode Belanja *</label>
+                                    <label>Kode Belanja *</label>
                                     <input type="text" class="form-control" v-model="belanja.kode_belanja" required="required">
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="nama">Nama Belanja *</label>
+                                    <label>Nama Belanja *</label>
                                     <input type="text" class="form-control" v-model="belanja.nama_belanja" required="required">
                                 </div>
                             </div>
@@ -73,14 +73,15 @@
         props: ['program_data','kegiatan_data', 'belanja', 'api', 'route'],
         methods: {
             onSubmit(evt) {
+                this.isLoading = true;
                 service.putData(this.api, this.belanja)
                     .then(result => {
+                        this.isLoading = false;
                         this.response(result);
                     }).catch(error => {
-                        this.$Progress.finish();
-                        this.errorAlert = true;
-                        this.saveAlert = false;
-                        this.duplicateAlert = false;
+                        this.isLoading = false;
+                        this.alert.error = true;
+                        this.alert.update = false;
                         window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                         console.log(error);
                     });

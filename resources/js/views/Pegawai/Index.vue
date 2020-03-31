@@ -18,25 +18,25 @@
                                         <div class="form-group col-md-2">
                                             <select v-model="search.golongan" class="form-control">
                                                 <option value="">PILIH GOLONGAN</option>
-                                                <option v-for="(k,v) in this.golongan_data" v-bind:value="k" v-bind:key="k">{{ v }}</option>
+                                                <option v-for="(k,v) in this.golongan_data" :value="k" :key="k">{{ v }}</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-2">
                                             <select v-model="search.pangkat" class="form-control">
                                                 <option value="">PILIH PANGKAT</option>
-                                                <option v-for="v in this.pangkat_data" v-bind:value="v.nama_pangkat" v-bind:key="v.id">{{ v.nama_pangkat }}</option>
+                                                <option v-for="v in this.pangkat_data" :value="v.nama_pangkat" :key="v.id">{{ v.nama_pangkat }}</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-3">
                                             <select v-model="search.jabatan" class="form-control">
                                                 <option value="">PILIH JABATAN</option>
-                                                <option v-for="v in this.jabatan_data" v-bind:value="v.nama_jabatan" v-bind:key="v.id">{{ v.nama_jabatan }}</option>
+                                                <option v-for="v in this.jabatan_data" :value="v.nama_jabatan" :key="v.id">{{ v.nama_jabatan }}</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-2">
                                             <select v-model="search.eselon" class="form-control">
                                                 <option value="">PILIH ESELON</option>
-                                                <option v-for="(k,v) in this.eselon_data" v-bind:value="k" v-bind:key="k">{{ v }}</option>
+                                                <option v-for="(k,v) in this.eselon_data" :value="k" :key="k">{{ v }}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -199,13 +199,12 @@ export default {
             this.isLoading = false;
         },
         generateParams() {
-            let queryString = Object.keys(this.search).map(key => key + '=' + this.search[key]).join('&');
-            return queryString;
+            return Object.keys(this.search).map(key => key + '=' + this.search[key]).join('&');
         },
         deleteData(id) {
             service.deleteData(this.api + '?id=' + id)
             .then(response => {
-                if(response.status === 'OK') {
+                if(response.status === 'ok') {
                     this.alert.delete = true;
                     $('#deletemodal').modal('hide');
                     this.fetchData();

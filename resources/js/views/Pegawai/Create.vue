@@ -9,24 +9,24 @@
                         <form method="POST" v-on:submit.prevent="onSubmit">
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="nip">NIP *</label>
+                                    <label>NIP *</label>
                                     <input type="text" class="form-control" v-model="pegawai.nip" required="required">
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="nama">Nama *</label>
+                                    <label>Nama *</label>
                                     <input type="text" class="form-control" v-model="pegawai.nama" required="required">
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="bidang">Pangkat *</label>
+                                    <label>Pangkat *</label>
                                     <select v-model="pegawai.pangkat" class="form-control" required="required">
                                         <option value="">Pilih Pangkat</option>
-                                        <option v-for="v in this.pangkat_data" v-bind:value="v.nama_pangkat" v-bind:key="v.id">
+                                        <option v-for="v in this.pangkat_data" :value="v.nama_pangkat" :key="v.id">
                                             {{ v.nama_pangkat }}</option>
                                     </select>
                                 </div>
@@ -34,21 +34,20 @@
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="bidang">Golongan *</label>
+                                    <label>Golongan *</label>
                                     <select v-model="pegawai.golongan" class="form-control" required="required">
                                         <option value="">Pilih Golongan</option>
-                                        <option v-for="(k,v) in this.golongan_data" v-bind:value="k" v-bind:key="k">
-                                            {{ v }}</option>
+                                        <option v-for="(k,v) in this.golongan_data" :value="k" :key="k">{{ v }}</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="bidang">Jabatan *</label>
+                                    <label>Jabatan *</label>
                                     <select v-model="pegawai.jabatan" class="form-control" required="required">
                                         <option value="">Pilih Jabatan</option>
-                                        <option v-for="v in this.jabatan_data" v-bind:value="v.nama_jabatan" v-bind:key="v.id">
+                                        <option v-for="v in this.jabatan_data" :value="v.nama_jabatan" :key="v.id">
                                             {{ v.nama_jabatan }}</option>
                                     </select>
                                 </div>
@@ -56,7 +55,7 @@
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="bidang">Eselon</label>
+                                    <label>Eselon</label>
                                     <select v-model="pegawai.eselon" class="form-control">
                                         <option value="">Pilih Eselon</option>
                                         <option v-for="(k,v) in this.eselon_data" v-bind:value="k" v-bind:key="k">
@@ -116,35 +115,23 @@ export default {
                     this.alert.error = true;
                     this.alert.duplicate = false;
                     this.alert.save = false;
-                    window.scroll({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    });
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     console.log(error);
                 });
         },
         response(result) {
-            if (result.status === 'OK') {
+            if (result.status === 'ok') {
                 this.alert.error = false;
                 this.alert.duplicate = false;
                 this.alert.save = true;
-                window.scroll({
-                    top: 0,
-                    left: 0,
-                    behavior: 'smooth'
-                })
+                window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 this.reset();
                 setTimeout(() => this.alert.save = false, 5000);
-            } else if (result.status === 'DUPLICATE') {
+            } else if (result.status === 'duplicate') {
                 this.alert.duplicate = true;
                 this.alert.error = false;
                 this.alert.save = false;
-                window.scroll({
-                    top: 0,
-                    left: 0,
-                    behavior: 'smooth'
-                });
+                window.scroll({ top: 0, left: 0, behavior: 'smooth' });
             }
         },
         reset() {

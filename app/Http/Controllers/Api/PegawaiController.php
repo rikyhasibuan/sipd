@@ -14,7 +14,7 @@ class PegawaiController extends Controller
 
     public function __construct()
     {
-        $this->common = new Common();    
+        $this->common = new Common();
     }
 
     public function get_data(Request $request)
@@ -58,12 +58,12 @@ class PegawaiController extends Controller
             $pegawai->eselon = $request->input('eselon');
             $pegawai->created_at = date('Y-m-d H:i:s');
             if ($pegawai->save()) {
-                return response()->json(['status'=>'OK'], 200);
+                return response()->json(['status'=>'ok'], 200);
             } else {
                 return response()->json(['status'=>'failed'], 500);
             }
         } else {
-            return response()->json(['status'=>'DUPLICATE'], 200);
+            return response()->json(['status'=>'duplicate'], 200);
         }
     }
 
@@ -78,7 +78,7 @@ class PegawaiController extends Controller
         $pegawai->eselon = $request->input('eselon');
         $pegawai->updated_at = date('Y-m-d H:i:s');
         if ($pegawai->save()) {
-            return response()->json(['status' => 'OK'], 200);
+            return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);
         }
@@ -88,7 +88,7 @@ class PegawaiController extends Controller
     {
         $pegawai = Pegawai::find($request['id']);
         if ($pegawai->delete()) {
-            return response()->json(['status' => 'OK'], 200);
+            return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);
         }

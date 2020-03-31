@@ -18,23 +18,24 @@ class KasAnggaran
     /**
      * menampilkan sisa anggaran sesuai dengan tahun dan kode belanja
      * @param string $tahun
+     * @param int $bulan
      * @param string $belanja
-     * @return integer $sisa_anggaran
+     * @return int
      */
     function show_sisa_anggaran($tahun, $bulan, $belanja)
     {
         $anggaran = self::show_total_anggaran($tahun, $bulan, $belanja);
         $resapan_anggaran = self::show_resapan_anggaran($tahun, $bulan, $belanja);
 
-        $sisa_anggaran = $anggaran - $resapan_anggaran;
-        return $sisa_anggaran;
+        return ($anggaran - $resapan_anggaran);
     }
 
     /**
      * menampilkan total anggaran untuk tahun dan kode belanja tertentu
      * @param string $tahun
+     * @param int $bulan
      * @param string $belanja
-     * @return integer $anggaran
+     * @return int $anggaran
      */
     function show_total_anggaran($tahun, $bulan, $belanja)
     {
@@ -68,15 +69,15 @@ class KasAnggaran
             }
         }
 
-        $resapan_anggaran = $anggaran_bop + $anggaran_regular;
-        return $resapan_anggaran;
+        return ($anggaran_bop + $anggaran_regular);
     }
 
     /**
      * mengecek apakah sisa anggaran mencukupi untuk biaya dinas
      * @param string $tahun
+     * @param int $bulan
      * @param string $belanja
-     * @return integer $resapan_anggaran
+     * @return boolean
      */
     public function show_ketersediaan_anggaran($tahun, $bulan, $belanja)
     {
@@ -94,19 +95,18 @@ class KasAnggaran
     /**
      * mengakumulasi biaya anggaran pada dinas bop tertentu
      * @param int $id
-     * @return int $anggaran_bop
+     * @return int
      */
     public function show_biaya_bop($id)
     {
-        $anggaran_bop = DinasBopTim::where('dinasbop_id', $id)->sum('total_anggaran');
-        return $anggaran_bop;
+        return DinasBopTim::where('dinasbop_id', $id)->sum('total_anggaran');
     }
 
     /**
      * mengecek apakah sisa anggaran mencukupi untuk biaya dinas
      * @param string $tahun
      * @param string $belanja
-     * @return integer $resapan_anggaran
+     * @return boolean
      */
     public function calculate_available_fee($tahun, $bulan, $belanja, $total_biaya)
     {

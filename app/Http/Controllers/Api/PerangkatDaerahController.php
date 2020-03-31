@@ -32,12 +32,12 @@ class PerangkatDaerahController extends Controller
                 $skpd->kota = $request->input('kota');
                 $skpd->created_at = date('Y-m-d H:i:s');
                 if ($skpd->save()) {
-                    return response()->json(['status' => 'OK'], 200);
+                    return response()->json(['status' => 'ok'], 200);
                 } else {
                     return response()->json(['status' => 'FAILED'], 500);
                 }
             } else {
-                return response()->json(['status' => 'DUPLICATE'], 200);
+                return response()->json(['status' => 'duplicate'], 200);
             }
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -54,7 +54,7 @@ class PerangkatDaerahController extends Controller
             $skpd->kota = $request->input('kota');
             $skpd->updated_at = date('Y-m-d H:i:s');
             if ($skpd->save()) {
-                return response()->json(['status' => 'OK', 'skpd' => $skpd], 200);
+                return response()->json(['status' => 'ok', 'skpd' => $skpd], 200);
             } else {
                 return response()->json(['status' => 'FAILED'], 500);
             }
@@ -68,7 +68,7 @@ class PerangkatDaerahController extends Controller
         try {
             $skpd = Skpd::find($request['id']);
             if ($skpd->delete()) {
-                return response()->json(['status' => 'OK'], 200);
+                return response()->json(['status' => 'ok'], 200);
             } else {
                 return response()->json(['status' => 'FAILED'], 500);
             }

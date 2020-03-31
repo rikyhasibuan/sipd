@@ -9,7 +9,7 @@
                         <form method="POST" v-on:submit.prevent="onSubmit">
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="bidang">Program *</label>
+                                    <label>Program *</label>
                                     <select v-model="kegiatan.program_id" class="form-control" required="required">
                                         <option value="">Pilih Program</option>
                                         <option v-for="v in this.program_data" :value="v.id" :key="v.id">{{ v.nama_program }}</option>
@@ -19,7 +19,7 @@
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="bidang">Bendahara *</label>
+                                    <label>Bendahara *</label>
                                     <select v-model="kegiatan.bendahara" class="form-control" required="required">
                                         <option value="">Pilih Bendahara</option>
                                         <option v-for="v in this.bendahara_data" :value="v.id" :key="v.id">{{ v.nama }}</option>
@@ -29,14 +29,14 @@
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="nip">Kode Kegiatan *</label>
+                                    <label>Kode Kegiatan *</label>
                                     <input type="text" class="form-control" v-model="kegiatan.kode_kegiatan" required="required">
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="nama">Nama Kegiatan *</label>
+                                    <label>Nama Kegiatan *</label>
                                     <input type="text" class="form-control" v-model="kegiatan.nama_kegiatan" required="required">
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
 
 <script>
     import service from './../../services.js';
-    
+
     export default {
         data() {
             return {
@@ -84,6 +84,7 @@
                     .then(result => {
                         this.response(result);
                     }).catch(error => {
+                        this.isLoading = false;
                         this.alert.error = true;
                         this.alert.duplicate = false;
                         this.alert.save = true;

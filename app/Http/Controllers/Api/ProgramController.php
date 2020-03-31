@@ -34,7 +34,7 @@ class ProgramController extends Controller
                                     'nama_program'=>$request->input('nama_program')
                                 ]
                                 )->count();
-        if ($check == 0) {                 
+        if ($check == 0) {
             $program = new Program();
             $program->kode_program = $request->input('kode_program');
             $program->nama_program = $request->input('nama_program');
@@ -64,11 +64,15 @@ class ProgramController extends Controller
 
     public function delete_data(Request $request)
     {
-        $program = Program::find($request['id']);
-        if ($program->delete()) {
-            return response()->json(['status' => 'ok'], 200);
-        } else {
-            return response()->json(['status' => 'failed'], 500);
+        try {
+            $program = Program::find($request['id']);
+            if ($program->delete()) {
+                return response()->json(['status' => 'ok'], 200);
+            } else {
+                return response()->json(['status' => 'failed'], 500);
+            }
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }

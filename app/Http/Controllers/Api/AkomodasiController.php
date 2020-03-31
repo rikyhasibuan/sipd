@@ -41,7 +41,7 @@ class AkomodasiController extends Controller
         $akomodasi->gol_1_2 = $request->input('gol_1_2');
         $akomodasi->updated_at = date('Y-m-d H:i:s');
         if ($akomodasi->save()) {
-            return response()->json(['status' => 'OK'], 200);
+            return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);
         }

@@ -11,8 +11,7 @@ class Common
      */
     public function rupiah($angka)
     {
-        $rupiah = number_format($angka, 0, ',', '.');
-        return $rupiah;
+        return number_format($angka, 0, ',', '.');
     }
 
     /**
@@ -31,15 +30,15 @@ class Common
             $hasil_bagi = (int)($angka / 10);
             $hasil_mod = $angka % 10;
             return trim(sprintf('%s Puluh %s', $bilangan[$hasil_bagi], $bilangan[$hasil_mod]));
-        } else if ($angka < 200) { 
+        } else if ($angka < 200) {
             return sprintf('Seratus %s', self::terbilang($angka - 100));
-        } else if ($angka < 1000) { 
+        } else if ($angka < 1000) {
             $hasil_bagi = (int)($angka / 100);
             $hasil_mod = $angka % 100;
             return trim(sprintf('%s Ratus %s', $bilangan[$hasil_bagi], self::terbilang($hasil_mod)));
         } else if ($angka < 2000) {
             return trim(sprintf('Seribu %s', self::terbilang($angka - 1000)));
-        } else if ($angka < 1000000) { 
+        } else if ($angka < 1000000) {
             $hasil_bagi = intval($angka / 1000);
             $hasil_mod = $angka % 1000;
             return sprintf('%s Ribu %s', self::terbilang($hasil_bagi), self::terbilang($hasil_mod));
@@ -47,7 +46,7 @@ class Common
             $hasil_bagi = intval($angka / 1000000);
             $hasil_mod = $angka % 1000000;
             return trim(sprintf('%s Juta %s', self::terbilang($hasil_bagi), self::terbilang($hasil_mod)));
-        } else if ($angka < 1000000000000) { 
+        } else if ($angka < 1000000000000) {
             $hasil_bagi = intval($angka / 1000000000);
             $hasil_mod = fmod($angka, 1000000000);
             return trim(sprintf('%s Milyar %s', self::terbilang($hasil_bagi), self::terbilang($hasil_mod)));
@@ -59,7 +58,7 @@ class Common
             return false;
         }
     }
-    
+
     /**
      * ekstrak tahun dari parameter date
      * @param string $date
@@ -70,7 +69,7 @@ class Common
         $year = explode('-', $date);
         return $year[0];
     }
-    
+
     /**
      * menampilkan daftar bulan
      * @return array $month
@@ -93,7 +92,7 @@ class Common
 
         return $month;
     }
-    
+
     /**
      * menampilkan daftar tahun dimulai dari tahun sekarang hingga 5 tahun berikutnya
      * @return array $year
@@ -107,7 +106,7 @@ class Common
         }
         return $year;
     }
-    
+
     /**
      * extract romance format from golongan
      * @param string $golongan
@@ -122,7 +121,8 @@ class Common
     /**
      * menggabungkan golongan dan sub golongan
      * @param string $golongan
-     * @return string $joined_golongan
+     * @return array
+     * @return string
      */
     public function join_golongan($golongan)
     {
@@ -137,7 +137,7 @@ class Common
             return $golongan;
         }
     }
-    
+
     /**
      * convert romance format for eselon to mysql column format
      * @param string $golongan
@@ -161,23 +161,19 @@ class Common
             }
         } else {
             switch ($golongan) {
+                case 'III':
                 case 'IV':
                     $callback = 'eselon_4_gol_3_4';
                     break;
-                case 'III':
-                    $callback = 'eselon_4_gol_3_4';
-                    break;
-                case 'II':
-                    $callback = 'gol_1_2';
-                    break;
                 case 'I':
+                case 'II':
                     $callback = 'gol_1_2';
                     break;
             }
         }
         return $callback;
     }
-    
+
     /**
      * convert romance format for golongan to mysql column format
      * @param string $golongan
@@ -185,20 +181,23 @@ class Common
      */
     public function generate_golongan($golongan)
     {
+        $golongan_mysql = '';
+
         switch ($golongan) {
             case 'IV':
-                return "gol_4";
+                $golongan_mysql = "gol_4";
                 break;
             case 'III':
-                return "gol_3";
+                $golongan_mysql = "gol_3";
                 break;
             case 'II':
-                return "gol_2";
+                $golongan_mysql = "gol_2";
                 break;
             case 'I':
-                return "gol_1";
+                $golongan_mysql = "gol_1";
                 break;
         }
+        return $golongan_mysql;
     }
 
     public function generate_golongan_list()

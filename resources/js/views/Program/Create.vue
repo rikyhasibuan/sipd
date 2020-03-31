@@ -10,14 +10,14 @@
                             <form method="POST" v-on:submit.prevent="onSubmit">
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label for="nip">Kode Program *</label>
+                                        <label>Kode Program *</label>
                                         <input type="text" class="form-control" v-model="program.kode_program" required="required">
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label for="nama">Nama Program *</label>
+                                        <label>Nama Program *</label>
                                         <input type="text" class="form-control" v-model="program.nama_program" required="required">
                                     </div>
                                 </div>

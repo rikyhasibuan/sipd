@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 
 class HargaBbmController extends Controller
 {
-   
+
     public function show_data()
     {
         try {
@@ -21,13 +21,17 @@ class HargaBbmController extends Controller
 
     public function put_data(Request $request)
     {
-        $hargabbm = HargaBbm::find($request['id']);
-        $hargabbm->harga_perliter = $request->input('harga_perliter');
-        $hargabbm->updated_at = date('Y-m-d H:i:s');
-        if ($hargabbm->save()) {
-            return response()->json(['status' => 'OK'], 200);
-        } else {
-            return response()->json(['status' => 'failed'], 500);
+        try {
+            $hargabbm = HargaBbm::find($request['id']);
+            $hargabbm->harga_perliter = $request->input('harga_perliter');
+            $hargabbm->updated_at = date('Y-m-d H:i:s');
+            if ($hargabbm->save()) {
+                return response()->json(['status' => 'ok'], 200);
+            } else {
+                return response()->json(['status' => 'failed'], 500);
+            }
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }

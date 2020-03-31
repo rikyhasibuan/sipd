@@ -13,7 +13,7 @@ use Closure;
 
 class BbmController extends Controller
 {
-    protected $title = 'Besaran BBM';
+    protected $title = 'Besaran BBM Per Liter';
     protected $link  = 'bbm';
     protected $api   = 'api/bbm';
     protected $route = 'bbm';
@@ -40,8 +40,6 @@ class BbmController extends Controller
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<i class="fa fa-balance-scale"></i> ' . $this->title;
 
-        $kabkota = Kabkota::all();
-
         $data = [];
         $data['breadcrumb'] = $breadcrumb;
         $data['title']  = $this->title;
@@ -49,7 +47,6 @@ class BbmController extends Controller
         $data['api'] = url($this->api);
         $data['route'] = url($this->route);
         $data['access'] = $this->access;
-        $data['kabkota'] = $kabkota;
         return View::make('bbm.index', $data);
     }
 
