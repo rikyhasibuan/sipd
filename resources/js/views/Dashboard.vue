@@ -156,6 +156,14 @@ export default {
                                 min: 0,
                                 title: {
                                     text: 'Rupiah'
+                                },
+                                labels: {
+                                    formatter: function() {
+                                        if (this.value >= 1E6) {
+                                            return (this.value / 1000000).toFixed(0) + ' Jt';
+                                        }
+                                        return this.value / 1000;
+                                    }
                                 }
                             },
                             xAxis: {
@@ -196,6 +204,14 @@ export default {
                                 min: 0,
                                 title: {
                                     text: 'Rupiah'
+                                },
+                                labels: {
+                                    formatter: function() {
+                                        if (this.value >= 1E6) {
+                                            return (this.value / 1000000).toFixed(0) + ' Jt';
+                                        }
+                                        return this.value / 1000;
+                                    }
                                 }
                             },
                             xAxis: {
