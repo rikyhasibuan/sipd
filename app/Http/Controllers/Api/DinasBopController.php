@@ -96,7 +96,7 @@ class DinasBopController extends Controller
 
     public function post_tim_data(Request $request)
     {
-        $path = $request->file('lampiran')->store('lampiran_dinas/bop');
+        $path = $request->file('lampiran')->store('public/lampiran_dinas/bop');
 
         $timdinas = new TimDinas();
         $parameter = [
@@ -109,11 +109,6 @@ class DinasBopController extends Controller
                     ];
 
         $timdinasbop = $timdinas->generate_tim_bop($parameter);
-        $file = $request->file('lampiran');
-        $file_name = $file->getClientOriginalName();
-        $destination_path = 'public/lampiran/bop/';
-        $request->file('lampiran')->move($destination_path, $file_name);
-
         $dinasboptim = new DinasBopTim();
         $dinasboptim->dinasbop_id = $request['dinasbop'];
         $dinasboptim->irban_id = $request->input('irban_id');
@@ -148,7 +143,7 @@ class DinasBopController extends Controller
                         'wakilpenanggungjawab' => $request->input('wakilpenanggungjawab'),
                         'pengendaliteknis' => $request->input('pengendaliteknis'),
                         'ketuatim' => $request->input('ketuatim'),
-                        'anggota' => $request->input('anggota')
+                        'anggota' => json_decode($request->input('anggota'), true)
                     ];
 
         $timdinasbop = $timdinas->generate_tim_bop($parameter);
@@ -162,14 +157,18 @@ class DinasBopController extends Controller
         $dinasboptim->nomor_sp = $request->input('nomor_sp');
         $dinasboptim->tgl_sp = $request->input('tgl_sp');
         $dinasboptim->tim = $timdinasbop['tim'];
+        if ($request->hasFile('lampiran')) {
+            $path = $request->file('lampiran')->store('public/lampiran_dinas/bop');
+            $dinasboptim->lampiran = $path;
+        }
         $dinasboptim->total_anggaran = $timdinasbop['total_anggaran'];
         $dinasboptim->updated_at = date('Y-m-d H:i:s');
 
         if ($dinasboptim->save()) {
             $kasanggaran = new KasAnggaran();
-            $biaya_bop = $kasanggaran->show_biaya_bop($request['id']);
-            $dinasbop = DinasBop::find($request['id']);
-            $dinasbop->total_anggaran = $biaya_bop - $biaya_bop_lama + $timdinasbop['total_anggaran'];
+            $biaya_bop = $kasanggaran->show_biaya_bop($request['dinasbop']);
+            $dinasbop = DinasBop::find($request['dinasbop']);
+            $dinasbop->total_anggaran = $biaya_bop;
             if ($dinasbop->save()) {
                 return response()->json(['status'=>'ok'], 200);
             } else {

@@ -113,7 +113,7 @@ Route::post('dinasbop', 'Api\DinasBopController@post_data');
 Route::put('dinasbop', 'Api\DinasBopController@put_data');
 Route::delete('dinasbop', 'Api\DinasBopController@delete_data');
 Route::post('dinasbop/tim/{dinasbop}', 'Api\DinasBopController@post_tim_data');
-Route::put('dinasbop/tim/{dinasbop}/{id}', 'Api\DinasBopController@put_tim_data');
+Route::post('dinasbop/tim/{dinasbop}/{id}', 'Api\DinasBopController@put_tim_data');
 Route::delete('dinasbop/tim/{dinasbop}/{id}', 'Api\DinasBopController@delete_tim_data');
 
 // dinas regular

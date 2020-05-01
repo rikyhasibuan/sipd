@@ -101,6 +101,7 @@ class KasAnggaran
     {
         return DinasBopTim::where('dinasbop_id', $id)->sum('total_anggaran');
     }
+    
 
     /**
      * mengecek apakah sisa anggaran mencukupi untuk biaya dinas

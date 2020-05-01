@@ -87,14 +87,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label>Pengemudi *</label>
-                                        <select v-model="dinasboptim.driver" class="form-control" required="required">
-                                            <option value="">Pilih Pengemudi</option>
-                                            <option v-for="v in driver_data" :key="v.id" :value="v.nip">{{ v.nama }}</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-12">
                                         <label>Lampirkan Bukti Pendukung (PDF / DOC / JPG / RAR / ZIP) *</label>
                                         <input type="file" ref="file" required="required" @change="handleFileUpload()">
                                     </div>
@@ -135,7 +128,6 @@
                     'pengendaliteknis':'',
                     'ketuatim':'',
                     'anggota':[],
-                    'driver':'',
                     'lampiran':''
                 },
                 form:'',
@@ -172,7 +164,6 @@
                 formData.append('pengendaliteknis', this.dinasboptim.pengendaliteknis);
                 formData.append('ketuatim', this.dinasboptim.ketuatim);
                 formData.append('anggota', JSON.stringify(this.dinasboptim.anggota));
-                formData.append('driver', this.dinasboptim.driver);
                 if(this.dinasboptim.lampiran !== '') {
                     formData.append('lampiran', this.dinasboptim.lampiran);
                 }
@@ -185,7 +176,7 @@
             },
             onSubmit(evt) {
                 this.form = this.formReady();
-                service.postData(this.api + '/tim/' + this.dinasbop, this.form)
+                service.postUploadData(this.api + '/tim/' + this.dinasbop, this.form)
                 .then(result => {
                     this.response(result);
                 }).catch(error => {

@@ -95,11 +95,7 @@
                                                 <b>Anggota Tim</b>
                                                 <ol>
                                                     <li v-for="y in v.tim.anggota" :key="y.nip">{{ y.nama }}</li>
-                                                </ol>
-                                                <b>Pengemudi</b>
-                                                <br>
-                                                {{ v.tim.driver.nama }}
-                                                
+                                                </ol> 
                                             </td>
                                             <td>
                                                 <b></b>
@@ -129,14 +125,10 @@
                                                         Rp.{{ z.total | rupiah }}
                                                     </li>
                                                 </ul>
-                                                {{ v.tim.driver.hari }} hari 
-                                                x 
-                                                Rp.{{ v.tim.driver.biaya | rupiah }} = 
-                                                Rp.{{ v.tim.driver.total | rupiah }}
                                             </td>
                                             <td style="text-align: center; vertical-align:middle;">
                                                 <div>
-                                                    <a :href="v.lampiran" style="font-size: 20px;">
+                                                    <a target="__blank" :href="'..'+ v.lampiran" style="font-size: 20px;">
                                                         <i class="fa fa-download"></i>
                                                     </a>
                                                 </div>
