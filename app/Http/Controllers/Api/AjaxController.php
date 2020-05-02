@@ -68,7 +68,7 @@ class AjaxController extends Controller
         $kas = new KasAnggaran();
         $sisa_anggaran = $kas->show_sisa_anggaran($tahun, '', $belanja);
 
-        return response()->json(['sisa_anggaran'=>$sisa_anggaran], 200);
+        return response()->json(['sisa_anggaran' => $sisa_anggaran], 200);
     }
 
     /**

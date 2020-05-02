@@ -38,11 +38,16 @@
                                 <tr>
                                     <td style="width:15%;"><b>Dasar Surat Perintah</b></td>
                                     <td>
-                                        <ol>
-                                            <li v-for="v in dinasregular.dasar" :key="v">
-                                                {{ v }}
-                                            </li>
-                                        </ol>
+                                        <div v-if="dinasregular.dasar.length > 1">
+                                            <ol>
+                                                <li v-for="v in dinasregular.dasar" :key="v">
+                                                    {{ v }}
+                                                </li>
+                                            </ol>
+                                        </div>
+                                        <div v-else>
+                                            {{ dinasregular.dasar[0] }}
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -52,11 +57,16 @@
                                 <tr>
                                     <td style="width:15%;"><b>Tujuan</b></td>
                                     <td>
-                                        <ol>
-                                            <li v-for="v in dinasregular.untuk" :key="v">
-                                                {{ v }}
-                                            </li>
-                                        </ol>
+                                        <div v-if="dinasregular.untuk.length > 1">
+                                            <ol>
+                                                <li v-for="v in dinasregular.untuk" :key="v">
+                                                    {{ v }}
+                                                </li>
+                                            </ol>
+                                        </div>
+                                        <div v-else>
+                                            {{ dinasregular.untuk[0] }}
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -310,7 +320,8 @@ export default {
         getAnggaranTersedia() {
             service.postData('../api/ajax/sisa_anggaran', { 'tahun': this.dinasregular.created_at, 'belanja': this.dinasregular.belanja_id })
                 .then(result => {
-                    this.anggaran_tersedia = parseInt(result.sisa_anggaran) + parseInt(this.total_biaya);
+                    //this.anggaran_tersedia = parseInt(result.sisa_anggaran) + parseInt(this.total_biaya);
+                    this.anggaran_tersedia = parseInt(result.sisa_anggaran);
                 }).catch(error => {
                     console.log(error);
                 });

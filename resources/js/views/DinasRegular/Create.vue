@@ -245,9 +245,8 @@
                         console.log(error);
                     });
             },
-
             response(result) {
-                if (result.status === 'OK') {
+                if (result.status === 'ok') {
                     this.alert.error = false;
                     this.alert.duplicate = false;
                     this.alert.save = true;
@@ -258,7 +257,7 @@
                     })
                     this.reset();
                     setTimeout(() => this.alert.save = false, 2000);
-                } else if (result.status === 'DUPLICATE') {
+                } else if (result.status === 'duplicate') {
                     this.alert.duplicate = true;
                     this.alert.error = false;
                     this.alert.save = false;

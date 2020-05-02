@@ -39,8 +39,13 @@ class KasAnggaran
      */
     function show_total_anggaran($tahun, $bulan, $belanja)
     {
-        $anggaran = Anggaran::searchBelanja($belanja)->searchTahun($tahun)->searchBulan($bulan)->first();
-        return $anggaran['jumlah'];
+        if ($bulan != '') {
+            $anggaran = Anggaran::searchBelanja($belanja)->searchTahun($tahun)->searchBulan($bulan)->first();
+            return $anggaran['jumlah'];
+        } else {
+            $anggaran = Anggaran::searchBelanja($belanja)->searchTahun($tahun)->searchBulan($bulan)->sum('jumlah');
+            return $anggaran;
+        }
     }
 
     /**
@@ -52,8 +57,8 @@ class KasAnggaran
      */
     function show_resapan_anggaran($tahun, $bulan, $belanja)
     {
-        $dinasbop = DinasBop::searchBelanja($belanja)->searchTahun($tahun)->searchBulan($bulan)->get();
-        $dinasregular = DinasRegular::searchBelanja($belanja)->searchTahun($tahun)->searchBulan($bulan)->get();
+        $dinasbop = DinasBop::searchBelanja($belanja)->searchTahun($tahun)->get();
+        $dinasregular = DinasRegular::searchBelanja($belanja)->searchTahun($tahun)->get();
 
         $anggaran_bop = 0;
         if (count($dinasbop) > 0) {

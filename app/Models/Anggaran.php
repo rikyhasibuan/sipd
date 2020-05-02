@@ -62,28 +62,28 @@ class Anggaran extends Model
 
   public function scopeSearchBulan($query, $bulan)
   {
-    if ($bulan) {
+    if ($bulan != '') {
       return $query->where('bulan', $bulan);
     }
   }
 
   public function scopeSearchTahun($query, $tahun)
   {
-    if ($tahun) {
+    if ($tahun != '') {
       return $query->where('tahun', $tahun);
     }
   }
 
   public function scopeSearchProgram($query, $program)
   {
-    if ($program) {
+    if ($program != '') {
       return $query->where('program_id', $program);
     }
   }
 
   public function scopeSearchKegiatan($query, $kegiatan)
   {
-    if ($kegiatan) {
+    if ($kegiatan != '') {
       return $query->where('kegiatan_id', $kegiatan);
     }
   }

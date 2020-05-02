@@ -101,10 +101,10 @@ $kpa = $timdinas->get_sekretaris();
                     <div style="margin-top:5px;"></div>
                     <table cellpadding="5" cellspacing="5" style="width:100%;">
                         <tr>
-                            <td width="10%" style="text-align:left; vertical-align:text-top;">Tujuan</td>
+                            <td width="10%" style="text-align:left; vertical-align:text-top;">Untuk</td>
                             <td width="5%" style="text-align:center; vertical-align:text-top;">:</td>
                             <td width="80%" style="text-align:justify; vertical-align:text-top;">
-                                @if(count($dinasregular->untuk) > 0)
+                                @if(count($dinasregular->untuk) > 1)
                                     <ol style="margin-left: -25px;">
                                         @foreach ( $dinasregular->untuk as $untuk)
                                             <li>{!! $untuk !!}</li>
@@ -132,7 +132,7 @@ $kpa = $timdinas->get_sekretaris();
                     <table width="100%">
                         <tr>
                             <td width="50%"></td>
-                            <td width="25%">
+                            <td width="30%">
                                 <table cellpadding="2" cellspacing="2" style="width:100%;">
                                     <tr>
                                         <td width="10%" style="text-align: justify;">Ditetapkan di</td>
@@ -146,7 +146,7 @@ $kpa = $timdinas->get_sekretaris();
                                 <br>
                                 <table style="width:100%;">
                                     <tr>
-                                        <td width="20%" style="text-align: center;"><b>INSPEKTUR PROVINSI JAWA BARAT<br>Sekretaris,</b></td>
+                                        <td width="30%" style="text-align: center;"><b>(an.) INSPEKTUR PROVINSI JAWA BARAT<br>Sekretaris,</b></td>
                                     </tr>
                                     <tr>
                                         <td width="10%" style="text-align: center;"><br><br><br><br></td>

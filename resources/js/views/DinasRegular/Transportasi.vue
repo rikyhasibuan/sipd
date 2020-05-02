@@ -47,76 +47,76 @@
 </template>
 
 <script>
-  import service from './../../services.js';
-  export default {
-      data() {
-          return {
-              alert: {
-                  error: false,
-                  update: false
-              },
-              transportasi: {
-                jenis:'',
-                liter:'',
-                total:''
-              },
-              liter: [],
-              show_liter: false,
-              isLoading: false,
-          }
-      },
-      props: ['jenistransportasi','takaranbbm','dinasregular', 'api', 'route'],
-      methods: {
-          onChangeJenisTransportasi(evt) {
-              const jenis = evt.target.value;
-              if (jenis === 'BBM') {
-                service.postUploadData('../api/ajax/bbmkabkota/', jenis)
-                    .then(response => {
-                        this.show_liter = true;
-                        this.liter = response;
-                    })
-                    .catch(error => {
+    import service from './../../services.js';
+    export default {
+        data() {
+            return {
+                alert: {
+                    error: false,
+                    update: false
+                },
+                transportasi: {
+                    jenis:'',
+                    liter:'',
+                    total:''
+                },
+                liter: [],
+                show_liter: false,
+                isLoading: false,
+            }
+        },
+        props: ['jenistransportasi','takaranbbm','dinasregular', 'api', 'route'],
+        methods: {
+            onChangeJenisTransportasi(evt) {
+                const jenis = evt.target.value;
+                if (jenis === 'BBM') {
+                    service.postUploadData('../api/ajax/bbmkabkota/', jenis)
+                        .then(response => {
+                            this.show_liter = true;
+                            this.liter = response;
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                } else {
+                    this.liter
+                }
+            },
+            onSubmit(evt) {
+                this.isLoading = false;
+                service.putData(this.api + '/transportasi', this.dinasregular)
+                    .then(result => {
+                        this.response(result);
+                    }).catch(error => {
+                        this.isLoading = false;
+                        this.alert.error = true;
+                        window.scroll({
+                            top: 0,
+                            left: 0,
+                            behavior: 'smooth'
+                        });
                         console.log(error);
                     });
-              } else {
-                this.liter
-              }
-          },
-          onSubmit(evt) {
-              this.isLoading = false;
-              service.putData(this.api + '/transportasi', this.dinasregular)
-                  .then(result => {
-                      this.response(result);
-                  }).catch(error => {
-                      this.isLoading = false;
-                      this.alert.error = true;
-                      window.scroll({
-                          top: 0,
-                          left: 0,
-                          behavior: 'smooth'
-                      });
-                      console.log(error);
-                  });
-          },
-          response(result) {
-              if (result.status === 'OK') {
-                  this.alert.error = false;
-                  this.alert.update = true;
-                  window.scroll({
-                      top: 0,
-                      left: 0,
-                      behavior: 'smooth'
-                  });
-                  setTimeout(() => this.alert.update = false, 5000);
-              }
-              this.isLoading = false;
-          }
-      },
-      created() {
-          this.isLoading = true;
-      },
-      mounted() {
-          this.isLoading = false;
-      }
-  };
+            },
+            response(result) {
+                if (result.status === 'ok') {
+                    this.alert.error = false;
+                    this.alert.update = true;
+                    window.scroll({
+                        top: 0,
+                        left: 0,
+                        behavior: 'smooth'
+                    });
+                    setTimeout(() => this.alert.update = false, 5000);
+                }
+                this.isLoading = false;
+            }
+        },
+        created() {
+            this.isLoading = true;
+        },
+        mounted() {
+            this.isLoading = false;
+        }
+    };
 </script>
