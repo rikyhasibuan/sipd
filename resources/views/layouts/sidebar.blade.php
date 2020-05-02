@@ -60,6 +60,14 @@
                                 <p>Perangkat Daerah</p>
                             </a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{!! url('irban') !!}">
+                                <i class="nav-icon fa fa-circle-o"></i>
+                                <p>Irban</p>
+                            </a>
+                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="{!! url('program') !!}">
                                 <i class="nav-icon fa fa-circle-o"></i>

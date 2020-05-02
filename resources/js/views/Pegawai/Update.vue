@@ -23,19 +23,9 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label>Pangkat *</label>
-                                <select v-model="pegawai.pangkat" class="form-control" required="required">
+                                <select v-model="pegawai.pangkat" @change="onChangePangkat($event)" class="form-control" required="required">
                                     <option value="">Pilih Pangkat</option>
                                     <option v-for="v in this.pangkat_data" v-bind:value="v.nama_pangkat" v-bind:key="v.id">{{ v.nama_pangkat }}</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label>Golongan *</label>
-                                <select v-model="pegawai.golongan" class="form-control" required="required">
-                                    <option value="">Pilih Golongan</option>
-                                    <option v-for="(k,v) in this.golongan_data" v-bind:value="k" v-bind:key="k">{{ v }}</option>
                                 </select>
                             </div>
                         </div>
@@ -99,8 +89,18 @@
                         console.log(error);
                     });
             },
+            onChangePangkat(evt) {
+                const pangkat = evt.target.value;
+                service.postData('../api/ajax/golongan', {'pangkat': pangkat})
+                .then(response => {
+                    this.pegawai.golongan = response.golongan;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+            },
             response(result) {
-                if (result.status === 'OK') {
+                if (result.status === 'ok') {
                     this.alert.error = false;
                     this.alert.update = true;
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
@@ -114,6 +114,9 @@
         },
         mounted() {
             this.isLoading = false;
+            if (this.pegawai.eselon === null) {
+                this.pegawai.eselon = '';
+            } 
         }
     };
 </script>

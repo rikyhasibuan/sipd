@@ -8,6 +8,7 @@ use App\Models\IrbanKabkota;
 use App\Models\IrbanSkpd;
 use App\Models\IrbanPokja;
 use App\Models\HargaBbm;
+use App\Models\Pangkat;
 use App\Libraries\Common;
 use App\Libraries\KasAnggaran;
 use Illuminate\Http\JsonResponse;
@@ -141,5 +142,16 @@ class AjaxController extends Controller
         $hargabbm = HargaBbm::find(1);
         $total_harga = $request->input('jumlah_liter') * $hargabbm->harga_perliter;
         return response()->json(['total_bbm' => $total_harga], 200);
+    }
+
+    /**
+     * ambil data golongan berdasarkan pangkat
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function show_golongan_by_pangkat(Request $request)
+    {
+        $pangkat = Pangkat::where('nama_pangkat', $request->input('pangkat'))->first();
+        return response()->json(['golongan' => $pangkat['golongan']], 200);
     }
 }

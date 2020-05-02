@@ -73,7 +73,6 @@ class PegawaiController extends Controller
 
         $pangkat = Pangkat::all();
         $jabatan = Jabatan::all();
-        $golongan = $this->common->generate_golongan_list();
         $eselon = $this->common->generate_eselon_list();
 
         $data = array();
@@ -83,7 +82,6 @@ class PegawaiController extends Controller
         $data['api'] = url($this->api);
         $data['act'] = 'create';
         $data['pangkat'] = $pangkat;
-        $data['golongan'] = $golongan;
         $data['jabatan'] = $jabatan;
         $data['eselon'] = $eselon;
         $data['route'] = url($this->route);
@@ -102,7 +100,6 @@ class PegawaiController extends Controller
 
         $pegawai = Pegawai::find($request['id']);
 
-        $golongan = $this->common->generate_golongan_list();
         $eselon = $this->common->generate_eselon_list();
 
         $data = array();
@@ -113,7 +110,6 @@ class PegawaiController extends Controller
         $data['api'] = url($this->api . '?id=' . $pegawai->id);
         $data['act'] = 'edit';
         $data['pangkat'] = $pangkat;
-        $data['golongan'] = $golongan;
         $data['jabatan'] = $jabatan;
         $data['eselon'] = $eselon;
         $data['route'] = url($this->route);

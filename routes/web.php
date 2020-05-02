@@ -17,6 +17,11 @@ Route::get('logout', 'Web\LoginController@logout');
 
 Route::get('dashboard', 'Web\DashboardController@index');
 
+// irban
+Route::get('irban', 'Web\IrbanController@index');
+Route::get('irban/create', 'Web\IrbanController@create');
+Route::get('irban/edit', 'Web\IrbanController@edit');
+
 // program
 Route::get('program', 'Web\ProgramController@index');
 Route::get('program/create', 'Web\ProgramController@create');

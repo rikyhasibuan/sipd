@@ -24,20 +24,10 @@
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label>Pangkat *</label>
-                                    <select v-model="pegawai.pangkat" class="form-control" required="required">
+                                    <select v-model="pegawai.pangkat" class="form-control" @change="onChangePangkat($event)" required="required">
                                         <option value="">Pilih Pangkat</option>
                                         <option v-for="v in this.pangkat_data" :value="v.nama_pangkat" :key="v.id">
                                             {{ v.nama_pangkat }}</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label>Golongan *</label>
-                                    <select v-model="pegawai.golongan" class="form-control" required="required">
-                                        <option value="">Pilih Golongan</option>
-                                        <option v-for="(k,v) in this.golongan_data" :value="k" :key="k">{{ v }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -102,7 +92,7 @@ export default {
             isLoading: false
         }
     },
-    props: ['golongan_data', 'pangkat_data', 'jabatan_data', 'eselon_data', 'api', 'route'],
+    props: ['pangkat_data', 'jabatan_data', 'eselon_data', 'api', 'route'],
     methods: {
         onSubmit(evt) {
             this.isLoading = true;
@@ -118,6 +108,16 @@ export default {
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     console.log(error);
                 });
+        },
+        onChangePangkat(evt) {
+            const pangkat = evt.target.value;
+            service.postData('../api/ajax/golongan', {'pangkat': pangkat})
+            .then(response => {
+                this.pegawai.golongan = response.golongan;
+            })
+            .catch(error => {
+                console.log(error);
+            });
         },
         response(result) {
             if (result.status === 'ok') {
@@ -138,7 +138,6 @@ export default {
             this.pegawai.nip = '';
             this.pegawai.nama = '';
             this.pegawai.pangkat = '';
-            this.pegawai.golongan = '';
             this.pegawai.jabatan = '';
             this.pegawai.eselon = '';
         }
