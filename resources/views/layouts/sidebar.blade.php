@@ -85,11 +85,25 @@
                                 <p>Irban</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{!! url('irbanskpd') !!}">
+                        <li @if (in_array($link, ['irbanskpd','irbankabkota'])) class="nav-item has-treeview" @else class="nav-item has-treeview" @endif>
+                            <a class="nav-link" href="#">
                                 <i class="nav-icon fa fa-circle-o"></i>
                                 <p>Pembagian Wilayah Irban</p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{!! url('irbanskpd') !!}">
+                                        <i class="nav-icon fa fa-star"></i>
+                                        <p>Pembagian Perangkat Daerah</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{!! url('irbankabkota') !!}">
+                                        <i class="nav-icon fa fa-star"></i>
+                                        <p>Pembagian Kabupaten / Kota</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{!! url('program') !!}">
@@ -119,7 +133,7 @@
                 </li>
 
                 <li @if (in_array($link, $routes_keuangan)) class="nav-item has-treeview" @else class="nav-item has-treeview" @endif>
-                    <a class="nav-link" href="#"><i class="nav-icon fa fa-currency"></i>
+                    <a class="nav-link" href="#"><i class="nav-icon fa fa-dollar"></i>
                         <p>Master Keuangan <i class="fa fa-angle-left right"></i></p>
                     </a>
                     <ul class="nav nav-treeview">

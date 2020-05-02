@@ -9,17 +9,17 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label>Irban</label>
-                                <select v-model="irbanskpd.irban_id" class="form-control mb-2 mr-sm-2" required="required">
+                                <select v-model="irbankabkota.irban_id" class="form-control mb-2 mr-sm-2" required="required">
                                     <option value="">Pilih Irban</option>
-                                    <option v-for="val in this.irban_data" :value="val.id" :key="val.id">{{ val.nama_irban }}</option>
+                                    <option v-for="v in this.irban_data" :value="v.id" :key="v.id">{{ v.nama_irban }}</option>
                                 </select>
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label>Perangkat Daerah</label>
-                                <select v-model="irbanskpd.skpd_id" class="form-control mb-2 mr-sm-2" required="required">
-                                    <option value="">Pilih Perangkat Daerah</option>
-                                    <option v-for="obj in this.skpd_data" :value="obj.id" :key="obj.id">{{ obj.nama_skpd }}</option>
+                                <label>Kabupaten / Kota</label>
+                                <select v-model="irbankabkota.kabkota_id" class="form-control mb-2 mr-sm-2" required="required">
+                                    <option value="">Pilih Kabupaten / Kota</option>
+                                    <option v-for="v in this.kabkota_data" :value="v.id" :key="v.id">{{ obj.nama_kabkota }}</option>
                                 </select>
                             </div>
 
@@ -41,9 +41,9 @@ import service from './../../services.js';
 export default {
     data() {
         return {
-            irbanskpd: {
+            irbankabkota: {
                 irban_id:'',
-                skpd_id:''
+                kabkota_id:''
             },
             alert: {
                 error: false,
@@ -53,16 +53,16 @@ export default {
             isLoading: false
         }
     },
-    props: ['api', 'irban_data', 'skpd_data', 'route'],
+    props: ['api','irban_data','skpd_data','route'],
     methods: {
         reset() {
-            this.irbanskpd.skpd_id = '';
-            this.irbanskpd.irban_id = '';
+            this.irbankabkota.kabkota_id = '';
+            this.irbankabkota.irban_id = '';
         },
         onSubmit(evt) {
             evt.preventDefault();
             this.isLoading = true;
-            service.postData(this.api, this.irbanskpd)
+            service.postData(this.api, this.irbankabkota)
                 .then(result => {
                     this.response(result);
                 }).catch(error => {

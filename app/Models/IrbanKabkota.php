@@ -38,4 +38,18 @@ class IrbanKabkota extends Model
     {
         return $this->belongsTo('App\Models\Irban', 'irban_id');
     }
+
+    public function scopeSearchKabkota($query, $kabkota) 
+    {
+        if ($kabkota != '') {
+            return $query->where('kabkota_id', $kabkota);
+        }
+    }
+
+    public function scopeSearchIrban($query, $irban)
+    {
+        if ($irban != '') {
+            return $query->where('irban_id', $irban);
+        }
+    }
 }

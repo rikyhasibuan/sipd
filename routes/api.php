@@ -42,11 +42,11 @@ Route::put('irbanskpd', 'Api\IrbanSkpdController@put_data');
 Route::delete('irbanskpd', 'Api\IrbanSkpdController@delete_data');
 
 // irban - kabkota
-Route::get('irbankabkota', 'Api\IrbanPerangkatKotaController@get_data');
-Route::get('irbankabkota/{id}', 'Api\IrbanPerangkatKotaController@show_data');
-Route::post('irbankabkota', 'Api\IrbanPerangkatKotaController@post_data');
-Route::put('irbankabkota', 'Api\IrbanPerangkatKotaController@put_data');
-Route::delete('irbankabkota', 'Api\IrbanPerangkatKotaController@delete_data');
+Route::get('irbankabkota', 'Api\IrbanKabkotaController@get_data');
+Route::get('irbankabkota/{id}', 'Api\IrbanKabkotaController@show_data');
+Route::post('irbankabkota', 'Api\IrbanKabkotaController@post_data');
+Route::put('irbankabkota', 'Api\IrbanKabkotaController@put_data');
+Route::delete('irbankabkota', 'Api\IrbanKabkotaController@delete_data');
 
 // program
 Route::get('program', 'Api\ProgramController@get_data');
