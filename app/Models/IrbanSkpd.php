@@ -38,4 +38,18 @@ class IrbanSkpd extends Model
     {
         return $this->belongsTo('App\Models\Irban', 'irban_id');
     }
+
+    public function scopeSearchSkpd($query, $skpd) 
+    {
+        if ($skpd != '') {
+            return $query->where('skpd_id', $skpd);
+        }
+    }
+
+    public function scopeSearchIrban($query, $irban)
+    {
+        if ($irban != '') {
+            return $query->where('irban_id', $irban);
+        }
+    }
 }

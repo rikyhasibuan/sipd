@@ -27,12 +27,26 @@ Route::get('ajax/dinasregular/tujuan/{irban}', 'Api\AjaxController@show_tujuan_r
 Route::get('ajax/dinasregular/personil/{irban}', 'Api\AjaxController@show_personil_regular');
 Route::post('ajax/totalhargabbm', 'Api\AjaxController@show_harga_bbm');
 
-// program
+// irban
 Route::get('irban', 'Api\IrbanController@get_data');
 Route::get('irban/{id}', 'Api\IrbanController@show_data');
 Route::post('irban', 'Api\IrbanController@post_data');
 Route::put('irban', 'Api\IrbanController@put_data');
 Route::delete('irban', 'Api\IrbanController@delete_data');
+
+// irban - skpd
+Route::get('irbanskpd', 'Api\IrbanSkpdController@get_data');
+Route::get('irbanskpd/{id}', 'Api\IrbanSkpdController@show_data');
+Route::post('irbanskpd', 'Api\IrbanSkpdController@post_data');
+Route::put('irbanskpd', 'Api\IrbanSkpdController@put_data');
+Route::delete('irbanskpd', 'Api\IrbanSkpdController@delete_data');
+
+// irban - kabkota
+Route::get('irbankabkota', 'Api\IrbanPerangkatKotaController@get_data');
+Route::get('irbankabkota/{id}', 'Api\IrbanPerangkatKotaController@show_data');
+Route::post('irbankabkota', 'Api\IrbanPerangkatKotaController@post_data');
+Route::put('irbankabkota', 'Api\IrbanPerangkatKotaController@put_data');
+Route::delete('irbankabkota', 'Api\IrbanPerangkatKotaController@delete_data');
 
 // program
 Route::get('program', 'Api\ProgramController@get_data');

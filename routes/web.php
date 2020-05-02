@@ -22,6 +22,16 @@ Route::get('irban', 'Web\IrbanController@index');
 Route::get('irban/create', 'Web\IrbanController@create');
 Route::get('irban/edit', 'Web\IrbanController@edit');
 
+// irbanskpd
+Route::get('irbanskpd', 'Web\IrbanSkpdController@index');
+Route::get('irbanskpd/create', 'Web\IrbanSkpdController@create');
+Route::get('irbanskpd/edit', 'Web\IrbanSkpdController@edit');
+
+// irbankabkota
+Route::get('irbankabkota', 'Web\IrbanKabkotaController@index');
+Route::get('irbankabkota/create', 'Web\IrbanKabkotaController@create');
+Route::get('irbankabkota/edit', 'Web\IrbanKabkotaController@edit');
+
 // program
 Route::get('program', 'Web\ProgramController@index');
 Route::get('program/create', 'Web\ProgramController@create');

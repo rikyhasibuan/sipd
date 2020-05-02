@@ -14,7 +14,6 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-
                 <li @if (in_array($link, ['dinasregular','dinasbop'])) class="nav-item has-treeview" @else
                     class="nav-item has-treeview" @endif>
                     <a class="nav-link" href="#"><i class="nav-icon fa fa-envelope-o"></i>
@@ -27,7 +26,6 @@
                                 <p>Perjalanan Dinas Regular</p>
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link" href="{!! url('dinasbop') !!}">
                                 <i class="nav-icon fa fa-circle-o"></i>
@@ -36,8 +34,29 @@
                         </li>
                     </ul>
                 </li>
-                <?php $routes = ['program','kegiatan','belanja','pegawai','anggaran','bop','harian','akomodasi','bbm','hargabbm','perangkatdaerah','user']; ?>
-                <li @if (in_array($link, $routes)) class="nav-item has-treeview" @else class="nav-item has-treeview" @endif>
+                <?php 
+                    $routes_master = [
+                                        'program', 
+                                        'kegiatan', 
+                                        'belanja', 
+                                        'pegawai',
+                                        'perangkatdaerah', 
+                                        'user',
+                                        'irban',
+                                        'irbanskpd',
+                                        'irbankabkota'
+                                    ];
+
+                    $routes_keuangan = [
+                                        'anggaran', 
+                                        'bop', 
+                                        'harian', 
+                                        'akomodasi', 
+                                        'bbm', 
+                                        'hargabbm'
+                                    ];
+                ?>
+                <li @if (in_array($link, $routes_master)) class="nav-item has-treeview" @else class="nav-item has-treeview" @endif>
                     <a class="nav-link" href="#"><i class="nav-icon fa fa-database"></i>
                         <p>Data Master <i class="fa fa-angle-left right"></i></p>
                     </a>
@@ -60,14 +79,18 @@
                                 <p>Perangkat Daerah</p>
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link" href="{!! url('irban') !!}">
                                 <i class="nav-icon fa fa-circle-o"></i>
                                 <p>Irban</p>
                             </a>
                         </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link" href="{!! url('irbanskpd') !!}">
+                                <i class="nav-icon fa fa-circle-o"></i>
+                                <p>Pembagian Wilayah Irban</p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{!! url('program') !!}">
                                 <i class="nav-icon fa fa-circle-o"></i>
@@ -86,6 +109,20 @@
                                 <p>Data Belanja</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{!! url('anggaran') !!}">
+                                <i class="nav-icon fa fa-circle-o"></i>
+                                <p>Anggaran Kas Bulanan</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li @if (in_array($link, $routes_keuangan)) class="nav-item has-treeview" @else class="nav-item has-treeview" @endif>
+                    <a class="nav-link" href="#"><i class="nav-icon fa fa-currency"></i>
+                        <p>Master Keuangan <i class="fa fa-angle-left right"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a class="nav-link" href="{!! url('anggaran') !!}">
                                 <i class="nav-icon fa fa-circle-o"></i>
@@ -124,7 +161,6 @@
                         </li>
                     </ul>
                 </li>
-
                 <li class="nav-item">
                     <a @if($link=='profile' ) class="nav-link active" @else class="nav-link" @endif
                         href="{!! url('profile') !!}">
@@ -132,7 +168,6 @@
                         <p>Ganti Password</p>
                     </a>
                 </li>
-
                 <li class="nav-item">
                     <a class="nav-link" href="{!! url('logout') !!}">
                         <i class="nav-icon fa fa-sign-out"></i>
