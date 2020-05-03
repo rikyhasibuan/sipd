@@ -146,7 +146,7 @@ $kpa = $timdinas->get_sekretaris();
                                 <br>
                                 <table style="width:100%;">
                                     <tr>
-                                        <td width="30%" style="text-align: center;"><b>(an.) INSPEKTUR PROVINSI JAWA BARAT<br>Sekretaris,</b></td>
+                                        <td width="30%" style="text-align: center;"><b>an. INSPEKTUR PROVINSI JAWA BARAT<br>Sekretaris,</b></td>
                                     </tr>
                                     <tr>
                                         <td width="10%" style="text-align: center;"><br><br><br><br></td>
