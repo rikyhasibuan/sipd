@@ -163,14 +163,14 @@ class TimDinas
         return ['driver' => $driver, 'total_anggaran' => $total_anggaran];
     }
 
-        /**
+    /**
      * membuat sebuah array berisi driver dinas bop
      * @param array $parameter
      * @return array $callback
      */
     public function generate_inspektur_bop($parameter)
     {
-        $driver = [];
+        $inspektur = [];
         $dari = date_create($parameter['dari']);
         $sampai = date_create($parameter['sampai']);
         $diff = date_diff($dari, $sampai);
@@ -196,6 +196,41 @@ class TimDinas
         } */
 
         return ['inspektur' => $inspektur, 'total_anggaran' => $total_anggaran];
+    }
+
+    /**
+     * membuat sebuah array berisi driver dinas bop
+     * @param array $parameter
+     * @return array $callback
+     */
+    public function generate_sekretaris_bop($parameter)
+    {
+        $sekretaris = [];
+        $dari = date_create($parameter['dari']);
+        $sampai = date_create($parameter['sampai']);
+        $diff = date_diff($dari, $sampai);
+        $durasi = $diff->days + 1;
+        $total_anggaran = 0;
+
+        $query_pegawai = Pegawai::searchJabatan('Sekretaris')->first();
+        $query_bop = Bop::where('jabatan', 'Wakil Penanggungjawab/Suvervisi')->first();
+        //$check_wp = self::check_driver_bop($parameter['dinasbop'], $query_pegawai['nip']);
+        $sekretaris['nip'] = $query_pegawai['nip'];
+        $sekretaris['nama'] = $query_pegawai['nama'];
+        $sekretaris['golongan'] = $query_pegawai['golongan'];
+        $sekretaris['pangkat'] = $query_pegawai['pangkat'];
+        $sekretaris['hari'] = $durasi;
+        //if ($check_wp == true) {
+            $sekretaris['biaya'] = $query_bop['biaya_per_hari'];
+            $sekretaris['total'] = $durasi * $query_bop['biaya_per_hari'];
+            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+        /* } else {
+            $driver['biaya'] = 0;
+            $driver['total'] = 0;
+            $total_anggaran += 0;
+        } */
+
+        return ['sekretaris' => $sekretaris, 'total_anggaran' => $total_anggaran];
     }
 
     /**

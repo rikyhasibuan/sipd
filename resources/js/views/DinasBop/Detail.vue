@@ -14,6 +14,9 @@
                         <li class="nav-item">
                             <a data-toggle="tab" class="nav-link" href="#inspektur"><i class="fa fa-user"></i> Inspektur</a>
                         </li>
+                        <li class="nav-item">
+                            <a data-toggle="tab" class="nav-link" href="#sekretaris"><i class="fa fa-user"></i> Sekretaris</a>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div id="tim" class="tab-pane fade show active">
@@ -42,6 +45,15 @@
                                 :print_action=print_action
                                 :api=api>
                             </dinasbopinspektur-detail>
+                        </div>
+                        <div id="sekretaris" class="tab-pane fade">
+                            <dinasbopsekretaris-detail 
+                                :dinasbop=dinasbop 
+                                :dinasbopsekretaris=dinasbopsekretaris
+                                :route=route
+                                :print_action=print_action
+                                :api=api>
+                            </dinasbopsekretaris-detail>
                         </div>
                     </div>
                     <!-- 

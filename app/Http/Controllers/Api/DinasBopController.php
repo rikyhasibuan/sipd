@@ -9,6 +9,7 @@ use App\Models\DinasBop;
 use App\Models\DinasBopTim;
 use App\Models\DinasBopDriver;
 use App\Models\DinasBopInspektur;
+use App\Models\DinasBopSekretaris;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Exception;
@@ -312,7 +313,7 @@ class DinasBopController extends Controller
         $dinasbopinspektur->sampai = $request->input('sampai');
         $dinasbopinspektur->dasar = $request->input('dasar');
         $dinasbopinspektur->tujuan = $request->input('tujuan');
-        $dinasbopinspektur->driver = $timdinasbop['inspektur'];
+        $dinasbopinspektur->inspektur = $timdinasbop['inspektur'];
         $dinasbopinspektur->total = $timdinasbop['total_anggaran'];
         $dinasbopinspektur->created_at = date('Y-m-d H:i:s');
         if ($dinasbopinspektur->save()) {
@@ -352,9 +353,79 @@ class DinasBopController extends Controller
         $dinasbopinspektur->sampai = $request->input('sampai');
         $dinasbopinspektur->dasar = $request->input('dasar');
         $dinasbopinspektur->tujuan = $request->input('tujuan');
-        $dinasbopinspektur->driver = $timdinasbop['inspektur'];
+        $dinasbopinspektur->inspektur = $timdinasbop['inspektur'];
         $dinasbopinspektur->total = $timdinasbop['total_anggaran'];
         $dinasbopinspektur->updated_at = date('Y-m-d H:i:s');
+        if ($dinasbopinspektur->save()) {
+            return response()->json(['status'=>'ok'], 200);
+        } else {
+            return response()->json(['status' => 'failed'], 500);
+        }
+    }
+
+    public function post_sekretaris_data(Request $request)
+    {
+        $timdinas = new TimDinas();
+        $parameter = [
+                        'dinasbop'=> $request['dinasbop'],
+                        'dari'=> $request->input('dari'),
+                        'sampai' => $request->input('sampai'),
+                        'sekretaris' => $request->input('sekretaris')
+                    ];
+
+        $timdinasbop = $timdinas->generate_sekretaris_bop($parameter);
+        
+        $dinasbopsekretaris = new DinasBopSekretaris();
+        $dinasbopsekretaris->dinasbop_id = $request['dinasbop'];
+        $dinasbopsekretaris->nomor_sp = $request->input('nomor_sp');
+        $dinasbopsekretaris->tgl_sp = $request->input('tgl_sp');
+        $dinasbopsekretaris->dari = $request->input('dari');
+        $dinasbopsekretaris->sampai = $request->input('sampai');
+        $dinasbopsekretaris->dasar = $request->input('dasar');
+        $dinasbopsekretaris->tujuan = $request->input('tujuan');
+        $dinasbopsekretaris->sekretaris = $timdinasbop['sekretaris'];
+        $dinasbopsekretaris->total = $timdinasbop['total_anggaran'];
+        $dinasbopsekretaris->created_at = date('Y-m-d H:i:s');
+        if ($dinasbopsekretaris->save()) {
+            $kasanggaran = new KasAnggaran();
+            $biaya_bop = $kasanggaran->show_biaya_bop($request['dinasbop']);
+            $dinasbop = DinasBop::find($request['dinasbop']);
+            $dinasbop->total_anggaran = $biaya_bop + $timdinasbop['total_anggaran'];
+            if ($dinasbop->save()) {
+                return response()->json(['status'=>'ok'], 200);
+            } else {
+                return response()->json(['status'=>'failed'], 500);
+            }
+        } else {
+            return response()->json(['status'=>'failed'], 500);
+        }
+    }
+
+    public function put_sekretaris_data(Request $request)
+    {
+        $timdinas = new TimDinas();
+        $parameter = [
+                        'dinasbop'=> $request['dinasbop'],
+                        'dari'=> $request->input('dari'),
+                        'sampai' => $request->input('sampai'),
+                        'sekretaris' => $request->input('sekretaris')
+                    ];
+
+        $timdinasbop = $timdinas->generate_sekretaris_bop($parameter);
+
+        $dinasbopsekretaris = DinasBopSekretaris::find($request['id']);
+        $biaya_bop_lama = $dinasbopdriver->total;
+
+        $dinasbopsekretaris->dinasbop_id = $request['dinasbop'];
+        $dinasbopsekretaris->nomor_sp = $request->input('nomor_sp');
+        $dinasbopsekretaris->tgl_sp = $request->input('tgl_sp');
+        $dinasbopsekretaris->dari = $request->input('dari');
+        $dinasbopsekretaris->sampai = $request->input('sampai');
+        $dinasbopsekretaris->dasar = $request->input('dasar');
+        $dinasbopsekretaris->tujuan = $request->input('tujuan');
+        $dinasbopsekretaris->sekretaris = $timdinasbop['sekretaris'];
+        $dinasbopsekretaris->total = $timdinasbop['total_anggaran'];
+        $dinasbopsekretaris->updated_at = date('Y-m-d H:i:s');
         if ($dinasbopinspektur->save()) {
             return response()->json(['status'=>'ok'], 200);
         } else {
@@ -378,6 +449,10 @@ class DinasBopController extends Controller
                 case 'inspektur':
                     $dinasbopinspektur = DinasBopInspektur::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_inspektur.sp', ['dinasbopinspektur'=>$dinasbopinspektur]);
+                break;
+                case 'sekretaris':
+                    $dinasbopsekretaris = DinasBopSekeretaris::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_sekretaris.sp', ['dinasbopsekretaris'=>$dinasbopsekretaris]);
                 break;
             }
         } catch (Exception $e) {
@@ -403,6 +478,10 @@ class DinasBopController extends Controller
                     $dinasbopinspektur = DinasBopInspektur::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_inspektur.spd', ['dinasbopinspektur'=>$dinasbopinspektur]);
                 break;
+                case 'sekretaris':
+                    $dinasbopsekretaris = DinasBopSekeretaris::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_sekretaris.spd', ['dinasbopsekretaris'=>$dinasbopsekretaris]);
+                break;
             }
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -426,6 +505,10 @@ class DinasBopController extends Controller
                 case 'inspektur':
                     $dinasbopinspektur = DinasBopInspektur::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_inspektur.rbpd', ['dinasbopinspektur'=>$dinasbopinspektur]);
+                break;
+                case 'sekretaris':
+                    $dinasbopsekretaris = DinasBopSekeretaris::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_sekretaris.rbpd', ['dinasbopsekretaris'=>$dinasbopsekretaris]);
                 break;
             }
         } catch (Exception $e) {
@@ -474,6 +557,10 @@ class DinasBopController extends Controller
                 case 'inspektur':
                     $dinasbopinspektur = DinasBopInspektur::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_inspektur.dpbo', ['dinasbopinspektur'=>$dinasbopinspektur]);
+                break;
+                case 'sekretaris':
+                    $dinasbopsekretaris = DinasBopSekeretaris::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_sekretaris.dpbo', ['dinasbopsekretaris'=>$dinasbopsekretaris]);
                 break;
             }
         } catch (Exception $e) {

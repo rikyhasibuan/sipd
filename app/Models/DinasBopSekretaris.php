@@ -36,15 +36,15 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasBopTim whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class DinasBopInspektur extends Model
+class DinasBopSekretaris extends Model
 {
-    protected $table = 'dinasbop_inspektur';
+    protected $table = 'dinasbop_sekretaris';
     protected $dates = [
         'created_at',
         'updated_at'
     ];
     protected $casts = [
-        'inspektur' => 'array',
+        'sekretaris' => 'array',
         'dasar' => 'array',
         'tujuan' => 'array'
     ];

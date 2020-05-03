@@ -205,6 +205,9 @@ Vue.component('dinasbopdriver-detail', require('./views/DinasBopDriver/Detail.vu
 Vue.component('dinasbopinspektur-create', require('./views/DinasBopInspektur/Create.vue'));
 Vue.component('dinasbopinspektur-update', require('./views/DinasBopInspektur/Update.vue'));
 Vue.component('dinasbopinspektur-detail', require('./views/DinasBopInspektur/Detail.vue'));
+Vue.component('dinasbopsekretaris-create', require('./views/DinasBopSekretaris/Create.vue'));
+Vue.component('dinasbopsekretaris-update', require('./views/DinasBopSekretaris/Update.vue'));
+Vue.component('dinasbopsekretaris-detail', require('./views/DinasBopSekretaris/Detail.vue'));
 Vue.component('dinasregular-index', require('./views/DinasRegular/Index.vue'));
 Vue.component('dinasregular-create', require('./views/DinasRegular/Create.vue'));
 Vue.component('dinasregular-update', require('./views/DinasRegular/Update.vue'));
