@@ -163,6 +163,41 @@ class TimDinas
         return ['driver' => $driver, 'total_anggaran' => $total_anggaran];
     }
 
+        /**
+     * membuat sebuah array berisi driver dinas bop
+     * @param array $parameter
+     * @return array $callback
+     */
+    public function generate_inspektur_bop($parameter)
+    {
+        $driver = [];
+        $dari = date_create($parameter['dari']);
+        $sampai = date_create($parameter['sampai']);
+        $diff = date_diff($dari, $sampai);
+        $durasi = $diff->days + 1;
+        $total_anggaran = 0;
+
+        $query_pegawai = Pegawai::searchJabatan('Inspektur')->first();
+        $query_bop = Bop::where('jabatan', 'Penanggungjawab/Pengendali Mutu')->first();
+        //$check_wp = self::check_driver_bop($parameter['dinasbop'], $query_pegawai['nip']);
+        $inspektur['nip'] = $query_pegawai['nip'];
+        $inspektur['nama'] = $query_pegawai['nama'];
+        $inspektur['golongan'] = $query_pegawai['golongan'];
+        $inspektur['pangkat'] = $query_pegawai['pangkat'];
+        $inspektur['hari'] = $durasi;
+        //if ($check_wp == true) {
+            $inspektur['biaya'] = $query_bop['biaya_per_hari'];
+            $inspektur['total'] = $durasi * $query_bop['biaya_per_hari'];
+            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+        /* } else {
+            $driver['biaya'] = 0;
+            $driver['total'] = 0;
+            $total_anggaran += 0;
+        } */
+
+        return ['inspektur' => $inspektur, 'total_anggaran' => $total_anggaran];
+    }
+
     /**
      * generate tim untuk dinas regular
      *

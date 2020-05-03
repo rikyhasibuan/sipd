@@ -11,6 +11,9 @@
                         <li class="nav-item">
                             <a data-toggle="tab" class="nav-link" href="#driver"><i class="fa fa-car"></i> Pengemudi</a>
                         </li>
+                        <li class="nav-item">
+                            <a data-toggle="tab" class="nav-link" href="#inspektur"><i class="fa fa-user"></i> Inspektur</a>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div id="tim" class="tab-pane fade show active">
@@ -30,6 +33,15 @@
                                 :print_action=print_action
                                 :api=api>
                             </dinasbopdriver-detail>
+                        </div>
+                        <div id="inspektur" class="tab-pane fade">
+                            <dinasbopinspektur-detail 
+                                :dinasbop=dinasbop 
+                                :dinasbopinspektur=dinasbopinspektur
+                                :route=route
+                                :print_action=print_action
+                                :api=api>
+                            </dinasbopinspektur-detail>
                         </div>
                     </div>
                     <!-- 
@@ -59,7 +71,7 @@ export default {
             id:''
         }
     },
-    props: ['dinasbop','dinasboptim', 'dinasbopdriver', 'route','print_action','api'],
+    props: ['dinasbop','dinasboptim', 'dinasbopdriver','dinasbopinspektur', 'route','print_action','api'],
     created() {
         this.isLoading = true;
     },

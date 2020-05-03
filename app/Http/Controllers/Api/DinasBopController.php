@@ -8,6 +8,7 @@ use App\Libraries\KasAnggaran;
 use App\Models\DinasBop;
 use App\Models\DinasBopTim;
 use App\Models\DinasBopDriver;
+use App\Models\DinasBopInspektur;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Exception;
@@ -291,6 +292,76 @@ class DinasBopController extends Controller
         }
     }
 
+    public function post_inspektur_data(Request $request)
+    {
+        $timdinas = new TimDinas();
+        $parameter = [
+                        'dinasbop'=> $request['dinasbop'],
+                        'dari'=> $request->input('dari'),
+                        'sampai' => $request->input('sampai'),
+                        'inspektur' => $request->input('inspektur')
+                    ];
+
+        $timdinasbop = $timdinas->generate_inspektur_bop($parameter);
+        
+        $dinasbopinspektur = new DinasBopInspektur();
+        $dinasbopinspektur->dinasbop_id = $request['dinasbop'];
+        $dinasbopinspektur->nomor_sp = $request->input('nomor_sp');
+        $dinasbopinspektur->tgl_sp = $request->input('tgl_sp');
+        $dinasbopinspektur->dari = $request->input('dari');
+        $dinasbopinspektur->sampai = $request->input('sampai');
+        $dinasbopinspektur->dasar = $request->input('dasar');
+        $dinasbopinspektur->tujuan = $request->input('tujuan');
+        $dinasbopinspektur->driver = $timdinasbop['inspektur'];
+        $dinasbopinspektur->total = $timdinasbop['total_anggaran'];
+        $dinasbopinspektur->created_at = date('Y-m-d H:i:s');
+        if ($dinasbopinspektur->save()) {
+            $kasanggaran = new KasAnggaran();
+            $biaya_bop = $kasanggaran->show_biaya_bop($request['dinasbop']);
+            $dinasbop = DinasBop::find($request['dinasbop']);
+            $dinasbop->total_anggaran = $biaya_bop + $timdinasbop['total_anggaran'];
+            if ($dinasbop->save()) {
+                return response()->json(['status'=>'ok'], 200);
+            } else {
+                return response()->json(['status'=>'failed'], 500);
+            }
+        } else {
+            return response()->json(['status'=>'failed'], 500);
+        }
+    }
+
+    public function put_inspektur_data(Request $request)
+    {
+        $timdinas = new TimDinas();
+        $parameter = [
+                        'dinasbop'=> $request['dinasbop'],
+                        'dari'=> $request->input('dari'),
+                        'sampai' => $request->input('sampai'),
+                        'inspektur' => $request->input('inspektur')
+                    ];
+
+        $timdinasbop = $timdinas->generate_inspektur_bop($parameter);
+
+        $dinasbopinspektur = DinasBopInspektur::find($request['id']);
+        $biaya_bop_lama = $dinasbopdriver->total;
+
+        $dinasbopinspektur->dinasbop_id = $request['dinasbop'];
+        $dinasbopinspektur->nomor_sp = $request->input('nomor_sp');
+        $dinasbopinspektur->tgl_sp = $request->input('tgl_sp');
+        $dinasbopinspektur->dari = $request->input('dari');
+        $dinasbopinspektur->sampai = $request->input('sampai');
+        $dinasbopinspektur->dasar = $request->input('dasar');
+        $dinasbopinspektur->tujuan = $request->input('tujuan');
+        $dinasbopinspektur->driver = $timdinasbop['inspektur'];
+        $dinasbopinspektur->total = $timdinasbop['total_anggaran'];
+        $dinasbopinspektur->updated_at = date('Y-m-d H:i:s');
+        if ($dinasbopinspektur->save()) {
+            return response()->json(['status'=>'ok'], 200);
+        } else {
+            return response()->json(['status' => 'failed'], 500);
+        }
+    }
+
     public function get_print_sp(Request $request)
     {
         try {
@@ -304,6 +375,9 @@ class DinasBopController extends Controller
                 case 'driver':
                     $dinasbopdriver = DinasBopDriver::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_driver.sp', ['dinasbopdriver'=>$dinasbopdriver]);
+                case 'inspektur':
+                    $dinasbopinspektur = DinasBopInspektur::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_inspektur.sp', ['dinasbopinspektur'=>$dinasbopinspektur]);
                 break;
             }
         } catch (Exception $e) {
@@ -325,6 +399,10 @@ class DinasBopController extends Controller
                     $dinasbopdriver = DinasBopDriver::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_driver.spd', ['dinasbopdriver'=>$dinasbopdriver]);
                 break;
+                case 'inspektur':
+                    $dinasbopinspektur = DinasBopInspektur::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_inspektur.spd', ['dinasbopinspektur'=>$dinasbopinspektur]);
+                break;
             }
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -344,6 +422,10 @@ class DinasBopController extends Controller
                 case 'driver':
                     $dinasbopdriver = DinasBopDriver::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_driver.rbpd', ['dinasbopdriver'=>$dinasbopdriver]);
+                break;
+                case 'inspektur':
+                    $dinasbopinspektur = DinasBopInspektur::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_inspektur.rbpd', ['dinasbopinspektur'=>$dinasbopinspektur]);
                 break;
             }
         } catch (Exception $e) {
@@ -388,6 +470,10 @@ class DinasBopController extends Controller
                 case 'driver':
                     $dinasbopdriver = DinasBopDriver::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_driver.dpbo', ['dinasbopdriver'=>$dinasbopdriver]);
+                break;
+                case 'inspektur':
+                    $dinasbopinspektur = DinasBopInspektur::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_inspektur.dpbo', ['dinasbopinspektur'=>$dinasbopinspektur]);
                 break;
             }
         } catch (Exception $e) {
