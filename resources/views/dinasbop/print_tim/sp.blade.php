@@ -177,17 +177,6 @@ $inspektur = $timdinas->get_inspektur();
                     </table>
 
                     <div style="margin-top:5px;"></div>
-                    <table cellpadding="2" cellspacing="2" style="width:100%;">
-                        <tr>
-                            <td width="7%" style="text-align:left;vertical-align:text-top;">Pengemudi</td>
-                            <td width="5%" style="text-align:center; vertical-align:text-top;">:</td>
-                            <td width="80%" style="text-align: justify; vertical-align:text-top;">
-                                {!! $dinasboptim->tim['driver']['nama'] !!}
-                            </td>
-                        </tr>
-                    </table>
-
-                    <div style="margin-top:5px;"></div>
                     <table width="100%">
                         <tr>
                             <td width="50%"></td>

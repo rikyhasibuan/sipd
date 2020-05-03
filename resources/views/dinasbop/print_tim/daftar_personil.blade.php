@@ -79,9 +79,6 @@ $inspektur = $timdinas->get_inspektur();
                                             <li>{!! $y['nama'] !!}</li>
                                         @endforeach
                                     </ol>
-                                    <b>Pengemudi</b>
-                                    <br>
-                                    {!! $dinasboptim->tim['driver']['nama'] !!}
                                 </td>
                             </tr>
                         </tbody>

@@ -7,6 +7,7 @@ use App\Libraries\TimDinas;
 use App\Libraries\KasAnggaran;
 use App\Models\DinasBop;
 use App\Models\DinasBopTim;
+use App\Models\DinasBopDriver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Exception;
@@ -199,12 +200,112 @@ class DinasBopController extends Controller
         }
     }
 
+    public function post_driver_data(Request $request)
+    {
+        $timdinas = new TimDinas();
+        $parameter = [
+
+                        'dinasbop'=> $request['dinasbop'],
+                        'dari'=> $request->input('dari'),
+                        'sampai' => $request->input('sampai'),
+                        'driver' => $request->input('driver')
+                    ];
+
+        $timdinasbop = $timdinas->generate_driver_bop($parameter);
+        
+        $dinasbopdriver = new DinasBopDriver();
+        $dinasbopdriver->dinasbop_id = $request['dinasbop'];
+        $dinasbopdriver->nomor_sp = $request->input('nomor_sp');
+        $dinasbopdriver->tgl_sp = $request->input('tgl_sp');
+        $dinasbopdriver->dari = $request->input('dari');
+        $dinasbopdriver->sampai = $request->input('sampai');
+        $dinasbopdriver->dasar = $request->input('dasar');
+        $dinasbopdriver->tujuan = $request->input('tujuan');
+        $dinasbopdriver->driver = $timdinasbop['driver'];
+        $dinasbopdriver->total = $timdinasbop['total_anggaran'];
+        $dinasbopdriver->created_at = date('Y-m-d H:i:s');
+        if ($dinasbopdriver->save()) {
+            $kasanggaran = new KasAnggaran();
+            $biaya_bop = $kasanggaran->show_biaya_bop($request['dinasbop']);
+            $dinasbop = DinasBop::find($request['dinasbop']);
+            $dinasbop->total_anggaran = $biaya_bop + $timdinasbop['total_anggaran'];
+            if ($dinasbop->save()) {
+                return response()->json(['status'=>'ok'], 200);
+            } else {
+                return response()->json(['status'=>'failed'], 500);
+            }
+        } else {
+            return response()->json(['status'=>'failed'], 500);
+        }
+    }
+
+    public function put_driver_data(Request $request)
+    {
+        $timdinas = new TimDinas();
+        $parameter = [
+                        'dari'=> $request->input('dari'),
+                        'sampai' => $request->input('sampai'),
+                        'driver' => $request->input('driver')
+                    ];
+
+        $timdinasbop = $timdinas->generate_driver_bop($parameter);
+
+        $dinasbopdriver = DinasBopDriver::find($request['id']);
+        $biaya_bop_lama = $dinasbopdriver->total;
+
+        $dinasbopdriver->dinasbop_id = $request['dinasbop'];
+        $dinasbopdriver->nomor_sp = $request->input('nomor_sp');
+        $dinasbopdriver->tgl_sp = $request->input('tgl_sp');
+        $dinasbopdriver->dari = $request->input('dari');
+        $dinasbopdriver->sampai = $request->input('sampai');
+        $dinasbopdriver->dasar = $request->input('dasar');
+        $dinasbopdriver->tujuan = $request->input('tujuan');
+        $dinasbopdriver->driver = $timdinasbop['driver'];
+        $dinasbopdriver->total = $timdinasbop['total_anggaran'];
+        $dinasbopdriver->updated_at = date('Y-m-d H:i:s');
+
+        if ($dinasbopdriver->save()) {
+            return response()->json(['status'=>'ok'], 200);
+        } else {
+            return response()->json(['status' => 'failed'], 500);
+        }
+    }
+
+    public function delete_driver_data(Request $request)
+    {
+        try {
+            $dinasbopdriver = DinasBopDriver::find($request['id']);
+            $dinasbop_id = $dinasbopdriver->dinasbop_id;
+            $anggaran = $dinasbopdriver->total_anggaran;
+            if ($dinasbopdriver->delete()) {
+                $dinasbop = DinasBop::find($dinasbop_id);
+                $total_anggaran = $dinasbop->total_anggaran;
+                $dinasbop->total_anggaran = $total_anggaran - $anggaran;
+                $dinasbop->save();
+                return response()->json(['status' => 'OK'], 200);
+            } else {
+                return response()->json(['status' => 'failed'], 500);
+            }
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
     public function get_print_sp(Request $request)
     {
         try {
             $_id = isset($request['id']) ? $request['id'] : '';
-            $dinasboptim = DinasBopTim::with('dinasbop')->find($_id);
-            return View::make('dinasbop.sp', ['dinasboptim'=>$dinasboptim]);
+            $_type = isset($request['type']) ? $request['type'] : '';
+            switch ($_type) {
+                case 'tim':
+                    $dinasboptim = DinasBopTim::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_tim.sp', ['dinasboptim'=>$dinasboptim]);
+                break;
+                case 'driver':
+                    $dinasbopdriver = DinasBopDriver::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_driver.sp', ['dinasbopdriver'=>$dinasbopdriver]);
+                break;
+            }
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -214,8 +315,17 @@ class DinasBopController extends Controller
     {
         try {
             $_id = isset($request['id']) ? $request['id'] : '';
-            $dinasboptim = DinasBopTim::with('dinasbop')->find($_id);
-            return View::make('dinasbop.spd', ['dinasboptim'=>$dinasboptim]);
+            $_type = isset($request['type']) ? $request['type'] : '';
+            switch ($_type) {
+                case 'tim':
+                    $dinasboptim = DinasBopTim::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_tim.spd', ['dinasboptim'=>$dinasboptim]);
+                break;
+                case 'driver':
+                    $dinasbopdriver = DinasBopDriver::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_driver.spd', ['dinasbopdriver'=>$dinasbopdriver]);
+                break;
+            }
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -225,8 +335,17 @@ class DinasBopController extends Controller
     {
         try {
             $_id = isset($request['id']) ? $request['id'] : '';
-            $dinasboptim = DinasBopTim::with('dinasbop')->find($_id);
-            return View::make('dinasbop.rbpd', ['dinasboptim'=>$dinasboptim]);
+            $_type = isset($request['type']) ? $request['type'] : '';
+            switch ($_type) {
+                case 'tim':
+                    $dinasboptim = DinasBopTim::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_tim.rbpd', ['dinasboptim'=>$dinasboptim]);
+                break;
+                case 'driver':
+                    $dinasbopdriver = DinasBopDriver::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_driver.rbpd', ['dinasbopdriver'=>$dinasbopdriver]);
+                break;
+            }
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -236,8 +355,9 @@ class DinasBopController extends Controller
     {
         try {
             $_id = isset($request['id']) ? $request['id'] : '';
+            $_type = isset($request['type']) ? $request['type'] : '';
             $dinasboptim = DinasBopTim::with('dinasbop')->find($_id);
-            return View::make('dinasbop.daftar_personil', ['dinasboptim'=>$dinasboptim]);
+            return View::make('dinasbop.print_tim.daftar_personil', ['dinasboptim'=>$dinasboptim]);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -247,8 +367,9 @@ class DinasBopController extends Controller
     {
         try {
             $_id = isset($request['id']) ? $request['id'] : '';
+            $_type = isset($request['type']) ? $request['type'] : '';
             $dinasbop = DinasBop::with('tim')->find($_id);
-            return View::make('dinasbop.daftar_personil_all', ['dinasbop'=>$dinasbop]);
+            return View::make('dinasbop.print_tim.daftar_personil_all', ['dinasbop'=>$dinasbop]);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -258,8 +379,17 @@ class DinasBopController extends Controller
     {
         try {
             $_id = isset($request['id']) ? $request['id'] : '';
-            $dinasboptim = DinasBopTim::with('dinasbop')->find($_id);
-            return View::make('dinasbop.dpbo', ['dinasboptim'=>$dinasboptim]);
+            $_type = isset($request['type']) ? $request['type'] : '';
+            switch ($_type) {
+                case 'tim':
+                    $dinasboptim = DinasBopTim::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_tim.dpbo', ['dinasboptim'=>$dinasboptim]);
+                break;
+                case 'driver':
+                    $dinasbopdriver = DinasBopDriver::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_driver.dpbo', ['dinasbopdriver'=>$dinasbopdriver]);
+                break;
+            }
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

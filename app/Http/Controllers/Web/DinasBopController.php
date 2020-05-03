@@ -10,6 +10,7 @@ use App\Models\Program;
 use App\Models\Pegawai;
 use App\Models\DinasBop;
 use App\Models\DinasBopTim;
+use App\Models\DinasBopDriver;
 use App\Models\Irban;
 use App\Libraries\Access;
 use Closure;
@@ -120,12 +121,14 @@ class DinasBopController extends Controller
 
         $dinasbop = DinasBop::with('program', 'kegiatan', 'belanja')->find($request['id']);
         $dinasboptim = DinasBopTim::where('dinasbop_id', $dinasbop->id)->get();
+        $dinasbopdriver = DinasBopDriver::where('dinasbop_id', $dinasbop->id)->get();
         
         $data = array();
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['dinasbop'] = $dinasbop;
         $data['dinasboptim'] = $dinasboptim;
+        $data['dinasbopdriver'] = $dinasbopdriver;
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api);
         $data['route'] = url($this->route);
@@ -185,5 +188,50 @@ class DinasBopController extends Controller
         $data['dinasbop'] = $request['dinasbop'];
         $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
         return View::make('dinasbop.form_tim', $data);
+    }
+
+    public function create_driver(Request $request)
+    {
+        $breadcrumb = [];
+        $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
+        $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> ' . $this->title . '</a>';
+        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data Pengemudi';
+        
+        $driver = Pegawai::where('jabatan', 'Pengemudi')->get();
+        
+        $data = [];
+        $data['title']  = $this->title;
+        $data['link'] = $this->link;
+        $data['breadcrumb'] = $breadcrumb;
+        $data['api'] = url($this->api);
+        $data['act'] = 'create';
+        $data['driver'] = $driver;
+        $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
+        $data['dinasbop'] = $request['dinasbop'];
+        return View::make('dinasbop.form_driver', $data);
+    }
+
+    public function edit_driver(Request $request)
+    {
+        $breadcrumb = [];
+        $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
+        $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> '.$this->title.'</a>';
+        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data Pengemudi';
+
+        $dinasbopdriver = DinasBopDriver::find($request['id']);
+        
+        $driver = Pegawai::where('jabatan', 'Pengemudi')->get();
+
+        $data = [];
+        $data['title']  = $this->title;
+        $data['link'] = $this->link;
+        $data['dinasbopdriver'] = $dinasbopdriver;
+        $data['breadcrumb'] = $breadcrumb;
+        $data['api'] = url($this->api);
+        $data['act'] = 'edit';
+        $data['driver'] = $driver;
+        $data['dinasbop'] = $request['dinasbop'];
+        $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
+        return View::make('dinasbop.form_driver', $data);
     }
 }

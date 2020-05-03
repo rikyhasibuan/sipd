@@ -110,16 +110,6 @@ $kpa = $timdinas->get_sekretaris();
 							</tr>
 						@endforeach
 						<tr>
-							<td style="text-align: center;">{!! $i + 1 !!}</td>
-							<td>{!! $dinasboptim->tim['driver']['nama'] !!}</td>
-							<td style="text-align: center;">PENGEMUDI {!! $dinasboptim->tim['driver']['golongan'] !!}</td>
-							<td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['driver']['total']) !!}</td>
-							<td></td>
-							<td></td>
-							<td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['driver']['total']) !!}</td>
-							<td></td>
-						</tr>
-						<tr>
 							<td colspan="6" style="text-align: center;"><b>JUMLAH</b></td>
 							<td style="text-align: right;"><b>Rp.{!! $common->rupiah($dinasboptim->dinasbop->total_anggaran) !!}</b></td>
 							<td></td>

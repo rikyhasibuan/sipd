@@ -125,18 +125,21 @@ Route::delete('anggaran', 'Api\AnggaranController@delete_data');
 // dinas BOP
 Route::get('dinasbop', 'Api\DinasBopController@get_data');
 Route::get('dinasbop/{id}', 'Api\DinasBopController@show_data');
-Route::get('dinasbop/print/sp/{id}', 'Api\DinasBopController@get_print_sp');
-Route::get('dinasbop/print/spd/{id}', 'Api\DinasBopController@get_print_spd');
-Route::get('dinasbop/print/rbpd/{id}', 'Api\DinasBopController@get_print_rbpd');
-Route::get('dinasbop/print/personil/{id}', 'Api\DinasBopController@get_print_personil');
+Route::get('dinasbop/print/sp/{id}/{type}', 'Api\DinasBopController@get_print_sp');
+Route::get('dinasbop/print/spd/{id}/{type}', 'Api\DinasBopController@get_print_spd');
+Route::get('dinasbop/print/rbpd/{id}/{type}', 'Api\DinasBopController@get_print_rbpd');
+Route::get('dinasbop/print/personil/{id}/{type}', 'Api\DinasBopController@get_print_personil');
 Route::get('dinasbop/print/personil/all/{id}', 'Api\DinasBopController@get_print_personil_all');
-Route::get('dinasbop/print/dpbo/{id}', 'Api\DinasBopController@get_print_dpbo');
+Route::get('dinasbop/print/dpbo/{id}/{type}', 'Api\DinasBopController@get_print_dpbo');
 Route::post('dinasbop', 'Api\DinasBopController@post_data');
 Route::put('dinasbop', 'Api\DinasBopController@put_data');
 Route::delete('dinasbop', 'Api\DinasBopController@delete_data');
 Route::post('dinasbop/tim/{dinasbop}', 'Api\DinasBopController@post_tim_data');
 Route::post('dinasbop/tim/{dinasbop}/{id}', 'Api\DinasBopController@put_tim_data');
 Route::delete('dinasbop/tim/{dinasbop}/{id}', 'Api\DinasBopController@delete_tim_data');
+Route::post('dinasbop/driver/{dinasbop}', 'Api\DinasBopController@post_driver_data');
+Route::put('dinasbop/driver/{dinasbop}/{id}', 'Api\DinasBopController@put_driver_data');
+Route::delete('dinasbop/driver/{dinasbop}/{id}', 'Api\DinasBopController@delete_driver_data');
 
 // dinas regular
 Route::get('dinasregular', 'Api\DinasRegularController@get_data');

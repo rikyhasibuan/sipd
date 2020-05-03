@@ -32,7 +32,6 @@ class TimDinas
     public function generate_tim_bop($parameter)
     {
         $tim = [];
-        $query_dinasbop = DinasBop::find($parameter['dinasbop']);
         $diff = date_diff($query_dinasbop->dari, $query_dinasbop->sampai);
         $durasi = $diff->days + 1;
         $total_anggaran = 0;
@@ -121,6 +120,47 @@ class TimDinas
         }
 
         return ['tim' => $tim, 'total_anggaran' => $total_anggaran];
+    }
+
+    /**
+     * membuat sebuah array berisi driver dinas bop
+     * @param array $parameter
+     * @return array $callback
+     */
+    public function generate_driver_bop($parameter)
+    {
+        $driver = [];
+        $dari = date_create($parameter['dari']);
+        $sampai = date_create($parameter['sampai']);
+        $diff = date_diff($dari, $sampai);
+        $durasi = $diff->days + 1;
+        $total_anggaran = 0;
+
+        $query_pegawai = Pegawai::searchNip($parameter['driver'])->first();
+        $golongan = $this->_common->split_golongan($query_pegawai['golongan']);
+        if ($golongan == 'I' OR $golongan == 'II') {
+            $jabatan_bop = 'Penunjang Administrasi Kesekretariatan (Gol. I/II)';
+        } else {
+            $jabatan_bop = 'Penunjang Administrasi Kesekretariatan (Gol. III)';
+        }
+        $query_bop = Bop::where('jabatan', $jabatan_bop)->first();
+        //$check_wp = self::check_driver_bop($parameter['dinasbop'], $query_pegawai['nip']);
+        $driver['nip'] = $query_pegawai['nip'];
+        $driver['nama'] = $query_pegawai['nama'];
+        $driver['golongan'] = $query_pegawai['golongan'];
+        $driver['pangkat'] = $query_pegawai['pangkat'];
+        $driver['hari'] = $durasi;
+        //if ($check_wp == true) {
+            $driver['biaya'] = $query_bop['biaya_per_hari'];
+            $driver['total'] = $durasi * $query_bop['biaya_per_hari'];
+            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+        /* } else {
+            $driver['biaya'] = 0;
+            $driver['total'] = 0;
+            $total_anggaran += 0;
+        } */
+
+        return ['driver' => $driver, 'total_anggaran' => $total_anggaran];
     }
 
     /**
