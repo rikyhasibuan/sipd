@@ -47,8 +47,8 @@ class PegawaiController extends Controller
 
     public function post_data(Request $request)
     {
-        $check = Pegawai::where('nip', $request->input('nip'))->first();
-        if (count($check) == 0) {
+        $check = Pegawai::where('nip', $request->input('nip'))->count();
+        if ($check == 0) {
             $pegawai = new Pegawai();
             $pegawai->nip = $request->input('nip');
             $pegawai->nama = $request->input('nama');

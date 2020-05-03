@@ -123,12 +123,6 @@
                                 <p>Data Belanja</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{!! url('anggaran') !!}">
-                                <i class="nav-icon fa fa-circle-o"></i>
-                                <p>Anggaran Kas Bulanan</p>
-                            </a>
-                        </li>
                     </ul>
                 </li>
 
