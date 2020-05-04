@@ -49,21 +49,27 @@
                                     <label>Wakil Penanggung Jawab *</label>
                                     <select v-model="tim.wakilpenanggungjawab" class="form-control" required="required">
                                         <option value="">Pilih Wakil Penanggung Jawab</option>
-                                        <option v-for="v in personil_data" :key="v.pegawai.id" :value="v.pegawai.nip">{{ v.pegawai.nama }}</option>
+                                        <option v-for="v in personil_data" :key="v.pegawai.id" :value="v.pegawai.nip">
+                                            {{ v.pegawai.nama }} - {{ v.pegawai.jabatan }}
+                                        </option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label>Pengendali Teknis *</label>
                                     <select v-model="tim.pengendaliteknis" class="form-control" required="required">
                                         <option value="">Pilih Pengendali Teknis</option>
-                                        <option v-for="v in personil_data" :key="v.pegawai.id" :value="v.pegawai.nip">{{ v.pegawai.nama }}</option>
+                                        <option v-for="v in personil_data" :key="v.pegawai.id" :value="v.pegawai.nip">
+                                            {{ v.pegawai.nama }} - {{ v.pegawai.jabatan }}
+                                        </option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label>Ketua Tim *</label>
                                     <select v-model="tim.ketuatim" class="form-control" required="required">
                                         <option value="">Pilih Ketua Tim</option>
-                                        <option v-for="v in personil_data" :key="v.pegawai.id" :value="v.pegawai.nip">{{ v.pegawai.nama }}</option>
+                                        <option v-for="v in personil_data" :key="v.pegawai.id" :value="v.pegawai.nip">
+                                            {{ v.pegawai.nama }} - {{ v.pegawai.jabatan }}
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -216,7 +222,7 @@
                     this.tim.anggota = [];
                     this.personil_data = response;
                     this.personil_data.forEach(item => {
-                        this.anggota_data.push({'label':item.pegawai.nama,'key':item.pegawai.nip})
+                        this.anggota_data.push({'label': item.pegawai.nama +' - '+ item.pegawai.jabatan,'key':item.pegawai.nip})
                     });
                 })
                 .catch(error => {
@@ -252,7 +258,7 @@
             .then(response => {
                 this.personil_data = response;
                 this.personil_data.forEach(item => {
-                    this.anggota_data.push({'label':item.pegawai.nama,'key':item.pegawai.nip});
+                    this.anggota_data.push({'label': item.pegawai.nama +' - '+ item.pegawai.jabatan,'key':item.pegawai.nip});
                 });
             })
             .catch(error => {
@@ -261,7 +267,7 @@
 
             let anggota = this.dinasboptim.tim.anggota;
             anggota.forEach(item => {
-                this.tim.anggota.push({'label':item.nama,'key':item.nip});
+                this.tim.anggota.push({'label': item.nama +' - '+ item.jabatan,'key':item.nip});
             });
         },
         mounted() {

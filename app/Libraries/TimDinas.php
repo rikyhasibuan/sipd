@@ -32,6 +32,7 @@ class TimDinas
     public function generate_tim_bop($parameter)
     {
         $tim = [];
+        $query_dinasbop = DinasBop::find($parameter['dinasbop']);
         $diff = date_diff($query_dinasbop->dari, $query_dinasbop->sampai);
         $durasi = $diff->days + 1;
         $total_anggaran = 0;
@@ -44,6 +45,7 @@ class TimDinas
         $tim['wakilpenanggungjawab']['nama'] = $query_pegawai['nama'];
         $tim['wakilpenanggungjawab']['golongan'] = $query_pegawai['golongan'];
         $tim['wakilpenanggungjawab']['pangkat'] = $query_pegawai['pangkat'];
+        $tim['wakilpenanggungjawab']['jabatan'] = $query_pegawai['jabatan'];
         $tim['wakilpenanggungjawab']['hari'] = $durasi;
         if ($check_wp == true) {
             $tim['wakilpenanggungjawab']['biaya'] = $query_bop['biaya_per_hari'];
@@ -63,6 +65,7 @@ class TimDinas
         $tim['pengendaliteknis']['nama'] = $query_pegawai['nama'];
         $tim['pengendaliteknis']['golongan'] = $query_pegawai['golongan'];
         $tim['pengendaliteknis']['pangkat'] = $query_pegawai['pangkat'];
+        $tim['pengendaliteknis']['jabatan'] = $query_pegawai['jabatan'];
         $tim['pengendaliteknis']['hari'] = $durasi;
         if ($check_dalnis == true) {
             $tim['pengendaliteknis']['biaya'] = $query_bop['biaya_per_hari'];
@@ -82,6 +85,7 @@ class TimDinas
         $tim['ketuatim']['nama'] = $query_pegawai['nama'];
         $tim['ketuatim']['golongan'] = $query_pegawai['golongan'];
         $tim['ketuatim']['pangkat'] = $query_pegawai['pangkat'];
+        $tim['ketuatim']['jabatan'] = $query_pegawai['jabatan'];
         $tim['ketuatim']['hari'] = $durasi;
         if ($check_ketua == true) {
             $tim['ketuatim']['biaya'] = $query_bop['biaya_per_hari'];
@@ -103,6 +107,7 @@ class TimDinas
             $tim['anggota'][$n]['nama'] = $query_pegawai['nama'];
             $tim['anggota'][$n]['golongan'] = $query_pegawai['golongan'];
             $tim['anggota'][$n]['pangkat'] = $query_pegawai['pangkat'];
+            $tim['anggota'][$n]['jabatan'] = $query_pegawai['jabatan'];
             $tim['anggota'][$n]['hari'] = $durasi;
             $tim['anggota'][$n]['biaya'] = $query_bop['biaya_per_hari'];
             $tim['anggota'][$n]['total'] = $durasi * $query_bop['biaya_per_hari'];
@@ -336,33 +341,36 @@ class TimDinas
                             ->where('sampai', '>=', $current_date)
                             ->where('id', '!=', $id_dinasbop)
                             ->with('tim')
-                            ->get();
-
+                            ->get();          
         if (count($dinasbop) > 0) {
             $i = 0;
-            foreach ($dinasbop->tim as $v) {
-                if ($v['wakilpenanggungjawab']['nip'] == $nip) {
-                    $i++;
-                }
-                if ($v['pengendaliteknis']['nip'] == $nip) {
-                    $i++;
-                }
-                if ($v['ketuatim']['nip'] == $nip) {
-                    $i++;
-                }
-                foreach ($v['anggota'] as $y) {
-                    if ($y['nip'] == $nip) {
-                        $i++;
+            foreach($dinasbop as $x) {
+                if (isset($x->tim)) {
+                    foreach ($x->tim as $v) {
+                        if ($v['wakilpenanggungjawab']['nip'] == $nip) {
+                            $i++;
+                        }
+                        if ($v['pengendaliteknis']['nip'] == $nip) {
+                            $i++;
+                        }
+                        if ($v['ketuatim']['nip'] == $nip) {
+                            $i++;
+                        }
+                        foreach ($v['anggota'] as $y) {
+                            if ($y['nip'] == $nip) {
+                                $i++;
+                            }
+                        }
                     }
+                    if ($i == 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return true;
                 }
             }
-
-            if ($i == 0) {
-                return true;
-            } else {
-                return false;
-            }
-
         } else {
             return true;
         }
