@@ -18,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
     {
         setlocale(LC_ALL, 'id_ID.utf8');
         Carbon::setLocale('id_ID.utf8');
+        date_default_timezone_set('Asia/Jakarta');
     }
 
     /**
@@ -29,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
     {
         setlocale(LC_ALL, 'id_ID.utf8');
         Carbon::setLocale('id_ID.utf8');
+        date_default_timezone_set('Asia/Jakarta');
         Blade::withDoubleEncoding();
     }
 }

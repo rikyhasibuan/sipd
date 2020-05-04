@@ -516,7 +516,7 @@ class DinasBopController extends Controller
         }
     }
 
-    public function get_print_personil(Request $request)
+/*     public function get_print_personil(Request $request)
     {
         try {
             $_id = isset($request['id']) ? $request['id'] : '';
@@ -526,13 +526,12 @@ class DinasBopController extends Controller
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
-    }
+    } */
 
     public function get_print_personil_all(Request $request)
     {
         try {
             $_id = isset($request['id']) ? $request['id'] : '';
-            $_type = isset($request['type']) ? $request['type'] : '';
             $dinasbop = DinasBop::with('tim')->find($_id);
             return View::make('dinasbop.print_tim.daftar_personil_all', ['dinasbop'=>$dinasbop]);
         } catch (Exception $e) {

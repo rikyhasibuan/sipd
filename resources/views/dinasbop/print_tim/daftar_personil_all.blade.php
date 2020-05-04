@@ -53,7 +53,7 @@ $inspektur = $timdinas->get_inspektur();
                             @foreach ($dinasbop->tim as $v)
                                 <tr>
                                     <td style="text-align: center;vertical-align:middle;">
-                                       {!! ++$i !!}
+                                        {!! ++$i !!}
                                     </td>
                                     <td style="text-align: center;vertical-align:middle;">
                                         {!! $v->auditan !!}

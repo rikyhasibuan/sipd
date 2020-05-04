@@ -46,7 +46,9 @@
     <div class="row">
         <div class="col-md-12">
             <div class="pull-left">
-                <a :href="route + '/tim/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2"><i class="fa fa-plus"></i> Tambah Tim</a>
+                <a :href="route + '/tim/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Tim</a>
+                <a class="btn btn-default mb-2 mr-2" href="#" @click="print_personil_all(dinasbop.id)">
+                    <i class="fa fa-users"></i> Daftar Personil</a>
             </div>
         </div>
     </div>
@@ -142,7 +144,6 @@
                                         <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
                                             <span class="sr-only">Toggle Dropdown</span>
                                             <div class="dropdown-menu" role="menu">
-                                                <a class="dropdown-item" href="#" @click="print_personil(v.id)">Daftar Personil</a>
                                                 <a class="dropdown-item" href="#" @click="print_sp(v.id)">Surat Perintah</a>
                                                 <a class="dropdown-item" href="#" @click="print_spd(v.id)">Surat Perjalanan Dinas (SPD)</a>
                                                 <a class="dropdown-item" href="#" @click="print_rbpd(v.id)">Rincian Biaya Perjalanan Dinas</a>
@@ -206,7 +207,7 @@ export default {
         },
         print_personil_all(id) {
             let new_window = window.open();
-            new_window.location = this.api + '/print/personil/all/'+ id +'/tim';
+            new_window.location = this.api + '/print/personil/all/'+ id;
         },
         print_dpbo(id) {
             let new_window = window.open();
