@@ -10,14 +10,14 @@
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label>Nomor Surat Perintah *</label>
-                                    <input type="text" class="form-control" v-model="dinasbopinspektur.nomor_sp" placeholder="Isi Nomor Surat Perintah" required="required">
+                                    <input type="text" class="form-control" v-model="dinasbopsekretaris.nomor_sp" placeholder="Isi Nomor Surat Perintah" required="required">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Tanggal Surat Perintah *</label>
                                     <date-picker
                                         id="tgl_sp"
                                         name="tgl_sp"
-                                        v-model="dinasbopinspektur.tgl_sp"
+                                        v-model="dinasbopsekretaris.tgl_sp"
                                         :config="options"
                                         class="form-control"
                                         placeholder="Tanggal Surat Perintah" autocomplete="off">
@@ -31,7 +31,7 @@
                                     <date-picker
                                         id="dari"
                                         name="dari"
-                                        v-model="dinasbopinspektur.dari"
+                                        v-model="dinasbopsekretaris.dari"
                                         :config="options"
                                         class="form-control"
                                         placeholder="Tanggal Mulai" autocomplete="off">
@@ -42,7 +42,7 @@
                                     <date-picker
                                         id="sampai"
                                         name="sampai"
-                                        v-model="dinasbopinspektur.sampai"
+                                        v-model="dinasbopsekretaris.sampai"
                                         :config="options"
                                         class="form-control"
                                         placeholder="Tanggal Selesai" autocomplete="off">
@@ -52,19 +52,19 @@
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label>Dasar *</label>
-                                    <input type="text" class="form-control" placeholder="Dasar 1" v-model="dinasbopinspektur.dasar[0]" required="required">
+                                    <input type="text" class="form-control" placeholder="Dasar 1" v-model="dinasbopsekretaris.dasar[0]" required="required">
                                     <br>
-                                    <input type="text" class="form-control" placeholder="Dasar 2" v-model="dinasbopinspektur.dasar[1]">
+                                    <input type="text" class="form-control" placeholder="Dasar 2" v-model="dinasbopsekretaris.dasar[1]">
                                     <br>
-                                    <input type="text" class="form-control" placeholder="Dasar 3" v-model="dinasbopinspektur.dasar[2]">
+                                    <input type="text" class="form-control" placeholder="Dasar 3" v-model="dinasbopsekretaris.dasar[2]">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Tujuan *</label>
-                                    <input type="text" class="form-control" placeholder="Tujuan 1" v-model="dinasbopinspektur.tujuan[0]" required="required">
+                                    <input type="text" class="form-control" placeholder="Tujuan 1" v-model="dinasbopsekretaris.tujuan[0]" required="required">
                                     <br>
-                                    <input type="text" class="form-control" placeholder="Tujuan 2" v-model="dinasbopinspektur.tujuan[1]">
+                                    <input type="text" class="form-control" placeholder="Tujuan 2" v-model="dinasbopsekretaris.tujuan[1]">
                                     <br>
-                                    <input type="text" class="form-control" placeholder="Tujuan 3" v-model="dinasbopinspektur.tujuan[2]">
+                                    <input type="text" class="form-control" placeholder="Tujuan 3" v-model="dinasbopsekretaris.tujuan[2]">
                                 </div>
                             </div>
 
@@ -100,16 +100,16 @@
             }
         },
         props: [
-            'inspektur_data',
+            'sekretaris_data',
             'dinasbop',
-            'dinasbopinspektur',
+            'dinasbopsekretaris',
             'api',
             'route'
         ],
         methods: {
             onSubmit(evt) {
                 this.isLoading = false;
-                service.putData(this.api + '/inspektur/' + this.dinasbop + '/' + this.dinasbopinspektur.id, this.dinasbopinspektur)
+                service.putData(this.api + '/sekretaris/' + this.dinasbop + '/' + this.dinasbopsekretaris.id, this.dinasbopsekretaris)
                 .then(result => {
                     this.response(result);
                 }).catch(error => {
@@ -134,7 +134,7 @@
         },
         mounted() {
             this.isLoading = false;
-            this.dinasbopinspektur.inspektur = this.dinasbopinspektur.inspektur.nip
+            this.dinasbopsekretaris.sekretaris = this.dinasbopsekretaris.sekretaris.nip
         }
     };
 </script>
