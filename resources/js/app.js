@@ -4,7 +4,7 @@ import { ModalEvent, DropdownEvent, AlertEvent } from 'bootstrap/dist/js/bootstr
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import VueCookies from 'vue-cookies';
-import moment from 'moment';
+import moment from 'moment/moment';
 import 'moment/locale/id';
 import money from 'v-money';
 import accounting from 'accounting';
@@ -26,7 +26,6 @@ Vue.use(accounting);
 Vue.use(VueCookies);
 
 // Component Config
-moment.locale('id');
 $.extend(true, $.fn.datetimepicker.defaults, {
     icons: {
         time: 'fa fa-clock',
@@ -135,7 +134,6 @@ Vue.filter('month', function (month) {
     }
 });
 
-
 // Filter Rupiah
 Vue.filter('rupiah', function (amount) {
     return accounting.formatMoney(amount, "", 0, ".", ",");
@@ -153,66 +151,104 @@ Vue.component('multiselect', Multiselect);
 Vue.component('login', require('./views/Login.vue'));
 Vue.component('dashboard', require('./views/Dashboard.vue'));
 Vue.component('profile', require('./views/Profile.vue'));
+
 Vue.component('irban-index', require('./views/Irban/Index.vue'));
 Vue.component('irban-create', require('./views/Irban/Create.vue'));
 Vue.component('irban-update', require('./views/Irban/Update.vue'));
+
 Vue.component('irban-skpd-index', require('./views/IrbanSkpd/Index.vue'));
 Vue.component('irban-skpd-create', require('./views/IrbanSkpd/Create.vue'));
 Vue.component('irban-skpd-update', require('./views/IrbanSkpd/Update.vue'));
+
 Vue.component('irban-kabkota-index', require('./views/IrbanKabkota/Index.vue'));
 Vue.component('irban-kabkota-create', require('./views/IrbanKabkota/Create.vue'));
 Vue.component('irban-kabkota-update', require('./views/IrbanKabkota/Update.vue'));
+
 Vue.component('program-index', require('./views/Program/Index.vue'));
 Vue.component('program-create', require('./views/Program/Create.vue'));
 Vue.component('program-update', require('./views/Program/Update.vue'));
+
 Vue.component('kegiatan-index', require('./views/Kegiatan/Index.vue'));
 Vue.component('kegiatan-create', require('./views/Kegiatan/Create.vue'));
 Vue.component('kegiatan-update', require('./views/Kegiatan/Update.vue'));
+
 Vue.component('belanja-index', require('./views/Belanja/Index.vue'));
 Vue.component('belanja-create', require('./views/Belanja/Create.vue'));
 Vue.component('belanja-update', require('./views/Belanja/Update.vue'));
+
 Vue.component('harian-index', require('./views/Harian/Index.vue'));
 Vue.component('harian-update', require('./views/Harian/Update.vue'));
+
 Vue.component('akomodasi-index', require('./views/Akomodasi/Index.vue'));
 Vue.component('akomodasi-update', require('./views/Akomodasi/Update.vue'));
+
 Vue.component('bbm-index', require('./views/Bbm/Index.vue'));
 Vue.component('bbm-update', require('./views/Bbm/Update.vue'));
+
 Vue.component('hargabbm-update', require('./views/HargaBbm/Update.vue'));
+
 Vue.component('bop-index', require('./views/Bop/Index.vue'));
 Vue.component('bop-update', require('./views/Bop/Update.vue'));
+
 Vue.component('pegawai-index', require('./views/Pegawai/Index.vue'));
 Vue.component('pegawai-create', require('./views/Pegawai/Create.vue'));
 Vue.component('pegawai-update', require('./views/Pegawai/Update.vue'));
+
 Vue.component('user-index', require('./views/User/Index.vue'));
 Vue.component('user-create', require('./views/User/Create.vue'));
 Vue.component('user-update', require('./views/User/Update.vue'));
+
 Vue.component('perangkatdaerah-index', require('./views/PerangkatDaerah/Index.vue'));
 Vue.component('perangkatdaerah-create', require('./views/PerangkatDaerah/Create.vue'));
 Vue.component('perangkatdaerah-update', require('./views/PerangkatDaerah/Update.vue'));
+
 Vue.component('anggaran-index', require('./views/Anggaran/Index.vue'));
 Vue.component('anggaran-create', require('./views/Anggaran/Create.vue'));
 Vue.component('anggaran-update', require('./views/Anggaran/Update.vue'));
+
 Vue.component('dinasbop-index', require('./views/DinasBop/Index.vue'));
 Vue.component('dinasbop-create', require('./views/DinasBop/Create.vue'));
 Vue.component('dinasbop-update', require('./views/DinasBop/Update.vue'));
 Vue.component('dinasbop-detail', require('./views/DinasBop/Detail.vue'));
+
 Vue.component('dinasboptim-create', require('./views/DinasBopTim/Create.vue'));
 Vue.component('dinasboptim-update', require('./views/DinasBopTim/Update.vue'));
 Vue.component('dinasboptim-detail', require('./views/DinasBopTim/Detail.vue'));
+
+Vue.component('dinasbopreviu-create', require('./views/DinasBopReviu/Create.vue'));
+Vue.component('dinasbopreviu-update', require('./views/DinasBopReviu/Update.vue'));
+Vue.component('dinasbopreviu-detail', require('./views/DinasBopReviu/Detail.vue'));
+
+Vue.component('dinasbopsupervisi-create', require('./views/DinasBopSupervisi/Create.vue'));
+Vue.component('dinasbopsupervisi-update', require('./views/DinasBopSupervisi/Update.vue'));
+Vue.component('dinasbopsupervisi-detail', require('./views/DinasBopSupervisi/Detail.vue'));
+
+Vue.component('dinasboppengumpuldata-create', require('./views/DinasBopPengumpulData/Create.vue'));
+Vue.component('dinasboppengumpuldata-update', require('./views/DinasBopPengumpulData/Update.vue'));
+Vue.component('dinasboppengumpuldata-detail', require('./views/DinasBopPengumpulData/Detail.vue'));
+
+Vue.component('dinasbopadministrasi-create', require('./views/DinasBopAdministrasi/Create.vue'));
+Vue.component('dinasbopadministrasi-update', require('./views/DinasBopAdministrasi/Update.vue'));
+Vue.component('dinasbopadministrasi-detail', require('./views/DinasBopAdministrasi/Detail.vue'));
+
 Vue.component('dinasbopdriver-create', require('./views/DinasBopDriver/Create.vue'));
 Vue.component('dinasbopdriver-update', require('./views/DinasBopDriver/Update.vue'));
 Vue.component('dinasbopdriver-detail', require('./views/DinasBopDriver/Detail.vue'));
+
 Vue.component('dinasbopinspektur-create', require('./views/DinasBopInspektur/Create.vue'));
 Vue.component('dinasbopinspektur-update', require('./views/DinasBopInspektur/Update.vue'));
 Vue.component('dinasbopinspektur-detail', require('./views/DinasBopInspektur/Detail.vue'));
+
 Vue.component('dinasbopsekretaris-create', require('./views/DinasBopSekretaris/Create.vue'));
 Vue.component('dinasbopsekretaris-update', require('./views/DinasBopSekretaris/Update.vue'));
 Vue.component('dinasbopsekretaris-detail', require('./views/DinasBopSekretaris/Detail.vue'));
+
 Vue.component('dinasregular-index', require('./views/DinasRegular/Index.vue'));
 Vue.component('dinasregular-create', require('./views/DinasRegular/Create.vue'));
 Vue.component('dinasregular-update', require('./views/DinasRegular/Update.vue'));
 Vue.component('dinasregular-detail', require('./views/DinasRegular/Detail.vue'));
 Vue.component('dinasregular-transportasi', require('./views/DinasRegular/Transportasi.vue'));
+
 Vue.component('report', require('./views/Report.vue'));
 
 Vue.config.productionTip = false;

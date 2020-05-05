@@ -1,7 +1,7 @@
 /*jshint esversion: 8 */
 let mix = require('laravel-mix');
 let webpack = require('webpack');
-
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 require('laravel-mix-auto-extract');
 
 /*
@@ -25,7 +25,10 @@ mix.setPublicPath('public');
 mix.setResourceRoot('../');
 
 mix.webpackConfig({
-    plugins: [new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)]
+    plugins: [
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/), 
+        new BundleAnalyzerPlugin()
+    ]
 });
 
 mix

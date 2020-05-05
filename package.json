@@ -11,16 +11,17 @@
     },
     "devDependencies": {
         "axios": "^0.19",
+        "bootstrap": "4.3.1",
         "cross-env": "^5.1",
+        "font-awesome": "^4.7.0",
+        "jquery": "^3.4.1",
+        "laravel-mix": "3.0.0",
+        "laravel-mix-auto-extract": "^1.0.1",
         "lodash": "^4.17.13",
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",
-        "bootstrap": "4.3.1",
-        "font-awesome": "^4.7.0",
-        "jquery": "^3.4.1",
-        "laravel-mix": "3.0.0",
-        "laravel-mix-auto-extract": "^1.0.1"
+        "webpack-bundle-analyzer": "^3.7.0"
     },
     "dependencies": {
         "accounting": "^0.4.1",
