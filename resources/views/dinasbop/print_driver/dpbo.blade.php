@@ -42,14 +42,14 @@ $kpa = $timdinas->get_sekretaris();
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
-				<strong><u><h4 class="text-center">Inspektorat Daerah Provinsi Jawa Barat</h4></u></strong>
+				<strong><u><h4 class="text-center">INSPEKTORAT DAERAH PROVINSI JAWA BARAT</h4></u></strong>
 				<br>
 				<center>
 					<table width="75%">
 						<tr>
 							<td style="width:2%;vertical-align: top;">DAFTAR</td>
 							<td style="width:2%;vertical-align: top;">: </td>
-							<td style="width:70%;vertical-align: top;text-align: justify;">PENERIMAAN BIAYA OPERASIONAL INSPEKTORAT BELANJA {!! strtoupper($dinasbopdriver->dinasbop->belanja->nama_belanja) !!} SELAMA {!! $durasi !!} ({!! strtoupper($common->terbilang($durasi)) !!}) HARI MULAI TANGGAL {!! strtoupper(Carbon\Carbon::parse($dinasbopdriver->dari)->formatLocalized('%d %B %Y')) !!} SAMPAI DENGAN {!! strtoupper(Carbon\Carbon::parse($dinasbopdriver->sampai)->formatLocalized('%d %B %Y')) !!} UNTUK MELAKUKAN {!! strtoupper($dinasbopdriver->dinasbop->program->nama_program) !!} PADA {!! strtoupper($dinasbopdriver->auditan) !!}</td>
+							<td style="width:70%;vertical-align: top;text-align: justify;">PENERIMAAN BIAYA OPERASIONAL INSPEKTORAT BELANJA {!! strtoupper($dinasbopdriver->dinasbop->belanja->nama_belanja) !!} SELAMA {!! $durasi !!} ({!! strtoupper($common->terbilang($durasi)) !!}) HARI MULAI TANGGAL {!! strtoupper(Carbon\Carbon::parse($dinasbopdriver->dari)->formatLocalized('%d %B %Y')) !!} SAMPAI DENGAN {!! strtoupper(Carbon\Carbon::parse($dinasbopdriver->sampai)->formatLocalized('%d %B %Y')) !!} UNTUK MELAKUKAN {!! strtoupper($dinasbopdriver->dinasbop->program->nama_program) !!} {!! strtoupper($dinasbopdriver->auditan) !!}</td>
 						</tr>
 					</table>
 				</center>

@@ -170,6 +170,7 @@
             }
         },
         created() {
+            this.$cookies.set("last_tab", "driver");
             this.isLoading = true;
         },
         mounted() {

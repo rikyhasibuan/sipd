@@ -1,7 +1,7 @@
 <?php 
 use App\Libraries\TimDinas;
 $timdinas = new TimDinas();
-$inspektur = $timdinas->get_inspektur();
+$inspektur = $timdinas->get_sekretaris();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -148,7 +148,7 @@ $inspektur = $timdinas->get_inspektur();
                     <table width="100%">
                         <tr>
                             <td width="50%"></td>
-                            <td width="25%">
+                            <td width="30%">
                                 <table cellpadding="2" cellspacing="2" style="width:100%;">
                                     <tr>
                                         <td width="10%" style="text-align: justify;">Ditetapkan di</td>
@@ -161,7 +161,11 @@ $inspektur = $timdinas->get_inspektur();
                                 </table>
                                 <table cellpadding="2" cellspacing="2" style="width:100%;">
                                     <tr>
-                                        <td width="20%" style="text-align: center;">a.n <b>INSPEKTUR PROVINSI JAWA BARAT</b></td>
+                                        <td width="20%" style="text-align: center;">
+                                            an. <b>INSPEKTUR PROVINSI JAWA BARAT</b>
+                                            <br>
+                                            <b>Sekretaris</b>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td width="10%" style="text-align: center;"><br><br><br><br></td>

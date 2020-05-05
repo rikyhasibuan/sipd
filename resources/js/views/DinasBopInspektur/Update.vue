@@ -130,6 +130,7 @@
             }
         },
         created() {
+            this.$cookies.set("last_tab", "inspektur");
             this.isLoading = true;
         },
         mounted() {

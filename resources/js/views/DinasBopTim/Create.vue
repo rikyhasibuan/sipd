@@ -250,6 +250,7 @@
             }
         },
         created() {
+            this.$cookies.set("last_tab", "tim");
             this.isLoading = true;
             this.audit_data = this.auditan_data;
         },

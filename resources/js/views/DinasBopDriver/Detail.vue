@@ -44,20 +44,20 @@
                         <tbody>
                             <tr v-for="v in dinasbopdriver" :key="v.id">
                                 <td style="vertical-align:middle;">
-                                DASAR : <br>
+                                <b>DASAR</b> : <br>
                                 <div v-if="v.dasar.length > 1">
                                     <ul>
-                                    <li v-for="(d,v) in v.dasar" :value="d" :key="v">{{ d }}</li>
+                                        <li v-for="(d,v) in v.dasar" :value="d" :key="v">{{ d }}</li>
                                     </ul>
                                 </div>
                                 <div v-else>
                                     {{ v.dasar[0] }}
                                 </div>
                                 <br>
-                                TUJUAN : <br>
+                                <b>TUJUAN</b> : <br>
                                 <div v-if="v.tujuan.length > 1">
                                     <ul>
-                                    <li v-for="d in v.dasar" :value="d" :key="d">{{ d }}</li>
+                                        <li v-for="d in v.dasar" :value="d" :key="d">{{ d }}</li>
                                     </ul>
                                 </div>
                                 <div v-else>

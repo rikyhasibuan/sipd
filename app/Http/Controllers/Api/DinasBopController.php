@@ -254,14 +254,17 @@ class DinasBopController extends Controller
 
         $dinasbopdriver = DinasBopDriver::find($request['id']);
         $biaya_bop_lama = $dinasbopdriver->total;
+        
+        $dasar = array_values(array_filter($request->input('dasar')));
+        $tujuan = array_values(array_filter($request->input('tujuan')));
 
         $dinasbopdriver->dinasbop_id = $request['dinasbop'];
         $dinasbopdriver->nomor_sp = $request->input('nomor_sp');
         $dinasbopdriver->tgl_sp = $request->input('tgl_sp');
         $dinasbopdriver->dari = $request->input('dari');
         $dinasbopdriver->sampai = $request->input('sampai');
-        $dinasbopdriver->dasar = $request->input('dasar');
-        $dinasbopdriver->tujuan = $request->input('tujuan');
+        $dinasbopdriver->dasar = $dasar;
+        $dinasbopdriver->tujuan = $tujuan;
         $dinasbopdriver->driver = $timdinasbop['driver'];
         $dinasbopdriver->total = $timdinasbop['total_anggaran'];
         $dinasbopdriver->updated_at = date('Y-m-d H:i:s');

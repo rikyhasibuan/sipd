@@ -6,20 +6,28 @@
                     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a data-toggle="tab" class="nav-link active" href="#tim"><i class="fa fa-users"></i> Tim</a>
+                            <a data-toggle="tab" class="nav-link" href="#tim" :data-id="'tabtim'" @click="onChangeTabs($event)" :class="(last_tab == 'tim') ? 'active' : ''">
+                                <i class="fa fa-users"></i> Tim
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a data-toggle="tab" class="nav-link" href="#driver"><i class="fa fa-car"></i> Pengemudi</a>
+                            <a data-toggle="tab" class="nav-link" href="#driver" :data-id="'tabdriver'" @click="onChangeTabs($event)" :class="(last_tab == 'driver') ? 'active' : ''">
+                                <i class="fa fa-car"></i> Pengemudi
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a data-toggle="tab" class="nav-link" href="#inspektur"><i class="fa fa-user"></i> Inspektur</a>
+                            <a data-toggle="tab" class="nav-link" href="#inspektur" :data-id="'tabinspektur'" @click="onChangeTabs($event)" :class="(last_tab == 'inspektur') ? 'active' : ''">
+                                <i class="fa fa-user"></i> Inspektur
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a data-toggle="tab" class="nav-link" href="#sekretaris"><i class="fa fa-user"></i> Sekretaris</a>
+                            <a data-toggle="tab" class="nav-link" href="#sekretaris" :data-id="'tabsekretaris'" @click="onChangeTabs($event)" :class="(last_tab == 'sekretaris') ? 'active' : ''">
+                                <i class="fa fa-user"></i> Sekretaris
+                            </a>
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div id="tim" class="tab-pane fade show active">
+                        <div id="tim" class="tab-pane fade" :class="{ 'active': (last_tab == 'tim'), 'show': (last_tab == 'tim') }">
                             <dinasboptim-detail 
                                 :dinasbop=dinasbop 
                                 :dinasboptim=dinasboptim
@@ -28,7 +36,7 @@
                                 :api=api>
                             </dinasboptim-detail>
                         </div>
-                        <div id="driver" class="tab-pane fade">
+                        <div id="driver" class="tab-pane fade" :class="{ 'active': (last_tab == 'driver'), 'show': (last_tab == 'driver') }">
                             <dinasbopdriver-detail 
                                 :dinasbop=dinasbop 
                                 :dinasbopdriver=dinasbopdriver
@@ -37,7 +45,7 @@
                                 :api=api>
                             </dinasbopdriver-detail>
                         </div>
-                        <div id="inspektur" class="tab-pane fade">
+                        <div id="inspektur" class="tab-pane fade" :class="{ 'active': (last_tab == 'inspektur'), 'show': (last_tab == 'inspektur') }">
                             <dinasbopinspektur-detail 
                                 :dinasbop=dinasbop 
                                 :dinasbopinspektur=dinasbopinspektur
@@ -46,7 +54,7 @@
                                 :api=api>
                             </dinasbopinspektur-detail>
                         </div>
-                        <div id="sekretaris" class="tab-pane fade">
+                        <div id="sekretaris" class="tab-pane fade" :class="{ 'active': (last_tab == 'sekretaris'), 'show': (last_tab == 'sekretaris') }">
                             <dinasbopsekretaris-detail 
                                 :dinasbop=dinasbop 
                                 :dinasbopsekretaris=dinasbopsekretaris
@@ -80,12 +88,38 @@ export default {
                 delete:false
             },
             showTable: false,
+            last_tab: '',
             id:''
         }
     },
-    props: ['dinasbop','dinasboptim', 'dinasbopdriver','dinasbopinspektur', 'route','print_action','api'],
+    props: ['dinasbop', 'dinasboptim', 'dinasbopdriver', 'dinasbopinspektur', 'route', 'print_action', 'api'],
+    methods: {
+        onChangeTabs(evt) {
+            const data_set = evt.target.dataset.id;
+            switch (data_set) {
+                case 'tabtim':
+                    this.$cookies.set("last_tab", "tim");
+                    break;
+                case 'tabdriver':
+                    this.$cookies.set("last_tab", "driver");
+                    break;
+                case 'tabinspektur':
+                    this.$cookies.set("last_tab", "inspektur");
+                    break;
+                case 'tabsekretaris':
+                    this.$cookies.set("last_tab", "sekretaris");
+                    break;
+                default:
+                    break;
+            }
+        }
+    },
     created() {
         this.isLoading = true;
+        this.last_tab = this.$cookies.get("last_tab");
+        if (this.last_tab == '') {
+            this.last_tab = 'tim';
+        }
     },
     mounted() {
         this.isLoading = false;

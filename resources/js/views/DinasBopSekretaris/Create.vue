@@ -158,6 +158,7 @@
             }
         },
         created() {
+            this.$cookies.set("last_tab", "sekretaris");
             this.isLoading = true;
         },
         mounted() {

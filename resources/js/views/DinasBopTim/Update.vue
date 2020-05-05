@@ -233,6 +233,7 @@
             }
         },
         created() {
+            this.$cookies.set("last_tab", "tim");
             this.isLoading = true;
             this.tim.irban_id = this.dinasboptim.irban_id;
             this.tim.auditan = this.dinasboptim.auditan;
