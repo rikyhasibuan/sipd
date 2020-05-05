@@ -182,9 +182,11 @@ export default {
             this.driverid = id;
         },
         deleteData(id) {
+            this.isLoading = truel
             service.deleteData(this.api + '/driver/' + this.dinasbop.id + '/' + id)
             .then(response => {
                 if(response.status === 'OK') {
+                    this.isLoading = false;
                     this.alert.delete = true;
                     this.drivermodal = false;
                     $('#delete_driver_modal').modal('hide');
@@ -192,6 +194,7 @@ export default {
                     setTimeout(function() { this.alert.delete=false; location.reload(); }, 1000);
                 }
             }).catch(error => {
+                this.isLoading = false;
                 this.alert.delete = false;
                 this.alert.error = true;
                 this.drivermodal = false;
