@@ -46,7 +46,7 @@
                                 <td style="vertical-align:middle;">
                                 <b>DASAR</b> : <br>
                                 <div v-if="v.dasar.length > 1">
-                                    <ul>
+                                    <ul style="margin-left:-25px;">
                                         <li v-for="(d,v) in v.dasar" :value="d" :key="v">{{ d }}</li>
                                     </ul>
                                 </div>
@@ -56,7 +56,7 @@
                                 <br>
                                 <b>TUJUAN</b> : <br>
                                 <div v-if="v.tujuan.length > 1">
-                                    <ul>
+                                    <ul style="margin-left:-25px;">
                                         <li v-for="d in v.dasar" :value="d" :key="d">{{ d }}</li>
                                     </ul>
                                 </div>

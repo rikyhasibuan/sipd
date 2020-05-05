@@ -116,9 +116,11 @@ export default {
     },
     created() {
         this.isLoading = true;
-        this.last_tab = this.$cookies.get("last_tab");
-        if (this.last_tab == '') {
+        if (this.$cookies.isKey('last_tab') == false) {
+            this.$cookies.set("last_tab", 'tim');
             this.last_tab = 'tim';
+        } else {
+            this.last_tab = this.$cookies.get("last_tab");
         }
     },
     mounted() {

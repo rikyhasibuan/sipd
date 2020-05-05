@@ -4,7 +4,7 @@ use App\Libraries\TimDinas;
 $common = new Common();
 $timdinas = new TimDinas();
 $diff = date_diff($dinasboptim->dinasbop->dari, $dinasboptim->dinasbop->sampai);
-$durasi = $diff->days;
+$durasi = $diff->days + 1;
 $kpa = $timdinas->get_sekretaris();
 $total = $dinasboptim->dinasbop->total_anggaran;
 ?>
@@ -19,10 +19,7 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 <style type="text/css" media="print">
 	@page {
 		size: auto;
-		margin-top: 0cm;
-		margin-left: 0cm;
-		margin-right: 0cm;
-		margin-bottom: 0cm;  
+		margin: 0 0 0 0;
 	}
 
 	.table-print td {
@@ -94,8 +91,8 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 									<td width="3%" style="text-align: center;">2</td>
 									<td width="30%">Nama / NIP Pegawai yang melaksanakan perjalanan</td>
 									<td width="60%" colspan="2">
-										{!! $dinasboptim->tim['pengendaliteknis']['nama'] !!}<br>
-										{!! $dinasboptim->tim['pengendaliteknis']['nip'] !!}
+										{!! $dinasboptim->tim['wakilpenanggungjawab']['nama'] !!}<br>
+										{!! $dinasboptim->tim['wakilpenanggungjawab']['nip'] !!}
 									</td>
 								</tr>
 								<tr>
@@ -104,8 +101,8 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 										Tingkat Biaya Perjalanan Dinas
 									</td>
 									<td width="60%" colspan="2">
-										{!! $dinasboptim->tim['pengendaliteknis']['pangkat'] !!} 
-										{!! $dinasboptim->tim['pengendaliteknis']['golongan'] !!}<br> 
+										{!! $dinasboptim->tim['wakilpenanggungjawab']['pangkat'] !!} 
+										{!! $dinasboptim->tim['wakilpenanggungjawab']['golongan'] !!}<br> 
 										Pengendali Teknis<br>
 									</td>
 								</tr>
@@ -123,7 +120,7 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 									<td width="3%" style="text-align: center;">6</td>
 									<td width="30%">a. Tempat berangkat<br> b. Tempat tujuan
 									</td>
-									<td width="60%" colspan="2">Kota Bandung<br> {!! $dinasboptim->dinasbop->auditan !!}
+									<td width="60%" colspan="2">Kota Bandung<br> {!! $dinasboptim->auditan !!}
 									</td>
 								</tr>
 								<tr>
@@ -146,7 +143,9 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 								<tr>
 									<td width="3%" style="text-align: center;"></td>
 									<td width="30%">
-										<ol style="margin-left: -30px;">
+										{!! $dinasboptim->tim['pengendaliteknis']['nama'] !!}<br>
+										{!! $dinasboptim->tim['ketuatim']['nama'] !!}<br>
+										<ol style="margin-left: -25px;">
 											@for($i = 1; $i < count($dinasboptim->tim['anggota']); $i++)
 												<li>{!! $dinasboptim->tim['anggota'][$i]['nama'] !!}</li>
 											@endfor
@@ -248,7 +247,7 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 										<tr>
 												<td style="width:2%;">II.</td>
 												<td style="width:25%;">Tiba di</td>
-												<td>: {!! $dinasboptim->dinasbop->auditan !!}</td>
+												<td>: {!! $dinasboptim->auditan !!}</td>
 										</tr>
 										<tr>
 												<td style="width:2%;"></td>
@@ -266,18 +265,18 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 								<td style="width:50%;">
 									<table class="table-print">
 										<tr>
-												<td style="width:60%;">Berangkat dari<br>Ke</td>
+												<td style="width:25%;">Berangkat dari<br>Ke</td>
 												<td>
-													: {!! $dinasboptim->dinasbop->auditan !!}<br>
+													: {!! $dinasboptim->auditan !!}<br>
 													: Kota Bandung
 												</td>
 										</tr>
 										<tr>
-												<td style="width:60%;">Pada Tanggal</td>
+												<td style="width:25%;">Pada Tanggal</td>
 												<td>: {!! Carbon\Carbon::parse($dinasboptim->dinasbop->sampai)->formatLocalized('%d %B %Y') !!}</td>
 										</tr>
 										<tr>
-												<td style="width:60%;">Kepala</td>
+												<td style="width:25%;">Kepala</td>
 												<td>:</td>
 										</tr>
 									</table>
@@ -308,18 +307,18 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 								<td style="width:50%;">
 									<table class="table-print">
 										<tr>
-												<td style="width:60%;">Berangkat dari<br>Ke</td>
+												<td style="width:25%;">Berangkat dari<br>Ke</td>
 												<td>
 													: <br>
 													: 
 												</td>
 										</tr>
 										<tr>
-												<td style="width:60%;">Pada Tanggal</td>
+												<td style="width:25%;">Pada Tanggal</td>
 												<td>: </td>
 										</tr>
 										<tr>
-												<td style="width:60%;">Kepala</td>
+												<td style="width:25%;">Kepala</td>
 												<td>:</td>
 										</tr>
 									</table>
@@ -379,7 +378,7 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 										<tr>
 												<td style="width:2%;"></td>
 												<td style="width:25%;">Pada Tanggal</td>
-												<td>: </td>
+												<td>: {!! Carbon\Carbon::parse($dinasboptim->dinasbop->sampai)->formatLocalized('%d %B %Y') !!}</td>
 										</tr>
 										<tr>
 												<td style="width:2%;"></td>

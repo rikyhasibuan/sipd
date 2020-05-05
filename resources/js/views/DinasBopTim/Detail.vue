@@ -18,7 +18,7 @@
                 <tr>
                     <td style="width:15%;"><b>Dasar Surat Perintah</b></td>
                     <td style="width:85%;">
-                        <ul>
+                        <ul style="margin-left:-25px;">
                             <li v-for="v in dinasbop.dasar" :value="v" :key="v">
                                 {{ v }}
                             </li>
@@ -32,7 +32,7 @@
                 <tr>
                     <td style="width:15%;"><b>Tujuan Pemeriksaan</b></td>
                     <td style="width:85%;">
-                        <ul>
+                        <ul style="margin-left:-25px;">
                             <li v-for="v in dinasbop.untuk" :value="v" :key="v">
                                 {{ v }}
                             </li>
@@ -90,7 +90,7 @@
                                 {{ v.tim.ketuatim.nama }}
                                 <br><br>
                                 <b>Anggota Tim</b>
-                                <ol>
+                                <ol style="margin-left:-25px;">
                                     <li v-for="y in v.tim.anggota" :key="y.nip">{{ y.nama }}</li>
                                 </ol> 
                             </td>

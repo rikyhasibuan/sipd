@@ -4,7 +4,7 @@ use App\Libraries\TimDinas;
 $common = new Common();
 $timdinas = new TimDinas();
 $diff = date_diff($dinasboptim->dinasbop->dari, $dinasboptim->dinasbop->sampai);
-$durasi = $diff->days;
+$durasi = $diff->days + 1;
 $kpa = $timdinas->get_sekretaris();
 $total = $dinasboptim->dinasbop->total_anggaran;
 ?>
@@ -68,13 +68,13 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 								<td style="width:5%;"></td>
 								<td style="width:20%;"></td>
 								<td style="width:2%;">Nomor BKU</td>
-								<td style="width:20%;">: {!! $dinasboptim->dinasbop->kegiatan->kode_kegiatan !!}</td>
+								<td style="width:20%;">:</td>
 							</tr>
 							<tr>
 								<td style="width:5%;">Lampiran SPD Nomor</td>
 								<td style="width:20%;">: {!! $dinasboptim->dinasbop->nomor_sp !!}</td>
 								<td style="width:2%;">Tanggal BKU</td>
-								<td style="width:20%;">: {!! Carbon\Carbon::parse(date('Y-m-d'))->formatLocalized('%d %B %Y') !!}</td>
+								<td style="width:20%;">: </td>
 							</tr>
 							<tr>
 								<td style="width:5%;">Tanggal</td>
@@ -207,7 +207,7 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 								<td style="text-align:center;"></td>
 								<td><b>Jumlah Biaya Operasional Inspektorat</b></td>
 								<td style="text-align: right;vertical-align:middle;">
-									<b>Rp.{!! $common->rupiah($total) !!}</b>
+									<b>Rp.{!! $common->rupiah($dinasboptim->total_anggaran) !!}</b>
 								</td>
 								<td></td>
 							</tr>
@@ -238,11 +238,11 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 							</tr>
 							<tr>
 								<td colspan="2"><b>Jumlah Total</b></td>
-								<td style="text-align: right; vertical-align:middle;"><b>Rp.{!! $common->rupiah(($total) ) !!}</b></td>
+								<td style="text-align: right; vertical-align:middle;"><b>Rp.{!! $common->rupiah(($dinasboptim->total_anggaran) ) !!}</b></td>
 								<td></td>
 							</tr>
 							<tr>
-								<td colspan="4"><b><i>{!! $common->terbilang($total) !!} Rupiah</i></b></td>
+								<td colspan="4"><b><i>{!! $common->terbilang($dinasboptim->total_anggaran) !!} Rupiah</i></b></td>
 							</tr>
 						</tbody>
 					</table>

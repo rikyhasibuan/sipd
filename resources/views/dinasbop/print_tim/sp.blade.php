@@ -14,7 +14,7 @@ $inspektur = $timdinas->get_inspektur();
     <style>
         @media print {
             @page  { 
-                size: 'legal';
+                size: auto;
                 margin-top: 0.5cm;
                 margin-left: 2cm;
                 margin-right: 2cm;
@@ -90,6 +90,11 @@ $inspektur = $timdinas->get_inspektur();
                                 <span style="margin-right:20px;">{!! $dinasboptim->tim['wakilpenanggungjawab']['nama'] !!}</span>
                                 <br>
                                 <span style="margin-right:35px;"></span>
+                                <span style="margin-right:63px;">NIP</span>
+                                <span style="margin-right:30px;">:</span>
+                                <span style="margin-right:20px;">{!! $dinasboptim->tim['wakilpenanggungjawab']['nip'] !!}</span>
+                                <br>
+                                <span style="margin-right:35px;"></span>
                                 <span style="margin-right:40px;">Jabatan</span>
                                 <span style="margin-right:30px;">:</span>
                                 <span style="margin-right:20px;">Wakil Penanggung Jawab</span>
@@ -99,6 +104,11 @@ $inspektur = $timdinas->get_inspektur();
                                 <span style="margin-right:50px;">Nama</span>
                                 <span style="margin-right:30px;">:</span>
                                 <span style="margin-right:20px;">{!! $dinasboptim->tim['pengendaliteknis']['nama'] !!}</span>
+                                <br>
+                                <span style="margin-right:35px;"></span>
+                                <span style="margin-right:63px;">NIP</span>
+                                <span style="margin-right:30px;">:</span>
+                                <span style="margin-right:20px;">{!! $dinasboptim->tim['pengendaliteknis']['nip'] !!}</span>
                                 <br>
                                 <span style="margin-right:35px;"></span>
                                 <span style="margin-right:40px;">Jabatan</span>
@@ -112,6 +122,11 @@ $inspektur = $timdinas->get_inspektur();
                                 <span style="margin-right:20px;">{!! $dinasboptim->tim['ketuatim']['nama'] !!}</span>
                                 <br>
                                 <span style="margin-right:35px;"></span>
+                                <span style="margin-right:63px;">NIP</span>
+                                <span style="margin-right:30px;">:</span>
+                                <span style="margin-right:20px;">{!! $dinasboptim->tim['ketuatim']['nip'] !!}</span>
+                                <br>
+                                <span style="margin-right:35px;"></span>
                                 <span style="margin-right:40px;">Jabatan</span>
                                 <span style="margin-right:30px;">:</span>
                                 <span style="margin-right:20px;">Ketua Tim</span>
@@ -123,6 +138,11 @@ $inspektur = $timdinas->get_inspektur();
                                     <span style="margin-right:50px;">Nama</span>
                                     <span style="margin-right:30px;">:</span>
                                     <span style="margin-right:20px;">{!! $anggota['nama'] !!}</span>
+                                    <br>
+                                    <span style="margin-right:35px;"></span>
+                                    <span style="margin-right:63px;">NIP</span>
+                                    <span style="margin-right:30px;">:</span>
+                                    <span style="margin-right:20px;">{!! $anggota['nip'] !!}</span>
                                     <br>
                                     <span style="margin-right:35px;"></span>
                                     <span style="margin-right:40px;">Jabatan</span>

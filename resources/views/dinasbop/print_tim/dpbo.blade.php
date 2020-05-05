@@ -5,7 +5,7 @@ use App\Libraries\TimDinas;
 $common = new Common();
 $timdinas = new TimDinas();
 $diff = date_diff($dinasboptim->dinasbop->dari, $dinasboptim->dinasbop->sampai);
-$durasi = $diff->days;
+$durasi = $diff->days + 1;
 $kpa = $timdinas->get_sekretaris();
 ?>
 <!DOCTYPE html>
@@ -40,7 +40,7 @@ $kpa = $timdinas->get_sekretaris();
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
-				<strong><u><h4 class="text-center">Inspektorat Daerah Provinsi Jawa Barat</h4></u></strong>
+				<strong><u><h4 class="text-center">INSPEKTORAT DAERAH PROVINSI JAWA BARAT</h4></u></strong>
 				<br>
 				<center>
 					<table width="75%">

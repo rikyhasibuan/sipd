@@ -44,12 +44,15 @@ class DinasBopController extends Controller
     public function post_data(Request $request)
     {
         try {
+            $dasar = array_values(array_filter($request->input('dasar')));
+            $untuk = array_values(array_filter($request->input('untuk')));
+
             $dinasbop = new DinasBop();
             $dinasbop->program_id = $request->input('program_id');
             $dinasbop->kegiatan_id = $request->input('kegiatan_id');
             $dinasbop->belanja_id = $request->input('belanja_id');
-            $dinasbop->dasar = $request->input('dasar');
-            $dinasbop->untuk = $request->input('untuk');
+            $dinasbop->dasar = $dasar;
+            $dinasbop->untuk = $untuk;
             $dinasbop->dari = $request->input('dari');
             $dinasbop->sampai = $request->input('sampai');
             $dinasbop->created_at = date('Y-m-d H:i:s');
@@ -65,12 +68,14 @@ class DinasBopController extends Controller
 
     public function put_data(Request $request)
     {
+        $dasar = array_values(array_filter($request->input('dasar')));
+        $untuk = array_values(array_filter($request->input('untuk')));
         $dinasbop = DinasBop::find($request['id']);
         $dinasbop->program_id = $request->input('program_id');
         $dinasbop->kegiatan_id = $request->input('kegiatan_id');
         $dinasbop->belanja_id = $request->input('belanja_id');
-        $dinasbop->dasar = $request->input('dasar');
-        $dinasbop->untuk = $request->input('untuk');
+        $dinasbop->dasar = $dasar;
+        $dinasbop->untuk = $untuk;
         $dinasbop->dari = $request->input('dari');
         $dinasbop->sampai = $request->input('sampai');
         $dinasbop->updated_at = date('Y-m-d H:i:s');
