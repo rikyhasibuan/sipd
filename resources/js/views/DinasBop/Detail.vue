@@ -48,8 +48,8 @@
                     </ul>
                     <div class="tab-content">
                         <div id="tim" class="tab-pane fade" :class="{ 'active': (last_tab == 'tim'), 'show': (last_tab == 'tim') }">
-                            <dinasboptim-detail 
-                                :dinasbop=dinasbop 
+                            <dinasboptim-detail
+                                :dinasbop=dinasbop
                                 :dinasboptim=dinasboptim
                                 :route=route
                                 :print_action=print_action
@@ -57,8 +57,8 @@
                             </dinasboptim-detail>
                         </div>
                         <div id="inspektur" class="tab-pane fade" :class="{ 'active': (last_tab == 'inspektur'), 'show': (last_tab == 'inspektur') }">
-                            <dinasbopinspektur-detail 
-                                :dinasbop=dinasbop 
+                            <dinasbopinspektur-detail
+                                :dinasbop=dinasbop
                                 :dinasbopinspektur=dinasbopinspektur
                                 :route=route
                                 :print_action=print_action
@@ -66,8 +66,8 @@
                             </dinasbopinspektur-detail>
                         </div>
                         <div id="sekretaris" class="tab-pane fade" :class="{ 'active': (last_tab == 'sekretaris'), 'show': (last_tab == 'sekretaris') }">
-                            <dinasbopsekretaris-detail 
-                                :dinasbop=dinasbop 
+                            <dinasbopsekretaris-detail
+                                :dinasbop=dinasbop
                                 :dinasbopsekretaris=dinasbopsekretaris
                                 :route=route
                                 :print_action=print_action
@@ -75,8 +75,8 @@
                             </dinasbopsekretaris-detail>
                         </div>
                         <div id="driver" class="tab-pane fade" :class="{ 'active': (last_tab == 'driver'), 'show': (last_tab == 'driver') }">
-                            <dinasbopdriver-detail 
-                                :dinasbop=dinasbop 
+                            <dinasbopdriver-detail
+                                :dinasbop=dinasbop
                                 :dinasbopdriver=dinasbopdriver
                                 :route=route
                                 :print_action=print_action
@@ -84,17 +84,17 @@
                             </dinasbopdriver-detail>
                         </div>
                         <div id="reviu" class="tab-pane fade" :class="{ 'active': (last_tab == 'reviu'), 'show': (last_tab == 'reviu') }">
-                            <dinasbopreviu-detail 
-                                :dinasbop=dinasbop 
+                            <dinasbopreviu-detail
+                                :dinasbop=dinasbop
                                 :dinasbopdriver=dinasbopdriver
                                 :route=route
                                 :print_action=print_action
                                 :api=api>
                             </dinasbopreviu-detail>
                         </div>
-                        <div id="reviu" class="tab-pane fade" :class="{ 'active': (last_tab == 'supervisi'), 'show': (last_tab == 'supervisi') }">
-                            <dinasbopsupervisi-detail 
-                                :dinasbop=dinasbop 
+                        <div id="supervisi" class="tab-pane fade" :class="{ 'active': (last_tab == 'supervisi'), 'show': (last_tab == 'supervisi') }">
+                            <dinasbopsupervisi-detail
+                                :dinasbop=dinasbop
                                 :dinasbopdriver=dinasbopdriver
                                 :route=route
                                 :print_action=print_action
@@ -102,8 +102,8 @@
                             </dinasbopsupervisi-detail>
                         </div>
                         <div id="pengumpuldata" class="tab-pane fade" :class="{ 'active': (last_tab == 'pengumpuldata'), 'show': (last_tab == 'pengumpuldata') }">
-                            <dinasboppengumpuldata-detail 
-                                :dinasbop=dinasbop 
+                            <dinasboppengumpuldata-detail
+                                :dinasbop=dinasbop
                                 :dinasbopdriver=dinasbopdriver
                                 :route=route
                                 :print_action=print_action
@@ -111,8 +111,8 @@
                             </dinasboppengumpuldata-detail>
                         </div>
                         <div id="administrasi" class="tab-pane fade" :class="{ 'active': (last_tab == 'administrasi'), 'show': (last_tab == 'administrasi') }">
-                            <dinasbopadministrasi-detail 
-                                :dinasbop=dinasbop 
+                            <dinasbopadministrasi-detail
+                                :dinasbop=dinasbop
                                 :dinasbopdriver=dinasbopdriver
                                 :route=route
                                 :print_action=print_action
@@ -120,7 +120,8 @@
                             </dinasbopadministrasi-detail>
                         </div>
                     </div>
-                    <!-- 
+
+                    <!--
                         <button type="button" class="btn btn-success" @click="approve()" v-show="dinasbop.status === 0" style="margin-right:5px;"><i class="fa fa-check"></i> Setujui</button>
                         <button type="button" class="btn btn-warning" @click="revisi()" v-show="dinasbop.status === 0" style="margin-right:5px;"><i class="fa fa-info"></i> Revisi</button>
                     -->
@@ -132,66 +133,66 @@
 </template>
 
 <script>
-export default {
-    data() {
-        return {
-            isLoading: false,
-            options: {},
-            alert: {
-                error:false,
-                empty:false,
-                delete:false
-            },
-            showTable: false,
-            last_tab: '',
-            id:''
-        }
-    },
-    props: ['dinasbop', 'dinasboptim', 'dinasbopdriver', 'dinasbopinspektur', 'route', 'print_action', 'api'],
-    methods: {
-        onChangeTabs(evt) {
-            const data_set = evt.target.dataset.id;
-            switch (data_set) {
-                case 'tabtim':
-                    this.$cookies.set("last_tab", "tim");
-                    break;
-                case 'tabdriver':
-                    this.$cookies.set("last_tab", "driver");
-                    break;
-                case 'tabinspektur':
-                    this.$cookies.set("last_tab", "inspektur");
-                    break;
-                case 'tabsekretaris':
-                    this.$cookies.set("last_tab", "sekretaris");
-                    break;
-                case 'tabreviu':
-                    this.$cookies.set("last_tab", "reviu");
-                    break;
-                case 'tabsupervisi':
-                    this.$cookies.set("last_tab", "supervisi");
-                    break;
-                case 'tabpengumpuldata':
-                    this.$cookies.set("last_tab", "pengumpuldata");
-                    break;
-                case 'tabadministrasi':
-                    this.$cookies.set("last_tab", "administrasi");
-                    break;
-                default:
-                    break;
+    export default {
+        data() {
+            return {
+                isLoading: false,
+                options: {},
+                alert: {
+                    error:false,
+                    empty:false,
+                    delete:false
+                },
+                showTable: false,
+                last_tab: '',
+                id:''
             }
+        },
+        props: ['dinasbop', 'dinasboptim', 'dinasbopdriver', 'dinasbopinspektur', 'route', 'print_action', 'api'],
+        methods: {
+            onChangeTabs(evt) {
+                const data_set = evt.target.dataset.id;
+                switch (data_set) {
+                    case 'tabtim':
+                        this.$cookies.set("last_tab", "tim");
+                        break;
+                    case 'tabdriver':
+                        this.$cookies.set("last_tab", "driver");
+                        break;
+                    case 'tabinspektur':
+                        this.$cookies.set("last_tab", "inspektur");
+                        break;
+                    case 'tabsekretaris':
+                        this.$cookies.set("last_tab", "sekretaris");
+                        break;
+                    case 'tabreviu':
+                        this.$cookies.set("last_tab", "reviu");
+                        break;
+                    case 'tabsupervisi':
+                        this.$cookies.set("last_tab", "supervisi");
+                        break;
+                    case 'tabpengumpuldata':
+                        this.$cookies.set("last_tab", "pengumpuldata");
+                        break;
+                    case 'tabadministrasi':
+                        this.$cookies.set("last_tab", "administrasi");
+                        break;
+                    default:
+                        break;
+                }
+            }
+        },
+        created() {
+            this.isLoading = true;
+            if (this.$cookies.isKey('last_tab') == false) {
+                this.$cookies.set("last_tab", 'tim');
+                this.last_tab = 'tim';
+            } else {
+                this.last_tab = this.$cookies.get("last_tab");
+            }
+        },
+        mounted() {
+            this.isLoading = false;
         }
-    },
-    created() {
-        this.isLoading = true;
-        if (this.$cookies.isKey('last_tab') == false) {
-            this.$cookies.set("last_tab", 'tim');
-            this.last_tab = 'tim';
-        } else {
-            this.last_tab = this.$cookies.get("last_tab");
-        }
-    },
-    mounted() {
-        this.isLoading = false;
-    }
-};
+    };
 </script>

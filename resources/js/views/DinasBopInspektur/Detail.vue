@@ -44,36 +44,38 @@
                         <tbody>
                             <tr v-for="v in dinasbopinspektur" :key="v.id">
                                 <td style="vertical-align:middle;">
-                                DASAR : <br>
-                                <div v-if="v.dasar.length > 1">
-                                    <ul>
-                                    <li v-for="(d,v) in v.dasar" :value="d" :key="v">{{ d }}</li>
-                                    </ul>
-                                </div>
-                                <div v-else>
-                                    {{ v.dasar[0] }}
-                                </div>
-                                <br>
-                                TUJUAN : <br>
-                                <div v-if="v.tujuan.length > 1">
-                                    <ul>
-                                    <li v-for="d in v.dasar" :value="d" :key="d">{{ d }}</li>
-                                    </ul>
-                                </div>
-                                <div v-else>
-                                    {{ v.tujuan[0] }}
-                                </div>
+                                    <b>DASAR</b> : <br>
+                                    <div v-if="v.dasar.length > 1">
+                                        <ul style="margin-left:-25px;">
+                                        <li v-for="(d,v) in v.dasar" :value="d" :key="v">{{ d }}</li>
+                                        </ul>
+                                    </div>
+                                    <div v-else>
+                                        {{ v.dasar[0] }}
+                                    </div>
+                                    <br>
+                                    <b>TUJUAN</b> : <br>
+                                    <div v-if="v.tujuan.length > 1">
+                                        <ul style="margin-left:-25px;">
+                                        <li v-for="d in v.tujuan" :value="d" :key="d">{{ d }}</li>
+                                        </ul>
+                                    </div>
+                                    <div v-else>
+                                        {{ v.tujuan[0] }}
+                                    </div>
                                 </td>
                                 <td style="vertical-align:middle;text-align:center;">
                                     Nomor : <b>{{ v.nomor_sp }}</b>
                                     <br>
                                     Tanggal : {{ v.tgl_sp | moment }}
+                                    <br>
+                                    {{ v.dari | moment }} s.d {{ v.sampai | moment }}
                                 </td>
                                 <td style="vertical-align:middle;text-align:center;">
-                                {{ v.inspektur.nama }}
+                                    {{ v.inspektur.nama }}
                                 </td>
                                 <td style="text-align: center; vertical-align:middle;">
-                                {{ v.inspektur.hari }} hari x Rp.{{ v.inspektur.biaya | rupiah }} = Rp.{{ v.inspektur.total | rupiah }}
+                                    {{ v.inspektur.hari }} hari x Rp.{{ v.inspektur.biaya | rupiah }} = Rp.{{ v.inspektur.total | rupiah }}
                                 </td>
                                 <td style="text-align: center; vertical-align:middle;">
                                     <div>
@@ -110,7 +112,7 @@
             </div>
         </div>
         <transition>
-            <div class="modal" id="delete_inspektur_modal" tabindex="-1" role="dialog" v-if="inspekturmodal">
+            <div class="modal" id="delete_inspektur_modal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -177,8 +179,7 @@ export default {
             new_window.location = this.api + '/print/dpbo/'+ id +'/inspektur';
         },
         toggle_modal(id) {
-            this.inspekturmodal = true;
-            $("#delete_inspektur_modal").modal('show');
+            $('#delete_inspektur_modal').modal('show');
             this.inspekturid = id;
         },
         deleteData(id) {

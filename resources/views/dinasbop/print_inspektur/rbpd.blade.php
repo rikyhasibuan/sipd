@@ -1,4 +1,4 @@
-<?php 
+<?php
 use App\Libraries\Common;
 use App\Libraries\TimDinas;
 $common = new Common();
@@ -70,13 +70,13 @@ $total = $dinasbopinspektur->total;
 								<td style="width:5%;"></td>
 								<td style="width:20%;"></td>
 								<td style="width:2%;">Nomor BKU</td>
-								<td style="width:20%;">: {!! $dinasbopinspektur->dinasbop->kegiatan->kode_kegiatan !!}</td>
+								<td style="width:20%;">: </td>
 							</tr>
 							<tr>
 								<td style="width:5%;">Lampiran SPD Nomor</td>
 								<td style="width:20%;">: {!! $dinasbopinspektur->nomor_sp !!}</td>
 								<td style="width:2%;">Tanggal BKU</td>
-								<td style="width:20%;">: {!! Carbon\Carbon::parse(date('Y-m-d'))->formatLocalized('%d %B %Y') !!}</td>
+								<td style="width:20%;">: </td>
 							</tr>
 							<tr>
 								<td style="width:5%;">Tanggal</td>

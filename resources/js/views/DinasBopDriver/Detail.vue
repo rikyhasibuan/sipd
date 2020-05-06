@@ -110,7 +110,7 @@
             </div>
         </div>
         <transition>
-            <div class="modal" id="delete_driver_modal" tabindex="-1" role="dialog" v-if="drivermodal">
+            <div class="modal" id="drivermodal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -150,7 +150,6 @@ export default {
             },
             showTable: false,
             driverid:'',
-            drivermodal:false,
             total_anggaran_driver : 0
         }
     },
@@ -177,19 +176,18 @@ export default {
             new_window.location = this.api + '/print/dpbo/'+ id +'/driver';
         },
         toggle_modal(id) {
-            this.drivermodal = true;
-            $("#delete_driver_modal").modal('show');
+            $("#drivermodal").modal('show');
             this.driverid = id;
         },
         deleteData(id) {
-            this.isLoading = truel
+            this.isLoading = true;
             service.deleteData(this.api + '/driver/' + this.dinasbop.id + '/' + id)
             .then(response => {
                 if(response.status === 'OK') {
                     this.isLoading = false;
                     this.alert.delete = true;
                     this.drivermodal = false;
-                    $('#delete_driver_modal').modal('hide');
+                    $('#drivermodal').modal('hide');
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(function() { this.alert.delete=false; location.reload(); }, 1000);
                 }
@@ -198,7 +196,7 @@ export default {
                 this.alert.delete = false;
                 this.alert.error = true;
                 this.drivermodal = false;
-                $('#delete_driver_modal').modal('hide');
+                $('#drivermodal').modal('hide');
                 window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 console.log(error);
             });

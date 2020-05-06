@@ -110,7 +110,7 @@
             </div>
         </div>
         <transition>
-            <div class="modal" id="delete_sekretaris_modal" tabindex="-1" role="dialog" v-if="sekretarismodal">
+            <div class="modal" id="delete_sekretaris_modal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
