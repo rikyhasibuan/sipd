@@ -57,8 +57,8 @@ class KasAnggaran
      */
     function show_resapan_anggaran($tahun, $bulan, $belanja)
     {
-        $dinasbop = DinasBop::searchBelanja($belanja)->searchTahun($tahun)->get();
-        $dinasregular = DinasRegular::searchBelanja($belanja)->searchTahun($tahun)->get();
+        $dinasbop = DinasBop::searchBelanja($belanja)->searchBulan($bulan)->searchTahun($tahun)->get();
+        $dinasregular = DinasRegular::searchBelanja($belanja)->searchBulan($bulan)->searchTahun($tahun)->get();
 
         $anggaran_bop = 0;
         if (count($dinasbop) > 0) {
@@ -73,7 +73,6 @@ class KasAnggaran
                 $anggaran_regular += ($x->total_harian + $x->total_akomodasi + $x->total_transportasi['total']);
             }
         }
-
         return ($anggaran_bop + $anggaran_regular);
     }
 
@@ -106,7 +105,7 @@ class KasAnggaran
     {
         return DinasBopTim::where('dinasbop_id', $id)->sum('total_anggaran');
     }
-    
+
 
     /**
      * mengecek apakah sisa anggaran mencukupi untuk biaya dinas

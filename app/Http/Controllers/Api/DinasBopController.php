@@ -12,6 +12,7 @@ use App\Models\DinasBopInspektur;
 use App\Models\DinasBopSekretaris;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Storage;
 use Exception;
 
 class DinasBopController extends Controller
@@ -113,7 +114,8 @@ class DinasBopController extends Controller
                         'wakilpenanggungjawab' => $request->input('wakilpenanggungjawab'),
                         'pengendaliteknis' => $request->input('pengendaliteknis'),
                         'ketuatim' => $request->input('ketuatim'),
-                        'anggota' => json_decode($request->input('anggota'), true)
+                        'anggota' => json_decode($request->input('anggota'), true),
+                        'act' => 'create'
                     ];
 
         $timdinasbop = $timdinas->generate_tim_bop($parameter);
@@ -128,10 +130,9 @@ class DinasBopController extends Controller
         $dinasboptim->lampiran = $path;
         $dinasboptim->created_at = date('Y-m-d H:i:s');
         if ($dinasboptim->save()) {
-            $kasanggaran = new KasAnggaran();
-            $biaya_bop = $kasanggaran->show_biaya_bop($request['dinasbop']);
             $dinasbop = DinasBop::find($request['dinasbop']);
-            $dinasbop->total_anggaran = $biaya_bop + $timdinasbop['total_anggaran'];
+            $biaya_bop_lama = $dinasbop->total_anggaran;
+            $dinasbop->total_anggaran = $biaya_bop_lama + $timdinasbop['total_anggaran'];
             if ($dinasbop->save()) {
                 return response()->json(['status'=>'ok'], 200);
             } else {
@@ -146,12 +147,13 @@ class DinasBopController extends Controller
     {
         $timdinas = new TimDinas();
         $parameter = [
-                        'dinasbop'=>$request['dinasbop'],
+                        'dinasbop'=>$request['id'],
                         'auditan'=> $request->input('auditan'),
                         'wakilpenanggungjawab' => $request->input('wakilpenanggungjawab'),
                         'pengendaliteknis' => $request->input('pengendaliteknis'),
                         'ketuatim' => $request->input('ketuatim'),
-                        'anggota' => json_decode($request->input('anggota'), true)
+                        'anggota' => json_decode($request->input('anggota'), true),
+                        'act' => 'put'
                     ];
 
         $timdinasbop = $timdinas->generate_tim_bop($parameter);
@@ -165,18 +167,19 @@ class DinasBopController extends Controller
         $dinasboptim->nomor_sp = $request->input('nomor_sp');
         $dinasboptim->tgl_sp = $request->input('tgl_sp');
         $dinasboptim->tim = $timdinasbop['tim'];
+
         if ($request->hasFile('lampiran')) {
             $path = $request->file('lampiran')->store('public/lampiran_dinas/bop');
             $dinasboptim->lampiran = $path;
         }
+
         $dinasboptim->total_anggaran = $timdinasbop['total_anggaran'];
         $dinasboptim->updated_at = date('Y-m-d H:i:s');
 
         if ($dinasboptim->save()) {
-            $kasanggaran = new KasAnggaran();
-            $biaya_bop = $kasanggaran->show_biaya_bop($request['dinasbop']);
             $dinasbop = DinasBop::find($request['dinasbop']);
-            $dinasbop->total_anggaran = $biaya_bop;
+            $anggaran_bop_lama = $dinasbop->total_anggaran;
+            $dinasbop->total_anggaran = $anggaran_bop_lama - $biaya_bop_lama + $timdinasbop['total_anggaran'];
             if ($dinasbop->save()) {
                 return response()->json(['status'=>'ok'], 200);
             } else {
@@ -192,11 +195,12 @@ class DinasBopController extends Controller
         try {
             $dinasboptim = DinasBopTim::find($request['id']);
             $dinasbop_id = $dinasboptim->dinasbop_id;
-            $anggaran = $dinasboptim->total_anggaran;
+            $anggaran_tim = $dinasboptim->total_anggaran;
+            Storage::delete($dinasboptim->lampiran);
             if ($dinasboptim->delete()) {
                 $dinasbop = DinasBop::find($dinasbop_id);
                 $total_anggaran = $dinasbop->total_anggaran;
-                $dinasbop->total_anggaran = $total_anggaran - $anggaran;
+                $dinasbop->total_anggaran = intval($total_anggaran) - intval($anggaran_tim);
                 $dinasbop->save();
                 return response()->json(['status' => 'OK'], 200);
             } else {
@@ -219,7 +223,7 @@ class DinasBopController extends Controller
                     ];
 
         $timdinasbop = $timdinas->generate_driver_bop($parameter);
-        
+
         $dinasbopdriver = new DinasBopDriver();
         $dinasbopdriver->dinasbop_id = $request['dinasbop'];
         $dinasbopdriver->nomor_sp = $request->input('nomor_sp');
@@ -259,7 +263,7 @@ class DinasBopController extends Controller
 
         $dinasbopdriver = DinasBopDriver::find($request['id']);
         $biaya_bop_lama = $dinasbopdriver->total;
-        
+
         $dasar = array_values(array_filter($request->input('dasar')));
         $tujuan = array_values(array_filter($request->input('tujuan')));
 
@@ -312,7 +316,7 @@ class DinasBopController extends Controller
                     ];
 
         $timdinasbop = $timdinas->generate_inspektur_bop($parameter);
-        
+
         $dinasbopinspektur = new DinasBopInspektur();
         $dinasbopinspektur->dinasbop_id = $request['dinasbop'];
         $dinasbopinspektur->nomor_sp = $request->input('nomor_sp');
@@ -352,7 +356,6 @@ class DinasBopController extends Controller
         $timdinasbop = $timdinas->generate_inspektur_bop($parameter);
 
         $dinasbopinspektur = DinasBopInspektur::find($request['id']);
-        $biaya_bop_lama = $dinasbopdriver->total;
 
         $dinasbopinspektur->dinasbop_id = $request['dinasbop'];
         $dinasbopinspektur->nomor_sp = $request->input('nomor_sp');
@@ -382,7 +385,7 @@ class DinasBopController extends Controller
                     ];
 
         $timdinasbop = $timdinas->generate_sekretaris_bop($parameter);
-        
+
         $dinasbopsekretaris = new DinasBopSekretaris();
         $dinasbopsekretaris->dinasbop_id = $request['dinasbop'];
         $dinasbopsekretaris->nomor_sp = $request->input('nomor_sp');
@@ -422,7 +425,6 @@ class DinasBopController extends Controller
         $timdinasbop = $timdinas->generate_sekretaris_bop($parameter);
 
         $dinasbopsekretaris = DinasBopSekretaris::find($request['id']);
-        $biaya_bop_lama = $dinasbopdriver->total;
 
         $dinasbopsekretaris->dinasbop_id = $request['dinasbop'];
         $dinasbopsekretaris->nomor_sp = $request->input('nomor_sp');
@@ -434,7 +436,7 @@ class DinasBopController extends Controller
         $dinasbopsekretaris->sekretaris = $timdinasbop['sekretaris'];
         $dinasbopsekretaris->total = $timdinasbop['total_anggaran'];
         $dinasbopsekretaris->updated_at = date('Y-m-d H:i:s');
-        if ($dinasbopinspektur->save()) {
+        if ($dinasbopsekretaris->save()) {
             return response()->json(['status'=>'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);
@@ -523,18 +525,6 @@ class DinasBopController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
-/*     public function get_print_personil(Request $request)
-    {
-        try {
-            $_id = isset($request['id']) ? $request['id'] : '';
-            $_type = isset($request['type']) ? $request['type'] : '';
-            $dinasboptim = DinasBopTim::with('dinasbop')->find($_id);
-            return View::make('dinasbop.print_tim.daftar_personil', ['dinasboptim'=>$dinasboptim]);
-        } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    } */
 
     public function get_print_personil_all(Request $request)
     {

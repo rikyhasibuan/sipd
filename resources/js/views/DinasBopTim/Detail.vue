@@ -47,8 +47,10 @@
         <div class="col-md-12">
             <div class="pull-left">
                 <a :href="route + '/tim/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Tim</a>
+                <span v-if="dinasboptim.length > 0">
                 <a class="btn btn-default mb-2 mr-2" href="#" @click="print_personil_all(dinasbop.id)">
                     <i class="fa fa-users"></i> Daftar Personil</a>
+                </span>
             </div>
         </div>
     </div>
@@ -92,36 +94,36 @@
                                 <b>Anggota Tim</b>
                                 <ol style="margin-left:-25px;">
                                     <li v-for="y in v.tim.anggota" :key="y.nip">{{ y.nama }}</li>
-                                </ol> 
+                                </ol>
                             </td>
                             <td>
                                 <b></b>
                                 <br>
-                                {{ v.tim.wakilpenanggungjawab.hari }} hari 
-                                x 
-                                Rp.{{ v.tim.wakilpenanggungjawab.biaya | rupiah }} = 
+                                {{ v.tim.wakilpenanggungjawab.hari }} hari
+                                x
+                                Rp.{{ v.tim.wakilpenanggungjawab.biaya | rupiah }} =
                                 Rp.{{ v.tim.wakilpenanggungjawab.total | rupiah }}
-                                <br><br>
-                                <br>
-                                {{ v.tim.pengendaliteknis.hari }} hari 
-                                x 
-                                Rp.{{ v.tim.pengendaliteknis.biaya | rupiah }} = 
+                                <br><br><br>
+                                {{ v.tim.pengendaliteknis.hari }} hari
+                                x
+                                Rp.{{ v.tim.pengendaliteknis.biaya | rupiah }} =
                                 Rp.{{ v.tim.pengendaliteknis.total | rupiah }}
-                                <br><br>
-                                <br>
-                                {{ v.tim.ketuatim.hari }} hari 
-                                x 
-                                Rp.{{ v.tim.ketuatim.biaya | rupiah }} = 
+                                <br><br><br>
+                                {{ v.tim.ketuatim.hari }} hari
+                                x
+                                Rp.{{ v.tim.ketuatim.biaya | rupiah }} =
                                 Rp.{{ v.tim.ketuatim.total | rupiah }}
                                 <br><br><br>
                                 <ul style="list-style:none;margin-left: -40px;">
                                     <li v-for="z in v.tim.anggota" :key="z.nip">
-                                        {{ z.hari }} hari 
-                                        x 
-                                        Rp.{{ z.biaya | rupiah }} = 
+                                        {{ z.hari }} hari
+                                        x
+                                        Rp.{{ z.biaya | rupiah }} =
                                         Rp.{{ z.total | rupiah }}
                                     </li>
                                 </ul>
+                                <br>
+                                <b>Total : Rp.{{ v.total_anggaran | rupiah }}</b>
                             </td>
                             <td style="text-align: center; vertical-align:middle;">
                                 <div>
@@ -156,7 +158,7 @@
                         </tr>
                         <tr>
                             <td colspan="2" style="text-align:right;"><b>Jumlah</b></td>
-                            <td style="text-align:right;"><b>Rp.{{ dinasbop.total_anggaran | rupiah }}</b></td>
+                            <td style="text-align:right;"><b>Rp.{{ total_biaya_tim | rupiah }}</b></td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -183,6 +185,7 @@ export default {
                 empty:false,
                 delete:false
             },
+            total_biaya_tim:0,
             showTable: false,
             id:''
         }
@@ -224,8 +227,8 @@ export default {
                     this.alert.delete = true;
                     $('#deletemodal').modal('hide');
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-                    setTimeout(function() { 
-                        this.alert.delete=false; 
+                    setTimeout(function() {
+                        this.alert.delete=false;
                         location.reload();
                     }, 1000);
                 }
@@ -246,6 +249,10 @@ export default {
         } else {
             this.showTable = true;
             this.alert.empty = false;
+            let x = 0;
+            for (x in this.dinasboptim) {
+                this.total_biaya_tim += this.dinasboptim[x].total_anggaran;
+            }
         }
     },
     mounted() {

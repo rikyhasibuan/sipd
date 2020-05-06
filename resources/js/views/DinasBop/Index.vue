@@ -108,6 +108,7 @@ export default {
     data: function() {
         return {
             dinasbop: {},
+            total_penyerapan:0,
             search: {
                 kegiatan:'',
                 program:'',
@@ -131,7 +132,7 @@ export default {
             id:''
         }
     },
-    props: ['program_data', 'kegiatan_data','belanja_data', 'api','route','access'],
+    props: ['program_data', 'kegiatan_data', 'belanja_data', 'api', 'route', 'access'],
     methods: {
         toggle() {
             this.showForm = !this.showForm

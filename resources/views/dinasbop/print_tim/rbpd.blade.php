@@ -1,4 +1,4 @@
-<?php 
+<?php
 use App\Libraries\Common;
 use App\Libraries\TimDinas;
 $common = new Common();
@@ -268,7 +268,7 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 										<td width="20%" style="text-align: center;">Telah dibayar sejumlah</td>
 									</tr>
 									<tr>
-										<td width="20%" style="text-align: center;">Rp.{!! $common->rupiah($total) !!}</td>
+										<td width="20%" style="text-align: center;">Rp.{!! $common->rupiah($dinasboptim->total_anggaran) !!}</td>
 									</tr>
 									<tr>
 										<td width="20%" style="text-align: center;"><b>Bendahara Pengeluaran Pembantu</b></td>
@@ -295,7 +295,7 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 									</tr>
 									<tr>
 										<td width="20%" style="text-align: center;">
-											Rp.{!! $common->rupiah($total) !!}
+											Rp.{!! $common->rupiah($dinasboptim->total_anggaran) !!}
 										</td>
 									</tr>
 									<tr>
@@ -326,7 +326,7 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 						<table width="100%">
 							<tr>
 								<td width="90%">Ditetapkan sejumlah</td>
-								<td width="10%" style="text-align:right;">Rp.{!! $common->rupiah(($total) ) !!}</td>
+								<td width="10%" style="text-align:right;">Rp.{!! $common->rupiah(($dinasboptim->total_anggaran) ) !!}</td>
 							</tr>
 							<tr>
 								<td width="90%">Yang telah dibayar semula</td>
@@ -337,7 +337,7 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 							</tr>
 							<tr>
 								<td width="90%">Sisa kurang/lebih</td>
-								<td width="5%" style="text-align:right;">Rp.{!! $common->rupiah(($total) ) !!}</td>
+								<td width="5%" style="text-align:right;">Rp.{!! $common->rupiah(($dinasboptim->total_anggaran) ) !!}</td>
 							</tr>
 						</table>
 						<div style="margin-bottom:20px;"></div>

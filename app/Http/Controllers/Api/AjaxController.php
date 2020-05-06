@@ -102,7 +102,48 @@ class AjaxController extends Controller
     public function show_personil_bop(Request $request)
     {
         $pokja = IrbanPokja::where('irban_id', $request['irban'])->with('pegawai')->get();
-        return response()->json($pokja, 200);
+        $irbanpokja = [
+            'wakilpenanggungjawab'=>[],
+            'pengendaliteknis'=>[],
+            'ketuatim'=>[],
+            'anggota'=>[]
+        ];
+
+        $jabatan_wp = [
+            'Inspektur Pembantu Bidang Pemerintahan dan Kesejahteraan Masyarakat',
+            'Inspektur Pembantu Bidang Administrasi',
+            'Inspektur Pembantu Bidang Khusus',
+            'Inspektur Pembantu Bidang Perekonomian dan Pembangunan'
+        ];
+
+        $jabatan_dalnis = [
+            'Auditor Madya',
+            'Pengawas Pemerintahan Madya'
+        ];
+
+        $jabatan_ketua = [
+            'Auditor Madya',
+            'Pengawas Pemerintahan Madya',
+            'Pengawas Pemerintahan Muda'
+        ];
+
+        foreach ($pokja as $v) {
+            if (in_array($v->pegawai->jabatan, $jabatan_wp)) {
+                array_push($irbanpokja['wakilpenanggungjawab'], $v->pegawai);
+            }
+
+            if (in_array($v->pegawai->jabatan, $jabatan_dalnis)) {
+                array_push($irbanpokja['pengendaliteknis'], $v->pegawai);
+            }
+
+            if (in_array($v->pegawai->jabatan, $jabatan_ketua)) {
+                array_push($irbanpokja['ketuatim'], $v->pegawai);
+            }
+
+            array_push($irbanpokja['anggota'], $v->pegawai);
+        }
+
+        return response()->json($irbanpokja, 200);
     }
 
     /**

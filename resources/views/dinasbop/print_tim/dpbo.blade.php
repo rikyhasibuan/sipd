@@ -1,4 +1,4 @@
-<?php 
+<?php
 use App\Libraries\Common;
 use App\Libraries\TimDinas;
 
@@ -25,12 +25,12 @@ $kpa = $timdinas->get_sekretaris();
 	body {
 		margin: 0px;
 	}
-	
+
 	* {
 		font-family: 'Times New Roman', Times, serif;
 		font-size: 9pt;
 	}
-	
+
 	h4 {
 		font-size: 14pt;
 	}
@@ -111,12 +111,12 @@ $kpa = $timdinas->get_sekretaris();
 						@endforeach
 						<tr>
 							<td colspan="6" style="text-align: center;"><b>JUMLAH</b></td>
-							<td style="text-align: right;"><b>Rp.{!! $common->rupiah($dinasboptim->dinasbop->total_anggaran) !!}</b></td>
+							<td style="text-align: right;"><b>Rp.{!! $common->rupiah($dinasboptim->total_anggaran) !!}</b></td>
 							<td></td>
 						</tr>
 					</tbody>
 				</table>
-				Terbilang : <i>{!! $common->terbilang($dinasboptim->dinasbop->total_anggaran) !!} rupiah *</i>
+				Terbilang : <i>{!! $common->terbilang($dinasboptim->total_anggaran) !!} rupiah *</i>
 				<br><br>
 				<table width="100%">
 					<tr>
