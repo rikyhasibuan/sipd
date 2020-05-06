@@ -196,7 +196,7 @@ class DinasBopController extends Controller
             $dinasboptim = DinasBopTim::find($request['id']);
             $dinasbop_id = $dinasboptim->dinasbop_id;
             $anggaran_tim = $dinasboptim->total_anggaran;
-            Storage::delete($dinasboptim->lampiran);
+            //Storage::delete($dinasboptim->lampiran);
             if ($dinasboptim->delete()) {
                 $dinasbop = DinasBop::find($dinasbop_id);
                 $total_anggaran = $dinasbop->total_anggaran;
