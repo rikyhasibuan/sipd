@@ -215,12 +215,11 @@ class DinasBopController extends Controller
     {
         $timdinas = new TimDinas();
         $parameter = [
-
-                        'dinasbop'=> $request['dinasbop'],
-                        'dari'=> $request->input('dari'),
-                        'sampai' => $request->input('sampai'),
-                        'driver' => $request->input('driver')
-                    ];
+            'dinasbop'=> $request['dinasbop'],
+            'dari'=> $request->input('dari'),
+            'sampai' => $request->input('sampai'),
+            'driver' => $request->input('driver')
+        ];
 
         $timdinasbop = $timdinas->generate_driver_bop($parameter);
 
@@ -238,7 +237,7 @@ class DinasBopController extends Controller
         if ($dinasbopdriver->save()) {
             $dinasbop = DinasBop::find($request['dinasbop']);
             $total_anggaran = $dinasbop->total_anggaran;
-            $dinasbop->total_anggaran = intval($total_anggaran) - intval($timdinasbop['total_anggaran']);
+            $dinasbop->total_anggaran = intval($total_anggaran) + intval($timdinasbop['total_anggaran']);
             $dinasbop->save();
             if ($dinasbop->save()) {
                 return response()->json(['status'=>'ok'], 200);

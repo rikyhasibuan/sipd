@@ -70,7 +70,7 @@ $kpa = $timdinas->get_sekretaris();
                 <tbody>
                 <tr>
                     <td style="text-align: center;">1</td>
-                    <td>{!! $dinasbopinspektur->driver['nama'] !!}</td>
+                    <td>{!! $dinasbopinspektur->inspektur['nama'] !!}</td>
                     <td style="text-align: center;">PENANGGUNGJAWAB {!! $dinasbopinspektur->inspektur['golongan'] !!}</td>
                     <td style="text-align: right;">Rp.{!! $common->rupiah($dinasbopinspektur->inspektur['total']) !!}</td>
                     <td></td>
