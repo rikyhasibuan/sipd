@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Routes
@@ -10,6 +9,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'Web\LoginController@login');
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+});
 
 Route::get('login', 'Web\LoginController@login');
 Route::get('logout', 'Web\LoginController@logout');

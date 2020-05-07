@@ -209,6 +209,7 @@
             }
         },
         created() {
+            this.$cookies.set("last_tab", "tim");
             this.isLoading = true;
             this.program = this.program_data;
             this.kegiatan = this.kegiatan_data;

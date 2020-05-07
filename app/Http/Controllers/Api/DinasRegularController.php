@@ -64,6 +64,8 @@ class DinasRegularController extends Controller
             ];
 
             $timdinasregular = $timdinas->generate_tim_regular($parameter);
+            $dasar = array_values(array_filter($request->input('dasar')));
+            $untuk = array_values(array_filter($request->input('untuk')));
 
             $dinasregular = new DinasRegular();
             $dinasregular->program_id = $request->input('program_id');
@@ -71,8 +73,9 @@ class DinasRegularController extends Controller
             $dinasregular->belanja_id = $request->input('belanja_id');
             $dinasregular->nomor_sp = $request->input('nomor_sp');
             $dinasregular->tgl_sp = $request->input('tgl_sp');
-            $dinasregular->dasar = $request->input('dasar');
-            $dinasregular->untuk = $request->input('untuk');
+            $dinasregular->dasar = $dasar;
+            $dinasregular->untuk = $untuk;
+
             $dinasregular->auditan = $request->input('auditan');
             $dinasregular->dari = $request->input('dari');
             $dinasregular->sampai = $request->input('sampai');
@@ -109,14 +112,17 @@ class DinasRegularController extends Controller
 
         $timdinasregular = $timdinas->generate_tim_regular($parameter);
 
+        $dasar = array_values(array_filter($request->input('dasar')));
+        $untuk = array_values(array_filter($request->input('untuk')));
+
         $dinasregular = DinasRegular::find($request['id']);
         $dinasregular->program_id = $request->input('program_id');
         $dinasregular->kegiatan_id = $request->input('kegiatan_id');
         $dinasregular->belanja_id = $request->input('belanja_id');
         $dinasregular->nomor_sp = $request->input('nomor_sp');
         $dinasregular->tgl_sp = $request->input('tgl_sp');
-        $dinasregular->dasar = $request->input('dasar');
-        $dinasregular->untuk = $request->input('untuk');
+        $dinasregular->dasar = $dasar;
+        $dinasregular->untuk = $untuk;
         $dinasregular->auditan = $request->input('auditan');
         $dinasregular->dari = $request->input('dari');
         $dinasregular->sampai = $request->input('sampai');

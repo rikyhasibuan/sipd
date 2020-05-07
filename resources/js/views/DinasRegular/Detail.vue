@@ -39,7 +39,7 @@
                                     <td style="width:15%;"><b>Dasar Surat Perintah</b></td>
                                     <td>
                                         <div v-if="dinasregular.dasar.length > 1">
-                                            <ol>
+                                            <ol style="margin-left:-25px;">
                                                 <li v-for="v in dinasregular.dasar" :key="v">
                                                     {{ v }}
                                                 </li>
@@ -58,7 +58,7 @@
                                     <td style="width:15%;"><b>Tujuan</b></td>
                                     <td>
                                         <div v-if="dinasregular.untuk.length > 1">
-                                            <ol>
+                                            <ol style="margin-left:-25px;">
                                                 <li v-for="v in dinasregular.untuk" :key="v">
                                                     {{ v }}
                                                 </li>
