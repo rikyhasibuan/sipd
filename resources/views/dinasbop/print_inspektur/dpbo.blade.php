@@ -44,15 +44,15 @@ $kpa = $timdinas->get_sekretaris();
         <div class="col-md-12">
             <strong><u><h4 class="text-center">INSPEKTORAT DAERAH PROVINSI JAWA BARAT</h4></u></strong>
             <br>
-            <center>
+            <div style="text-align: center;">
                 <table width="75%">
                     <tr>
-                        <td style="width:2%;vertical-align: top;">DAFTAR</td>
-                        <td style="width:2%;vertical-align: top;">: </td>
-                        <td style="width:70%;vertical-align: top;text-align: justify;">PENERIMAAN BIAYA OPERASIONAL INSPEKTORAT BELANJA {!! strtoupper($dinasbopinspektur->dinasbop->belanja->nama_belanja) !!} SELAMA {!! $durasi !!} ({!! strtoupper($common->terbilang($durasi)) !!}) HARI MULAI TANGGAL {!! strtoupper(Carbon\Carbon::parse($dinasbopinspektur->dari)->formatLocalized('%d %B %Y')) !!} SAMPAI DENGAN {!! strtoupper(Carbon\Carbon::parse($dinasbopinspektur->sampai)->formatLocalized('%d %B %Y')) !!} UNTUK MELAKUKAN {!! strtoupper($dinasbopinspektur->dinasbop->program->nama_program) !!}</td>
+                        <td style="width:2%;vertical-align:top;">DAFTAR</td>
+                        <td style="width:2%;vertical-align:top;">: </td>
+                        <td style="width:70%;vertical-align:top;text-align: justify;">PENERIMAAN BIAYA OPERASIONAL INSPEKTORAT BELANJA {!! strtoupper($dinasbopinspektur->dinasbop->belanja->nama_belanja) !!} SELAMA {!! $durasi !!} ({!! strtoupper($common->terbilang($durasi)) !!}) HARI MULAI TANGGAL {!! strtoupper($common->generate_indonesia_date($dinasbopinspektur->dari)) !!} SAMPAI DENGAN {!! strtoupper($common->generate_indonesia_date($dinasbopinspektur->sampai)) !!} UNTUK MELAKUKAN {!! strtoupper($dinasbopinspektur->dinasbop->program->nama_program) !!}</td>
                     </tr>
                 </table>
-            </center>
+            </div>
             <br>
             <table class="table table-bordered">
                 <thead>
@@ -91,13 +91,13 @@ $kpa = $timdinas->get_sekretaris();
                 <tr>
                     <td width="25%"></td>
                     <td width="25%">
-                        <center>
+                        <div style="text-align: center;">
                             <table cellpadding="2" cellspacing="2" style="width:30%;">
                                 <tr>
                                     <td width="10%" style="text-align: center;">Bandung, {!! Carbon\Carbon::parse(date('Y-m-d'))->formatLocalized('%d %B %Y') !!}</td>
                                 </tr>
                             </table>
-                        </center>
+                        </div>
                     </td>
                 </tr>
                 <tr>

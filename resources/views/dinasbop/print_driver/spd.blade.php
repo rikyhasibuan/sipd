@@ -133,8 +133,8 @@ $total = $dinasbopdriver->dinasbop->total_anggaran;
                                 </td>
                                 <td width="60%" colspan="2">
                                     {!! $durasi !!} ({!! $common->terbilang($durasi)!!}) hari<br>
-                                    {!! Carbon\Carbon::parse($dinasbopdriver->dari)->formatLocalized('%d %B %Y') !!} <br>
-                                    {!! Carbon\Carbon::parse($dinasbopdriver->sampai)->formatLocalized('%d %B %Y') !!}
+                                    {!! $common->generate_indonesia_date($dinasbopdriver->dari) !!} <br>
+                                    {!! $common->generate_indonesia_date($dinasbopdriver->sampai) !!}
                                 </td>
                             </tr>
                             <tr>
@@ -185,7 +185,8 @@ $total = $dinasbopdriver->dinasbop->total_anggaran;
                                         <tr>
                                             <td width="10%" style="text-align: justify;">Tanggal</td>
                                             <td width="10%" style="text-align: right;">
-                                                {!! Carbon\Carbon::parse(date('Y-m-d'))->formatLocalized('%d %B %Y') !!}</td>
+                                                {!! $common->generate_indonesia_date($dinasbopdriver->tgl_sp) !!}
+                                            </td>
                                         </tr>
                                     </table>
                                     <table style="width: 100%;">
@@ -232,7 +233,7 @@ $total = $dinasbopdriver->dinasbop->total_anggaran;
                                     </tr>
                                     <tr>
                                         <td style="width:60%;">Pada Tanggal</td>
-                                        <td>: {!! Carbon\Carbon::parse($dinasbopdriver->dari)->formatLocalized('%d %B %Y') !!}</td>
+                                        <td>: {!! $common->generate_indonesia_date($dinasbopdriver->dari) !!}</td>
                                     </tr>
                                 </table>
                             </td>
@@ -248,7 +249,7 @@ $total = $dinasbopdriver->dinasbop->total_anggaran;
                                     <tr>
                                         <td style="width:2%;"></td>
                                         <td style="width:25%;">Pada Tanggal</td>
-                                        <td>: {!! Carbon\Carbon::parse($dinasbopdriver->dari)->formatLocalized('%d %B %Y') !!}</td>
+                                        <td>: {!! $common->generate_indonesia_date($dinasbopdriver->dari) !!}</td>
                                     </tr>
                                     <tr>
                                         <td style="width:2%;"></td>
@@ -269,7 +270,7 @@ $total = $dinasbopdriver->dinasbop->total_anggaran;
                                     </tr>
                                     <tr>
                                         <td style="width:60%;">Pada Tanggal</td>
-                                        <td>: {!! Carbon\Carbon::parse($dinasbopdriver->sampai)->formatLocalized('%d %B %Y') !!}</td>
+                                        <td>: {!! $common->generate_indonesia_date($dinasbopdriver->sampai) !!}</td>
                                     </tr>
                                     <tr>
                                         <td style="width:60%;">Kepala</td>
@@ -374,7 +375,7 @@ $total = $dinasbopdriver->dinasbop->total_anggaran;
                                     <tr>
                                         <td style="width:2%;"></td>
                                         <td style="width:25%;">Pada Tanggal</td>
-                                        <td>: {!! Carbon\Carbon::parse($dinasbopdriver->sampai)->formatLocalized('%d %B %Y') !!}</td>
+                                        <td>: {!! $common->generate_indonesia_date($dinasbopdriver->sampai) !!}</td>
                                     </tr>
                                     <tr>
                                         <td style="width:2%;"></td>

@@ -1,5 +1,7 @@
-<?php 
+<?php
 use App\Libraries\TimDinas;
+use App\Libraries\Common;
+$common = new Common();
 $timdinas = new TimDinas();
 $inspektur = $timdinas->get_inspektur();
 ?>
@@ -13,17 +15,17 @@ $inspektur = $timdinas->get_inspektur();
     <link rel="stylesheet" href="{!! asset('css/bootstrap.min.css') !!}">
     <style>
         @media print {
-            @page  { 
+            @page  {
                 size: auto;
                 margin-top: 0.5cm;
                 margin-left: 2cm;
                 margin-right: 2cm;
-                margin-bottom: 2cm;  
-            } 
+                margin-bottom: 2cm;
+            }
             body {
                 margin: 0px;
             }
-            
+
             * {
                 font-family: 'Times New Roman', Times, serif;
                 font-size: 12pt;
@@ -131,7 +133,7 @@ $inspektur = $timdinas->get_inspektur();
                                 <span style="margin-right:30px;">:</span>
                                 <span style="margin-right:20px;">Ketua Tim</span>
                                 <br><br>
-                                
+
                                 <?php $i = 4; ?>
                                 @foreach($dinasboptim->tim['anggota'] as $anggota)
                                     <span style="margin-right:20px;">{!! $i !!}.</span>
@@ -190,8 +192,8 @@ $inspektur = $timdinas->get_inspektur();
                             <td width="7%" style="text-align: left; vertical-align:text-top;">Waktu</td>
                             <td width="5%" style="text-align: center; vertical-align:text-top;">:</td>
                             <td width="80%" style="text-align: justify; vertical-align:text-top;">
-                                Mulai tanggal {!! Carbon\Carbon::parse($dinasboptim->dinasbop->dari)->formatLocalized('%d %B %Y') !!} 
-                                sampai {!! Carbon\Carbon::parse($dinasboptim->dinasbop->sampai)->formatLocalized('%d %B %Y') !!}
+                                Mulai tanggal {!! $common->generate_indonesia_date($dinasboptim->dinasbop->dari) !!}
+                                sampai {!! $common->generate_indonesia_date($dinasboptim->dinasbop->sampai) !!}
                             </td>
                         </tr>
                     </table>
@@ -208,7 +210,7 @@ $inspektur = $timdinas->get_inspektur();
                                     </tr>
                                     <tr>
                                         <td width="10%" style="text-align: justify;">Pada Tanggal</td>
-                                        <td width="10%" style="text-align: right;">{!! Carbon\Carbon::parse(date('Y-m-d'))->formatLocalized('%d %B %Y') !!}</td>
+                                        <td width="10%" style="text-align: right;">{!! $common->generate_indonesia_date($dinasboptim->tgl_sp) !!}</td>
                                     </tr>
                                 </table>
                                 <table cellpadding="2" cellspacing="2" style="width:100%;">

@@ -1,5 +1,8 @@
-<?php 
+<?php
 use App\Libraries\TimDinas;
+use App\Libraries\Common;
+
+$common = new Common();
 $timdinas = new TimDinas();
 $inspektur = $timdinas->get_inspektur();
 ?>
@@ -12,14 +15,14 @@ $inspektur = $timdinas->get_inspektur();
     <title>Daftar Personil</title>
     <link rel="stylesheet" href="{!! asset('css/bootstrap.min.css') !!}">
     <style>
-        @page  { 
+        @page  {
             size: auto;
-            margin: 2.54cm 2.54cm 25cm 25cm;  
-        } 
+            margin: 2.54cm 2.54cm 25cm 25cm;
+        }
         body {
             margin: 0px;
         }
-        
+
         * {
             font-family: 'Times New Roman', Times, serif;
             font-size: 11pt;
@@ -36,9 +39,9 @@ $inspektur = $timdinas->get_inspektur();
             <div class="col-md-12">
                 <h3 class="text-center">DAFTAR PERSONIL</h3>
                 <h4 class="text-center">{!! $dinasbop->kegiatan->nama_kegiatan !!}</h4>
-                <h4 class="text-center">Tanggal {!! Carbon\Carbon::parse($dinasbop->dari)->formatLocalized('%d %B %Y') !!} s.d. {!! Carbon\Carbon::parse($dinasbop->sampai)->formatLocalized('%d %B %Y') !!}</h4>
+                <h4 class="text-center">Tanggal {!! $common->generate_indonesia_date($dinasbop->dari) !!} s.d. {!! $common->generate_indonesia_date($dinasbop->sampai) !!}</h4>
                 <div style="margin-top:15px;"></div>
-                
+
                 <div style="padding-left:1cm;padding-right:1cm;">
                     <table class="table table-bordered">
                         <thead>
@@ -60,7 +63,7 @@ $inspektur = $timdinas->get_inspektur();
                                         <br>
                                         Nomor : <b>{!! $v->nomor_sp !!}</b>
                                         <br>
-                                        Tanggal : {!! Carbon\Carbon::parse($v->tgl_sp)->formatLocalized('%d %B %Y') !!}
+                                        Tanggal : {!! $common->generate_indonesia_date($v->tgl_sp) !!}
                                     </td>
                                     <td>
                                         <b>Wakil Penanggungjawab</b>

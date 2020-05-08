@@ -41,7 +41,7 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 
 			@media print {
 				@page {
-					size: 'legal';
+					size: "legal";
 				}
 
 				.table td {
@@ -78,7 +78,7 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 							</tr>
 							<tr>
 								<td style="width:5%;">Tanggal</td>
-								<td style="width:20%;">: {!! Carbon\Carbon::parse($dinasboptim->dinasbop->tgl_sp)->formatLocalized('%d %B %Y') !!}</td>
+								<td style="width:20%;">: {!! $common->generate_indonesia_date($dinasboptim->tgl_sp) !!}</td>
 								<td style="width:2%;">Kodering</td>
 								<td style="width:20%;">: {!! $dinasboptim->dinasbop->belanja->kode_belanja !!}</td>
 							</tr>
@@ -98,8 +98,8 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 							<tr>
 								<td style="text-align: center;"></td>
 								<td colspan="3">
-										Perjalanan Dinas {!! $dinasboptim->dinasbop->kegiatan->nama_kegiatan !!}, selama {!! $durasi !!} hari dari tanggal {!! Carbon\Carbon::parse($dinasboptim->dinasbop->dari)->formatLocalized('%d %B %Y') !!}
-										s.d {!! Carbon\Carbon::parse($dinasboptim->dinasbop->sampai)->formatLocalized('%d %B %Y') !!}.
+										Perjalanan Dinas {!! $dinasboptim->dinasbop->kegiatan->nama_kegiatan !!}, selama {!! $durasi !!} hari dari tanggal {!! $common->generate_indonesia_date($dinasboptim->dinasbop->dari) !!}
+										s.d {!! $common->generate_indonesia_date($dinasboptim->dinasbop->sampai) !!}.
 								</td>
 							</tr>
 							<tr>
@@ -254,7 +254,7 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 									<table cellpadding="2" cellspacing="2" style="width:30%;">
 										<tr>
 											<td width="10%" style="text-align: center;">
-												Bandung, {!! Carbon\Carbon::parse(date('Y-m-d'))->formatLocalized('%d %B %Y') !!}
+												Bandung, {!! $common->generate_indonesia_date($dinasboptim->tgl_sp) !!}
 											</td>
 										</tr>
 									</table>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 use App\Libraries\Common;
 use App\Libraries\TimDinas;
 
@@ -27,12 +27,12 @@ $kpa = $timdinas->get_sekretaris();
 	body {
 		margin: 0px;
 	}
-	
+
 	* {
 		font-family: 'Times New Roman', Times, serif;
 		font-size: 9pt;
 	}
-	
+
 	h4 {
 		font-size: 14pt;
 	}
@@ -44,15 +44,15 @@ $kpa = $timdinas->get_sekretaris();
 			<div class="col-md-12">
 				<strong><u><h4 class="text-center">INSPEKTORAT DAERAH PROVINSI JAWA BARAT</h4></u></strong>
 				<br>
-				<center>
+				<div style="text-align: center;">
 					<table width="75%">
 						<tr>
 							<td style="width:2%;vertical-align: top;">DAFTAR</td>
 							<td style="width:2%;vertical-align: top;">: </td>
-							<td style="width:70%;vertical-align: top;text-align: justify;">PENERIMAAN BIAYA OPERASIONAL INSPEKTORAT BELANJA {!! strtoupper($dinasbopdriver->dinasbop->belanja->nama_belanja) !!} SELAMA {!! $durasi !!} ({!! strtoupper($common->terbilang($durasi)) !!}) HARI MULAI TANGGAL {!! strtoupper(Carbon\Carbon::parse($dinasbopdriver->dari)->formatLocalized('%d %B %Y')) !!} SAMPAI DENGAN {!! strtoupper(Carbon\Carbon::parse($dinasbopdriver->sampai)->formatLocalized('%d %B %Y')) !!} UNTUK MELAKUKAN {!! strtoupper($dinasbopdriver->dinasbop->program->nama_program) !!} {!! strtoupper($dinasbopdriver->auditan) !!}</td>
+							<td style="width:70%;vertical-align: top;text-align: justify;">PENERIMAAN BIAYA OPERASIONAL INSPEKTORAT BELANJA {!! strtoupper($dinasbopdriver->dinasbop->belanja->nama_belanja) !!} SELAMA {!! $durasi !!} ({!! strtoupper($common->terbilang($durasi)) !!}) HARI MULAI TANGGAL {!! strtoupper($common->generate_indonesia_date($dinasbopdriver->dari)) !!} SAMPAI DENGAN {!! strtoupper($common->generate_indonesia_date($dinasbopdriver->sampai)) !!} UNTUK MELAKUKAN {!! strtoupper($dinasbopdriver->dinasbop->program->nama_program) !!} {!! strtoupper($dinasbopdriver->auditan) !!}</td>
 						</tr>
 					</table>
-				</center>
+				</div>
 				<br>
 				<table class="table table-bordered">
 					<thead>
@@ -94,7 +94,7 @@ $kpa = $timdinas->get_sekretaris();
 							<center>
 								<table cellpadding="2" cellspacing="2" style="width:30%;">
 									<tr>
-										<td width="10%" style="text-align: center;">Bandung, {!! Carbon\Carbon::parse(date('Y-m-d'))->formatLocalized('%d %B %Y') !!}</td>
+										<td width="10%" style="text-align: center;">Bandung, {!! $common->generate_indonesia_date($dinasbopdriver->tgl_sp) !!}</td>
 									</tr>
 								</table>
 							</center>

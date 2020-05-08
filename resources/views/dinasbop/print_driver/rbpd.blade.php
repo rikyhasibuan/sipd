@@ -1,4 +1,4 @@
-<?php 
+<?php
 use App\Libraries\Common;
 use App\Libraries\TimDinas;
 $common = new Common();
@@ -80,7 +80,7 @@ $total = $dinasbopdriver->total;
 							</tr>
 							<tr>
 								<td style="width:5%;">Tanggal</td>
-								<td style="width:20%;">: {!! Carbon\Carbon::parse($dinasbopdriver->tgl_sp)->formatLocalized('%d %B %Y') !!}</td>
+								<td style="width:20%;">: {!! $common->generate_indonesia_date($dinasbopdriver->tgl_sp) !!}</td>
 								<td style="width:2%;">Kodering</td>
 								<td style="width:20%;">: {!! $dinasbopdriver->dinasbop->belanja->kode_belanja !!}</td>
 							</tr>
@@ -100,8 +100,8 @@ $total = $dinasbopdriver->total;
 							<tr>
 								<td style="text-align: center;"></td>
 								<td colspan="3">
-										Perjalanan Dinas {!! $dinasbopdriver->dinasbop->kegiatan->nama_kegiatan !!}, selama {!! $durasi !!} hari dari tanggal {!! Carbon\Carbon::parse($dinasbopdriver->dari)->formatLocalized('%d %B %Y') !!}
-										s.d {!! Carbon\Carbon::parse($dinasbopdriver->sampai)->formatLocalized('%d %B %Y') !!}.
+										Perjalanan Dinas {!! $dinasbopdriver->dinasbop->kegiatan->nama_kegiatan !!}, selama {!! $durasi !!} hari dari tanggal {!! $common->generate_indonesia_date($dinasbopdriver->dari) !!}
+										s.d {!! $common->generate_indonesia_date($dinasbopdriver->sampai) !!}.
 								</td>
 							</tr>
 							<tr>
@@ -196,7 +196,7 @@ $total = $dinasbopdriver->total;
 									<table cellpadding="2" cellspacing="2" style="width:30%;">
 										<tr>
 											<td width="10%" style="text-align: center;">
-												Bandung, {!! Carbon\Carbon::parse(date('Y-m-d'))->formatLocalized('%d %B %Y') !!}
+												Bandung, {!! $common->generate_indonesia_date($dinasbopdriver->tgl_sp) !!}
 											</td>
 										</tr>
 									</table>

@@ -1,5 +1,7 @@
-<?php 
+<?php
 use App\Libraries\TimDinas;
+use App\Libraries\Common;
+
 $timdinas = new TimDinas();
 $inspektur = $timdinas->get_sekretaris();
 ?>
@@ -13,17 +15,17 @@ $inspektur = $timdinas->get_sekretaris();
     <link rel="stylesheet" href="{!! asset('css/bootstrap.min.css') !!}">
     <style>
         @media print {
-            @page  { 
+            @page  {
                 size: 'legal';
                 margin-top: 0.5cm;
                 margin-left: 2cm;
                 margin-right: 2cm;
-                margin-bottom: 2cm;  
-            } 
+                margin-bottom: 2cm;
+            }
             body {
                 margin: 0px;
             }
-            
+
             * {
                 font-family: 'Times New Roman', Times, serif;
                 font-size: 12pt;
@@ -138,8 +140,8 @@ $inspektur = $timdinas->get_sekretaris();
                             <td width="7%" style="text-align: left; vertical-align:text-top;">Waktu</td>
                             <td width="5%" style="text-align: center; vertical-align:text-top;">:</td>
                             <td width="80%" style="text-align: justify; vertical-align:text-top;">
-                                Mulai tanggal {!! Carbon\Carbon::parse($dinasbopdriver->dari)->formatLocalized('%d %B %Y') !!} 
-                                sampai {!! Carbon\Carbon::parse($dinasbopdriver->sampai)->formatLocalized('%d %B %Y') !!}
+                                Mulai tanggal {!! $common->generate_indonesia_date($dinasbopdriver->dari) !!}
+                                sampai {!! $common->generate_indonesia_date($dinasbopdriver->sampai) !!}
                             </td>
                         </tr>
                     </table>
@@ -156,7 +158,7 @@ $inspektur = $timdinas->get_sekretaris();
                                     </tr>
                                     <tr>
                                         <td width="10%" style="text-align: justify;">Pada Tanggal</td>
-                                        <td width="10%" style="text-align: right;">{!! Carbon\Carbon::parse(date('Y-m-d'))->formatLocalized('%d %B %Y') !!}</td>
+                                        <td width="10%" style="text-align: right;">{!! $common->generate_indonesia_date($dinasbopdriver->tgl_sp) !!}</td>
                                     </tr>
                                 </table>
                                 <table cellpadding="2" cellspacing="2" style="width:100%;">
