@@ -62,7 +62,7 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
                     <div style="text-align:center;"><img src="{!! asset('img/kop.png') !!}" style="width:100%;"></div>
                     <strong><u><h4 class="text-center">RINCIAN BIAYA PERJALANAN DINAS</h4></u></strong>
                     <br>
-                    <center>
+                    <div style="text-align: center;">
                         <table width="100%">
                             <tr>
                                 <td style="width:5%;"></td>
@@ -78,12 +78,12 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
                             </tr>
                             <tr>
                                 <td style="width:5%;">Tanggal</td>
-                                <td style="width:20%;">: {!! Carbon\Carbon::parse($dinasregular->tgl_sp)->formatLocalized('%d %B %Y') !!}</td>
+                                <td style="width:20%;">: {!! $common->generate_indonesia_date($dinasregular->tgl_sp) !!}</td>
                                 <td style="width:2%;">Kodering</td>
                                 <td style="width:20%;">: {!! $dinasregular->belanja->kode_belanja !!}</td>
                             </tr>
                         </table>
-                    </center>
+                    </div>
                     <br>
                     <table class="table table-bordered">
                         <thead>
@@ -98,8 +98,8 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
                             <tr>
                                 <td style="text-align: center;"></td>
                                 <td colspan="3">
-                                    Perjalanan Dinas {!! $dinasregular->kegiatan->nama_kegiatan !!}, selama {!! $durasi !!} hari dari tanggal {!! Carbon\Carbon::parse($dinasregular->dari)->formatLocalized('%d %B %Y') !!}
-                                    s.d {!! Carbon\Carbon::parse($dinasregular->sampai)->formatLocalized('%d %B %Y') !!}.
+                                    Perjalanan Dinas {!! $dinasregular->kegiatan->nama_kegiatan !!}, selama {!! $durasi !!} hari dari tanggal {!! $common->generate_indonesia_date($dinasregular->dari) !!}
+                                    s.d {!! $common->generate_indonesia_date($dinasregular->sampai) !!}.
 								</td>
                             </tr>
                             <tr>
@@ -242,7 +242,7 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
                                     <table style="width:30%;">
                                         <tr>
                                             <td width="10%" style="text-align: center;">Bandung, {!!
-                                                Carbon\Carbon::parse(date('Y-m-d'))->formatLocalized('%d %B %Y') !!}
+                                                $common->generate_indonesia_date($dinasregular->tgl_sp) !!}
                                             </td>
                                         </tr>
                                     </table>

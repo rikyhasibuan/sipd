@@ -133,8 +133,8 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
 									</td>
 									<td width="60%" colspan="2">
 										{!! $durasi !!} ({!! $common->terbilang($durasi)!!}) hari<br>
-										{!! Carbon\Carbon::parse($dinasregular->dari)->formatLocalized('%d %B %Y') !!} <br>
-										{!! Carbon\Carbon::parse($dinasregular->sampai)->formatLocalized('%d %B %Y') !!}
+										{!! $common->generate_indonesia_date($dinasregular->dari) !!} <br>
+										{!! $common->generate_indonesia_date($dinasregular->sampai) !!}
 									</td>
 								</tr>
 								<tr>
@@ -185,8 +185,7 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
                                             <tr>
                                                 <td width="10%" style="text-align: justify;">Tanggal</td>
                                                 <td width="10%" style="text-align: right;">{!!
-													Carbon\Carbon::parse(date('Y-m-d'))->formatLocalized('%d %B
-													%Y') !!}</td>
+													$common->generate_indonesia_date($dinasregular->tgl_sp) !!}</td>
                                             </tr>
                                         </table>
                                         <table class="table-print" style="width: 100%;">
@@ -232,7 +231,7 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
 										</tr>
 										<tr>
                                             <td style="width:60%;">Pada Tanggal</td>
-                                            <td>: {!! Carbon\Carbon::parse($dinasregular->dari)->formatLocalized('%d %B %Y') !!}</td>
+                                            <td>: {!! $common->generate_indonesia_date($dinasregular->dari) !!}</td>
 										</tr>
 									</table>
 								</td>
@@ -248,7 +247,7 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
 										<tr>
                                             <td style="width:2%;"></td>
                                             <td style="width:25%;">Pada Tanggal</td>
-                                            <td>: {!! Carbon\Carbon::parse($dinasregular->dari)->formatLocalized('%d %B %Y') !!}</td>
+                                            <td>: {!! $common->generate_indonesia_date($dinasregular->dari) !!}</td>
 										</tr>
 										<tr>
                                             <td style="width:2%;"></td>
@@ -268,7 +267,7 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
 										</tr>
 										<tr>
                                             <td style="width:60%;">Pada Tanggal</td>
-                                            <td>: {!! Carbon\Carbon::parse($dinasregular->sampai)->formatLocalized('%d %B %Y') !!}</td>
+                                            <td>: {!! $common->generate_indonesia_date($dinasregular->sampai) !!}</td>
 										</tr>
 										<tr>
                                             <td style="width:60%;">Kepala</td>
@@ -372,7 +371,7 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
 										<tr>
                                             <td style="width:2%;"></td>
                                             <td style="width:25%;">Pada Tanggal</td>
-                                            <td>: {!! Carbon\Carbon::parse($dinasregular->sampai)->formatLocalized('%d %B %Y') !!}</td>
+                                            <td>: {!! $common->generate_indonesia_date($dinasregular->sampai) !!}</td>
 										</tr>
 										<tr>
                                             <td style="width:2%;"></td>
