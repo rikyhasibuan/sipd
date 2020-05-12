@@ -204,7 +204,8 @@ class DinasBopController extends Controller
         $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data Pengemudi';
         
         $driver = Pegawai::where('jabatan', 'Pengemudi')->get();
-        
+        $dinasbop_data = DinasBop::find($request['dinasbop']);
+
         $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
@@ -214,6 +215,7 @@ class DinasBopController extends Controller
         $data['driver'] = $driver;
         $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
         $data['dinasbop'] = $request['dinasbop'];
+        $data['dinasbop_data'] = $dinasbop_data;
         return View::make('dinasbop.form_driver', $data);
     }
 
@@ -225,8 +227,8 @@ class DinasBopController extends Controller
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data Pengemudi';
 
         $dinasbopdriver = DinasBopDriver::find($request['id']);
-        
         $driver = Pegawai::where('jabatan', 'Pengemudi')->get();
+        $dinasbop_data = DinasBop::find($request['dinasbop']);
 
         $data = [];
         $data['title']  = $this->title;
@@ -237,6 +239,7 @@ class DinasBopController extends Controller
         $data['act'] = 'edit';
         $data['driver'] = $driver;
         $data['dinasbop'] = $request['dinasbop'];
+        $data['dinasbop_data'] = $dinasbop_data;
         $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
         return View::make('dinasbop.form_driver', $data);
     }
@@ -248,6 +251,8 @@ class DinasBopController extends Controller
         $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> ' . $this->title . '</a>';
         $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data';
         
+        $dinasbop_data = DinasBop::find($request['dinasbop']);
+
         $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
@@ -256,6 +261,7 @@ class DinasBopController extends Controller
         $data['act'] = 'create';
         $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
         $data['dinasbop'] = $request['dinasbop'];
+        $data['dinasbop_data'] = $dinasbop_data;
         return View::make('dinasbop.form_inspektur', $data);
     }
 
@@ -267,6 +273,7 @@ class DinasBopController extends Controller
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
 
         $dinasbopinspektur = DinasBopInspektur::find($request['id']);
+        $dinasbop_data = DinasBop::find($request['dinasbop']);
 
         $data = [];
         $data['title']  = $this->title;
@@ -276,6 +283,7 @@ class DinasBopController extends Controller
         $data['api'] = url($this->api);
         $data['act'] = 'edit';
         $data['dinasbop'] = $request['dinasbop'];
+        $data['dinasbop_data'] = $dinasbop_data;
         $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
         return View::make('dinasbop.form_inspektur', $data);
     }

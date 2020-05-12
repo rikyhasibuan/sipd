@@ -102,7 +102,9 @@
                 options: {
                     format: 'YYYY-MM-DD',
                     useCurrent: false,
-                    locale: 'id'
+                    locale: 'id',
+                    minDate:this.dinasbop_data.dari,
+                    maxDate:this.dinasbop_data.sampai
                 },
                 dinasbopdriver: {
                     'nomor_sp': '',
@@ -125,6 +127,7 @@
         props: [
             'driver_data',
             'dinasbop',
+            'dinasbop_data',
             'api',
             'route'
         ],

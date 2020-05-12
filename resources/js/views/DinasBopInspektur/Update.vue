@@ -94,7 +94,9 @@
                 options: {
                     format: 'YYYY-MM-DD',
                     useCurrent: false,
-                    locale: 'id'
+                    locale: 'id',
+                    minDate:this.dinasbop_data.dari,
+                    maxDate:this.dinasbop_data.sampai
                 },
                 isLoading: false
             }
@@ -102,6 +104,7 @@
         props: [
             'inspektur_data',
             'dinasbop',
+            'dinasbop_data',
             'dinasbopinspektur',
             'api',
             'route'
