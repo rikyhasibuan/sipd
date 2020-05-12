@@ -44,36 +44,38 @@
                         <tbody>
                             <tr v-for="v in dinasbopsekretaris" :key="v.id">
                                 <td style="vertical-align:middle;">
-                                DASAR : <br>
-                                <div v-if="v.dasar.length > 1">
-                                    <ul>
-                                    <li v-for="(d,v) in v.dasar" :value="d" :key="v">{{ d }}</li>
-                                    </ul>
-                                </div>
-                                <div v-else>
-                                    {{ v.dasar[0] }}
-                                </div>
-                                <br>
-                                TUJUAN : <br>
-                                <div v-if="v.tujuan.length > 1">
-                                    <ul>
-                                    <li v-for="d in v.dasar" :value="d" :key="d">{{ d }}</li>
-                                    </ul>
-                                </div>
-                                <div v-else>
-                                    {{ v.tujuan[0] }}
-                                </div>
+                                    <b>DASAR</b> : <br>
+                                    <div v-if="v.dasar.length > 1">
+                                        <ul style="margin-left:-25px;">
+                                        <li v-for="(d,v) in v.dasar" :value="d" :key="v">{{ d }}</li>
+                                        </ul>
+                                    </div>
+                                    <div v-else>
+                                        {{ v.dasar[0] }}
+                                    </div>
+                                    <br>
+                                    <b>TUJUAN</b> : <br>
+                                    <div v-if="v.tujuan.length > 1">
+                                        <ul style="margin-left:-25px;">
+                                        <li v-for="d in v.tujuan" :value="d" :key="d">{{ d }}</li>
+                                        </ul>
+                                    </div>
+                                    <div v-else>
+                                        {{ v.tujuan[0] }}
+                                    </div>
                                 </td>
                                 <td style="vertical-align:middle;text-align:center;">
                                     Nomor : <b>{{ v.nomor_sp }}</b>
                                     <br>
                                     Tanggal : {{ v.tgl_sp | moment }}
+                                    <br>
+                                    {{ v.dari | moment }} s.d {{ v.sampai | moment }}
                                 </td>
                                 <td style="vertical-align:middle;text-align:center;">
-                                {{ v.sekretaris.nama }}
+                                    {{ v.sekretaris.nama }}
                                 </td>
                                 <td style="text-align: center; vertical-align:middle;">
-                                {{ v.sekretaris.hari }} hari x Rp.{{ v.sekretaris.biaya | rupiah }} = Rp.{{ v.sekretaris.total | rupiah }}
+                                    {{ v.sekretaris.hari }} hari x Rp.{{ v.sekretaris.biaya | rupiah }} = Rp.{{ v.sekretaris.total | rupiah }}
                                 </td>
                                 <td style="text-align: center; vertical-align:middle;">
                                     <div>
@@ -154,7 +156,7 @@ export default {
             total_anggaran_sekretaris : 0
         }
     },
-    props: ['dinasbop','dinasbopsekretaris', 'route', 'print_action', 'api'],
+    props: ['dinasbop', 'dinasbopsekretaris', 'route', 'print_action', 'api'],
     methods: {
         print_sp(id) {
             let new_window = window.open();
@@ -177,8 +179,7 @@ export default {
             new_window.location = this.api + '/print/dpbo/'+ id +'/sekretaris';
         },
         toggle_modal(id) {
-            this.sekretarismodal = true;
-            $("#delete_sekretaris_modal").modal('show');
+            $('#delete_sekretaris_modal').modal('show');
             this.sekretarisid = id;
         },
         deleteData(id) {

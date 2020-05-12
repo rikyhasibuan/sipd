@@ -10,6 +10,9 @@ use App\Models\Akomodasi;
 use App\Models\Bop;
 use App\Models\DinasBop;
 use App\Models\DinasBopTim;
+use App\Models\DinasBopDriver;
+use App\Models\DinasBopInspektur;
+use App\Models\DinasBopSekretaris;
 use App\Models\DinasRegular;
 use App\Models\Harian;
 use App\Models\Kabkota;
@@ -149,21 +152,14 @@ class TimDinas
             $jabatan_bop = 'Penunjang Administrasi Kesekretariatan (Gol. III)';
         }
         $query_bop = Bop::where('jabatan', $jabatan_bop)->first();
-        //$check_wp = self::check_driver_bop($parameter['dinasbop'], $query_pegawai['nip']);
         $driver['nip'] = $query_pegawai['nip'];
         $driver['nama'] = $query_pegawai['nama'];
         $driver['golongan'] = $query_pegawai['golongan'];
         $driver['pangkat'] = $query_pegawai['pangkat'];
         $driver['hari'] = $durasi;
-        //if ($check_wp == true) {
-            $driver['biaya'] = $query_bop['biaya_per_hari'];
-            $driver['total'] = $durasi * $query_bop['biaya_per_hari'];
-            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
-        /* } else {
-            $driver['biaya'] = 0;
-            $driver['total'] = 0;
-            $total_anggaran += 0;
-        } */
+        $driver['biaya'] = $query_bop['biaya_per_hari'];
+        $driver['total'] = $durasi * $query_bop['biaya_per_hari'];
+        $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
 
         return ['driver' => $driver, 'total_anggaran' => $total_anggaran];
     }
@@ -184,21 +180,14 @@ class TimDinas
 
         $query_pegawai = Pegawai::searchJabatan('Inspektur')->first();
         $query_bop = Bop::where('jabatan', 'Penanggungjawab/Pengendali Mutu')->first();
-        //$check_wp = self::check_driver_bop($parameter['dinasbop'], $query_pegawai['nip']);
         $inspektur['nip'] = $query_pegawai['nip'];
         $inspektur['nama'] = $query_pegawai['nama'];
         $inspektur['golongan'] = $query_pegawai['golongan'];
         $inspektur['pangkat'] = $query_pegawai['pangkat'];
         $inspektur['hari'] = $durasi;
-        //if ($check_wp == true) {
-            $inspektur['biaya'] = $query_bop['biaya_per_hari'];
-            $inspektur['total'] = $durasi * $query_bop['biaya_per_hari'];
-            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
-        /* } else {
-            $driver['biaya'] = 0;
-            $driver['total'] = 0;
-            $total_anggaran += 0;
-        } */
+        $inspektur['biaya'] = $query_bop['biaya_per_hari'];
+        $inspektur['total'] = $durasi * $query_bop['biaya_per_hari'];
+        $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
 
         return ['inspektur' => $inspektur, 'total_anggaran' => $total_anggaran];
     }
@@ -219,21 +208,14 @@ class TimDinas
 
         $query_pegawai = Pegawai::searchJabatan('Sekretaris')->first();
         $query_bop = Bop::where('jabatan', 'Wakil Penanggungjawab/Suvervisi')->first();
-        //$check_wp = self::check_driver_bop($parameter['dinasbop'], $query_pegawai['nip']);
         $sekretaris['nip'] = $query_pegawai['nip'];
         $sekretaris['nama'] = $query_pegawai['nama'];
         $sekretaris['golongan'] = $query_pegawai['golongan'];
         $sekretaris['pangkat'] = $query_pegawai['pangkat'];
         $sekretaris['hari'] = $durasi;
-        //if ($check_wp == true) {
-            $sekretaris['biaya'] = $query_bop['biaya_per_hari'];
-            $sekretaris['total'] = $durasi * $query_bop['biaya_per_hari'];
-            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
-        /* } else {
-            $driver['biaya'] = 0;
-            $driver['total'] = 0;
-            $total_anggaran += 0;
-        } */
+        $sekretaris['biaya'] = $query_bop['biaya_per_hari'];
+        $sekretaris['total'] = $durasi * $query_bop['biaya_per_hari'];
+        $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
 
         return ['sekretaris' => $sekretaris, 'total_anggaran' => $total_anggaran];
     }
@@ -415,9 +397,9 @@ class TimDinas
     public function check_driver_bop($param)
     {
         $dinasbop = DinasBopDriver::where('dinasbop_id', $param['dinasbop'])
-                                    ->where('dari','>=', $param['dari'])
-                                    ->where('sampai','<=', $param['sampai'])
                                     ->where('driver->nip', $param['driver'])
+                                    ->where('dari', $param['dari'])
+                                    ->where('sampai', $param['sampai'])
                                     ->count();
         if ($dinasbop > 0) {
             return false;
@@ -435,9 +417,29 @@ class TimDinas
     public function check_inspektur_bop($param)
     {
         $dinasbop = DinasBopInspektur::where('dinasbop_id', $param['dinasbop'])
-                                        ->where('dari','>=', $param['dari'])
-                                        ->where('sampai','<=', $param['sampai'])
+                                        ->where('dari', $param['dari'])
+                                        ->where('sampai', $param['sampai'])
                                         ->where('inspektur->nip', $param['inspektur'])
+                                        ->count();
+        if ($dinasbop > 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * cek sekretaris pada dinas bop apakah sekretaris sudah ada dalam pemeriksaan pada rentang waktu tertentu
+     *
+     * @param array $param
+     * @return boolean
+     */
+    public function check_sekretaris_bop($param)
+    {
+        $dinasbop = DinasBopSekretaris::where('dinasbop_id', $param['dinasbop'])
+                                        ->where('dari', $param['dari'])
+                                        ->where('sampai', $param['sampai'])
+                                        ->where('sekretaris->nip', $param['sekretaris'])
                                         ->count();
         if ($dinasbop > 0) {
             return false;

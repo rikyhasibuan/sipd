@@ -148,7 +148,7 @@
                 id:''
             }
         },
-        props: ['dinasbop', 'dinasboptim', 'dinasbopdriver', 'dinasbopinspektur', 'route', 'print_action', 'api'],
+        props: ['dinasbop', 'dinasboptim', 'dinasbopdriver', 'dinasbopinspektur', 'dinasbopsekretaris', 'route', 'print_action', 'api'],
         methods: {
             onChangeTabs(evt) {
                 const data_set = evt.target.dataset.id;

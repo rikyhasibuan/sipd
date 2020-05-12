@@ -6,6 +6,7 @@
             :dinasboptim='{{ json_encode($dinasboptim) }}'
             :dinasbopdriver='{{ json_encode($dinasbopdriver) }}'
             :dinasbopinspektur='{{ json_encode($dinasbopinspektur) }}'
+            :dinasbopsekretaris='{{ json_encode($dinasbopsekretaris) }}'
             :route='{{ json_encode($route) }}'
             :api='{{ json_encode($api) }}'>
         </dinasbop-detail>
