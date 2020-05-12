@@ -221,31 +221,37 @@ class DinasBopController extends Controller
             'driver' => $request->input('driver')
         ];
 
-        $timdinasbop = $timdinas->generate_driver_bop($parameter);
+        $checktimdinasbop = $timdinasbop->check_driver_bop($parameter);
+        if ($checktimdinasbop == true) {
+            $timdinasbop = $timdinas->generate_driver_bop($parameter);
 
-        $dinasbopdriver = new DinasBopDriver();
-        $dinasbopdriver->dinasbop_id = $request['dinasbop'];
-        $dinasbopdriver->nomor_sp = $request->input('nomor_sp');
-        $dinasbopdriver->tgl_sp = $request->input('tgl_sp');
-        $dinasbopdriver->dari = $request->input('dari');
-        $dinasbopdriver->sampai = $request->input('sampai');
-        $dinasbopdriver->dasar = $request->input('dasar');
-        $dinasbopdriver->tujuan = $request->input('tujuan');
-        $dinasbopdriver->driver = $timdinasbop['driver'];
-        $dinasbopdriver->total = $timdinasbop['total_anggaran'];
-        $dinasbopdriver->created_at = date('Y-m-d H:i:s');
-        if ($dinasbopdriver->save()) {
-            $dinasbop = DinasBop::find($request['dinasbop']);
-            $total_anggaran = $dinasbop->total_anggaran;
-            $dinasbop->total_anggaran = intval($total_anggaran) + intval($timdinasbop['total_anggaran']);
-            $dinasbop->save();
-            if ($dinasbop->save()) {
-                return response()->json(['status'=>'ok'], 200);
+            $dinasbopdriver = new DinasBopDriver();
+            $dinasbopdriver->dinasbop_id = $request['dinasbop'];
+            $dinasbopdriver->nomor_sp = $request->input('nomor_sp');
+            $dinasbopdriver->tgl_sp = $request->input('tgl_sp');
+            $dinasbopdriver->dari = $request->input('dari');
+            $dinasbopdriver->sampai = $request->input('sampai');
+            $dinasbopdriver->dasar = $request->input('dasar');
+            $dinasbopdriver->tujuan = $request->input('tujuan');
+            $dinasbopdriver->driver = $timdinasbop['driver'];
+            $dinasbopdriver->total = $timdinasbop['total_anggaran'];
+            $dinasbopdriver->created_at = date('Y-m-d H:i:s');
+
+            if ($dinasbopdriver->save()) {
+                $dinasbop = DinasBop::find($request['dinasbop']);
+                $total_anggaran = $dinasbop->total_anggaran;
+                $dinasbop->total_anggaran = intval($total_anggaran) + intval($timdinasbop['total_anggaran']);
+                $dinasbop->save();
+                if ($dinasbop->save()) {
+                    return response()->json(['status'=>'ok'], 200);
+                } else {
+                    return response()->json(['status'=>'failed'], 500);
+                }
             } else {
                 return response()->json(['status'=>'failed'], 500);
             }
         } else {
-            return response()->json(['status'=>'failed'], 500);
+            return response()->json(['status'=>'duplicate'], 200);
         }
     }
 
@@ -316,33 +322,38 @@ class DinasBopController extends Controller
             'inspektur' => $request->input('inspektur')
         ];
 
-        $timdinasbop = $timdinas->generate_inspektur_bop($parameter);
+        $check_inspektur_bop = $timdinas->check_inspektur_bop($parameter);
+        if ($check_inspektur_bop == true) {
+            $timdinasbop = $timdinas->generate_inspektur_bop($parameter);
 
-        $dasar = array_values(array_filter($request->input('dasar')));
-        $untuk = array_values(array_filter($request->input('tujuan')));
+            $dasar = array_values(array_filter($request->input('dasar')));
+            $untuk = array_values(array_filter($request->input('tujuan')));
 
-        $dinasbopinspektur = new DinasBopInspektur();
-        $dinasbopinspektur->dinasbop_id = $request['dinasbop'];
-        $dinasbopinspektur->nomor_sp = $request->input('nomor_sp');
-        $dinasbopinspektur->tgl_sp = $request->input('tgl_sp');
-        $dinasbopinspektur->dari = $request->input('dari');
-        $dinasbopinspektur->sampai = $request->input('sampai');
-        $dinasbopinspektur->dasar = $dasar;
-        $dinasbopinspektur->tujuan = $untuk;
-        $dinasbopinspektur->inspektur = $timdinasbop['inspektur'];
-        $dinasbopinspektur->total = $timdinasbop['total_anggaran'];
-        $dinasbopinspektur->created_at = date('Y-m-d H:i:s');
-        if ($dinasbopinspektur->save()) {
-            $dinasbop = DinasBop::find($request['dinasbop']);
-            $biaya_bop = $dinasbop->total_anggaran;
-            $dinasbop->total_anggaran = $biaya_bop + $timdinasbop['total_anggaran'];
-            if ($dinasbop->save()) {
-                return response()->json(['status'=>'ok'], 200);
+            $dinasbopinspektur = new DinasBopInspektur();
+            $dinasbopinspektur->dinasbop_id = $request['dinasbop'];
+            $dinasbopinspektur->nomor_sp = $request->input('nomor_sp');
+            $dinasbopinspektur->tgl_sp = $request->input('tgl_sp');
+            $dinasbopinspektur->dari = $request->input('dari');
+            $dinasbopinspektur->sampai = $request->input('sampai');
+            $dinasbopinspektur->dasar = $dasar;
+            $dinasbopinspektur->tujuan = $untuk;
+            $dinasbopinspektur->inspektur = $timdinasbop['inspektur'];
+            $dinasbopinspektur->total = $timdinasbop['total_anggaran'];
+            $dinasbopinspektur->created_at = date('Y-m-d H:i:s');
+            if ($dinasbopinspektur->save()) {
+                $dinasbop = DinasBop::find($request['dinasbop']);
+                $biaya_bop = $dinasbop->total_anggaran;
+                $dinasbop->total_anggaran = $biaya_bop + $timdinasbop['total_anggaran'];
+                if ($dinasbop->save()) {
+                    return response()->json(['status'=>'ok'], 200);
+                } else {
+                    return response()->json(['status'=>'failed'], 500);
+                }
             } else {
                 return response()->json(['status'=>'failed'], 500);
             }
         } else {
-            return response()->json(['status'=>'failed'], 500);
+            return response()->json(['status'=>'duplicate'], 200);
         }
     }
 

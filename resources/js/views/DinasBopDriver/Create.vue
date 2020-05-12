@@ -178,7 +178,6 @@
         },
         mounted() {
             this.isLoading = false;
-            console.log(this.driver_data);
         }
     };
 </script>

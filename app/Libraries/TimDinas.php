@@ -407,6 +407,46 @@ class TimDinas
     }
 
     /**
+     * cek driver pada dinas bop apakah driver tersebut sudah ada dalam pemeriksaan pada rentang waktu tertentu
+     *
+     * @param array $param
+     * @return boolean
+     */
+    public function check_driver_bop($param)
+    {
+        $dinasbop = DinasBopDriver::where('dinasbop_id', $param['dinasbop'])
+                                    ->where('dari','>=', $param['dari'])
+                                    ->where('sampai','<=', $param['sampai'])
+                                    ->where('driver->nip', $param['driver'])
+                                    ->count();
+        if ($dinasbop > 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * cek inspektur pada dinas bop apakah inspektur sudah ada dalam pemeriksaan pada rentang waktu tertentu
+     *
+     * @param array $param
+     * @return boolean
+     */
+    public function check_inspektur_bop($param)
+    {
+        $dinasbop = DinasBopInspektur::where('dinasbop_id', $param['dinasbop'])
+                                        ->where('dari','>=', $param['dari'])
+                                        ->where('sampai','<=', $param['sampai'])
+                                        ->where('inspektur->nip', $param['inspektur'])
+                                        ->count();
+        if ($dinasbop > 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
      * cek personil pada dinas regular apakah personil tersebut sudah ada dalam tim lain atau belum
      *
      * @param string $nip
