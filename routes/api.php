@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', 'Api\LoginController@postLogin');
 Route::get('dashboard', 'Api\DashboardController@getData');
 
-// Route::put('profile', 'Api\ProfileController@putUpdatePassword');
+Route::put('profile', 'Api\ProfileController@putUpdatePassword');
 
 
 // AJAX request

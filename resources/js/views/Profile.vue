@@ -8,20 +8,20 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label>Password Baru</label>
-                                <input type="text" class="form-control" v-model="backuser.password" placeholder="Masukkan Password Baru">
+                                <input type="password" class="form-control" v-model="backuser.password" placeholder="Masukkan Password Baru">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label>Konfirmasi Password</label>
-                                <input type="text" class="form-control" v-model="backuser.repassword" placeholder="Konfirmasi Password Baru">
+                                <input type="password" class="form-control" v-model="backuser.repassword" placeholder="Konfirmasi Password Baru">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <button type="submit" class="btn btn-flat btn-success"><i class="fa fa-save"></i> Simpan Data</button>
+                                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Simpan Data</button>
                             </div>
                         </div>
                     </form>
@@ -32,6 +32,8 @@
 </template>
 
 <script>
+
+import service from './../services.js';
 export default {
     data() {
         return {
@@ -43,7 +45,7 @@ export default {
             backuser: {
                 password:'',
                 repassword:'',
-                id:this.$cookies.get('id')
+                id : this.$cookies.get('id')
             }
         }
     },
@@ -57,7 +59,7 @@ export default {
             this.isLoading = true;
             service.putData(this.api, this.backuser)
             .then(result => {
-                if (result.status === 'OK') {
+                if (result.status === 'ok') {
                     this.alert.error = false;
                     this.alert.update = true;
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });

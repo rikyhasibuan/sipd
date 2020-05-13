@@ -65,6 +65,12 @@ export default {
                     if (result.login == "true") {
                         this.login = true;
                         this.generateCookie(result);
+                        this.$cookies.set('nip', result.nip);
+                        this.$cookies.set('nama', result.nama);
+                        this.$cookies.set('id', result.id);
+                        this.$cookies.set('level', result.level);
+                        this.$cookies.set('jabatan', result.skpd);
+                        this.$cookies.set('login', result.login);
                         this.formReset();
                         window.location.href = this.redirect;
                     } else {
