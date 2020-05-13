@@ -11,7 +11,7 @@
                         </div>
                         <transition name="fade">
                             <div class="card" style="margin-top:50px;" v-show="showForm">
-                                <div class="card-body">
+                                <div class="card-body table-responsive">
                                     <form v-on:submit.prevent="fetchData()">
                                         <div class="row">
                                             <div class="form-group col-md-6">

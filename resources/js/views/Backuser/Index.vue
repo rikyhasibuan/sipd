@@ -31,7 +31,7 @@
                             </div>
                         </transition>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body table-responsive">
                         <v-alert :errorAlert=errorAlert :emptyAlert=emptyAlert :deleteAlert=deleteAlert></v-alert>
                         <transition name="fade">
                             <table class="table table-hover table-striped table-bordered" v-if="showTable == true">
@@ -63,7 +63,7 @@
                                                     <i class="fa fa-wrench"></i> Ubah
                                                 </a>
                                                 &nbsp;
-                                                <a href="#" @click="toggleModal(v.id)" data-toggle="modal" data-target="#modal" 
+                                                <a href="#" @click="toggleModal(v.id)" data-toggle="modal" data-target="#modal"
                                                     class="btn btn-flat btn-sm btn-danger">
                                                     <i class="fa fa-trash-o"></i> Hapus
                                                 </a>
@@ -99,13 +99,13 @@
                                 </div>
                             </div>
                         </transition>
-                        
+
                     </div>
                     <div class="card-footer">
                         <transition name="fade">
-                            <v-pagination 
-                                :pageNumber=pageNumber 
-                                :lastPage=lastPage 
+                            <v-pagination
+                                :pageNumber=pageNumber
+                                :lastPage=lastPage
                                 :to=to
                                 :from=from
                                 :totalData=totalData

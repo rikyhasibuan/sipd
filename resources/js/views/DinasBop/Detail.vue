@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card table-responsive">
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">

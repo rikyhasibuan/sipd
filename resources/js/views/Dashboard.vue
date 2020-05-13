@@ -4,7 +4,7 @@
        <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body table-responsive">
                         <transition name="fade">
                             <table class="table table-hover table-striped table-bordered">
                                 <thead>
@@ -56,7 +56,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body table-responsive">
                         <highcharts :options="anggaran"></highcharts>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body table-responsive">
                         <highcharts :options="resapanAnggaran"></highcharts>
                     </div>
                 </div>
@@ -107,7 +107,7 @@ export default {
     },
     props:['api', 'tahun_data'],
     components: {
-        highcharts: Chart 
+        highcharts: Chart
     },
     created() {
         this.isLoading = true;
