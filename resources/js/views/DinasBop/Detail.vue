@@ -86,7 +86,7 @@
                         <div id="reviu" class="tab-pane fade" :class="{ 'active': (last_tab == 'reviu'), 'show': (last_tab == 'reviu') }">
                             <dinasbopreviu-detail
                                 :dinasbop=dinasbop
-                                :dinasbopdriver=dinasbopdriver
+                                :dinasbopreviu=dinasbopreviu
                                 :route=route
                                 :print_action=print_action
                                 :api=api>
@@ -148,7 +148,7 @@
                 id:''
             }
         },
-        props: ['dinasbop', 'dinasboptim', 'dinasbopdriver', 'dinasbopinspektur', 'dinasbopsekretaris', 'route', 'print_action', 'api'],
+        props: ['dinasbop', 'dinasboptim', 'dinasbopdriver', 'dinasbopinspektur', 'dinasbopsekretaris','dinasbopreviu', 'route', 'print_action', 'api'],
         methods: {
             onChangeTabs(evt) {
                 const data_set = evt.target.dataset.id;

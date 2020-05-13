@@ -13,6 +13,8 @@ use App\Models\DinasBopTim;
 use App\Models\DinasBopDriver;
 use App\Models\DinasBopInspektur;
 use App\Models\DinasBopSekretaris;
+use App\Models\DinasBopReviu;
+use App\Models\DinasBopSupervisi;
 use App\Models\DinasRegular;
 use App\Models\Harian;
 use App\Models\Kabkota;
@@ -218,6 +220,137 @@ class TimDinas
         $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
 
         return ['sekretaris' => $sekretaris, 'total_anggaran' => $total_anggaran];
+    }
+
+    /**
+     * membuat sebuah array berisi tim dinas bop
+     * @param array $parameter
+     * @return array $callback
+     */
+    public function generate_reviu_bop($parameter)
+    {
+        $tim = [];
+        $query_dinasbop = DinasBop::find($parameter['dinasbop']);
+        $dari = date_create($parameter['dari']);
+        $sampai = date_create($parameter['sampai']);
+        $diff = date_diff($dari, $sampai);
+        $durasi = $diff->days + 1;
+        $total_anggaran = 0;
+
+        // Ketua Tim
+        $query_pegawai = Pegawai::searchNip($parameter['ketuatim'])->first();
+        $query_bop = Bop::where('jabatan', 'Ketua Tim')->first();
+        $check_ketua = self::check_reviu_bop($parameter['reviu'], $parameter['dinasbop'], $query_pegawai['nip'], $dari, $sampai, $parameter['act']);
+
+        $tim['ketuatim']['nip'] = $query_pegawai['nip'];
+        $tim['ketuatim']['nama'] = $query_pegawai['nama'];
+        $tim['ketuatim']['golongan'] = $query_pegawai['golongan'];
+        $tim['ketuatim']['pangkat'] = $query_pegawai['pangkat'];
+        $tim['ketuatim']['jabatan'] = $query_pegawai['jabatan'];
+        $tim['ketuatim']['hari'] = $durasi;
+        if ($check_ketua == true) {
+            $tim['ketuatim']['biaya'] = $query_bop['biaya_per_hari'];
+            $tim['ketuatim']['total'] = $durasi * $query_bop['biaya_per_hari'];
+            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+        } else {
+            $tim['ketuatim']['biaya'] = 0;
+            $tim['ketuatim']['total'] = 0;
+            $total_anggaran += 0;
+        }
+
+        // Anggota Tim
+        $n = 0;
+        foreach ($parameter['anggota'] as $s) {
+            $query_pegawai = Pegawai::searchNip($s['key'])->first();
+            $query_bop = Bop::where('jabatan', 'Anggota Tim')->first();
+            $check_anggota = self::check_reviu_bop($parameter['reviu'], $parameter['dinasbop'], $query_pegawai['nip'], $dari, $sampai, $parameter['act']);
+
+            $tim['anggota'][$n]['nip'] = $query_pegawai['nip'];
+            $tim['anggota'][$n]['nama'] = $query_pegawai['nama'];
+            $tim['anggota'][$n]['golongan'] = $query_pegawai['golongan'];
+            $tim['anggota'][$n]['pangkat'] = $query_pegawai['pangkat'];
+            $tim['anggota'][$n]['jabatan'] = $query_pegawai['jabatan'];
+            $tim['anggota'][$n]['hari'] = $durasi;
+            $tim['anggota'][$n]['biaya'] = $query_bop['biaya_per_hari'];
+            $tim['anggota'][$n]['total'] = $durasi * $query_bop['biaya_per_hari'];
+            if ($check_anggota == true) {
+                $tim['anggota'][$n]['biaya'] = $query_bop['biaya_per_hari'];
+                $tim['anggota'][$n]['total'] = $durasi * $query_bop['biaya_per_hari'];
+                $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+            } else {
+                $tim['anggota'][$n]['biaya'] = 0;
+                $tim['anggota'][$n]['total'] = 0;
+                $total_anggaran += 0;
+            }
+            $n++;
+        }
+
+        return ['reviu' => $tim, 'total_anggaran' => $total_anggaran];
+    }
+
+    /**
+     * membuat sebuah array berisi tim supervisi dinas bop
+     * @param array $parameter
+     * @return array $callback
+     */
+    public function generate_supervisi_bop($parameter)
+    {
+        $tim = [];
+        $dari = date_create($parameter['dari']);
+        $sampai = date_create($parameter['sampai']);
+        $diff = date_diff($dari, $sampai);
+        $durasi = $diff->days + 1;
+        $total_anggaran = 0;
+
+        // Ketua Tim
+        $query_pegawai = Pegawai::searchNip($parameter['ketuatim'])->first();
+        $query_bop = Bop::where('jabatan', 'Ketua Tim')->first();
+        $check_ketua = self::check_supervisi_bop($parameter['reviu'], $parameter['dinasbop'], $query_pegawai['nip'], $dari, $sampai, $parameter['act']);
+
+        $tim['ketuatim']['nip'] = $query_pegawai['nip'];
+        $tim['ketuatim']['nama'] = $query_pegawai['nama'];
+        $tim['ketuatim']['golongan'] = $query_pegawai['golongan'];
+        $tim['ketuatim']['pangkat'] = $query_pegawai['pangkat'];
+        $tim['ketuatim']['jabatan'] = $query_pegawai['jabatan'];
+        $tim['ketuatim']['hari'] = $durasi;
+        if ($check_ketua == true) {
+            $tim['ketuatim']['biaya'] = $query_bop['biaya_per_hari'];
+            $tim['ketuatim']['total'] = $durasi * $query_bop['biaya_per_hari'];
+            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+        } else {
+            $tim['ketuatim']['biaya'] = 0;
+            $tim['ketuatim']['total'] = 0;
+            $total_anggaran += 0;
+        }
+
+        // Anggota Tim
+        $n = 0;
+        foreach ($parameter['anggota'] as $s) {
+            $query_pegawai = Pegawai::searchNip($s['key'])->first();
+            $query_bop = Bop::where('jabatan', 'Anggota Tim')->first();
+            $check_anggota = self::check_supervisi_bop($parameter['reviu'], $parameter['dinasbop'], $query_pegawai['nip'], $dari, $sampai, $parameter['act']);
+
+            $tim['anggota'][$n]['nip'] = $query_pegawai['nip'];
+            $tim['anggota'][$n]['nama'] = $query_pegawai['nama'];
+            $tim['anggota'][$n]['golongan'] = $query_pegawai['golongan'];
+            $tim['anggota'][$n]['pangkat'] = $query_pegawai['pangkat'];
+            $tim['anggota'][$n]['jabatan'] = $query_pegawai['jabatan'];
+            $tim['anggota'][$n]['hari'] = $durasi;
+            $tim['anggota'][$n]['biaya'] = $query_bop['biaya_per_hari'];
+            $tim['anggota'][$n]['total'] = $durasi * $query_bop['biaya_per_hari'];
+            if ($check_anggota == true) {
+                $tim['anggota'][$n]['biaya'] = $query_bop['biaya_per_hari'];
+                $tim['anggota'][$n]['total'] = $durasi * $query_bop['biaya_per_hari'];
+                $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+            } else {
+                $tim['anggota'][$n]['biaya'] = 0;
+                $tim['anggota'][$n]['total'] = 0;
+                $total_anggaran += 0;
+            }
+            $n++;
+        }
+
+        return ['supervisi' => $tim, 'total_anggaran' => $total_anggaran];
     }
 
     /**
@@ -445,6 +578,122 @@ class TimDinas
             return false;
         } else {
             return true;
+        }
+    }
+
+    /**
+     * cek reviu pada dinas bop apakah reviu tersebut sudah ada dalam tim lain atau belum
+     *
+     * @param string $nip
+     * @param int $id_dinasbop
+     * @return boolean
+     */
+    public function check_reviu_bop($id, $idtim, $nip, $dari, $sampai, $act)
+    {
+        if ($act == 'create') {
+            $dinasbop = DinasBopReviu::where('dinasbop_id',$id)->where('dari', $dari)->where('sampai', $sampai)->get();
+            if (count($dinasbop) > 0) {
+                $i = 0;
+                foreach ($dinasbop as $v) {
+                    if ($v['tim']['ketuatim']['nip'] == $nip) {
+                        $i++;
+                    }
+
+                    foreach ($v['tim']['anggota'] as $y) {
+                        if ($y['nip'] == $nip) {
+                            $i++;
+                        }
+                    }
+
+                    if ($i == 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            } else {
+                return true;
+            }
+        } elseif ($act == 'put') {
+            $tim = DinasBopReviu::where('dinasbop_id', $id)->where('id','!=', $idtim)->get();
+            if (count($tim) > 0) {
+                $i = 0;
+                foreach ($tim as $v) {
+                    if ($v['tim']['ketuatim']['nip'] == $nip) {
+                        $i++;
+                    }
+                    foreach ($v['tim']['anggota'] as $y) {
+                        if ($y['nip'] == $nip) {
+                            $i++;
+                        }
+                    }
+                }
+                if ($i == 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return true;
+            }
+        }
+    }
+
+    /**
+     * cek supervisi pada dinas bop apakah supervisi tersebut sudah ada dalam tim lain atau belum
+     *
+     * @param string $nip
+     * @param int $id_dinasbop
+     * @return boolean
+     */
+    public function check_supervisi_bop($id, $idtim, $nip, $dari, $sampai, $act)
+    {
+        if ($act == 'create') {
+            $dinasbop = DinasBopSupervisi::where('dinasbop_id',$id)->where('dari', $dari)->where('sampai', $sampai)->get();
+            if (count($dinasbop) > 0) {
+                $i = 0;
+                foreach ($dinasbop as $v) {
+                    if ($v['tim']['ketuatim']['nip'] == $nip) {
+                        $i++;
+                    }
+
+                    foreach ($v['tim']['anggota'] as $y) {
+                        if ($y['nip'] == $nip) {
+                            $i++;
+                        }
+                    }
+
+                    if ($i == 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            } else {
+                return true;
+            }
+        } elseif ($act == 'put') {
+            $tim = DinasBopSupervisi::where('dinasbop_id', $id)->where('id','!=', $idtim)->get();
+            if (count($tim) > 0) {
+                $i = 0;
+                foreach ($tim as $v) {
+                    if ($v['tim']['ketuatim']['nip'] == $nip) {
+                        $i++;
+                    }
+                    foreach ($v['tim']['anggota'] as $y) {
+                        if ($y['nip'] == $nip) {
+                            $i++;
+                        }
+                    }
+                }
+                if ($i == 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return true;
+            }
         }
     }
 

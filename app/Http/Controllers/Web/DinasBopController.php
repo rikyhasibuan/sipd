@@ -13,6 +13,7 @@ use App\Models\DinasBopTim;
 use App\Models\DinasBopDriver;
 use App\Models\DinasBopInspektur;
 use App\Models\DinasBopSekretaris;
+use App\Models\DinasBopReviu;
 use App\Models\Irban;
 use App\Libraries\Access;
 use Closure;
@@ -49,7 +50,7 @@ class DinasBopController extends Controller
         $program = Program::all();
         $kegiatan = [];
         $belanja = [];
-        
+
         $data = [];
         $data['breadcrumb'] = $breadcrumb;
         $data['title']  = $this->title;
@@ -95,7 +96,7 @@ class DinasBopController extends Controller
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
 
         $dinasbop = DinasBop::find($request['id']);
-        
+
         $program = Program::all();
         $kegiatan = [];
         $belanja = [];
@@ -126,7 +127,8 @@ class DinasBopController extends Controller
         $dinasbopdriver = DinasBopDriver::where('dinasbop_id', $dinasbop->id)->get();
         $dinasbopinspektur = DinasBopInspektur::where('dinasbop_id', $dinasbop->id)->get();
         $dinasbopsekretaris = DinasBopSekretaris::where('dinasbop_id', $dinasbop->id)->get();
-        
+        $dinasbopreviu = DinasBopReviu::where('dinasbop_id', $dinasbop->id)->first();
+
         $data = array();
         $data['title']  = $this->title;
         $data['link'] = $this->link;
@@ -135,6 +137,7 @@ class DinasBopController extends Controller
         $data['dinasbopdriver'] = $dinasbopdriver;
         $data['dinasbopinspektur'] = $dinasbopinspektur;
         $data['dinasbopsekretaris'] = $dinasbopsekretaris;
+        $data['dinasbopreviu'] = $dinasbopreviu;
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api);
         $data['route'] = url($this->route);
@@ -150,9 +153,9 @@ class DinasBopController extends Controller
 
         $irban = Irban::all();
         $auditan = [];
-        
+
         $driver = Pegawai::where('jabatan', 'Pengemudi')->get();
-        
+
         $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
@@ -175,10 +178,10 @@ class DinasBopController extends Controller
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
 
         $dinasboptim = DinasBopTim::find($request['id']);
-        
+
         $irban = Irban::all();
         $auditan = [];
-        
+
         $driver = Pegawai::where('jabatan', 'Pengemudi')->get();
 
         $data = [];
@@ -202,7 +205,7 @@ class DinasBopController extends Controller
         $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> ' . $this->title . '</a>';
         $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data Pengemudi';
-        
+
         $driver = Pegawai::where('jabatan', 'Pengemudi')->get();
         $dinasbop_data = DinasBop::find($request['dinasbop']);
 
@@ -250,7 +253,7 @@ class DinasBopController extends Controller
         $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> ' . $this->title . '</a>';
         $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data';
-        
+
         $dinasbop_data = DinasBop::find($request['dinasbop']);
 
         $data = [];
@@ -294,7 +297,7 @@ class DinasBopController extends Controller
         $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> ' . $this->title . '</a>';
         $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data';
-        
+
         $dinasbop_data = DinasBop::find($request['dinasbop']);
 
         $data = [];
@@ -330,5 +333,217 @@ class DinasBopController extends Controller
         $data['dinasbop_data'] = $dinasbop_data;
         $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
         return View::make('dinasbop.form_sekretaris', $data);
+    }
+
+    public function create_reviu(Request $request)
+    {
+        $breadcrumb = [];
+        $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
+        $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> ' . $this->title . '</a>';
+        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data Tim';
+
+        $dinasbop_data = DinasBop::find($request['dinasbop']);
+
+        $jabatan_anggota = [
+            'Analis Perencanaan, Evaluasi dan Pelaporan',
+            'Pengelola Evaluasi Tindak Lanjut Laporan Hasil Pemeriksaan',
+            'Analis Laporan Hasil Pengawasan',
+            'Perencana Pertama',
+            'Pengolah Data Perencanaan dan Penganggaran',
+            'Pengadministrasi Perencanaan dan Program',
+            'Pengelola Keuangan',
+            'Verifikatur',
+            'Analis Laporan Keuangan',
+            'Bendahara',
+            'Pengadministrasi Keuangan',
+            'Pengelola Gaji',
+            'Pengadministrasi Umum',
+            'Pengelola Barang Milik Negara',
+            'Pengelola Kepegawaian',
+            'Analis Sumber Daya Manusia Aparatur',
+            'Pengelola Barang Milik Negara (Penyimpan Barang)'
+        ];
+
+        $jabatan_ketua = [
+            'Kepala Sub Bagian Perencanaan dan Pelaporan',
+            'Kepala Sub Bagian Keuangan dan Aset',
+            'Kepala Sub Bagian Kepegawaian dan Umum'
+        ];
+
+        $anggota = Pegawai::whereIn('jabatan', $jabatan_anggota)->get();
+        $ketua = Pegawai::whereIn('jabatan', $jabatan_ketua)->get();
+
+        $data = [];
+        $data['title']  = $this->title;
+        $data['link'] = $this->link;
+        $data['breadcrumb'] = $breadcrumb;
+        $data['api'] = url($this->api);
+        $data['act'] = 'create';
+        $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
+        $data['dinasbop'] = $request['dinasbop'];
+        $data['anggota'] = $anggota;
+        $data['ketua'] = $ketua;
+        $data['dinasbop_data'] = $dinasbop_data;
+        return View::make('dinasbop.form_reviu', $data);
+    }
+
+    public function edit_reviu(Request $request)
+    {
+        $breadcrumb = [];
+        $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
+        $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> '.$this->title.'</a>';
+        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
+
+        $dinasbopreviu = DinasBopReviu::find($request['id']);
+        $dinasbop_data = DinasBop::find($request['dinasbop']);
+
+        $jabatan_anggota = [
+            'Analis Perencanaan, Evaluasi dan Pelaporan',
+            'Pengelola Evaluasi Tindak Lanjut Laporan Hasil Pemeriksaan',
+            'Analis Laporan Hasil Pengawasan',
+            'Perencana Pertama',
+            'Pengolah Data Perencanaan dan Penganggaran',
+            'Pengadministrasi Perencanaan dan Program',
+            'Pengelola Keuangan',
+            'Verifikatur',
+            'Analis Laporan Keuangan',
+            'Bendahara',
+            'Pengadministrasi Keuangan',
+            'Pengelola Gaji',
+            'Pengadministrasi Umum',
+            'Pengelola Barang Milik Negara',
+            'Pengelola Kepegawaian',
+            'Analis Sumber Daya Manusia Aparatur',
+            'Pengelola Barang Milik Negara (Penyimpan Barang)'
+        ];
+
+        $jabatan_ketua = [
+            'Kepala Sub Bagian Perencanaan dan Pelaporan',
+            'Kepala Sub Bagian Keuangan dan Aset',
+            'Kepala Sub Bagian Kepegawaian dan Umum'
+        ];
+
+        $anggota = Pegawai::whereIn('jabatan', $jabatan_anggota)->get();
+        $ketua = Pegawai::whereIn('jabatan', $jabatan_ketua)->get();
+
+        $data = [];
+        $data['title']  = $this->title;
+        $data['link'] = $this->link;
+        $data['dinasbopreviu'] = $dinasbopreviu;
+        $data['breadcrumb'] = $breadcrumb;
+        $data['api'] = url($this->api);
+        $data['act'] = 'edit';
+        $data['dinasbop'] = $request['dinasbop'];
+        $data['dinasbop_data'] = $dinasbop_data;
+        $data['anggota'] = $anggota;
+        $data['ketua'] = $ketua;
+        $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
+        return View::make('dinasbop.form_reviu', $data);
+    }
+
+    public function create_supervisi(Request $request)
+    {
+        $breadcrumb = [];
+        $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
+        $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> ' . $this->title . '</a>';
+        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data Supervisi';
+
+        $dinasbop_data = DinasBop::find($request['dinasbop']);
+
+        $jabatan_anggota = [
+            'Analis Perencanaan, Evaluasi dan Pelaporan',
+            'Pengelola Evaluasi Tindak Lanjut Laporan Hasil Pemeriksaan',
+            'Analis Laporan Hasil Pengawasan',
+            'Perencana Pertama',
+            'Pengolah Data Perencanaan dan Penganggaran',
+            'Pengadministrasi Perencanaan dan Program',
+            'Pengelola Keuangan',
+            'Verifikatur',
+            'Analis Laporan Keuangan',
+            'Bendahara',
+            'Pengadministrasi Keuangan',
+            'Pengelola Gaji',
+            'Pengadministrasi Umum',
+            'Pengelola Barang Milik Negara',
+            'Pengelola Kepegawaian',
+            'Analis Sumber Daya Manusia Aparatur',
+            'Pengelola Barang Milik Negara (Penyimpan Barang)'
+        ];
+
+        $jabatan_ketua = [
+            'Kepala Sub Bagian Perencanaan dan Pelaporan',
+            'Kepala Sub Bagian Keuangan dan Aset',
+            'Kepala Sub Bagian Kepegawaian dan Umum'
+        ];
+
+        $anggota = Pegawai::whereIn('jabatan', $jabatan_anggota)->get();
+        $ketua = Pegawai::whereIn('jabatan', $jabatan_ketua)->get();
+
+        $data = [];
+        $data['title']  = $this->title;
+        $data['link'] = $this->link;
+        $data['breadcrumb'] = $breadcrumb;
+        $data['api'] = url($this->api);
+        $data['act'] = 'create';
+        $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
+        $data['dinasbop'] = $request['dinasbop'];
+        $data['anggota'] = $anggota;
+        $data['ketua'] = $ketua;
+        $data['dinasbop_data'] = $dinasbop_data;
+        return View::make('dinasbop.form_supervisi', $data);
+    }
+
+    public function edit_supervisi(Request $request)
+    {
+        $breadcrumb = [];
+        $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
+        $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> '.$this->title.'</a>';
+        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data Supervisi';
+
+        $dinasbopsupervisi = DinasBopSupervisi::find($request['id']);
+        $dinasbop_data = DinasBop::find($request['dinasbop']);
+
+        $jabatan_anggota = [
+            'Analis Perencanaan, Evaluasi dan Pelaporan',
+            'Pengelola Evaluasi Tindak Lanjut Laporan Hasil Pemeriksaan',
+            'Analis Laporan Hasil Pengawasan',
+            'Perencana Pertama',
+            'Pengolah Data Perencanaan dan Penganggaran',
+            'Pengadministrasi Perencanaan dan Program',
+            'Pengelola Keuangan',
+            'Verifikatur',
+            'Analis Laporan Keuangan',
+            'Bendahara',
+            'Pengadministrasi Keuangan',
+            'Pengelola Gaji',
+            'Pengadministrasi Umum',
+            'Pengelola Barang Milik Negara',
+            'Pengelola Kepegawaian',
+            'Analis Sumber Daya Manusia Aparatur',
+            'Pengelola Barang Milik Negara (Penyimpan Barang)'
+        ];
+
+        $jabatan_ketua = [
+            'Kepala Sub Bagian Perencanaan dan Pelaporan',
+            'Kepala Sub Bagian Keuangan dan Aset',
+            'Kepala Sub Bagian Kepegawaian dan Umum'
+        ];
+
+        $anggota = Pegawai::whereIn('jabatan', $jabatan_anggota)->get();
+        $ketua = Pegawai::whereIn('jabatan', $jabatan_ketua)->get();
+
+        $data = [];
+        $data['title']  = $this->title;
+        $data['link'] = $this->link;
+        $data['dinasbopsupervisi'] = $dinasbopsupervisi;
+        $data['breadcrumb'] = $breadcrumb;
+        $data['api'] = url($this->api);
+        $data['act'] = 'edit';
+        $data['dinasbop'] = $request['dinasbop'];
+        $data['dinasbop_data'] = $dinasbop_data;
+        $data['anggota'] = $anggota;
+        $data['ketua'] = $ketua;
+        $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
+        return View::make('dinasbop.form_supervisi', $data);
     }
 }

@@ -106,6 +106,12 @@ Route::get('dinasbop/inspektur/edit', 'Web\DinasBopController@edit_inspektur');
 Route::get('dinasbop/sekretaris/create', 'Web\DinasBopController@create_sekretaris');
 Route::get('dinasbop/sekretaris/edit', 'Web\DinasBopController@edit_sekretaris');
 
+Route::get('dinasbop/reviu/create', 'Web\DinasBopController@create_reviu');
+Route::get('dinasbop/reviu/edit', 'Web\DinasBopController@edit_reviu');
+
+Route::get('dinasbop/supervisi/create', 'Web\DinasBopController@create_supervisi');
+Route::get('dinasbop/supervisi/edit', 'Web\DinasBopController@edit_supervisi');
+
 // dinas regular
 Route::get('dinasregular', 'Web\DinasRegularController@index');
 Route::get('dinasregular/create', 'Web\DinasRegularController@create');

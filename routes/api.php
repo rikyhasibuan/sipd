@@ -146,6 +146,12 @@ Route::delete('dinasbop/inspektur/{dinasbop}/{id}', 'Api\DinasBopController@dele
 Route::post('dinasbop/sekretaris/{dinasbop}', 'Api\DinasBopController@post_sekretaris_data');
 Route::put('dinasbop/sekretaris/{dinasbop}/{id}', 'Api\DinasBopController@put_sekretaris_data');
 Route::delete('dinasbop/sekretaris/{dinasbop}/{id}', 'Api\DinasBopController@delete_sekretaris_data');
+Route::post('dinasbop/reviu/{dinasbop}', 'Api\DinasBopController@post_reviu_data');
+Route::put('dinasbop/reviu/{dinasbop}/{id}', 'Api\DinasBopController@put_reviu_data');
+Route::delete('dinasbop/reviu/{dinasbop}/{id}', 'Api\DinasBopController@delete_reviu_data');
+Route::post('dinasbop/supervisi/{dinasbop}', 'Api\DinasBopController@post_supervisi_data');
+Route::put('dinasbop/supervisi/{dinasbop}/{id}', 'Api\DinasBopController@put_supervisi_data');
+Route::delete('dinasbop/supervisi/{dinasbop}/{id}', 'Api\DinasBopController@delete_supervisi_data');
 
 // dinas regular
 Route::get('dinasregular', 'Api\DinasRegularController@get_data');
