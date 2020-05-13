@@ -17,12 +17,17 @@
                 </tr>
                 <tr>
                     <td style="width:15%;"><b>Dasar Surat Perintah</b></td>
-                    <td style="width:85%;">
-                        <ul style="margin-left:-25px;">
-                            <li v-for="v in dinasbop.dasar" :value="v" :key="v">
-                                {{ v }}
-                            </li>
-                        </ul>
+                    <td>
+                        <div v-if="dinasbop.dasar.length > 1">
+                            <ol style="margin-left:-25px;">
+                                <li v-for="(v,k) in dinasbop.dasar" :key="k">
+                                    {{ v }}
+                                </li>
+                            </ol>
+                        </div>
+                        <div v-else>
+                            {{ dinasbop.dasar[0] }}
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -31,12 +36,17 @@
                 </tr>
                 <tr>
                     <td style="width:15%;"><b>Tujuan Pemeriksaan</b></td>
-                    <td style="width:85%;">
-                        <ul style="margin-left:-25px;">
-                            <li v-for="v in dinasbop.untuk" :value="v" :key="v">
-                                {{ v }}
-                            </li>
-                        </ul>
+                    <td>
+                        <div v-if="dinasbop.untuk.length > 1">
+                            <ol style="margin-left:-25px;">
+                                <li v-for="(v,k) in dinasbop.untuk" :key="k">
+                                    {{ v }}
+                                </li>
+                            </ol>
+                        </div>
+                        <div v-else>
+                            {{ dinasbop.untuk[0] }}
+                        </div>
                     </td>
                 </tr>
             </tbody>

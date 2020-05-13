@@ -157,9 +157,9 @@
         methods: {
             onSubmit(evt) {
                 service.postData(this.api + '/reviu/' + this.dinasbop, this.dinasbopreviu)
-                .then(result => {
-                    this.response(result);
-                }).catch(error => {
+                    .then(result => {
+                        this.response(result);
+                    }).catch(error => {
                     this.isLoading = false;
                     this.alert.error = true;
                     this.alert.duplicate = false;

@@ -14,6 +14,7 @@ use App\Models\DinasBopDriver;
 use App\Models\DinasBopInspektur;
 use App\Models\DinasBopSekretaris;
 use App\Models\DinasBopReviu;
+use App\Models\DinasBopSupervisi;
 use App\Models\Irban;
 use App\Libraries\Access;
 use Closure;
@@ -128,6 +129,7 @@ class DinasBopController extends Controller
         $dinasbopinspektur = DinasBopInspektur::where('dinasbop_id', $dinasbop->id)->get();
         $dinasbopsekretaris = DinasBopSekretaris::where('dinasbop_id', $dinasbop->id)->get();
         $dinasbopreviu = DinasBopReviu::where('dinasbop_id', $dinasbop->id)->first();
+        $dinasbopsupervisi = DinasBopSupervisi::where('dinasbop_id', $dinasbop->id)->first();
 
         $data = array();
         $data['title']  = $this->title;
@@ -138,6 +140,7 @@ class DinasBopController extends Controller
         $data['dinasbopinspektur'] = $dinasbopinspektur;
         $data['dinasbopsekretaris'] = $dinasbopsekretaris;
         $data['dinasbopreviu'] = $dinasbopreviu;
+        $data['dinasbopsupervisi'] = $dinasbopsupervisi;
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api);
         $data['route'] = url($this->route);

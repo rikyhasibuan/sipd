@@ -4,7 +4,7 @@ use App\Libraries\TimDinas;
 
 $common = new Common();
 $timdinas = new TimDinas();
-$diff = date_diff($dinasboptim->dinasbop->dari, $dinasboptim->dinasbop->sampai);
+$diff = date_diff(date_create($dinasbopsupervisi->dari), date_create($dinasbopsupervisi->sampai));
 $durasi = $diff->days + 1;
 $kpa = $timdinas->get_sekretaris();
 ?>
@@ -43,15 +43,15 @@ $kpa = $timdinas->get_sekretaris();
         <div class="col-md-12">
             <strong><u><h4 class="text-center">INSPEKTORAT DAERAH PROVINSI JAWA BARAT</h4></u></strong>
             <br>
-            <center>
+            <div style="text-align: center;">
                 <table width="75%">
                     <tr>
                         <td style="width:2%;vertical-align: top;">DAFTAR</td>
                         <td style="width:2%;vertical-align: top;">: </td>
-                        <td style="width:70%;vertical-align: top;text-align: justify;">PENERIMAAN BIAYA OPERASIONAL INSPEKTORAT BELANJA {!! strtoupper($dinasboptim->dinasbop->belanja->nama_belanja) !!} SELAMA {!! $durasi !!} ({!! strtoupper($common->terbilang($durasi)) !!}) HARI MULAI TANGGAL {!! strtoupper($common->generate_indonesia_date($dinasboptim->dinasbop->dari)) !!} SAMPAI DENGAN {!! strtoupper($common->generate_indonesia_date($dinasboptim->dinasbop->sampai)) !!} UNTUK MELAKUKAN {!! strtoupper($dinasboptim->dinasbop->program->nama_program) !!} PADA {!! strtoupper($dinasboptim->auditan) !!}</td>
+                        <td style="width:70%;vertical-align: top;text-align: justify;">PENERIMAAN BIAYA OPERASIONAL INSPEKTORAT BELANJA {!! strtoupper($dinasbopsupervisi->dinasbop->belanja->nama_belanja) !!} SELAMA {!! $durasi !!} ({!! strtoupper($common->terbilang($durasi)) !!}) HARI MULAI TANGGAL {!! strtoupper($common->generate_indonesia_date($dinasbopsupervisi->dari)) !!} SAMPAI DENGAN {!! strtoupper($common->generate_indonesia_date($dinasbopsupervisi->sampai)) !!} UNTUK MELAKUKAN {!! strtoupper($dinasbopsupervisi->dinasbop->program->nama_program) !!}</td>
                     </tr>
                 </table>
-            </center>
+            </div>
             <br>
             <table class="table table-bordered">
                 <thead>
@@ -69,36 +69,16 @@ $kpa = $timdinas->get_sekretaris();
                 <tbody>
                 <tr>
                     <td style="text-align: center;">1</td>
-                    <td>{!! $dinasboptim->tim['wakilpenanggungjawab']['nama'] !!}</td>
-                    <td style="text-align: center;">WAKIL PENANGGUNGJAWAB {!! $dinasboptim->tim['wakilpenanggungjawab']['golongan'] !!}</td>
-                    <td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['wakilpenanggungjawab']['total']) !!}</td>
+                    <td>{!! $dinasbopsupervisi->tim['ketuatim']['nama'] !!}</td>
+                    <td style="text-align: center;">KETUA TIM {!! $dinasbopsupervisi->tim['ketuatim']['golongan'] !!}</td>
+                    <td style="text-align: right;">Rp.{!! $common->rupiah($dinasbopsupervisi->tim['ketuatim']['total']) !!}</td>
                     <td></td>
                     <td></td>
-                    <td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['wakilpenanggungjawab']['total']) !!}</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td style="text-align: center;">2</td>
-                    <td>{!! $dinasboptim->tim['pengendaliteknis']['nama'] !!}</td>
-                    <td style="text-align: center;">PENGENDALI TEKNIS {!! $dinasboptim->tim['pengendaliteknis']['golongan'] !!}</td>
-                    <td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['pengendaliteknis']['total']) !!}</td>
-                    <td></td>
-                    <td></td>
-                    <td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['pengendaliteknis']['total']) !!}</td>
+                    <td style="text-align: right;">Rp.{!! $common->rupiah($dinasbopsupervisi->tim['ketuatim']['total']) !!}</td>
                     <td></td>
                 </tr>
-                <tr>
-                    <td style="text-align: center;">3</td>
-                    <td>{!! $dinasboptim->tim['ketuatim']['nama'] !!}</td>
-                    <td style="text-align: center;">KETUA TIM {!! $dinasboptim->tim['ketuatim']['golongan'] !!}</td>
-                    <td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['ketuatim']['total']) !!}</td>
-                    <td></td>
-                    <td></td>
-                    <td style="text-align: right;">Rp.{!! $common->rupiah($dinasboptim->tim['ketuatim']['total']) !!}</td>
-                    <td></td>
-                </tr>
-                <?php $i = 3; ?>
-                @foreach($dinasboptim->tim['anggota'] as $v)
+                <?php $i = 2; ?>
+                @foreach($dinasbopsupervisi->tim['anggota'] as $v)
                     <tr>
                         <td style="text-align: center;">{!! ++$i !!}</td>
                         <td>{!! $v['nama'] !!}</td>
@@ -112,24 +92,24 @@ $kpa = $timdinas->get_sekretaris();
                 @endforeach
                 <tr>
                     <td colspan="6" style="text-align: center;"><b>JUMLAH</b></td>
-                    <td style="text-align: right;"><b>Rp.{!! $common->rupiah($dinasboptim->total_anggaran) !!}</b></td>
+                    <td style="text-align: right;"><b>Rp.{!! $common->rupiah($dinasbopsupervisi->total_anggaran) !!}</b></td>
                     <td></td>
                 </tr>
                 </tbody>
             </table>
-            Terbilang : <i>{!! $common->terbilang($dinasboptim->total_anggaran) !!} rupiah *</i>
+            Terbilang : <i>{!! $common->terbilang($dinasbopsupervisi->total_anggaran) !!} rupiah *</i>
             <br><br>
             <table width="100%">
                 <tr>
                     <td width="25%"></td>
                     <td width="25%">
-                        <center>
+                        <div style="text-align: center;">
                             <table cellpadding="2" cellspacing="2" style="width:30%;">
                                 <tr>
-                                    <td width="10%" style="text-align: center;">Bandung, {!! $common->generate_indonesia_date($dinasboptim->tgl_sp) !!}</td>
+                                    <td width="10%" style="text-align: center;">Bandung, {!! $common->generate_indonesia_date($dinasbopsupervisi->tgl_sp) !!}</td>
                                 </tr>
                             </table>
-                        </center>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -167,13 +147,13 @@ $kpa = $timdinas->get_sekretaris();
                                 <td width="10%" style="text-align: center;"><br><br><br><br></td>
                             </tr>
                             <tr>
-                                <td width="10%" style="text-align: center;">{!! $dinasboptim->dinasbop->kegiatan->pegawai->nama !!}</td>
+                                <td width="10%" style="text-align: center;">{!! $dinasbopsupervisi->dinasbop->kegiatan->pegawai->nama !!}</td>
                             </tr>
                             <tr>
-                                <td width="10%" style="text-align: center;">{!! $dinasboptim->dinasbop->kegiatan->pegawai->pangkat !!}</td>
+                                <td width="10%" style="text-align: center;">{!! $dinasbopsupervisi->dinasbop->kegiatan->pegawai->pangkat !!}</td>
                             </tr>
                             <tr>
-                                <td width="10%" style="text-align: center;">NIP. {!! $dinasboptim->dinasbop->kegiatan->pegawai->nip !!}</td>
+                                <td width="10%" style="text-align: center;">NIP. {!! $dinasbopsupervisi->dinasbop->kegiatan->pegawai->nip !!}</td>
                             </tr>
                         </table>
                     </td>

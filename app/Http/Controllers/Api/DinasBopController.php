@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Libraries\TimDinas;
 use App\Libraries\KasAnggaran;
 use App\Models\DinasBop;
+use App\Models\DinasBopSupervisi;
 use App\Models\DinasBopTim;
 use App\Models\DinasBopDriver;
 use App\Models\DinasBopInspektur;
@@ -686,8 +687,8 @@ class DinasBopController extends Controller
         $parameter = [
             'supervisi' => '',
             'dinasbop' => $request['dinasbop'],
-            'dari' => $request->input('dari'),
-            'sampai' => $request->input('sampai'),
+            'dari'=>$request->input('dari'),
+            'sampai'=>$request->input('sampai'),
             'ketuatim' => $request->input('ketuatim'),
             'anggota' => $request->input('anggota'),
             'act' => 'put'
@@ -697,9 +698,9 @@ class DinasBopController extends Controller
         $dasar = array_values(array_filter($request->input('dasar')));
         $tujuan = array_values(array_filter($request->input('tujuan')));
 
-        $dinasbopsupervisi = DinasBopSuperivisi::find($request['id']);
+        $dinasbopsupervisi = DinasBopSupervisi::find($request['id']);
 
-        $biaya_bop_lama = $dinasbopreviu->total_anggaran;
+        $biaya_bop_lama = $dinasbopsupervisi->total_anggaran;
 
         $dinasbopsupervisi->dinasbop_id = $request['dinasbop'];
         $dinasbopsupervisi->nomor_sp = $request->input('nomor_sp');
@@ -729,7 +730,7 @@ class DinasBopController extends Controller
     public function delete_supervisi_data(Request $request)
     {
         try {
-            $dinasbopsupervisi = DinasBopReviu::find($request['id']);
+            $dinasbopsupervisi = DinasBopSupervisi::find($request['id']);
             $dinasbop_id = $dinasbopsupervisi->dinasbop_id;
             $anggaran_tim = $dinasbopsupervisi->total_anggaran;
             if ($dinasbopsupervisi->delete()) {
@@ -755,22 +756,26 @@ class DinasBopController extends Controller
                 case 'tim':
                     $dinasboptim = DinasBopTim::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_tim.sp', ['dinasboptim'=>$dinasboptim]);
-                break;
+                    break;
                 case 'driver':
                     $dinasbopdriver = DinasBopDriver::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_driver.sp', ['dinasbopdriver'=>$dinasbopdriver]);
                 case 'inspektur':
                     $dinasbopinspektur = DinasBopInspektur::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_inspektur.sp', ['dinasbopinspektur'=>$dinasbopinspektur]);
-                break;
+                    break;
                 case 'sekretaris':
                     $dinasbopsekretaris = DinasBopSekretaris::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_sekretaris.sp', ['dinasbopsekretaris'=>$dinasbopsekretaris]);
-                break;
+                    break;
                 case 'reviu':
                     $dinasbopreviu = DinasBopReviu::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_reviu.sp', ['dinasbopreviu'=>$dinasbopreviu]);
-                break;
+                    break;
+                case 'supervisi':
+                    $dinasbopsupervisi = DinasBopSupervisi::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_supervisi.sp', ['dinasbopsupervisi'=>$dinasbopsupervisi]);
+                    break;
             }
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -803,6 +808,10 @@ class DinasBopController extends Controller
                     $dinasbopreviu = DinasBopReviu::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_reviu.spd', ['dinasbopreviu'=>$dinasbopreviu]);
                 break;
+                case 'supervisi':
+                    $dinasbopsupervisi = DinasBopSupervisi::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_supervisi.spd', ['dinasbopsupervisi'=>$dinasbopsupervisi]);
+                    break;
             }
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -818,23 +827,27 @@ class DinasBopController extends Controller
                 case 'tim':
                     $dinasboptim = DinasBopTim::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_tim.rbpd', ['dinasboptim'=>$dinasboptim]);
-                break;
+                    break;
                 case 'driver':
                     $dinasbopdriver = DinasBopDriver::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_driver.rbpd', ['dinasbopdriver'=>$dinasbopdriver]);
-                break;
+                    break;
                 case 'inspektur':
                     $dinasbopinspektur = DinasBopInspektur::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_inspektur.rbpd', ['dinasbopinspektur'=>$dinasbopinspektur]);
-                break;
+                    break;
                 case 'sekretaris':
                     $dinasbopsekretaris = DinasBopSekretaris::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_sekretaris.rbpd', ['dinasbopsekretaris'=>$dinasbopsekretaris]);
-                break;
+                    break;
                 case 'reviu':
                     $dinasbopreviu = DinasBopReviu::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_reviu.rbpd', ['dinasbopreviu'=>$dinasbopreviu]);
-                break;
+                    break;
+                case 'supervisi':
+                    $dinasbopsupervisi = DinasBopSupervisi::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_supervisi.rbpd', ['dinasbopsupervisi'=>$dinasbopsupervisi]);
+                    break;
             }
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -861,23 +874,27 @@ class DinasBopController extends Controller
                 case 'tim':
                     $dinasboptim = DinasBopTim::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_tim.dpbo', ['dinasboptim'=>$dinasboptim]);
-                break;
+                    break;
                 case 'driver':
                     $dinasbopdriver = DinasBopDriver::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_driver.dpbo', ['dinasbopdriver'=>$dinasbopdriver]);
-                break;
+                    break;
                 case 'inspektur':
                     $dinasbopinspektur = DinasBopInspektur::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_inspektur.dpbo', ['dinasbopinspektur'=>$dinasbopinspektur]);
-                break;
+                    break;
                 case 'sekretaris':
                     $dinasbopsekretaris = DinasBopSekretaris::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_sekretaris.dpbo', ['dinasbopsekretaris'=>$dinasbopsekretaris]);
-                break;
+                    break;
                 case 'reviu':
                     $dinasbopreviu = DinasBopReviu::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_reviu.dpbo', ['dinasbopreviu'=>$dinasbopreviu]);
-                break;
+                    break;
+                case 'supervisi':
+                    $dinasbopsupervisi = DinasBopSupervisi::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_supervisi.dpbo', ['dinasbopsupervisi'=>$dinasbopsupervisi]);
+                    break;
             }
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

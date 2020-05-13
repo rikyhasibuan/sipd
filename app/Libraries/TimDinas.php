@@ -305,7 +305,7 @@ class TimDinas
         // Ketua Tim
         $query_pegawai = Pegawai::searchNip($parameter['ketuatim'])->first();
         $query_bop = Bop::where('jabatan', 'Ketua Tim')->first();
-        $check_ketua = self::check_supervisi_bop($parameter['reviu'], $parameter['dinasbop'], $query_pegawai['nip'], $dari, $sampai, $parameter['act']);
+        $check_ketua = self::check_supervisi_bop($parameter['supervisi'], $parameter['dinasbop'], $query_pegawai['nip'], $dari, $sampai, $parameter['act']);
 
         $tim['ketuatim']['nip'] = $query_pegawai['nip'];
         $tim['ketuatim']['nama'] = $query_pegawai['nama'];
@@ -328,7 +328,7 @@ class TimDinas
         foreach ($parameter['anggota'] as $s) {
             $query_pegawai = Pegawai::searchNip($s['key'])->first();
             $query_bop = Bop::where('jabatan', 'Anggota Tim')->first();
-            $check_anggota = self::check_supervisi_bop($parameter['reviu'], $parameter['dinasbop'], $query_pegawai['nip'], $dari, $sampai, $parameter['act']);
+            $check_anggota = self::check_supervisi_bop($parameter['supervisi'], $parameter['dinasbop'], $query_pegawai['nip'], $dari, $sampai, $parameter['act']);
 
             $tim['anggota'][$n]['nip'] = $query_pegawai['nip'];
             $tim['anggota'][$n]['nama'] = $query_pegawai['nama'];

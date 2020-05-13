@@ -10,64 +10,70 @@
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label>Nomor Surat Perintah *</label>
-                                    <input type="text" class="form-control" v-model="tim.nomor_sp" placeholder="Isi Nomor Surat Perintah" required="required">
+                                    <input type="text" class="form-control" v-model="reviu.nomor_sp" placeholder="Isi Nomor Surat Perintah" required="required">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Tanggal Surat Perintah *</label>
                                     <date-picker
                                         id="tgl_sp"
                                         name="tgl_sp"
-                                        v-model="tim.tgl_sp"
+                                        v-model="reviu.tgl_sp"
                                         :config="options"
                                         class="form-control"
                                         placeholder="Tanggal Surat Perintah" autocomplete="off">
                                     </date-picker>
                                 </div>
                             </div>
+
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label>Irban *</label>
-                                    <select v-model="tim.irban_id" @change="onChangeIrban($event)" class="form-control" required="required">
-                                        <option value="">Pilih Irban</option>
-                                        <option v-for="v in this.irban_data" :value="v.id" :key="v.id">{{ v.nama_irban }}</option>
-                                    </select>
+                                    <label>Dasar *</label>
+                                    <input type="text" class="form-control" placeholder="Dasar 1" v-model="reviu.dasar[0]" required="required">
+                                    <br>
+                                    <input type="text" class="form-control" placeholder="Dasar 2" v-model="reviu.dasar[1]">
+                                    <br>
+                                    <input type="text" class="form-control" placeholder="Dasar 3" v-model="reviu.dasar[2]">
                                 </div>
-
                                 <div class="form-group col-md-6">
-                                    <label>Auditan *</label>
-                                    <select v-model="tim.auditan" class="form-control" required="required">
-                                        <option value="">Pilih Auditan</option>
-                                        <optgroup v-for="(k,v) in this.audit_data" :key="v" :label="v">
-                                            <option v-for="val in k" :key="val" :value="val">{{ val }}</option>
-                                        </optgroup>
-                                    </select>
+                                    <label>Tujuan *</label>
+                                    <input type="text" class="form-control" placeholder="Tujuan 1" v-model="reviu.tujuan[0]" required="required">
+                                    <br>
+                                    <input type="text" class="form-control" placeholder="Tujuan 2" v-model="reviu.tujuan[1]">
+                                    <br>
+                                    <input type="text" class="form-control" placeholder="Tujuan 3" v-model="reviu.tujuan[2]">
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label>Wakil Penanggung Jawab *</label>
-                                    <select v-model="tim.wakilpenanggungjawab" class="form-control" required="required">
-                                        <option value="">Pilih Wakil Penanggung Jawab</option>
-                                        <option v-for="v in personil_data.wakilpenanggungjawab" :key="v.id" :value="v.nip">
-                                            {{ v.nama }} - {{ v.jabatan }}
-                                        </option>
-                                    </select>
+                                    <label>Tanggal Mulai *</label>
+                                    <date-picker
+                                        id="dari"
+                                        name="dari"
+                                        v-model="reviu.dari"
+                                        :config="options"
+                                        class="form-control"
+                                        placeholder="Tanggal Mulai" autocomplete="off">
+                                    </date-picker>
                                 </div>
+
                                 <div class="form-group col-md-4">
-                                    <label>Pengendali Teknis *</label>
-                                    <select v-model="tim.pengendaliteknis" class="form-control" required="required">
-                                        <option value="">Pilih Pengendali Teknis</option>
-                                        <option v-for="v in personil_data.pengendaliteknis" :key="v.id" :value="v.nip">
-                                            {{ v.nama }} - {{ v.jabatan }}
-                                        </option>
-                                    </select>
+                                    <label>Tanggal Selesai *</label>
+                                    <date-picker
+                                        id="sampai"
+                                        name="sampai"
+                                        v-model="reviu.sampai"
+                                        :config="options"
+                                        class="form-control"
+                                        placeholder="Tanggal Selesai" autocomplete="off">
+                                    </date-picker>
                                 </div>
+
                                 <div class="form-group col-md-4">
                                     <label>Ketua Tim *</label>
-                                    <select v-model="tim.ketuatim" class="form-control" required="required">
+                                    <select v-model="reviu.ketuatim" class="form-control" required="required">
                                         <option value="">Pilih Ketua Tim</option>
-                                        <option v-for="v in personil_data.ketuatim" :key="v.id" :value="v.nip">
+                                        <option v-for="v in ketua" :key="v.id" :value="v.nip">
                                             {{ v.nama }} - {{ v.jabatan }}
                                         </option>
                                     </select>
@@ -81,20 +87,13 @@
                                         :multiple="true"
                                         :taggable="true"
                                         placeholder="Pilih Anggota"
-                                        v-model="tim.anggota"
+                                        v-model="reviu.anggota"
                                         :options="anggota_data"
                                         track-by="key"
                                         label="label"
                                         :allow-empty="true"
                                     >
                                     </multiselect>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <label>Lampirkan Bukti Pendukung (PDF / DOC / JPG / RAR / ZIP)</label>
-                                    <input type="file" ref="file" @change="handleFileUpload()">
                                 </div>
                             </div>
 
@@ -122,67 +121,41 @@
                     update: false
                 },
                 options: {
-                    format: 'YYYY-MM-DD',
-                    useCurrent: false,
-                    locale: 'id'
+                    format : 'YYYY-MM-DD',
+                    useCurrent : false,
+                    locale : 'id',
+                    minDate : this.dinasbop_data.dari,
+                    maxDate : this.dinasbop_data.sampai
                 },
-                personil_data:[],
+                reviu: {
+                    'nomor_sp' : '',
+                    'tgl_sp' : '',
+                    'dasar' : [],
+                    'tujuan' : [],
+                    'dari' : '',
+                    'sampai' : '',
+                    'ketuatim' :'',
+                    'anggota' : []
+                },
                 anggota_data:[],
-                audit_data:[],
-                isLoading: false,
-                tim: {
-                    'nomor_sp': '',
-                    'tgl_sp': '',
-                    'auditan': '',
-                    'irban_id': '',
-                    'wakilpenanggungjawab':'',
-                    'pengendaliteknis':'',
-                    'ketuatim':'',
-                    'anggota':[],
-                    'lampiran':''
-                },
             }
         },
         props: [
-            'auditan_data',
-            'irban_data',
             'dinasbop',
-            'dinasboptim',
+            'dinasbopreviu',
+            'dinasbop_data',
             'api',
+            'anggota',
+            'ketua',
             'route'
         ],
         methods: {
-            handleFileUpload() {
-                this.tim.lampiran = this.$refs.file.files[0];
-            },
-            formReady() {
-                let formData = new FormData();
-                formData.append('nomor_sp', this.tim.nomor_sp);
-                formData.append('tgl_sp', this.tim.tgl_sp);
-                formData.append('auditan', this.tim.auditan);
-                formData.append('irban_id', this.tim.irban_id);
-                formData.append('wakilpenanggungjawab', this.tim.wakilpenanggungjawab);
-                formData.append('pengendaliteknis', this.tim.pengendaliteknis);
-                formData.append('ketuatim', this.tim.ketuatim);
-                formData.append('anggota', JSON.stringify(this.tim.anggota));
-                if(this.tim.lampiran !== '') {
-                    formData.append('lampiran', this.tim.lampiran);
-                }
-
-                /*  for( var i = 0; i < this.lampiran.length; i++ ){
-                    let file = this.lampiran[i];
-                    formData.append('lampiran[' + i + ']', file);
-                } */
-                return formData;
-            },
             onSubmit(evt) {
                 this.isLoading = false;
-
-                this.form = this.formReady();
-                service.postUploadData(this.api + '/tim/' + this.dinasbop + '/' + this.dinasboptim.id, this.form)
-                .then(result => {
-                    this.response(result);
-                }).catch(error => {
+                service.putData(this.api + '/reviu/' + this.dinasbop + '/' + this.dinasbopreviu.id, this.reviu)
+                    .then(result => {
+                        this.response(result);
+                    }).catch(error => {
                     this.isLoading = false;
                     this.alert.error = true;
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
@@ -197,83 +170,34 @@
                     setTimeout(() => this.alert.update = false, 5000);
                 }
                 this.isLoading = false;
-            },
-            onChangeIrban(evt) {
-                const irban = evt.target.value;
-
-                // ambil data auditan berdasarkan irban
-                service.fetchData('../../api/ajax/dinasbop/tujuan/'+ irban)
-                .then(response => {
-                    this.tim.auditan = '';
-                    this.audit_data = response;
-                })
-                .catch(error => {
-                    this.isLoading = false;
-                    this.alert.error = true;
-                    console.log(error);
-                });
-
-                // ambil data personil berdasarkan irban
-                service.fetchData('../../api/ajax/dinasbop/personil/'+ irban)
-                .then(response => {
-                    this.tim.wakilpenanggungjawab = '';
-                    this.tim.pengendaliteknis = '';
-                    this.tim.ketuatim = '';
-                    this.tim.anggota = [];
-                    this.personil_data = response;
-                    this.personil_data.anggota.forEach(item => {
-                        this.anggota_data.push({'label': item.nama +' - '+ item.jabatan,'key':item.nip})
-                    });
-                })
-                .catch(error => {
-                    this.isLoading = false;
-                    this.alert.error = true;
-                    console.log(error);
-                });
             }
         },
         created() {
-            this.$cookies.set("last_tab", "tim");
+            this.$cookies.set("last_tab", "reviu");
             this.isLoading = true;
-            this.tim.irban_id = this.dinasboptim.irban_id;
-            this.tim.auditan = this.dinasboptim.auditan;
-            this.tim.nomor_sp = this.dinasboptim.nomor_sp;
-            this.tim.tgl_sp = this.dinasboptim.tgl_sp;
-            this.tim.wakilpenanggungjawab = this.dinasboptim.tim.wakilpenanggungjawab.nip;
-            this.tim.pengendaliteknis = this.dinasboptim.tim.pengendaliteknis.nip;
-            this.tim.ketuatim = this.dinasboptim.tim.ketuatim.nip;
+            this.reviu.dinasbop_id = this.dinasbopreviu.dinasbop_id;
+            this.reviu.nomor_sp = this.dinasbopreviu.nomor_sp;
+            this.reviu.tgl_sp = this.dinasbopreviu.tgl_sp;
+            this.reviu.dari = this.dinasbopreviu.dari;
+            this.reviu.sampai = this.dinasbopreviu.sampai;
+            this.reviu.dasar = this.dinasbopreviu.dasar;
+            this.reviu.tujuan = this.dinasbopreviu.tujuan;
 
-            const irban = this.dinasboptim.irban_id;
+            this.reviu.ketuatim = this.dinasbopreviu.tim.ketuatim.nip;
 
-            // ambil data auditan berdasarkan irban
-            service.fetchData('../../api/ajax/dinasbop/tujuan/'+ irban)
-            .then(response => {
-                this.audit_data = response;
-            })
-            .catch(error => {
-                console.log(error);
+            this.anggota.forEach(item => {
+                this.anggota_data.push({'label': item.nama +' - '+ item.jabatan,'key':item.nip});
             });
 
-            // ambil data personil berdasarkan irban
-            service.fetchData('../../api/ajax/dinasbop/personil/'+ irban)
-            .then(response => {
-                this.personil_data = response;
-                this.personil_data.anggota.forEach(item => {
-                    this.anggota_data.push({'label': item.nama +' - '+ item.jabatan,'key':item.nip});
-                });
-            })
-            .catch(error => {
-                console.log(error);
-            });
+            let personil = this.dinasbopreviu.tim.anggota;
 
-            let anggota = this.dinasboptim.tim.anggota;
-            anggota.forEach(item => {
-                this.tim.anggota.push({'label': item.nama +' - '+ item.jabatan,'key':item.nip});
+            personil.forEach(item => {
+                this.reviu.anggota.push({'label': item.nama +' - '+ item.jabatan,'key':item.nip});
             });
+            this.isLoading = false;
         },
         mounted() {
             this.isLoading = false;
-            console.log(this.tim.anggota);
         }
     };
 </script>

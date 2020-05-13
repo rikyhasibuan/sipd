@@ -3,10 +3,10 @@ use App\Libraries\Common;
 use App\Libraries\TimDinas;
 $common = new Common();
 $timdinas = new TimDinas();
-$diff = date_diff($dinasboptim->dinasbop->dari, $dinasboptim->dinasbop->sampai);
+$diff = date_diff(date_create($dinasbopreviu->dari), date_create($dinasbopreviu->sampai));
 $durasi = $diff->days + 1;
 $kpa = $timdinas->get_sekretaris();
-$total = $dinasboptim->dinasbop->total_anggaran;
+$total = $dinasbopreviu->total_anggaran;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -72,15 +72,15 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 							</tr>
 							<tr>
 								<td style="width:5%;">Lampiran SPD Nomor</td>
-								<td style="width:20%;">: {!! $dinasboptim->dinasbop->nomor_sp !!}</td>
+								<td style="width:20%;">: {!! $dinasbopreviu->nomor_sp !!}</td>
 								<td style="width:2%;">Tanggal BKU</td>
 								<td style="width:20%;">: </td>
 							</tr>
 							<tr>
 								<td style="width:5%;">Tanggal</td>
-								<td style="width:20%;">: {!! $common->generate_indonesia_date($dinasboptim->tgl_sp) !!}</td>
+								<td style="width:20%;">: {!! $common->generate_indonesia_date($dinasbopreviu->tgl_sp) !!}</td>
 								<td style="width:2%;">Kodering</td>
-								<td style="width:20%;">: {!! $dinasboptim->dinasbop->belanja->kode_belanja !!}</td>
+								<td style="width:20%;">: {!! $dinasbopreviu->dinasbop->belanja->kode_belanja !!}</td>
 							</tr>
 						</table>
 					</center>
@@ -98,8 +98,8 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 							<tr>
 								<td style="text-align: center;"></td>
 								<td colspan="3">
-										Perjalanan Dinas {!! $dinasboptim->dinasbop->kegiatan->nama_kegiatan !!}, selama {!! $durasi !!} hari dari tanggal {!! $common->generate_indonesia_date($dinasboptim->dinasbop->dari) !!}
-										s.d {!! $common->generate_indonesia_date($dinasboptim->dinasbop->sampai) !!}.
+										Perjalanan Dinas {!! $dinasbopreviu->dinasbop->kegiatan->nama_kegiatan !!}, selama {!! $durasi !!} hari dari tanggal {!! $common->generate_indonesia_date($dinasbopreviu->dari) !!}
+										s.d {!! $common->generate_indonesia_date($dinasbopreviu->sampai) !!}.
 								</td>
 							</tr>
 							<tr>
@@ -113,48 +113,20 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 								<td>
 									<table width="100%" class="table-print table table-borderless">
 										<tr>
-											<td style="width:20%;vertical-align:middle;">{!! $dinasboptim->tim['wakilpenanggungjawab']['nama'] !!}</td>
-											<td style="width:20%;text-align:center;vertical-align:middle;">Wakil Penanggung Jawab</td>
-											<td style="width:15%;text-align:center;vertical-align:middle;">
-												{!! $dinasboptim->tim['wakilpenanggungjawab']['golongan'] !!}
-											</td>
-											<td style="width:4%;text-align:center;vertical-align:middle;">
-												{!! $dinasboptim->tim['wakilpenanggungjawab']['hari'] !!} hari
-											</td>
-											<td style="width:1%;text-align:center;vertical-align:middle;">x</td>
-											<td style="width:10%;vertical-align:middle;">
-												Rp.{!! $common->rupiah($dinasboptim->tim['wakilpenanggungjawab']['biaya']) !!}
-											</td>
-										</tr>
-										<tr>
-											<td style="width:20%;vertical-align:middle;">{!! $dinasboptim->tim['pengendaliteknis']['nama'] !!}</td>
-											<td style="width:20%;text-align:center;vertical-align:middle;">Pengendali Teknis</td>
-											<td style="width:15%;text-align:center;vertical-align:middle;">
-												{!! $dinasboptim->tim['pengendaliteknis']['golongan'] !!}
-											</td>
-											<td style="width:4%;text-align:center;vertical-align:middle;">
-												{!! $dinasboptim->tim['pengendaliteknis']['hari'] !!} hari
-											</td>
-											<td style="width:1%;text-align:center;vertical-align:middle;">x</td>
-											<td style="width:10%;vertical-align:middle;">
-												Rp.{!! $common->rupiah($dinasboptim->tim['pengendaliteknis']['biaya']) !!}
-											</td>
-										</tr>
-										<tr>
-											<td style="width:20%;vertical-align:middle;">{!! $dinasboptim->tim['ketuatim']['nama'] !!}</td>
+											<td style="width:20%;vertical-align:middle;">{!! $dinasbopreviu->tim['ketuatim']['nama'] !!}</td>
 											<td style="width:20%;text-align:center;vertical-align:middle;">Ketua Tim</td>
 											<td style="width:15%;text-align:center;vertical-align:middle;">
-												{!! $dinasboptim->tim['ketuatim']['golongan'] !!}
+												{!! $dinasbopreviu->tim['ketuatim']['golongan'] !!}
 											</td>
 											<td style="width:4%;text-align:center;vertical-align:middle;">
-												{!! $dinasboptim->tim['ketuatim']['hari'] !!} hari
+												{!! $dinasbopreviu->tim['ketuatim']['hari'] !!} hari
 											</td>
 											<td style="width:1%;text-align:center;vertical-align:middle;">x</td>
 											<td style="width:10%;vertical-align:middle;">
-												Rp.{!! $common->rupiah($dinasboptim->tim['ketuatim']['biaya']) !!}
+												Rp.{!! $common->rupiah($dinasbopreviu->tim['ketuatim']['biaya']) !!}
 											</td>
 										</tr>
-										@foreach($dinasboptim->tim['anggota'] as $v)
+										@foreach($dinasbopreviu->tim['anggota'] as $v)
 											<tr>
 												<td style="width:20%;vertical-align:middle;">{!! $v['nama'] !!}</td>
 												<td style="width:20%;text-align:center;vertical-align:middle;">Anggota</td>
@@ -170,20 +142,10 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 									<table width="100%" class="table-print table table-borderless">
 										<tr>
 											<td style="text-align:right;vertical-align:middle;">
-												Rp.{!! $common->rupiah($dinasboptim->tim['wakilpenanggungjawab']['total']) !!}
+												Rp.{!! $common->rupiah($dinasbopreviu->tim['ketuatim']['total']) !!}
 											</td>
 										</tr>
-										<tr>
-											<td style="text-align:right;vertical-align:middle;">
-												Rp.{!! $common->rupiah($dinasboptim->tim['pengendaliteknis']['total']) !!}
-											</td>
-										</tr>
-										<tr>
-											<td style="text-align:right;vertical-align:middle;">
-												Rp.{!! $common->rupiah($dinasboptim->tim['ketuatim']['total']) !!}
-											</td>
-										</tr>
-										@foreach($dinasboptim->tim['anggota'] as $v)
+										@foreach($dinasbopreviu->tim['anggota'] as $v)
 											<tr>
 												<td style="text-align:right;vertical-align:middle;">
 													Rp.{!! $common->rupiah($v['total']) !!}
@@ -195,9 +157,7 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 								<td style="vertical-align:middle; text-align:center;">
 									<table width="100%" class="table-print table table-borderless">
 										<tr><td style="text-align:center;vertical-align:middle;">Terlampir</td></tr>
-										<tr><td style="text-align:center;vertical-align:middle;">Terlampir</td></tr>
-										<tr><td style="text-align:center;vertical-align:middle;">Terlampir</td></tr>
-										@foreach($dinasboptim->tim['anggota'] as $v)
+										@foreach($dinasbopreviu->tim['anggota'] as $v)
 											<tr><td style="text-align:center;vertical-align:middle;">Terlampir</td></tr>
 										@endforeach
 									</table>
@@ -207,7 +167,7 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 								<td style="text-align:center;"></td>
 								<td><b>Jumlah Biaya Operasional Inspektorat</b></td>
 								<td style="text-align: right;vertical-align:middle;">
-									<b>Rp.{!! $common->rupiah($dinasboptim->total_anggaran) !!}</b>
+									<b>Rp.{!! $common->rupiah($dinasbopreviu->total_anggaran) !!}</b>
 								</td>
 								<td></td>
 							</tr>
@@ -238,11 +198,11 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 							</tr>
 							<tr>
 								<td colspan="2"><b>Jumlah Total</b></td>
-								<td style="text-align: right; vertical-align:middle;"><b>Rp.{!! $common->rupiah(($dinasboptim->total_anggaran) ) !!}</b></td>
+								<td style="text-align: right; vertical-align:middle;"><b>Rp.{!! $common->rupiah(($dinasbopreviu->total_anggaran) ) !!}</b></td>
 								<td></td>
 							</tr>
 							<tr>
-								<td colspan="4"><b><i>{!! $common->terbilang($dinasboptim->total_anggaran) !!} Rupiah</i></b></td>
+								<td colspan="4"><b><i>{!! $common->terbilang($dinasbopreviu->total_anggaran) !!} Rupiah</i></b></td>
 							</tr>
 						</tbody>
 					</table>
@@ -254,7 +214,7 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 									<table cellpadding="2" cellspacing="2" style="width:30%;">
 										<tr>
 											<td width="10%" style="text-align: center;">
-												Bandung, {!! $common->generate_indonesia_date($dinasboptim->tgl_sp) !!}
+												Bandung, {!! $common->generate_indonesia_date($dinasbopreviu->tgl_sp) !!}
 											</td>
 										</tr>
 									</table>
@@ -268,7 +228,7 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 										<td width="20%" style="text-align: center;">Telah dibayar sejumlah</td>
 									</tr>
 									<tr>
-										<td width="20%" style="text-align: center;">Rp.{!! $common->rupiah($dinasboptim->total_anggaran) !!}</td>
+										<td width="20%" style="text-align: center;">Rp.{!! $common->rupiah($dinasbopreviu->total_anggaran) !!}</td>
 									</tr>
 									<tr>
 										<td width="20%" style="text-align: center;"><b>Bendahara Pengeluaran Pembantu</b></td>
@@ -277,11 +237,11 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 										<td width="10%" style="text-align: center;"><br><br><br></td>
 									</tr>
 									<tr>
-										<td width="10%" style="text-align: center;">{!! $dinasboptim->dinasbop->kegiatan->pegawai->nama !!}</td>
+										<td width="10%" style="text-align: center;">{!! $dinasbopreviu->dinasbop->kegiatan->pegawai->nama !!}</td>
 									</tr>
 									<tr>
 										<td width="10%" style="text-align: center;">
-											NIP. {!! $dinasboptim->dinasbop->kegiatan->pegawai->nip !!}
+											NIP. {!! $dinasbopreviu->dinasbop->kegiatan->pegawai->nip !!}
 										</td>
 									</tr>
 								</table>
@@ -295,7 +255,7 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 									</tr>
 									<tr>
 										<td width="20%" style="text-align: center;">
-											Rp.{!! $common->rupiah($dinasboptim->total_anggaran) !!}
+											Rp.{!! $common->rupiah($dinasbopreviu->total_anggaran) !!}
 										</td>
 									</tr>
 									<tr>
@@ -306,12 +266,12 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 									</tr>
 									<tr>
 										<td width="10%" style="text-align: center;">
-											{!! $dinasboptim->tim['anggota'][0]['nama'] !!}
+											{!! $dinasbopreviu->tim['anggota'][0]['nama'] !!}
 										</td>
 									</tr>
 									<tr>
 										<td width="10%" style="text-align: center;">
-											NIP. {!! $dinasboptim->tim['anggota'][0]['nip'] !!}
+											NIP. {!! $dinasbopreviu->tim['anggota'][0]['nip'] !!}
 										</td>
 									</tr>
 								</table>
@@ -326,7 +286,7 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 						<table width="100%">
 							<tr>
 								<td width="90%">Ditetapkan sejumlah</td>
-								<td width="10%" style="text-align:right;">Rp.{!! $common->rupiah(($dinasboptim->total_anggaran) ) !!}</td>
+								<td width="10%" style="text-align:right;">Rp.{!! $common->rupiah(($dinasbopreviu->total_anggaran) ) !!}</td>
 							</tr>
 							<tr>
 								<td width="90%">Yang telah dibayar semula</td>
@@ -337,7 +297,7 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 							</tr>
 							<tr>
 								<td width="90%">Sisa kurang/lebih</td>
-								<td width="5%" style="text-align:right;">Rp.{!! $common->rupiah(($dinasboptim->total_anggaran) ) !!}</td>
+								<td width="5%" style="text-align:right;">Rp.{!! $common->rupiah(($dinasbopreviu->total_anggaran) ) !!}</td>
 							</tr>
 						</table>
 						<div style="margin-bottom:20px;"></div>

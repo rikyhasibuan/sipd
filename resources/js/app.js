@@ -219,10 +219,6 @@ Vue.component('dinasbopreviu-create', require('./views/DinasBopReviu/Create.vue'
 Vue.component('dinasbopreviu-update', require('./views/DinasBopReviu/Update.vue'));
 Vue.component('dinasbopreviu-detail', require('./views/DinasBopReviu/Detail.vue'));
 
-Vue.component('dinasbopsupervisi-create', require('./views/DinasBopSupervisi/Create.vue'));
-Vue.component('dinasbopsupervisi-update', require('./views/DinasBopSupervisi/Update.vue'));
-Vue.component('dinasbopsupervisi-detail', require('./views/DinasBopSupervisi/Detail.vue'));
-
 Vue.component('dinasboppengumpuldata-create', require('./views/DinasBopPengumpulData/Create.vue'));
 Vue.component('dinasboppengumpuldata-update', require('./views/DinasBopPengumpulData/Update.vue'));
 Vue.component('dinasboppengumpuldata-detail', require('./views/DinasBopPengumpulData/Detail.vue'));
@@ -242,6 +238,10 @@ Vue.component('dinasbopinspektur-detail', require('./views/DinasBopInspektur/Det
 Vue.component('dinasbopsekretaris-create', require('./views/DinasBopSekretaris/Create.vue'));
 Vue.component('dinasbopsekretaris-update', require('./views/DinasBopSekretaris/Update.vue'));
 Vue.component('dinasbopsekretaris-detail', require('./views/DinasBopSekretaris/Detail.vue'));
+
+Vue.component('dinasbopsupervisi-create', require('./views/DinasBopSupervisi/Create.vue'));
+Vue.component('dinasbopsupervisi-update', require('./views/DinasBopSupervisi/Update.vue'));
+Vue.component('dinasbopsupervisi-detail', require('./views/DinasBopSupervisi/Detail.vue'));
 
 Vue.component('dinasregular-index', require('./views/DinasRegular/Index.vue'));
 Vue.component('dinasregular-create', require('./views/DinasRegular/Create.vue'));

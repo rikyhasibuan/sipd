@@ -3,7 +3,7 @@ use App\Libraries\Common;
 use App\Libraries\TimDinas;
 $common = new Common();
 $timdinas = new TimDinas();
-$diff = date_diff($dinasbopdriver->dinasbop->dari, $dinasbopdriver->dinasbop->sampai);
+$diff = date_diff($dinasbopdriver->dari, $dinasbopdriver->sampai);
 $durasi = $diff->days;
 $kpa = $timdinas->get_sekretaris();
 $total = $dinasbopdriver->dinasbop->total_anggaran;

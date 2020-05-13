@@ -157,9 +157,9 @@
         methods: {
             onSubmit(evt) {
                 service.postData(this.api + '/supervisi/' + this.dinasbop, this.dinasbopsupervisi)
-                .then(result => {
-                    this.response(result);
-                }).catch(error => {
+                    .then(result => {
+                        this.response(result);
+                    }).catch(error => {
                     this.isLoading = false;
                     this.alert.error = true;
                     this.alert.duplicate = false;
@@ -195,7 +195,7 @@
             }
         },
         created() {
-            this.$cookies.set("last_tab", "reviu");
+            this.$cookies.set("last_tab", "supervisi");
             this.isLoading = true;
             this.anggota.forEach(item => {
                 this.anggota_data.push({'label': item.nama +' - '+ item.jabatan,'key':item.nip});

@@ -17,12 +17,17 @@
                     </tr>
                     <tr>
                         <td style="width:15%;"><b>Dasar Surat Perintah</b></td>
-                        <td style="width:85%;">
-                            <ul style="margin-left:-25px;">
-                                <li v-for="v in dinasbopsupervisi.dasar" :value="v" :key="v">
-                                    {{ v }}
-                                </li>
-                            </ul>
+                        <td>
+                            <div v-if="dinasbopsupervisi.dasar.length > 1">
+                                <ol style="margin-left:-25px;">
+                                    <li v-for="(v,k) in dinasbopsupervisi.dasar" :key="k">
+                                        {{ v }}
+                                    </li>
+                                </ol>
+                            </div>
+                            <div v-else>
+                                {{ dinasbopsupervisi.dasar[0] }}
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -31,12 +36,17 @@
                     </tr>
                     <tr>
                         <td style="width:15%;"><b>Tujuan Pemeriksaan</b></td>
-                        <td style="width:85%;">
-                            <ul style="margin-left:-25px;">
-                                <li v-for="v in dinasbopsupervisi.tujuan" :value="v" :key="v">
-                                    {{ v }}
-                                </li>
-                            </ul>
+                        <td>
+                            <div v-if="dinasbopsupervisi.tujuan.length > 1">
+                                <ol style="margin-left:-25px;">
+                                    <li v-for="(v,k) in dinasbopsupervisi.tujuan" :key="k">
+                                        {{ v }}
+                                    </li>
+                                </ol>
+                            </div>
+                            <div v-else>
+                                {{ dinasbopsupervisi.tujuan[0] }}
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -47,20 +57,20 @@
             <div class="col-md-12">
                 <div class="pull-left">
                     <span v-if="dinasbopsupervisi.length === 0">
-                    <a :href="route + '/supervisi/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Tim Reviu & Monitoring</a>
+                    <a :href="route + '/supervisi/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Tim Supervisi</a>
                     </span>
                     <span v-else>
-                        <a :href="route + '/supervisi/edit?id='+ dinasbopsupervisi.id +'&dinasbop=' + dinasbop.id" class="btn btn-warning mb-2 mr-2"><i class="fa fa-wrench"></i> Ubah Tim Reviu & Monitoring</a>
+                        <a :href="route + '/supervisi/edit?id='+dinasbopsupervisi.id+'&dinasbop=' + dinasbop.id" class="btn btn-warning mb-2 mr-2"><i class="fa fa-wrench"></i> Ubah Tim Supervisi</a>
 
                         <div class="btn-group">
                             <button type="button" class="btn btn-default mb-2"><i class="fa fa-print"></i> Print</button>
                             <button type="button" class="btn btn-default mb-2 dropdown-toggle dropdown-icon" data-toggle="dropdown">
                                 <span class="sr-only">Toggle Dropdown</span>
                                 <div class="dropdown-menu" role="menu">
-                                    <a class="dropdown-item" href="#" @click="print_sp(v.id)">Surat Perintah</a>
-                                    <a class="dropdown-item" href="#" @click="print_spd(v.id)">Surat Perjalanan Dinas (SPD)</a>
-                                    <a class="dropdown-item" href="#" @click="print_rbpd(v.id)">Rincian Biaya Perjalanan Dinas</a>
-                                    <a class="dropdown-item" href="#" @click="print_dpbo(v.id)">Daftar Pembayaran</a>
+                                    <a class="dropdown-item" href="#" @click="print_sp(dinasbopsupervisi.id)">Surat Perintah</a>
+                                    <a class="dropdown-item" href="#" @click="print_spd(dinasbopsupervisi.id)">Surat Perjalanan Dinas (SPD)</a>
+                                    <a class="dropdown-item" href="#" @click="print_rbpd(dinasbopsupervisi.id)">Rincian Biaya Perjalanan Dinas</a>
+                                    <a class="dropdown-item" href="#" @click="print_dpbo(dinasbopsupervisi.id)">Daftar Pembayaran</a>
                                 </div>
                             </button>
                         </div>
@@ -91,8 +101,7 @@
                                 <td>{{ dinasbopsupervisi.tim.ketuatim.jabatan }}</td>
                                 <td style="text-align:center;">Ketua Tim</td>
                                 <td style="text-align:right;">
-                                    {{
-                                        dinasbopsupervisi.tim.ketuatim.hari }} hari x
+                                    {{ dinasbopsupervisi.tim.ketuatim.hari }} hari x
                                     Rp.{{ dinasbopsupervisi.tim.ketuatim.biaya | rupiah }} =
                                     Rp.{{ dinasbopsupervisi.tim.ketuatim.total | rupiah }}
                                 </td>
@@ -103,7 +112,10 @@
                                 <td>{{ v.jabatan }}</td>
                                 <td style="text-align:center;">Anggota</td>
                                 <td style="text-align:right;">
-                                    {{ v.hari }} hari x Rp.{{ v.biaya | rupiah }} = Rp.{{ v.total | rupiah }}
+                                    {{
+                                        v.hari }} hari x
+                                    Rp.{{ v.biaya | rupiah }} =
+                                    Rp.{{ v.total | rupiah }}
                                 </td>
                             </tr>
                             <tr>

@@ -31,7 +31,7 @@
                 <v-alert :alert="alert"></v-alert>
                 <!-- tampil Driver -->
                 <transition name="fade">
-                    <table class="table table-hover table-striped table-bordered" v-if="showTable == true">
+                    <table class="table table-hover table-striped table-bordered" v-if="showTable === true">
                         <thead>
                             <tr>
                                 <th style="width:25%;text-align:center;">Dasar & Tujuan</th>

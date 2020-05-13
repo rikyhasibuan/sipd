@@ -17,12 +17,17 @@
                     </tr>
                     <tr>
                         <td style="width:15%;"><b>Dasar Surat Perintah</b></td>
-                        <td style="width:85%;">
-                            <ul style="margin-left:-25px;">
-                                <li v-for="v in dinasbopreviu.dasar" :value="v" :key="v">
-                                    {{ v }}
-                                </li>
-                            </ul>
+                        <td>
+                            <div v-if="dinasbopreviu.dasar.length > 1">
+                                <ol style="margin-left:-25px;">
+                                    <li v-for="(v,k) in dinasbopreviu.dasar" :key="k">
+                                        {{ v }}
+                                    </li>
+                                </ol>
+                            </div>
+                            <div v-else>
+                                {{ dinasbopreviu.dasar[0] }}
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -31,12 +36,17 @@
                     </tr>
                     <tr>
                         <td style="width:15%;"><b>Tujuan Pemeriksaan</b></td>
-                        <td style="width:85%;">
-                            <ul style="margin-left:-25px;">
-                                <li v-for="v in dinasbopreviu.tujuan" :value="v" :key="v">
-                                    {{ v }}
-                                </li>
-                            </ul>
+                        <td>
+                            <div v-if="dinasbopreviu.tujuan.length > 1">
+                                <ol style="margin-left:-25px;">
+                                    <li v-for="(v,k) in dinasbopreviu.tujuan" :key="k">
+                                        {{ v }}
+                                    </li>
+                                </ol>
+                            </div>
+                            <div v-else>
+                                {{ dinasbopreviu.tujuan[0] }}
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -57,10 +67,10 @@
                             <button type="button" class="btn btn-default mb-2 dropdown-toggle dropdown-icon" data-toggle="dropdown">
                                 <span class="sr-only">Toggle Dropdown</span>
                                 <div class="dropdown-menu" role="menu">
-                                    <a class="dropdown-item" href="#" @click="print_sp(v.id)">Surat Perintah</a>
-                                    <a class="dropdown-item" href="#" @click="print_spd(v.id)">Surat Perjalanan Dinas (SPD)</a>
-                                    <a class="dropdown-item" href="#" @click="print_rbpd(v.id)">Rincian Biaya Perjalanan Dinas</a>
-                                    <a class="dropdown-item" href="#" @click="print_dpbo(v.id)">Daftar Pembayaran</a>
+                                    <a class="dropdown-item" href="#" @click="print_sp(dinasbopreviu.id)">Surat Perintah</a>
+                                    <a class="dropdown-item" href="#" @click="print_spd(dinasbopreviu.id)">Surat Perjalanan Dinas (SPD)</a>
+                                    <a class="dropdown-item" href="#" @click="print_rbpd(dinasbopreviu.id)">Rincian Biaya Perjalanan Dinas</a>
+                                    <a class="dropdown-item" href="#" @click="print_dpbo(dinasbopreviu.id)">Daftar Pembayaran</a>
                                 </div>
                             </button>
                         </div>
@@ -91,8 +101,7 @@
                                 <td>{{ dinasbopreviu.tim.ketuatim.jabatan }}</td>
                                 <td style="text-align:center;">Ketua Tim</td>
                                 <td style="text-align:right;">
-                                    {{
-                                        dinasbopreviu.tim.ketuatim.hari }} hari x
+                                    {{ dinasbopreviu.tim.ketuatim.hari }} hari x
                                     Rp.{{ dinasbopreviu.tim.ketuatim.biaya | rupiah }} =
                                     Rp.{{ dinasbopreviu.tim.ketuatim.total | rupiah }}
                                 </td>
