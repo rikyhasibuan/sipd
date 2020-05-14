@@ -113,6 +113,7 @@
 
 <script>
     import service from './../../services.js';
+
     export default {
         data() {
             return {
@@ -194,6 +195,7 @@
             personil.forEach(item => {
                 this.reviu.anggota.push({'label': item.nama +' - '+ item.jabatan,'key':item.nip});
             });
+
             this.isLoading = false;
         },
         mounted() {

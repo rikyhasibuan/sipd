@@ -49,11 +49,11 @@
                     <div class="tab-content">
                         <div id="tim" class="tab-pane fade" :class="{ 'active': (last_tab == 'tim'), 'show': (last_tab == 'tim') }">
                             <dinasboptim-detail
-                                :dinasbop=dinasbop
-                                :dinasboptim=dinasboptim
-                                :route=route
-                                :print_action=print_action
-                                :api=api>
+                                :dinasbop = dinasbop
+                                :dinasboptim = dinasboptim
+                                :route = route
+                                :print_action = print_action
+                                :api = api>
                             </dinasboptim-detail>
                         </div>
                         <div id="inspektur" class="tab-pane fade" :class="{ 'active': (last_tab == 'inspektur'), 'show': (last_tab == 'inspektur') }">
@@ -67,38 +67,38 @@
                         </div>
                         <div id="sekretaris" class="tab-pane fade" :class="{ 'active': (last_tab == 'sekretaris'), 'show': (last_tab == 'sekretaris') }">
                             <dinasbopsekretaris-detail
-                                :dinasbop=dinasbop
-                                :dinasbopsekretaris=dinasbopsekretaris
-                                :route=route
-                                :print_action=print_action
-                                :api=api>
+                                :dinasbop = dinasbop
+                                :dinasbopsekretaris = dinasbopsekretaris
+                                :route = route
+                                :print_action = print_action
+                                :api = api>
                             </dinasbopsekretaris-detail>
                         </div>
                         <div id="driver" class="tab-pane fade" :class="{ 'active': (last_tab == 'driver'), 'show': (last_tab == 'driver') }">
                             <dinasbopdriver-detail
-                                :dinasbop=dinasbop
-                                :dinasbopdriver=dinasbopdriver
-                                :route=route
-                                :print_action=print_action
-                                :api=api>
+                                :dinasbop = dinasbop
+                                :dinasbopdriver = dinasbopdriver
+                                :route = route
+                                :print_action = print_action
+                                :api = api>
                             </dinasbopdriver-detail>
                         </div>
                         <div id="reviu" class="tab-pane fade" :class="{ 'active': (last_tab == 'reviu'), 'show': (last_tab == 'reviu') }">
                             <dinasbopreviu-detail
-                                :dinasbop=dinasbop
-                                :dinasbopreviu=dinasbopreviu
-                                :route=route
-                                :print_action=print_action
-                                :api=api>
+                                :dinasbop = dinasbop
+                                :dinasbopreviu = dinasbopreviu
+                                :route = route
+                                :print_action = print_action
+                                :api = api>
                             </dinasbopreviu-detail>
                         </div>
                         <div id="supervisi" class="tab-pane fade" :class="{ 'active': (last_tab == 'supervisi'), 'show': (last_tab == 'supervisi') }">
                             <dinasbopsupervisi-detail
-                                :dinasbop=dinasbop
-                                :dinasbopsupervisi=dinasbopsupervisi
-                                :route=route
-                                :print_action=print_action
-                                :api=api>
+                                :dinasbop = dinasbop
+                                :dinasbopsupervisi = dinasbopsupervisi
+                                :route = route
+                                :print_action = print_action
+                                :api = api>
                             </dinasbopsupervisi-detail>
                         </div>
                         <!--<div id="pengumpuldata" class="tab-pane fade" :class="{ 'active': (last_tab == 'pengumpuldata'), 'show': (last_tab == 'pengumpuldata') }">

@@ -123,8 +123,8 @@
                     format: 'YYYY-MM-DD',
                     useCurrent: false,
                     locale: 'id',
-                    minDate:this.dinasbop_data.dari,
-                    maxDate:this.dinasbop_data.sampai
+                    minDate: this.dinasbop_data.dari,
+                    maxDate: this.dinasbop_data.sampai
                 },
                 dinasbopsupervisi: {
                     'nomor_sp': '',
