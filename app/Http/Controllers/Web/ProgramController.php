@@ -17,6 +17,7 @@ class ProgramController extends Controller
     protected $api   = 'api/program';
     protected $route = 'program';
     protected $access;
+    protected $_nip;
 
     public function __construct()
     {
@@ -25,6 +26,7 @@ class ProgramController extends Controller
                 if (Cookie::get('login') == true) {
                     $access = new Access();
                     $this->access = $access->generateAccess(Cookie::get('level'));
+                    $this->_nip = Cookie::get('nip');
                     return $next($request);
                 } else {
                     return redirect('login');
@@ -60,7 +62,7 @@ class ProgramController extends Controller
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api);
+        $data['api'] = url($this->api.'?nip=' . $this->_nip);
         $data['act'] = 'create';
         $data['route'] = url($this->route);
         return View::make('program.form', $data);
@@ -80,7 +82,7 @@ class ProgramController extends Controller
         $data['link'] = $this->link;
         $data['program'] = $program;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api . '?id=' . $program->id);
+        $data['api'] = url($this->api . '?nip='.$this->_nip.'&id=' . $program->id);
         $data['act'] = 'edit';
         $data['route'] = url($this->route);
         return View::make('program.form', $data);

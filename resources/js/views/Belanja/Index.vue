@@ -127,7 +127,8 @@ export default {
             isLoading: false,
             showForm: false,
             showTable: false,
-            id:''
+            id:'',
+            usernip:''
         }
     },
     props: ['program_data', 'kegiatan_data', 'api','route','access'],
@@ -190,7 +191,7 @@ export default {
         },
         deleteData(id) {
             this.isLoading = true;
-            service.deleteData(this.api + '?id=' + id)
+            service.deleteData(this.api + '?nip='+this.usernip+'&id=' + id)
             .then(response => {
                 if(response.status === 'ok') {
                     this.isLoading = false;
@@ -230,6 +231,7 @@ export default {
     created() {
         this.isLoading = true;
         this.program = this.program_data;
+        this.usernip = this.$cookies.get('nip');
         this.fetchData();
     }
 };

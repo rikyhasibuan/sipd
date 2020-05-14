@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Libraries\Common;
 use App\Models\Anggaran;
 use Illuminate\Http\Request;
 use Exception;
@@ -9,6 +10,13 @@ use App\Http\Controllers\Controller;
 
 class AnggaranController extends Controller
 {
+    protected $_common;
+
+    public function __construct()
+    {
+        $this->_common = new Common();
+    }
+
     public function get_data(Request $request)
     {
         try {
@@ -56,6 +64,11 @@ class AnggaranController extends Controller
             $anggaran->tahun = $request->input('tahun');
             $anggaran->created_at = date('Y-m-d H:i:s');
             if ($anggaran->save()) {
+                $payload = [
+                    'page' => 'Anggaran',
+                    'message' => 'User dengan NIP '.$request['nip'].' menambahkan data anggaran baru'
+                ];
+                $this->_common->generate_log($payload);
                 return response()->json(['status'=>'ok'], 200);
             } else {
                 return response()->json(['status'=>'failed'], 500);
@@ -76,6 +89,11 @@ class AnggaranController extends Controller
         $anggaran->tahun = $request->input('tahun');
         $anggaran->updated_at = date('Y-m-d H:i:s');
         if ($anggaran->save()) {
+            $payload = [
+                'page' => 'Anggaran',
+                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan pada data anggaran'
+            ];
+            $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);
@@ -87,6 +105,11 @@ class AnggaranController extends Controller
         try {
             $anggaran = Anggaran::find($request['id']);
             if ($anggaran->delete()) {
+                $payload = [
+                    'page' => 'Anggaran',
+                    'message' => 'User dengan NIP '.$request['nip'].' melakukan hapus data pada anggaran'
+                ];
+                $this->_common->generate_log($payload);
                 return response()->json(['status' => 'ok'], 200);
             } else {
                 return response()->json(['status' => 'failed'], 500);

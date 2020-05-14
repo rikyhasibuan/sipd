@@ -140,7 +140,8 @@ export default {
             isLoading: false,
             showForm: false,
             showTable: false,
-            id:''
+            id:'',
+            usernip:''
         }
     },
     props: ['golongan_data','pangkat_data','jabatan_data','eselon_data','api','route','access'],
@@ -202,7 +203,7 @@ export default {
             return Object.keys(this.search).map(key => key + '=' + this.search[key]).join('&');
         },
         deleteData(id) {
-            service.deleteData(this.api + '?id=' + id)
+            service.deleteData(this.api + '?nip='+this.usernip+'&id=' + id)
             .then(response => {
                 if(response.status === 'ok') {
                     this.alert.delete = true;
@@ -223,6 +224,7 @@ export default {
     },
     created() {
         this.isLoading = true;
+        this.usernip = this.$cookies.get('nip');
         this.fetchData();
     }
 };

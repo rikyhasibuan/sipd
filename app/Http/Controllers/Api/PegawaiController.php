@@ -58,6 +58,11 @@ class PegawaiController extends Controller
             $pegawai->eselon = $request->input('eselon');
             $pegawai->created_at = date('Y-m-d H:i:s');
             if ($pegawai->save()) {
+                $payload = [
+                    'page' => 'Pegawai',
+                    'message' => 'User dengan NIP '.$request['nip'].' menambahkan data pegawai baru'
+                ];
+                $this->_common->generate_log($payload);
                 return response()->json(['status'=>'ok'], 200);
             } else {
                 return response()->json(['status'=>'failed'], 500);
@@ -78,6 +83,11 @@ class PegawaiController extends Controller
         $pegawai->eselon = $request->input('eselon');
         $pegawai->updated_at = date('Y-m-d H:i:s');
         if ($pegawai->save()) {
+            $payload = [
+                'page' => 'Pegawai',
+                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan pada data pegawai'
+            ];
+            $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);
@@ -88,6 +98,11 @@ class PegawaiController extends Controller
     {
         $pegawai = Pegawai::find($request['id']);
         if ($pegawai->delete()) {
+            $payload = [
+                'page' => 'Pegawai',
+                'message' => 'User dengan NIP '.$request['nip'].' melakukan hapus data pada pegawai'
+            ];
+            $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);

@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Libraries\Common;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
+    protected $common;
+
+    public function __construct()
+    {
+        $this->common = new Common();
+    }
+
     public function get_data(Request $request)
     {
         try {
@@ -37,6 +45,12 @@ class UserController extends Controller
         $user->status = $request->input('status');
         $user->created_at = date('Y-m-d H:i:s');
         if ($user->save()) {
+            $payload = [
+                'page' => 'User',
+                'message' => 'User dengan NIP '.$request['nip'].' menambahkan data user baru'
+            ];
+            $this->_common->generate_log($payload);
+
             return response()->json(['status'=>'ok'], 200);
         } else {
             return response()->json(['status'=>'failed'], 500);
@@ -56,6 +70,11 @@ class UserController extends Controller
         $user->status = $request->input('status');
         $user->updated_at = date('Y-m-d H:i:s');
         if ($user->save()) {
+            $payload = [
+                'page' => 'Program',
+                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan pada data user'
+            ];
+            $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);
@@ -66,6 +85,11 @@ class UserController extends Controller
     {
         $user = User::find($request['id']);
         if ($user->delete()) {
+            $payload = [
+                'page' => 'User',
+                'message' => 'User dengan NIP '.$request['nip'].' melakukan hapus data pada user'
+            ];
+            $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);

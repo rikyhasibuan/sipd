@@ -18,6 +18,7 @@ class AkomodasiController extends Controller
     protected $api   = 'api/akomodasi';
     protected $route = 'akomodasi';
     protected $access;
+    protected $_nip;
 
     public function __construct()
     {
@@ -26,6 +27,7 @@ class AkomodasiController extends Controller
                 if (Cookie::get('login') == true) {
                     $access = new Access();
                     $this->access = $access->generateAccess(Cookie::get('level'));
+                    $this->_nip = Cookie::get('nip');
                     return $next($request);
                 } else {
                     return redirect('login');
@@ -68,7 +70,7 @@ class AkomodasiController extends Controller
         $data['link'] = $this->link;
         $data['akomodasi'] = $akomodasi;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api . '?id=' . $akomodasi->id);
+        $data['api'] = url($this->api . '?nip='.$this->_nip.'&id=' . $akomodasi->id);
         $data['act'] = 'edit';
         $data['kabkota'] = $kabkota;
         $data['route'] = url($this->route);

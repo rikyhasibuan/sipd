@@ -19,6 +19,7 @@ class IrbanKabkotaController extends Controller
     protected $api   = 'api/irbankabkota';
     protected $route = 'irbankabkota';
     protected $user_cookies;
+    protected $_nip;
 
     public function __construct() {
         $this->middleware(
@@ -27,6 +28,7 @@ class IrbanKabkotaController extends Controller
                     $access = new Access();
                     $this->access = $access->generateAccess(Cookie::get('level'));
                     $this->user_cookies = Cookie::get('nama');
+                    $this->_nip = Cookie::get('nip');
                     return $next($request);
                 } else {
                     return redirect('admin');
@@ -52,7 +54,7 @@ class IrbanKabkotaController extends Controller
         $data['api'] = url($this->api);
         $data['route'] = url($this->route);
         $data['access'] = $this->access;
-        
+
         return View::make('irbankabkota.index', $data);
     }
 
@@ -70,7 +72,7 @@ class IrbanKabkotaController extends Controller
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api);
+        $data['api'] = url($this->api.'?nip=' . $this->_nip);
         $data['route'] = url($this->route);
         $data['act'] = 'create';
         $data['irban'] = $irban;
@@ -88,7 +90,7 @@ class IrbanKabkotaController extends Controller
         $irbankabkota = IrbanKabkota::find($request['id']);
         $irban = Irban::all();
         $kabkota = Kabkota::all();
-        
+
         $data = array();
         $data['title']  = $this->title;
         $data['link'] = $this->link;
@@ -96,7 +98,7 @@ class IrbanKabkotaController extends Controller
         $data['irban'] = $irban;
         $data['kabkota'] = $kabkota;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api .'?id=' . $irbankabkota->id);
+        $data['api'] = url($this->api . '?nip='.$this->_nip.'&id=' . $irbankabkota->id);
         $data['route'] = url($this->route);
         $data['act'] = 'edit';
 

@@ -256,4 +256,25 @@ class Common
         $indonesia_date = date('d', $timestamp) .' '. $bulan[date('n', $timestamp)] . date(' Y', $timestamp);
         return $indonesia_date;
     }
+
+    public function generate_log($payload)
+    {
+        try {
+            $log = DB::table('log_aktifitas')->insert([
+                [
+                    'page' => $payload['page'],
+                    'message' => $payload['message'],
+                    'created_at' =>  date('Y-m-d H:i:s')
+                ]
+            ]);
+
+            if($log) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
 }

@@ -63,7 +63,8 @@ export default {
             },
             isLoading: false,
             showTable: false,
-            id:''
+            id:'',
+            usernip:''
         }
     },
     props: ['api','route','access'],
@@ -97,7 +98,7 @@ export default {
             this.isLoading = false;
         },
         deleteData(id) {
-            service.deleteData(this.api + '?id=' + id)
+            service.deleteData(this.api + '?nip='+this.usernip+'&id=' + id)
             .then(response => {
                 if(response.status === 'ok') {
                     this.alert.delete = true;
@@ -119,6 +120,7 @@ export default {
     },
     created() {
         this.isLoading = true;
+        this.usernip = this.$cookies.get('nip');
         this.fetchData();
     }
 };

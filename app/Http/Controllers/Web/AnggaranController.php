@@ -22,6 +22,7 @@ class AnggaranController extends Controller
     protected $route = 'anggaran';
     protected $access;
     protected $common;
+    protected $_nip;
 
     public function __construct()
     {
@@ -31,6 +32,7 @@ class AnggaranController extends Controller
                     $access = new Access();
                     $this->common = new Common();
                     $this->access = $access->generateAccess(Cookie::get('level'));
+                    $this->_nip = Cookie::get('nip');
                     return $next($request);
                 } else {
                     return redirect('login');
@@ -51,7 +53,7 @@ class AnggaranController extends Controller
 
         $bulan = $this->common->generate_integer_month();
         $tahun = $this->common->generate_year();
-        
+
         $data = [];
         $data['breadcrumb'] = $breadcrumb;
         $data['title']  = $this->title;
@@ -77,7 +79,7 @@ class AnggaranController extends Controller
         $program = Program::all();
         $kegiatan = [];
         $belanja = [];
-        
+
         $bulan = $this->common->generate_integer_month();
         $tahun = $this->common->generate_year();
 
@@ -85,7 +87,7 @@ class AnggaranController extends Controller
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api);
+        $data['api'] = url($this->api.'?nip=' . $this->_nip);
         $data['act'] = 'create';
         $data['program'] = $program;
         $data['kegiatan'] = $kegiatan;
@@ -104,11 +106,11 @@ class AnggaranController extends Controller
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
 
         $anggaran = Anggaran::find($request['id']);
-        
+
         $program = Program::all();
         $kegiatan = Kegiatan::all();
         $belanja = Belanja::all();
-        
+
         $bulan = $this->common->generate_integer_month();
         $tahun = $this->common->generate_year();
 
@@ -117,7 +119,7 @@ class AnggaranController extends Controller
         $data['link'] = $this->link;
         $data['anggaran'] = $anggaran;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api . '?id=' . $anggaran->id);
+        $data['api'] = url($this->api . '?nip='.$this->_nip.'&id=' . $anggaran->id);
         $data['act'] = 'edit';
         $data['program'] = $program;
         $data['kegiatan'] = $kegiatan;

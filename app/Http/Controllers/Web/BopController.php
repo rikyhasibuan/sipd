@@ -17,6 +17,7 @@ class BopController extends Controller
     protected $api   = 'api/bop';
     protected $route = 'bop';
     protected $access;
+    protected $_nip;
 
     public function __construct()
     {
@@ -25,6 +26,7 @@ class BopController extends Controller
                 if (Cookie::get('login') == true) {
                     $access = new Access();
                     $this->access = $access->generateAccess(Cookie::get('level'));
+                    $this->_nip = Cookie::get('nip');
                     return $next($request);
                 } else {
                     return redirect('login');
@@ -63,7 +65,7 @@ class BopController extends Controller
         $data['link'] = $this->link;
         $data['bop'] = $bop;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api . '?id=' . $bop->id);
+        $data['api'] = url($this->api . '?nip='.$this->_nip.'&id=' . $bop->id);
         $data['act'] = 'edit';
         $data['route'] = url($this->route);
         return View::make('bop.form', $data);

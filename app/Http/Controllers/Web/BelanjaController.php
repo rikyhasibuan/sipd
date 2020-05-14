@@ -19,6 +19,7 @@ class BelanjaController extends Controller
     protected $api   = 'api/belanja';
     protected $route = 'belanja';
     protected $access;
+    protected $_nip;
 
     public function __construct()
     {
@@ -27,6 +28,7 @@ class BelanjaController extends Controller
                 if (Cookie::get('login') == true) {
                     $access = new Access();
                     $this->access = $access->generateAccess(Cookie::get('level'));
+                    $this->_nip = Cookie::get('nip');
                     return $next($request);
                 } else {
                     return redirect('login');
@@ -71,7 +73,7 @@ class BelanjaController extends Controller
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api);
+        $data['api'] = url($this->api.'?nip=' . $this->_nip);
         $data['act'] = 'create';
         $data['program'] = $program;
         $data['kegiatan'] = $kegiatan;
@@ -95,7 +97,7 @@ class BelanjaController extends Controller
         $data['link'] = $this->link;
         $data['belanja'] = $belanja;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api);
+        $data['api'] = url($this->api . '?nip='.$this->_nip.'&id=' . $belanja->id);
         $data['act'] = 'edit';
         $data['program'] = $program;
         $data['kegiatan'] = $kegiatan;

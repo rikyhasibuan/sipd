@@ -17,6 +17,7 @@ class HargaBbmController extends Controller
     protected $api   = 'api/hargabbm';
     protected $route = 'hargabbm';
     protected $access;
+    protected $_nip;
 
     public function __construct()
     {
@@ -25,6 +26,7 @@ class HargaBbmController extends Controller
                 if (Cookie::get('login') == true) {
                     $access = new Access();
                     $this->access = $access->generateAccess(Cookie::get('level'));
+                    $this->_nip = Cookie::get('nip');
                     return $next($request);
                 } else {
                     return redirect('login');
@@ -47,7 +49,7 @@ class HargaBbmController extends Controller
         $data['link'] = $this->link;
         $data['hargabbm'] = $hargabbm;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api . '?id=1');
+        $data['api'] = url($this->api . '?nip='.$this->_nip.'&id=1');
         $data['act'] = 'edit';
         $data['route'] = url($this->route);
         return View::make('hargabbm.form', $data);

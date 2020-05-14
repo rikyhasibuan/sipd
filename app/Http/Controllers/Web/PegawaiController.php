@@ -21,6 +21,7 @@ class PegawaiController extends Controller
     protected $route = 'pegawai';
     protected $access;
     protected $common;
+    protected $_nip;
 
     public function __construct()
     {
@@ -30,6 +31,7 @@ class PegawaiController extends Controller
                     $access = new Access();
                     $this->common = new Common();
                     $this->access = $access->generateAccess(Cookie::get('level'));
+                    $this->_nip = Cookie::get('nip');
                     return $next($request);
                 } else {
                     return redirect('login');
@@ -49,7 +51,7 @@ class PegawaiController extends Controller
 
         $golongan = $this->common->generate_golongan_list();
         $eselon = $this->common->generate_eselon_list();
-        
+
         $data = [];
         $data['breadcrumb'] = $breadcrumb;
         $data['title']  = $this->title;
@@ -79,7 +81,7 @@ class PegawaiController extends Controller
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api);
+        $data['api'] = url($this->api.'?nip=' . $this->_nip);
         $data['act'] = 'create';
         $data['pangkat'] = $pangkat;
         $data['jabatan'] = $jabatan;
@@ -107,7 +109,7 @@ class PegawaiController extends Controller
         $data['link'] = $this->link;
         $data['pegawai'] = $pegawai;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api . '?id=' . $pegawai->id);
+        $data['api'] = url($this->api . '?nip='.$this->_nip.'&id=' . $pegawai->id);
         $data['act'] = 'edit';
         $data['pangkat'] = $pangkat;
         $data['jabatan'] = $jabatan;

@@ -230,7 +230,6 @@ class TimDinas
     public function generate_reviu_bop($parameter)
     {
         $tim = [];
-        $query_dinasbop = DinasBop::find($parameter['dinasbop']);
         $dari = date_create($parameter['dari']);
         $sampai = date_create($parameter['sampai']);
         $diff = date_diff($dari, $sampai);
@@ -484,6 +483,7 @@ class TimDinas
                         } else {
                             return false;
                         }
+
                     } else {
                         return true;
                     }
@@ -494,23 +494,28 @@ class TimDinas
                             if ($v['tim']['wakilpenanggungjawab']['nip'] == $nip) {
                                 $i++;
                             }
+
                             if ($v['tim']['pengendaliteknis']['nip'] == $nip) {
                                 $i++;
                             }
+
                             if ($v['tim']['ketuatim']['nip'] == $nip) {
                                 $i++;
                             }
+
                             foreach ($v['tim']['anggota'] as $y) {
                                 if ($y['nip'] == $nip) {
                                     $i++;
                                 }
                             }
                         }
+
                         if ($i == 0) {
                             return true;
                         } else {
                             return false;
                         }
+
                     } else {
                         return true;
                     }
@@ -550,10 +555,9 @@ class TimDinas
     public function check_inspektur_bop($param)
     {
         $dinasbop = DinasBopInspektur::where('dinasbop_id', $param['dinasbop'])
-                                        ->where('dari', $param['dari'])
-                                        ->where('sampai', $param['sampai'])
-                                        ->where('inspektur->nip', $param['inspektur'])
-                                        ->count();
+                                     ->where(function($query) use ($param) {
+                                        $query->where('dari', $param['dari'])->orWhere('sampai', $param['sampai']);
+                                     })->count();
         if ($dinasbop > 0) {
             return false;
         } else {
@@ -570,10 +574,9 @@ class TimDinas
     public function check_sekretaris_bop($param)
     {
         $dinasbop = DinasBopSekretaris::where('dinasbop_id', $param['dinasbop'])
-                                        ->where('dari', $param['dari'])
-                                        ->where('sampai', $param['sampai'])
-                                        ->where('sekretaris->nip', $param['sekretaris'])
-                                        ->count();
+                                        ->where(function($query) use ($param) {
+                                            $query->where('dari', $param['dari'])->orWhere('sampai', $param['sampai']);
+                                        })->count();
         if ($dinasbop > 0) {
             return false;
         } else {

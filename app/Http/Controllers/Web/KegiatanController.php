@@ -19,6 +19,7 @@ class KegiatanController extends Controller
     protected $api   = 'api/kegiatan';
     protected $route = 'kegiatan';
     protected $access;
+    protected $_nip;
 
     public function __construct()
     {
@@ -27,6 +28,7 @@ class KegiatanController extends Controller
                 if (Cookie::get('login') == true) {
                     $access = new Access();
                     $this->access = $access->generateAccess(Cookie::get('level'));
+                    $this->_nip = Cookie::get('nip');
                     return $next($request);
                 } else {
                     return redirect('login');
@@ -70,7 +72,7 @@ class KegiatanController extends Controller
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api);
+        $data['api'] = url($this->api.'?nip=' . $this->_nip);
         $data['act'] = 'create';
         $data['program'] = $program;
         $data['bendahara'] = $bendahara;
@@ -94,7 +96,7 @@ class KegiatanController extends Controller
         $data['link'] = $this->link;
         $data['kegiatan'] = $kegiatan;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api . '?id=' . $kegiatan->id);
+        $data['api'] = url($this->api . '?nip='.$this->_nip.'&id=' . $kegiatan->id);
         $data['act'] = 'edit';
         $data['program'] = $program;
         $data['bendahara'] = $bendahara;

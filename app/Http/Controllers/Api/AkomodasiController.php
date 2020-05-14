@@ -6,10 +6,18 @@ use App\Models\Akomodasi;
 use App\Models\Harian;
 use Illuminate\Http\Request;
 use Exception;
+use App\Libraries\Common;
 use App\Http\Controllers\Controller;
 
 class AkomodasiController extends Controller
 {
+    protected $_common;
+
+    public function __construct()
+    {
+        $this->_common = new Common();
+    }
+
     public function get_data(Request $request)
     {
         try {
@@ -41,6 +49,11 @@ class AkomodasiController extends Controller
         $akomodasi->gol_1_2 = $request->input('gol_1_2');
         $akomodasi->updated_at = date('Y-m-d H:i:s');
         if ($akomodasi->save()) {
+            $payload = [
+                'page' => 'Akomodasi',
+                'message' => 'User dengan NIP '.$request->input('nip').' melakukan perubahan data pada akomodasi'
+            ];
+            $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);

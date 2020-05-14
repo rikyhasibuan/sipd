@@ -21,6 +21,7 @@ class UserController extends Controller
     protected $route = 'user';
     protected $access;
     protected $common;
+    protected $_nip;
 
     public function __construct()
     {
@@ -29,6 +30,7 @@ class UserController extends Controller
                 if (Cookie::get('login') == true) {
                     $access = new Access();
                     $this->access = $access->generateAccess(Cookie::get('level'));
+                    $this->_nip = Cookie::get('nip');
                     return $next($request);
                 } else {
                     return redirect('login');
@@ -44,7 +46,7 @@ class UserController extends Controller
         $breadcrumb[1] = '<i class="fa fa-user"></i> ' . $this->title;
 
         $level = Level::all();
-        
+
         $data = [];
         $data['breadcrumb'] = $breadcrumb;
         $data['title']  = $this->title;
@@ -70,7 +72,7 @@ class UserController extends Controller
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api);
+        $data['api'] = url($this->api.'?nip=' . $this->_nip);
         $data['act'] = 'create';
         $data['pegawai'] = $pegawai;
         $data['level'] = $level;
@@ -95,7 +97,7 @@ class UserController extends Controller
         $data['link'] = $this->link;
         $data['user'] = $user;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api . '?id=' . $user->id);
+        $data['api'] = url($this->api . '?nip='.$this->_nip.'&id=' . $user->id);
         $data['act'] = 'edit';
         $data['pegawai'] = $pegawai;
         $data['level'] = $level;

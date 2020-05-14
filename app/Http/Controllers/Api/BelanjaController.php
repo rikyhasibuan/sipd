@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Libraries\Common;
 use App\Models\Belanja;
 use Illuminate\Http\Request;
 use Exception;
@@ -9,6 +10,13 @@ use App\Http\Controllers\Controller;
 
 class BelanjaController extends Controller
 {
+    protected $_common;
+
+    public function __construct()
+    {
+        $this->_common = new Common();
+    }
+
     public function get_data(Request $request)
     {
         try {
@@ -42,6 +50,7 @@ class BelanjaController extends Controller
                 'program_id' => $request->input('program_id'),
                 'kegiatan_id' => $request->input('kegiatan_id')
             ])->count();
+
             if ($check == 0) {
                 $belanja = new Belanja();
                 $belanja->program_id = $request->input('program_id');
@@ -50,6 +59,11 @@ class BelanjaController extends Controller
                 $belanja->nama_belanja = $request->input('nama_belanja');
                 $belanja->created_at = date('Y-m-d H:i:s');
                 if ($belanja->save()) {
+                    $payload = [
+                        'page' => 'Belanja',
+                        'message' => 'User dengan NIP '.$request['nip'].' menambahkan data belanja baru'
+                    ];
+                    $this->_common->generate_log($payload);
                     return response()->json(['status' => 'ok'], 200);
                 } else {
                     return response()->json(['status' => 'failed'], 500);
@@ -72,6 +86,11 @@ class BelanjaController extends Controller
             $belanja->nama_belanja = $request->input('nama_belanja');
             $belanja->updated_at = date('Y-m-d H:i:s');
             if ($belanja->save()) {
+                $payload = [
+                    'page' => 'Belanja',
+                    'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan pada data belanja'
+                ];
+                $this->_common->generate_log($payload);
                 return response()->json(['status' => 'ok'], 200);
             } else {
                 return response()->json(['status' => 'failed'], 500);
@@ -86,6 +105,11 @@ class BelanjaController extends Controller
         try {
             $belanja = Belanja::find($request['id']);
             if ($belanja->delete()) {
+                $payload = [
+                    'page' => 'BBM',
+                    'message' => 'User dengan NIP '.$request['nip'].' melakukan hapus data pada belanja'
+                ];
+                $this->_common->generate_log($payload);
                 return response()->json(['status' => 'ok'], 200);
             } else {
                 return response()->json(['status' => 'failed'], 500);

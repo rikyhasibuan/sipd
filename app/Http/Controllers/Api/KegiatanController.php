@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Libraries\Common;
 use App\Models\Kegiatan;
 use Illuminate\Http\Request;
 use Exception;
@@ -9,6 +10,13 @@ use App\Http\Controllers\Controller;
 
 class KegiatanController extends Controller
 {
+    protected $_common;
+
+    public function __construct()
+    {
+        $this->_common = new Common();
+    }
+
     public function get_data(Request $request)
     {
         try {
@@ -42,13 +50,14 @@ class KegiatanController extends Controller
     public function post_data(Request $request)
     {
         $check = Kegiatan::where(
-                                    [
-                                        'program_id' => $request->input('program_id'),
-                                        'kode_kegiatan' => $request->input('kode_kegiatan'),
-                                        'nama_kegiatan' => $request->input('nama_kegiatan'),
-                                        'bendahara' => $request->input('bendahara'),
-                                    ]
-                                )->count();
+            [
+                'program_id' => $request->input('program_id'),
+                'kode_kegiatan' => $request->input('kode_kegiatan'),
+                'nama_kegiatan' => $request->input('nama_kegiatan'),
+                'bendahara' => $request->input('bendahara'),
+            ]
+        )->count();
+
         if ($check == 0) {
             $kegiatan = new Kegiatan();
             $kegiatan->program_id = $request->input('program_id');
@@ -57,6 +66,11 @@ class KegiatanController extends Controller
             $kegiatan->bendahara = $request->input('bendahara');
             $kegiatan->created_at = date('Y-m-d H:i:s');
             if ($kegiatan->save()) {
+                $payload = [
+                    'page' => 'Kegiatan',
+                    'message' => 'User dengan NIP '.$request['nip'].' menambahkan data kegiatan baru'
+                ];
+                $this->_common->generate_log($payload);
                 return response()->json(['status'=>'ok'], 200);
             } else {
                 return response()->json(['status'=>'failed'], 500);
@@ -75,6 +89,11 @@ class KegiatanController extends Controller
         $kegiatan->bendahara = $request->input('bendahara');
         $kegiatan->updated_at = date('Y-m-d H:i:s');
         if ($kegiatan->save()) {
+            $payload = [
+                'page' => 'Kegiatan',
+                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan pada data kegiatan'
+            ];
+            $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);
@@ -86,6 +105,11 @@ class KegiatanController extends Controller
         try {
             $kegiatan = Kegiatan::find($request['id']);
             if ($kegiatan->delete()) {
+                $payload = [
+                    'page' => 'Kegiatan',
+                    'message' => 'User dengan NIP '.$request['nip'].' melakukan hapus data pada kegiatan'
+                ];
+                $this->_common->generate_log($payload);
                 return response()->json(['status' => 'ok'], 200);
             } else {
                 return response()->json(['status' => 'failed'], 500);

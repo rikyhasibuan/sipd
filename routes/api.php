@@ -128,7 +128,6 @@ Route::get('dinasbop/{id}', 'Api\DinasBopController@show_data');
 Route::get('dinasbop/print/sp/{id}/{type}', 'Api\DinasBopController@get_print_sp');
 Route::get('dinasbop/print/spd/{id}/{type}', 'Api\DinasBopController@get_print_spd');
 Route::get('dinasbop/print/rbpd/{id}/{type}', 'Api\DinasBopController@get_print_rbpd');
-//Route::get('dinasbop/print/personil/{id}/{type}', 'Api\DinasBopController@get_print_personil');
 Route::get('dinasbop/print/personil/all/{id}', 'Api\DinasBopController@get_print_personil_all');
 Route::get('dinasbop/print/dpbo/{id}/{type}', 'Api\DinasBopController@get_print_dpbo');
 Route::post('dinasbop', 'Api\DinasBopController@post_data');

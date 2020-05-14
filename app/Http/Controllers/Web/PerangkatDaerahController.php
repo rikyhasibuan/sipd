@@ -19,6 +19,7 @@ class PerangkatDaerahController extends Controller
     protected $route = 'perangkatdaerah';
     protected $access;
     protected $user_cookies;
+    protected $_nip;
 
     public function __construct()
     {
@@ -26,6 +27,7 @@ class PerangkatDaerahController extends Controller
             if (Cookie::get('login') == true) {
                 $access = new Access();
                 $this->access = $access->generateAccess(Cookie::get('level'));
+                $this->_nip = Cookie::get('nip');
                 return $next($request);
             } else {
                 return redirect('admin');
@@ -63,7 +65,7 @@ class PerangkatDaerahController extends Controller
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api);
+        $data['api'] = url($this->api.'?nip=' . $this->_nip);
         $data['route'] = url($this->route);
         $data['kabkota'] = $kabkota;
         $data['act'] = 'create';
@@ -79,13 +81,13 @@ class PerangkatDaerahController extends Controller
 
         $perangkatdaerah = Skpd::find($request['id']);
         $kabkota = Kabkota::all();
-        
+
         $data = array();
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['perangkatdaerah'] = $perangkatdaerah;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api);
+        $data['api'] = url($this->api . '?nip='.$this->_nip.'&id=' . $perangkatdaerah->id);
         $data['route'] = url($this->route);
         $data['kabkota'] = $kabkota;
         $data['act'] = 'edit';

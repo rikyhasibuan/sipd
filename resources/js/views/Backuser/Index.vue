@@ -147,6 +147,7 @@ export default {
             to:0,
             from:0,
             showForm: false
+            usernip:''
         }
     },
     props: ['api','route','access'],
@@ -209,9 +210,9 @@ export default {
             }
         },
         deleteData(id) {
-            service.deleteData(this.api + '?id=' + id)
+            service.deleteData(this.api + '?nip=' + this.usernip + '&id=' + id)
             .then(response => {
-                if(response.status === 'OK') {
+                if(response.status === 'ok') {
                     this.showModal = false;
                     $('#modal').modal('hide');
                     this.fetchData();
@@ -233,6 +234,7 @@ export default {
     created() {
         this.placeholder = true;
         this.$Progress.start();
+        this.usernip = this.$cookies.get('nip');
     },
     mounted() {
         this.fetchData();

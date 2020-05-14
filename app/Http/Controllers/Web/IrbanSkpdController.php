@@ -19,6 +19,7 @@ class IrbanSkpdController extends Controller
     protected $api   = 'api/irbanskpd';
     protected $route = 'irbanskpd';
     protected $user_cookies;
+    protected $_nip;
 
     public function __construct() {
         $this->middleware(
@@ -27,6 +28,7 @@ class IrbanSkpdController extends Controller
                     $access = new Access();
                     $this->access = $access->generateAccess(Cookie::get('level'));
                     $this->user_cookies = Cookie::get('nama');
+                    $this->_nip = Cookie::get('nip');
                     return $next($request);
                 } else {
                     return redirect('admin');
@@ -52,7 +54,7 @@ class IrbanSkpdController extends Controller
         $data['api'] = url($this->api);
         $data['route'] = url($this->route);
         $data['access'] = $this->access;
-        
+
         return View::make('irbanskpd.index', $data);
     }
 
@@ -70,7 +72,7 @@ class IrbanSkpdController extends Controller
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api);
+        $data['api'] = url($this->api.'?nip=' . $this->_nip);
         $data['route'] = url($this->route);
         $data['act'] = 'create';
         $data['irban'] = $irban;
@@ -88,7 +90,7 @@ class IrbanSkpdController extends Controller
         $irbanskpd = IrbanSkpd::find($request['id']);
         $irban = Irban::all();
         $skpd = Skpd::all();
-        
+
         $data = array();
         $data['title']  = $this->title;
         $data['link'] = $this->link;
@@ -96,7 +98,7 @@ class IrbanSkpdController extends Controller
         $data['irban'] = $irban;
         $data['skpd'] = $skpd;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api .'?id=' . $irbanskpd->id);
+        $data['api'] = url($this->api . '?nip='.$this->_nip.'&id=' . $irbanskpd->id);
         $data['route'] = url($this->route);
         $data['act'] = 'edit';
 

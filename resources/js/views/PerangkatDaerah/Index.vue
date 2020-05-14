@@ -105,7 +105,8 @@ export default {
             },
             isLoading: false,
             showTable: false,
-            id:''
+            id:'',
+            usernip:''
         }
     },
     props: ['action','api','route','access'],
@@ -160,7 +161,7 @@ export default {
             return Object.keys(this.search).map(key => key + '=' + this.search[key]).join('&');
         },
         deleteData(id) {
-            service.deleteData(this.api + '?id=' + id)
+            service.deleteData(this.api + '?nip='+this.usernip+'&id=' + id)
             .then(response => {
                 if(response.status === 'OK') {
                     this.alert.delete = true;
@@ -181,6 +182,7 @@ export default {
     },
     created() {
         this.isLoading = true;
+        this.usernip = this.$cookies.get('nip');
     },
     mounted() {
         this.fetchData();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Libraries\Common;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Skpd;
@@ -9,6 +10,13 @@ use Exception;
 
 class PerangkatDaerahController extends Controller
 {
+    protected $common;
+
+    public function __construct()
+    {
+        $this->common = new Common();
+    }
+
     public function get_data(Request $request)
     {
         try {
