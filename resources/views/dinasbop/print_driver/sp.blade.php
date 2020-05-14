@@ -1,7 +1,7 @@
 <?php
 use App\Libraries\TimDinas;
 use App\Libraries\Common;
-
+$common = new Common;
 $timdinas = new TimDinas();
 $inspektur = $timdinas->get_sekretaris();
 ?>
@@ -16,11 +16,7 @@ $inspektur = $timdinas->get_sekretaris();
     <style>
         @media print {
             @page  {
-                size: 'legal';
-                margin-top: 0.5cm;
-                margin-left: 2cm;
-                margin-right: 2cm;
-                margin-bottom: 2cm;
+                size: auto;
             }
             body {
                 margin: 0px;

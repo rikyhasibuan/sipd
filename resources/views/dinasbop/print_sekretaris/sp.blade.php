@@ -16,11 +16,7 @@ $inspektur = $timdinas->get_inspektur();
     <style>
         @media print {
             @page  {
-                size: "legal";
-                margin-top: 0.5cm;
-                margin-left: 2cm;
-                margin-right: 2cm;
-                margin-bottom: 2cm;
+                size: auto;
             }
             body {
                 margin: 0px;

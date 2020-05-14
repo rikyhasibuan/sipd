@@ -17,10 +17,6 @@ $inspektur = $timdinas->get_sekretaris();
         @media print {
             @page  {
                 size: auto;
-                margin-top: 0.5cm;
-                margin-left: 2cm;
-                margin-right: 2cm;
-                margin-bottom: 2cm;
             }
             body {
                 margin: 0px;

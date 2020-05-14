@@ -19,10 +19,10 @@ $total = $dinasbopinspektur->dinasbop->total_anggaran;
     <style type="text/css" media="print">
         @page {
             size: auto;
-            margin-top: 0cm;
-            margin-left: 0cm;
-            margin-right: 0cm;
-            margin-bottom: 0cm;
+            margin-top: 1rem;
+            margin-right:1rem;
+            margin-left:1rem;
+            margin-bottom: 1rem;
         }
 
         .table-print td {
@@ -57,7 +57,7 @@ $total = $dinasbopinspektur->dinasbop->total_anggaran;
 <body onload="window.print()">
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-12" style="border: solid 0.5px; margin: 0.5cm 0.5cm 0.5cm 0.5cm;">
+        <div class="col-lg-12" style="border: solid 0.5px;">
             <div class="row">
                 <div class="col-md-6">
                     <div style="text-align: center;margin-top:5px;">

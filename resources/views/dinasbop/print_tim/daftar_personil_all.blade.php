@@ -17,7 +17,6 @@ $inspektur = $timdinas->get_inspektur();
     <style>
         @page  {
             size: auto;
-            margin: 2.54cm 2.54cm 25cm 25cm;
         }
         body {
             margin: 0px;
@@ -79,7 +78,7 @@ $inspektur = $timdinas->get_inspektur();
                                         {!! $v->tim['ketuatim']['nama'] !!}
                                         <br>
                                         <b>Anggota Tim</b>
-                                        <ol>
+                                        <ol style="margin-left: -25px;">
                                             @foreach($v->tim['anggota'] as $y)
                                                 <li>{!! $y['nama'] !!}</li>
                                             @endforeach

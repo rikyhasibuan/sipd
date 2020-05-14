@@ -20,7 +20,10 @@ $total = $dinasboptim->dinasbop->total_anggaran;
     <style type="text/css" media="print">
         @page {
             size: auto;
-            margin: 0 0 0 0;
+            margin-top: 0.75rem;
+            margin-right:0.75rem;
+            margin-left:0.75rem;
+            margin-bottom: 0.75rem;
         }
 
         .table-print td {
@@ -55,7 +58,7 @@ $total = $dinasboptim->dinasbop->total_anggaran;
 <body onload="window.print()">
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-12" style="border: solid 0.5px; margin: 0.5cm 0.5cm 0.5cm 0.5cm;">
+        <div class="col-lg-12" style="border: solid 0.5px;">
             <div class="row">
                 <div class="col-md-6">
                     <div style="text-align: center;margin-top:5px;">
@@ -147,7 +150,7 @@ $total = $dinasboptim->dinasbop->total_anggaran;
                                     <ol style="margin-left: -30px;">
                                         <li>{!! $dinasboptim->tim['pengendaliteknis']['nama'] !!}</li>
                                         <li>{!! $dinasboptim->tim['ketuatim']['nama'] !!}</li>
-                                        @for($i = 1; $i < count($dinasboptim->tim['anggota']); $i++)
+                                        @for($i = 0; $i < count($dinasboptim->tim['anggota']); $i++)
                                             <li>{!! $dinasboptim->tim['anggota'][$i]['nama'] !!}</li>
                                         @endfor
                                     </ol>
