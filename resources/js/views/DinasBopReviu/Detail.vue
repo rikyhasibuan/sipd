@@ -56,7 +56,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="pull-left">
-                    <span v-if="dinasbopreviu.length === 0">
+                    <span v-if="dinasbopreviu === null">
                     <a :href="route + '/reviu/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Tim Reviu & Monitoring</a>
                     </span>
                     <span v-else>
@@ -131,8 +131,6 @@
 </template>
 
 <script>
-import service from './../../services.js';
-
 export default {
     data() {
         return {
@@ -177,7 +175,7 @@ export default {
     },
     created() {
         this.isLoading = true;
-        if (this.dinasbopreviu.length === 0) {
+        if (this.dinasbopreviu === null) {
             this.showTable = false;
             this.alert.empty = true;
         } else {

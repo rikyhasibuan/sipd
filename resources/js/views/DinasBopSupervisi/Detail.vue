@@ -56,7 +56,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="pull-left">
-                    <span v-if="dinasbopsupervisi.length === 0">
+                    <span v-if="dinasbopsupervisi === null">
                     <a :href="route + '/supervisi/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Tim Supervisi</a>
                     </span>
                     <span v-else>
@@ -176,7 +176,7 @@ export default {
     },
     created() {
         this.isLoading = true;
-        if (this.dinasbopsupervisi.length === 0) {
+        if (this.dinasbopsupervisi === null) {
             this.showTable = false;
             this.alert.empty = true;
         } else {
