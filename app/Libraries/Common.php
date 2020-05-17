@@ -2,6 +2,8 @@
 
 namespace App\Libraries;
 
+use Illuminate\Support\Facades\DB;
+
 class Common
 {
     protected $_bilangan = [
