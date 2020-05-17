@@ -35,11 +35,12 @@
                                 <i class="fa fa-user"></i> Supervisi
                             </a>
                         </li>
-                        <!--<li class="nav-item">
+                        <li class="nav-item">
                             <a data-toggle="tab" class="nav-link" href="#pengumpuldata" :data-id="'tabpengumpuldata'" @click="onChangeTabs($event)" :class="(last_tab == 'pengumpuldata') ? 'active' : ''">
                                 <i class="fa fa-user"></i> Pengumpul Data
                             </a>
                         </li>
+                        <!--
                         <li class="nav-item">
                             <a data-toggle="tab" class="nav-link" href="#administrasi" :data-id="'tabadministrasi'" @click="onChangeTabs($event)" :class="(last_tab == 'administrasi') ? 'active' : ''">
                                 <i class="fa fa-user"></i> Pengadministrasi
@@ -101,15 +102,17 @@
                                 :api = api>
                             </dinasbopsupervisi-detail>
                         </div>
-                        <!--<div id="pengumpuldata" class="tab-pane fade" :class="{ 'active': (last_tab == 'pengumpuldata'), 'show': (last_tab == 'pengumpuldata') }">
+                        <div id="pengumpuldata" class="tab-pane fade" :class="{ 'active': (last_tab == 'pengumpuldata'), 'show': (last_tab == 'pengumpuldata') }">
                             <dinasboppengumpuldata-detail
                                 :dinasbop=dinasbop
-                                :dinasbopdriver=dinasbopdriver
+                                :dinasboppengumpuldata=dinasboppengumpuldata
+                                :dinasboptimpengumpuldata=dinasboptimpengumpuldata
                                 :route=route
                                 :print_action=print_action
                                 :api=api>
                             </dinasboppengumpuldata-detail>
                         </div>
+                        <!--
                         <div id="administrasi" class="tab-pane fade" :class="{ 'active': (last_tab == 'administrasi'), 'show': (last_tab == 'administrasi') }">
                             <dinasbopadministrasi-detail
                                 :dinasbop=dinasbop
@@ -156,6 +159,8 @@
             'dinasbopsekretaris',
             'dinasbopreviu',
             'dinasbopsupervisi',
+            'dinasboppengumpuldata',
+            'dinasboptimpengumpuldata',
             'route',
             'print_action',
             'api'

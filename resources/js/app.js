@@ -223,6 +223,9 @@ Vue.component('dinasboppengumpuldata-create', require('./views/DinasBopPengumpul
 Vue.component('dinasboppengumpuldata-update', require('./views/DinasBopPengumpulData/Update.vue'));
 Vue.component('dinasboppengumpuldata-detail', require('./views/DinasBopPengumpulData/Detail.vue'));
 
+Vue.component('dinasboptimpengumpuldata-create', require('./views/DinasBopTimPengumpulData/Create.vue'));
+Vue.component('dinasboptimpengumpuldata-update', require('./views/DinasBopTimPengumpulData/Update.vue'));
+
 Vue.component('dinasbopadministrasi-create', require('./views/DinasBopAdministrasi/Create.vue'));
 Vue.component('dinasbopadministrasi-update', require('./views/DinasBopAdministrasi/Update.vue'));
 Vue.component('dinasbopadministrasi-detail', require('./views/DinasBopAdministrasi/Detail.vue'));

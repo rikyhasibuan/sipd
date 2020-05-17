@@ -152,6 +152,13 @@ Route::post('dinasbop/supervisi/{dinasbop}', 'Api\DinasBopController@post_superv
 Route::put('dinasbop/supervisi/{dinasbop}/{id}', 'Api\DinasBopController@put_supervisi_data');
 Route::delete('dinasbop/supervisi/{dinasbop}/{id}', 'Api\DinasBopController@delete_supervisi_data');
 
+Route::post('dinasbop/pengumpuldata', 'Api\DinasBopController@post_pengumpuldata_data');
+Route::put('dinasbop/pengumpuldata', 'Api\DinasBopController@put_pengumpuldata_data');
+Route::delete('dinasbop/pengumpuldata', 'Api\DinasBopController@delete_pengumpuldata_data');
+Route::post('dinasbop/timpengumpuldata', 'Api\DinasBopController@post_pengumpuldata_tim_data');
+Route::put('dinasbop/timpengumpuldata', 'Api\DinasBopController@put_pengumpuldata_tim_data');
+Route::delete('dinasbop/timpengumpuldata', 'Api\DinasBopController@delete_pengumpuldata_tim_data');
+
 // dinas regular
 Route::get('dinasregular', 'Api\DinasRegularController@get_data');
 Route::get('dinasregular/{id}', 'Api\DinasRegularController@show_data');

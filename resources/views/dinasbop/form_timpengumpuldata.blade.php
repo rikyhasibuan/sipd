@@ -2,22 +2,24 @@
 @section('content')
     <div id="app">
         @if ($act == 'create')
-            <dinasboptim-create
+            <dinasboptimpengumpuldata-create
                 :irban_data='{!! json_encode($irban) !!}'
+                :pengumpuldata='{!! json_encode($pengumpuldata) !!}'
                 :dinasbop='{!! json_encode($dinasbop) !!}'
                 :auditan_data='{!! json_encode($auditan) !!}'
                 :route='{!! json_encode($route) !!}'
                 :api='{!! json_encode($api) !!}'>
-            </dinasboptim-create>
+            </dinasboptimpengumpuldata-create>
         @else
-            <dinasboptim-update
-                :dinasboptim='{!! json_encode($dinasboptim) !!}'
+            <dinasboptimpengumpuldata-update
+                :dinasboptimpengumpuldata='{!! json_encode($dinasboptimpengumpuldata) !!}'
+                :pengumpuldata='{!! json_encode($pengumpuldata) !!}'
                 :dinasbop='{!! json_encode($dinasbop) !!}'
                 :irban_data='{!! json_encode($irban) !!}'
                 :auditan_data='{!! json_encode($auditan) !!}'
                 :route='{!! json_encode($route) !!}'
                 :api='{!! json_encode($api) !!}'>
-            </dinasboptim-update>
+            </dinasboptimpengumpuldata-update>
         @endif
     </div>
 @stop

@@ -9,6 +9,8 @@
             :dinasbopsekretaris = '{{ json_encode($dinasbopsekretaris) }}'
             :dinasbopreviu = '{{ json_encode($dinasbopreviu) }}'
             :dinasbopsupervisi = '{{ json_encode($dinasbopsupervisi) }}'
+            :dinasboppengumpuldata = '{{ json_encode($dinasboppengumpuldata) }}'
+            :dinasboptimpengumpuldata = '{{ json_encode($dinasboptimpengumpuldata) }}'
             :route = '{{ json_encode($route) }}'
             :api = '{{ json_encode($api) }}'>
         </dinasbop-detail>

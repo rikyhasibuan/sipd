@@ -15,6 +15,8 @@ use App\Models\DinasBopInspektur;
 use App\Models\DinasBopSekretaris;
 use App\Models\DinasBopReviu;
 use App\Models\DinasBopSupervisi;
+use App\Models\DinasBopPengumpulData;
+use App\Models\DinasBopPengumpulDataTim;
 use App\Models\Irban;
 use App\Libraries\Access;
 use Closure;
@@ -130,8 +132,20 @@ class DinasBopController extends Controller
         $dinasbopsekretaris = DinasBopSekretaris::where('dinasbop_id', $dinasbop->id)->get();
         $dinasbopreviu = DinasBopReviu::where('dinasbop_id', $dinasbop->id)->first();
         $dinasbopsupervisi = DinasBopSupervisi::where('dinasbop_id', $dinasbop->id)->first();
+        $dinasboppengumpuldata_count = DinasBopPengumpulData::where('dinasbop_id', $dinasbop->id)->count();
 
-        $data = array();
+        $dinasboppengumpuldata = [];
+        $dinasboptimpengumpuldata = [];
+
+        if ($dinasboppengumpuldata_count > 0) {
+            $dinasboppengumpuldata = DinasBopPengumpulData::with('dinasbop')->where('dinasbop_id', $dinasbop->id)->first();
+            $dinasboptimpengumpuldata = DinasBopPengumpulDataTim::where('dinasbop_pengumpuldata_id', $dinasboppengumpuldata->id)->get();
+        } else {
+            $dinasboppengumpuldata = [];
+            $dinasboptimpengumpuldata = [];
+        }
+
+        $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['dinasbop'] = $dinasbop;
@@ -141,6 +155,8 @@ class DinasBopController extends Controller
         $data['dinasbopsekretaris'] = $dinasbopsekretaris;
         $data['dinasbopreviu'] = $dinasbopreviu;
         $data['dinasbopsupervisi'] = $dinasbopsupervisi;
+        $data['dinasboppengumpuldata'] = $dinasboppengumpuldata;
+        $data['dinasboptimpengumpuldata'] = $dinasboptimpengumpuldata;
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api);
         $data['route'] = url($this->route);
@@ -548,5 +564,94 @@ class DinasBopController extends Controller
         $data['ketua'] = $ketua;
         $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
         return View::make('dinasbop.form_supervisi', $data);
+    }
+
+    public function create_pengumpuldata(Request $request)
+    {
+        $breadcrumb = array();
+        $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
+        $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-database"></i> ' . $this->title . '</a>';
+        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data';
+
+        $data = [];
+        $data['title']  = $this->title;
+        $data['link'] = $this->link;
+        $data['breadcrumb'] = $breadcrumb;
+        $data['api'] = url($this->api . '/pengumpuldata?dinasbop=' . $request['dinasbop']);
+        $data['act'] = 'create';
+        $data['route'] = url($this->route  .'/detail?id='. $request['dinasbop']);
+        return View::make('dinasbop.form_pengumpuldata', $data);
+    }
+
+    public function edit_pengumpuldata(Request $request)
+    {
+        $breadcrumb = array();
+        $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
+        $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-database"></i> ' . $this->title . '</a>';
+        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
+
+        $dinasboppengumpuldata = DinasBopPengumpuldata::find($request['id']);
+
+        $data = array();
+        $data['title']  = $this->title;
+        $data['link'] = $this->link;
+        $data['dinasboppengumpuldata'] = $dinasboppengumpuldata;
+        $data['dinasbop'] = $request['dinasbop'];
+        $data['breadcrumb'] = $breadcrumb;
+        $data['api'] = url($this->api . '/pengumpuldata?dinasbop='.$request['dinasbop'].'&id=' . $dinasboppengumpuldata->id);
+        $data['act'] = 'edit';
+        $data['route'] = url($this->route  .'/detail?id='. $request['dinasbop']);
+        return View::make('dinasbop.form_pengumpuldata', $data);
+    }
+
+    public function create_pengumpuldata_tim(Request $request)
+    {
+        $breadcrumb = [];
+        $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
+        $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> ' . $this->title . '</a>';
+        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data Tim';
+
+        $irban = Irban::all();
+        $auditan = [];
+
+        $data = [];
+        $data['title']  = $this->title;
+        $data['link'] = $this->link;
+        $data['breadcrumb'] = $breadcrumb;
+        $data['api'] = url($this->api . '/timpengumpuldata?dinasbop='.$request['dinasbop'].'&pengumpuldata=' . $request['pengumpuldata']);
+        $data['act'] = 'create';
+        $data['irban'] = $irban;
+        $data['auditan'] = $auditan;
+        $data['route'] = url($this->route.'/detail?id='. $request['dinasbop']);
+        $data['dinasbop'] = $request['dinasbop'];
+        $data['pengumpuldata'] = $request['pengumpuldata'];
+        return View::make('dinasbop.form_timpengumpuldata', $data);
+    }
+
+    public function edit_pengumpuldata_tim(Request $request)
+    {
+        $breadcrumb = [];
+        $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
+        $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> '.$this->title.'</a>';
+        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
+
+        $dinasboptimpengumpuldata = DinasBopPengumpulDataTim::find($request['id']);
+
+        $irban = Irban::all();
+        $auditan = [];
+
+        $data = [];
+        $data['title']  = $this->title;
+        $data['link'] = $this->link;
+        $data['dinasboptimpengumpuldata'] = $dinasboptimpengumpuldata;
+        $data['breadcrumb'] = $breadcrumb;
+        $data['api'] = url($this->api . '/timpengumpuldata?id='.$request['id'].'&pengumpuldata=' . $request['pengumpuldata']);
+        $data['act'] = 'edit';
+        $data['irban'] = $irban;
+        $data['auditan'] = $auditan;
+        $data['dinasbop'] = $request['dinasbop'];
+        $data['pengumpuldata'] = $request['pengumpuldata'];
+        $data['route'] = url($this->route.'/detail?id='.$dinasboptimpengumpuldata->dinasbop_id);
+        return View::make('dinasbop.form_timpengumpuldata', $data);
     }
 }
