@@ -11,11 +11,11 @@ use App\Http\Requests\ProgramStoreRequest;
 
 class ProgramController extends Controller
 {
-    protected $common;
+    protected $_common;
 
     public function __construct()
     {
-        $this->common = new Common();
+        $this->_common = new Common();
     }
 
     public function get_data(Request $request)
