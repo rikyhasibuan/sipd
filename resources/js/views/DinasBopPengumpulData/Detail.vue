@@ -1,5 +1,5 @@
 <template>
-    <div style="margin-top:25px;" v-if="dinasboppengumpuldata !== null">
+    <div style="margin-top:25px;" v-if="dinasboppengumpuldata.length > 0">
         <transition name="fade">
             <table class="table table-hover table-striped table-bordered">
                 <tbody>
@@ -24,7 +24,7 @@
                 <tr>
                     <td style="width:15%;"><b>Dasar Surat Perintah</b></td>
                     <td>
-                        <div v-if="dinasboppengumpuldata.dasar.length > 1">
+                        <div v-if="dinasboppengumpuldata.dasar !== undefined && dinasboppengumpuldata.dasar.length > 1">
                             <ol style="margin-left:-25px;">
                                 <li v-for="(v,k) in dinasboppengumpuldata.dasar" :key="k">
                                     {{ v }}
@@ -32,7 +32,9 @@
                             </ol>
                         </div>
                         <div v-else>
-                            {{ dinasboppengumpuldata.dasar[0] }}
+                            <span v-if="dinasboppengumpuldata.dasar !== undefined">
+                                {{ dinasboppengumpuldata.dasar[0] }}
+                            </span>
                         </div>
                     </td>
                 </tr>
@@ -43,7 +45,7 @@
                 <tr>
                     <td style="width:15%;"><b>Tujuan Pemeriksaan</b></td>
                     <td>
-                        <div v-if="dinasboppengumpuldata.untuk.length > 1">
+                        <div v-if="dinasboppengumpuldata.untuk !== undefined && dinasboppengumpuldata.untuk.length > 1">
                             <ol style="margin-left:-25px;">
                                 <li v-for="(v,k) in dinasboppengumpuldata.untuk" :key="k">
                                     {{ v }}
@@ -51,7 +53,9 @@
                             </ol>
                         </div>
                         <div v-else>
-                            {{ dinasboppengumpuldata.untuk[0] }}
+                            <span v-if="dinasboppengumpuldata.untuk !== undefined">
+                                {{ dinasboppengumpuldata.untuk[0] }}
+                            </span>
                         </div>
                     </td>
                 </tr>
@@ -274,7 +278,7 @@
         },
         created() {
             this.isLoading = true;
-            if (this.dinasboppengumpuldata === null) {
+            if (this.dinasboppengumpuldata === null || this.dinasboppengumpuldata === undefined) {
                 this.emptyData = true;
             } else {
                 this.emptyData = false;
@@ -294,6 +298,7 @@
         },
         mounted() {
             this.isLoading = false;
+            console.log(this.dinasboppengumpuldata);
         }
     };
 </script>
