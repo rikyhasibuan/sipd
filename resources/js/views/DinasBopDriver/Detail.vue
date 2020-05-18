@@ -57,7 +57,7 @@
                                 <b>TUJUAN</b> : <br>
                                 <div v-if="v.tujuan.length > 1">
                                     <ul style="margin-left:-25px;">
-                                        <li v-for="d in v.dasar" :value="d" :key="d">{{ d }}</li>
+                                        <li v-for="d in v.tujuan" :value="d" :key="d">{{ d }}</li>
                                     </ul>
                                 </div>
                                 <div v-else>
