@@ -43,7 +43,7 @@
                                             <div class="form-group col-md-6">
                                                 <select v-model="search.bulan" class="form-control">
                                                     <option value="">Pilih Bulan</option>
-                                                    <option v-for="(v,k) in this.belanja_data" :value="k" :key="k">{{ v }}</option>
+                                                    <option v-for="(v,k) in this.bulan_data" :value="k" :key="k">{{ v }}</option>
                                                 </select>
                                             </div>
                                         </div>

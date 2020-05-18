@@ -70,7 +70,7 @@ class HarianController extends Controller
         $data['link'] = $this->link;
         $data['harian'] = $harian;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api . '?nip='.$this->_nip.'&id=' . $bop->id);
+        $data['api'] = url($this->api . '?nip='.$this->_nip.'&id=' . $harian->id);
         $data['act'] = 'edit';
         $data['kabkota'] = $kabkota;
         $data['route'] = url($this->route);

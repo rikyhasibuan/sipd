@@ -31,7 +31,7 @@ class HargaBbmController extends Controller
         try {
             $hargabbm = HargaBbm::find($request['id']);
             $hargabbm->harga_perliter = $request->input('harga_perliter');
-            $hargabbm->updated_at = date('Y-m-d H:i:s');
+            //$hargabbm->updated_at = date('Y-m-d H:i:s');
             if ($hargabbm->save()) {
                 $payload = [
                     'page' => 'Harga BBM',
