@@ -160,6 +160,7 @@ class DinasBopController extends Controller
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api);
         $data['route'] = url($this->route);
+        $data['access'] = $this->access;
         return View::make('dinasbop.detail', $data);
     }
 

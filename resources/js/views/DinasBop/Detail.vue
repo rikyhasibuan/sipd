@@ -54,6 +54,7 @@
                                 :dinasboptim = dinasboptim
                                 :route = route
                                 :print_action = print_action
+                                :access = access
                                 :api = api>
                             </dinasboptim-detail>
                         </div>
@@ -63,6 +64,7 @@
                                 :dinasbopinspektur=dinasbopinspektur
                                 :route=route
                                 :print_action=print_action
+                                :access=access
                                 :api=api>
                             </dinasbopinspektur-detail>
                         </div>
@@ -72,6 +74,7 @@
                                 :dinasbopsekretaris = dinasbopsekretaris
                                 :route = route
                                 :print_action = print_action
+                                :access=access
                                 :api = api>
                             </dinasbopsekretaris-detail>
                         </div>
@@ -81,6 +84,7 @@
                                 :dinasbopdriver = dinasbopdriver
                                 :route = route
                                 :print_action = print_action
+                                :access=access
                                 :api = api>
                             </dinasbopdriver-detail>
                         </div>
@@ -90,6 +94,7 @@
                                 :dinasbopreviu = dinasbopreviu
                                 :route = route
                                 :print_action = print_action
+                                :access=access
                                 :api = api>
                             </dinasbopreviu-detail>
                         </div>
@@ -99,6 +104,7 @@
                                 :dinasbopsupervisi = dinasbopsupervisi
                                 :route = route
                                 :print_action = print_action
+                                :access=access
                                 :api = api>
                             </dinasbopsupervisi-detail>
                         </div>
@@ -109,6 +115,7 @@
                                 :dinasboptimpengumpuldata=dinasboptimpengumpuldata
                                 :route=route
                                 :print_action=print_action
+                                :access=access
                                 :api=api>
                             </dinasboppengumpuldata-detail>
                         </div>
@@ -163,6 +170,7 @@
             'dinasboptimpengumpuldata',
             'route',
             'print_action',
+            'access',
             'api'
         ],
         methods: {

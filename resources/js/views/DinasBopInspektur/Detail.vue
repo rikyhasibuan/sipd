@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="pull-left">
-                    <a :href="route + '/inspektur/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2"><i class="fa fa-plus"></i> Tambah Data</a>
+                    <a v-if="access.write === 1" :href="route + '/inspektur/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2"><i class="fa fa-plus"></i> Tambah Data</a>
                 </div>
             </div>
         </div>
@@ -78,7 +78,7 @@
                                     {{ v.inspektur.hari }} hari x Rp.{{ v.inspektur.biaya | rupiah }} = Rp.{{ v.inspektur.total | rupiah }}
                                 </td>
                                 <td style="text-align: center; vertical-align:middle;">
-                                    <div>
+                                    <div style="text-align: center;" v-if="(access.update === 1) & (access.delete === 1)">
                                         <a :href="route + '/inspektur/edit?dinasbop='+ dinasbop.id +'&id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
                                             <i class="fa fa-wrench"></i> Ubah
                                         </a>
@@ -86,6 +86,22 @@
                                             class="btn btn-sm btn-danger">
                                             <i class="fa fa-trash-o"></i> Hapus
                                         </a>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default"><i class="fa fa-print"></i> Print</button>
+                                            <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                                <div class="dropdown-menu" role="menu">
+                                                    <a class="dropdown-item" href="#" @click="print_sp(v.id)">Surat Perintah</a>
+                                                    <a class="dropdown-item" href="#" @click="print_spd(v.id)">Surat Perjalanan Dinas (SPD)</a>
+                                                    <a class="dropdown-item" href="#" @click="print_rbpd(v.id)">Rincian Biaya Perjalanan Dinas</a>
+                                                    <a class="dropdown-item" href="#" @click="print_dpbo(v.id)">Daftar Pembayaran</a>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center;" v-else>
+                                        <button class="btn btn-sm btn-warning disabled mr-sm-1"><i class="fa fa-wrench"></i> Ubah</button>
+                                        <button class="btn btn-sm btn-danger disabled"><i class="fa fa-trash-o"></i> Hapus</button>
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-default"><i class="fa fa-print"></i> Print</button>
                                             <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
@@ -156,7 +172,7 @@ export default {
             total_anggaran_inspektur : 0
         }
     },
-    props: ['dinasbop','dinasbopinspektur', 'route', 'print_action', 'api'],
+    props: ['dinasbop','dinasbopinspektur', 'route', 'print_action', 'api', 'access'],
     methods: {
         print_sp(id) {
             let new_window = window.open();

@@ -21,7 +21,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <select v-model="search.skpd" class="form-control">
+                                                <select v-model="search.kabkota" class="form-control">
                                                     <option value="">Pilih Kabupaten / Kota</option>
                                                     <option v-for="v in this.kabkota_data" :value="v.id" :key="v.id">{{ v.nama_kabkota }}</option>
                                                 </select>

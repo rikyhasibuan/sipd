@@ -168,11 +168,6 @@
                 if(this.tim.lampiran !== '') {
                     formData.append('lampiran', this.tim.lampiran);
                 }
-
-                /*  for( var i = 0; i < this.lampiran.length; i++ ){
-                    let file = this.lampiran[i];
-                    formData.append('lampiran[' + i + ']', file);
-                } */
                 return formData;
             },
             onSubmit(evt) {
@@ -202,7 +197,7 @@
                 const irban = evt.target.value;
 
                 // ambil data auditan berdasarkan irban
-                service.fetchData('../../api/ajax/dinasbop/tujuan/'+ irban)
+                service.fetchData('../../api/ajax/dinasbop/tujuan?dinas=tim&act=create&dinasbop='+this.dinasbop+'&irban='+ irban)
                 .then(response => {
                     this.tim.auditan = '';
                     this.audit_data = response;
@@ -214,7 +209,7 @@
                 });
 
                 // ambil data personil berdasarkan irban
-                service.fetchData('../../api/ajax/dinasbop/personil/'+ irban)
+                service.fetchData('../../api/ajax/dinasbop/personil?irban='+ irban)
                 .then(response => {
                     this.tim.wakilpenanggungjawab = '';
                     this.tim.pengendaliteknis = '';
@@ -246,7 +241,7 @@
             const irban = this.dinasboptim.irban_id;
 
             // ambil data auditan berdasarkan irban
-            service.fetchData('../../api/ajax/dinasbop/tujuan/'+ irban)
+            service.fetchData('../../api/ajax/dinasbop/tujuan?dinas=tim&act=update&dinasbop='+this.dinasbop+'&irban='+ irban)
             .then(response => {
                 this.audit_data = response;
             })
@@ -255,7 +250,7 @@
             });
 
             // ambil data personil berdasarkan irban
-            service.fetchData('../../api/ajax/dinasbop/personil/'+ irban)
+            service.fetchData('../../api/ajax/dinasbop/personil?irban='+ irban)
             .then(response => {
                 this.personil_data = response;
                 this.personil_data.anggota.forEach(item => {

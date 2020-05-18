@@ -5,20 +5,22 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <v-alert :alert=alert></v-alert>
+                            <transition name="fade">
+                                <v-alert :alert=alert></v-alert>
+                            </transition>
                             <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
                             <form method="POST" v-on:submit.prevent="onSubmit">
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Kode Program *</label>
-                                        <input type="text" class="form-control" v-model="program.kode_program" required="required">
+                                        <input type="text" class="form-control" v-model="program.kode_program" :class="{ 'is-invalid': validasi.kode_program }">
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Nama Program *</label>
-                                        <input type="text" class="form-control" v-model="program.nama_program" required="required">
+                                        <input type="text" class="form-control" v-model="program.nama_program" :class="{ 'is-invalid': validasi.nama_program }">
                                     </div>
                                 </div>
 
@@ -26,6 +28,12 @@
                                     <div class="form-group col-md-12">
                                         <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Simpan Data</button>
                                         <a :href="route" class="btn btn-danger"><i class="fa fa-arrow-left"></i> Kembali</a>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <b>*) Wajib Diisi</b>
                                     </div>
                                 </div>
                             </form>
@@ -47,10 +55,15 @@
                     'kode_program': '',
                     'nama_program': ''
                 },
+                validasi: {
+                    'kode_program': '',
+                    'nama_program': ''
+                },
                 alert: {
                     error: false,
                     save: false,
-                    duplicate: false
+                    duplicate: false,
+                    validate:false
                 },
                 isLoading: false
             }
@@ -59,17 +72,30 @@
         methods: {
             onSubmit(evt) {
                 evt.preventDefault();
-                this.isLoading = true;
-                service.postData(this.api, this.program)
+
+                this.alert.error = false;
+                this.alert.duplicate = false;
+                this.alert.save = false;
+                this.alert.validate = false;
+
+                let validasi = this.validate();
+
+                if (validasi === true) {
+                    this.isLoading = true;
+                    service.postData(this.api, this.program)
                     .then(result => {
                         this.response(result);
                     }).catch(error => {
                         this.alert.error = true;
                         this.alert.duplicate = false;
                         this.alert.save = false;
-                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                        window.scroll({top: 0, left: 0, behavior: 'smooth'});
                         console.log(error);
                     });
+                } else {
+                    this.alert.validate = true;
+                    setTimeout(() => this.alert.validate = false, 2000);
+                }
             },
             response(result) {
                 setTimeout(() => { this.isLoading = false }, 1000);
@@ -90,6 +116,29 @@
             reset() {
                 this.program.kode_program = '';
                 this.program.nama_program = '';
+            },
+            validate() {
+                let condition = 0;
+
+                if (this.program.kode_program.length === 0) {
+                    this.validasi.kode_program = true;
+                    condition++;
+                } else {
+                    this.validasi.kode_program = false;
+                }
+
+                if (this.program.nama_program.length === 0) {
+                    this.validasi.nama_program = true;
+                    condition++;
+                } else {
+                    this.validasi.nama_program = false;
+                }
+
+                if (condition > 0) {
+                    return false;
+                } else {
+                    return true;
+                }
             }
         },
         created() {

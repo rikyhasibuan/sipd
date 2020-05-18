@@ -53,7 +53,7 @@ export default {
             isLoading: false
         }
     },
-    props: ['api','irban_data','skpd_data','route'],
+    props: ['api','irban_data','kabkota_data','route'],
     methods: {
         reset() {
             this.irbankabkota.kabkota_id = '';

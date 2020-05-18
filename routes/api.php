@@ -21,8 +21,8 @@ Route::get('ajax/belanja/{kegiatan}', 'Api\AjaxController@show_belanja_by_kegiat
 Route::post('ajax/sisa_anggaran', 'Api\AjaxController@show_sisa_anggaran');
 Route::post('ajax/total_anggaran', 'Api\AjaxController@show_total_anggaran');
 Route::post('ajax/golongan', 'Api\AjaxController@show_golongan_by_pangkat');
-Route::get('ajax/dinasbop/tujuan/{irban}', 'Api\AjaxController@show_tujuan_bop');
-Route::get('ajax/dinasbop/personil/{irban}', 'Api\AjaxController@show_personil_bop');
+Route::get('ajax/dinasbop/tujuan', 'Api\AjaxController@show_tujuan_bop');
+Route::get('ajax/dinasbop/personil', 'Api\AjaxController@show_personil_bop');
 Route::get('ajax/dinasregular/tujuan/{irban}', 'Api\AjaxController@show_tujuan_regular');
 Route::get('ajax/dinasregular/personil/{irban}', 'Api\AjaxController@show_personil_regular');
 Route::post('ajax/totalhargabbm', 'Api\AjaxController@show_harga_bbm');

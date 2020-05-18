@@ -22,7 +22,7 @@ class PegawaiController extends Controller
         try {
             $_query = ($request['q'] !== '') ? $request['q'] : '';
             $_pangkat = ($request['pangkat'] !== '') ? $request['pangkat'] : '';
-            $_golongan = ($request['golongan'] !== '') ? $this->common->join_golongan($request['golongan']) : '';
+            $_golongan = ($request['golongan'] !== '') ? $this->_common->join_golongan($request['golongan']) : '';
             $_jabatan = ($request['jabatan'] !== '') ? $request['jabatan'] : '';
             $_eselon = ($request['eselon'] !== '') ? $request['eselon'] : '';
 

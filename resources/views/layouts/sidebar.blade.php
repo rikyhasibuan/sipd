@@ -172,20 +172,20 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a @if($link=='profile' ) class="nav-link active" @else class="nav-link" @endif
-                        href="{!! url('profile') !!}">
-                            <i class="nav-icon fa fa-lock"></i>
-                            <p>Ganti Password</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{!! url('logout') !!}">
-                            <i class="nav-icon fa fa-sign-out"></i>
-                            <p>Log Out</p>
-                        </a>
-                    </li>
                 @endif
+                <li class="nav-item">
+                    <a @if($link=='profile' ) class="nav-link active" @else class="nav-link" @endif
+                    href="{!! url('profile') !!}">
+                        <i class="nav-icon fa fa-lock"></i>
+                        <p>Ganti Password</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{!! url('logout') !!}">
+                        <i class="nav-icon fa fa-sign-out"></i>
+                        <p>Log Out</p>
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>

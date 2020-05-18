@@ -38,22 +38,27 @@ class UserController extends Controller
 
     public function post_data(Request $request)
     {
-        $user = new User();
-        $user->nip = $request->input('nip');
-        $user->password = md5('inspektorat');
-        $user->level_id = $request->input('level_id');
-        $user->status = $request->input('status');
-        $user->created_at = date('Y-m-d H:i:s');
-        if ($user->save()) {
-            $payload = [
-                'page' => 'User',
-                'message' => 'User dengan NIP '.$request['nip'].' menambahkan data user baru'
-            ];
-            $this->_common->generate_log($payload);
+        $check = User::where(['nip' => $request->input('nip')])->count();
+        if ($check == 0) {
+            $user = new User();
+            $user->nip = $request->input('nip');
+            $user->password = md5('inspektorat');
+            $user->level_id = $request->input('level_id');
+            $user->status = $request->input('status');
+            $user->created_at = date('Y-m-d H:i:s');
+            if ($user->save()) {
+                $payload = [
+                    'page' => 'User',
+                    'message' => 'User dengan NIP ' . $request['nip'] . ' menambahkan data user baru'
+                ];
+                $this->_common->generate_log($payload);
 
-            return response()->json(['status'=>'ok'], 200);
+                return response()->json(['status' => 'ok'], 200);
+            } else {
+                return response()->json(['status' => 'failed'], 500);
+            }
         } else {
-            return response()->json(['status'=>'failed'], 500);
+            return response()->json(['status' => 'duplicate'], 200);
         }
     }
 

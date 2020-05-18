@@ -56,10 +56,10 @@
     <div class="row">
         <div class="col-md-12">
             <div class="pull-left">
-                <a :href="route + '/tim/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Tim</a>
+                <a v-if="access.write === 1" :href="route + '/tim/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Tim</a>
                 <span v-if="dinasboptim.length > 0">
-                <a class="btn btn-default mb-2 mr-2" href="#" @click="print_personil_all(dinasbop.id)">
-                    <i class="fa fa-users"></i> Daftar Personil</a>
+                <a v-if="access.write === 1" class="btn btn-default mb-2 mr-2" href="#" @click="print_personil_all(dinasbop.id)">
+                    <i class="fa fa-users"></i> Cetak Daftar Personil</a>
                 </span>
             </div>
         </div>
@@ -143,7 +143,7 @@
                                 </div>
                             </td>
                             <td style="text-align: center; vertical-align:middle;">
-                                <div>
+                                <div style="text-align: center;" v-if="(access.update === 1) & (access.delete === 1)">
                                     <a :href="route + '/tim/edit?dinasbop='+ dinasbop.id +'&id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
                                         <i class="fa fa-wrench"></i> Ubah
                                     </a>
@@ -151,6 +151,22 @@
                                         class="btn btn-sm btn-danger">
                                         <i class="fa fa-trash-o"></i> Hapus
                                     </a>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default"><i class="fa fa-print"></i> Print</button>
+                                        <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                            <div class="dropdown-menu" role="menu">
+                                                <a class="dropdown-item" href="#" @click="print_sp(v.id)">Surat Perintah</a>
+                                                <a class="dropdown-item" href="#" @click="print_spd(v.id)">Surat Perjalanan Dinas (SPD)</a>
+                                                <a class="dropdown-item" href="#" @click="print_rbpd(v.id)">Rincian Biaya Perjalanan Dinas</a>
+                                                <a class="dropdown-item" href="#" @click="print_dpbo(v.id)">Daftar Pembayaran</a>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div style="text-align: center;" v-else>
+                                    <button class="btn btn-sm btn-warning disabled mr-sm-1"><i class="fa fa-wrench"></i> Ubah</button>
+                                    <button class="btn btn-sm btn-danger disabled"><i class="fa fa-trash-o"></i> Hapus</button>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default"><i class="fa fa-print"></i> Print</button>
                                         <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
@@ -200,7 +216,7 @@ export default {
             id:''
         }
     },
-    props: ['dinasbop', 'dinasboptim', 'route', 'print_action', 'api'],
+    props: ['dinasbop', 'dinasboptim', 'route', 'print_action', 'api', 'access'],
     methods: {
         print_sp(id) {
             let new_window = window.open();
@@ -233,7 +249,7 @@ export default {
         deleteData(id) {
             service.deleteData(this.api + '/tim/' + this.dinasbop.id + '/' + id)
             .then(response => {
-                if(response.status === 'OK') {
+                if(response.status === 'ok') {
                     this.alert.delete = true;
                     $('#deletemodal').modal('hide');
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });

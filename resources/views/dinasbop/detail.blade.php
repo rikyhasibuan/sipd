@@ -12,6 +12,7 @@
             :dinasboppengumpuldata = '{{ json_encode($dinasboppengumpuldata) }}'
             :dinasboptimpengumpuldata = '{{ json_encode($dinasboptimpengumpuldata) }}'
             :route = '{{ json_encode($route) }}'
+            :access = '{{ json_encode($access) }}'
             :api = '{{ json_encode($api) }}'>
         </dinasbop-detail>
     </div>

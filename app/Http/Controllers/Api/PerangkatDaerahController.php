@@ -42,7 +42,7 @@ class PerangkatDaerahController extends Controller
                 if ($skpd->save()) {
                     return response()->json(['status' => 'ok'], 200);
                 } else {
-                    return response()->json(['status' => 'FAILED'], 500);
+                    return response()->json(['status' => 'failed'], 500);
                 }
             } else {
                 return response()->json(['status' => 'duplicate'], 200);
@@ -52,7 +52,7 @@ class PerangkatDaerahController extends Controller
         }
     }
 
-    public function putData(Request $request)
+    public function put_data(Request $request)
     {
         try {
             $skpd = Skpd::find($request->input('id'));
@@ -64,21 +64,21 @@ class PerangkatDaerahController extends Controller
             if ($skpd->save()) {
                 return response()->json(['status' => 'ok', 'skpd' => $skpd], 200);
             } else {
-                return response()->json(['status' => 'FAILED'], 500);
+                return response()->json(['status' => 'failed'], 500);
             }
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
-    public function deleteData(Request $request)
+    public function delete_data(Request $request)
     {
         try {
             $skpd = Skpd::find($request['id']);
             if ($skpd->delete()) {
                 return response()->json(['status' => 'ok'], 200);
             } else {
-                return response()->json(['status' => 'FAILED'], 500);
+                return response()->json(['status' => 'failed'], 500);
             }
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

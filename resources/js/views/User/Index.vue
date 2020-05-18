@@ -186,7 +186,7 @@ export default {
         deleteData(id) {
             service.deleteData(this.api + '?nip='+this.usernip+'&id=' + id)
             .then(response => {
-                if(response.status === 'OK') {
+                if(response.status === 'ok') {
                     this.alert.delete = true;
                     $('#deletemodal').modal('hide');
                     this.fetchData();

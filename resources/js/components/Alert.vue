@@ -18,9 +18,11 @@
         <div class="alert alert-success" v-if="alert.update === true" style="text-align: center;">
             <i class="fa fa-exclamation-triangle"></i> DATA BERHASIL DIPERBAHARUI!
         </div>
-        <div class="alert alert-success" v-if="alert.reg === true">
-            <h4><i class="icon fa fa-send-o"></i> Konsultasi Berhasil Dikirim!</h4>
-            Tim kami akan segera mengkaji konsultasi Anda. Mohon tunggu respon dari kami dalam 1-2 hari kerja. Terima Kasih.
+        <div class="alert alert-danger" v-if="alert.validate === true" style="text-align: center;">
+            <i class="fa fa-exclamation-triangle"></i> SILAHKAN PERIKSA KEMBALI FORM ANDA!
+        </div>
+        <div class="alert alert-danger" v-if="alert.validatepassword === true" style="text-align: center;">
+            <i class="fa fa-exclamation-triangle"></i> PASSWORD TIDAK SAMA! SILAHKAN ULANGI KEMBALI
         </div>
     </div>
 </template>

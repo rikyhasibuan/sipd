@@ -3,19 +3,21 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <v-alert :alert="alert"></v-alert>
+                    <transition name="fade">
+                        <v-alert :alert=alert></v-alert>
+                    </transition>
                     <form method="POST" class="form-vertical" v-on:submit.prevent="onSubmit">
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label>Password Baru</label>
-                                <input type="password" class="form-control" v-model="backuser.password" placeholder="Masukkan Password Baru">
+                                <input type="password" class="form-control" :class="{ 'is-invalid': validasi.password }" v-model="backuser.password" placeholder="Masukkan Password Baru">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label>Konfirmasi Password</label>
-                                <input type="password" class="form-control" v-model="backuser.repassword" placeholder="Konfirmasi Password Baru">
+                                <input type="password" class="form-control" :class="{ 'is-invalid': validasi.repassword }" v-model="backuser.repassword" placeholder="Konfirmasi Password Baru">
                             </div>
                         </div>
 
@@ -33,53 +35,114 @@
 
 <script>
 
-import service from './../services.js';
-export default {
-    data() {
-        return {
-            isLoading:false,
-            alert: {
-              error:false,
-              update:false
-            },
-            backuser: {
-                password:'',
-                repassword:'',
-                id : this.$cookies.get('id')
-            }
-        }
-    },
-    props: ['api','user'],
-    methods: {
-        formReset() {
-            this.backuser.password = '';
-            this.backuser.repassword = '';
-        },
-        onSubmit () {
-            this.isLoading = true;
-            service.putData(this.api, this.backuser)
-            .then(result => {
-                if (result.status === 'ok') {
-                    this.alert.error = false;
-                    this.alert.update = true;
-                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-                    this.formReset();
-                    setTimeout(() => this.alert.update = false, 5000);
+    import service from './../services.js';
+    export default {
+        data() {
+            return {
+                isLoading:false,
+                alert: {
+                    error:false,
+                    update:false,
+                    validate:false,
+                    validatepassword:false
+                },
+                backuser: {
+                    password:'',
+                    repassword:'',
+                    id : this.$cookies.get('id')
+                },
+                validasi: {
+                    password:'',
+                    repassword:''
                 }
-            }).catch(error => {
-                this.alert.error = true;
+            }
+        },
+        props: ['api','user'],
+        methods: {
+            formReset() {
+                this.backuser.password = '';
+                this.backuser.repassword = '';
+            },
+            onSubmit () {
+                this.alert.error = false;
                 this.alert.update = false;
-                window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-                console.log(error);
-            });
+                this.alert.validate = false;
+                this.alert.validatepassword = false;
+
+                let validasi = this.validate();
+                let validasi_password = this.validatePassword();
+                if (validasi === true && validasi_password === true) {
+                    this.isLoading = true;
+                    service.putData(this.api, this.backuser)
+                    .then(result => {
+                        if (result.status === 'ok') {
+                            this.alert.error = false;
+                            this.alert.update = true;
+                            window.scroll({top: 0, left: 0, behavior: 'smooth'});
+                            this.formReset();
+                            setTimeout(() => this.alert.update = false, 5000);
+                        }
+                    }).catch(error => {
+                        this.alert.error = true;
+                        this.alert.update = false;
+                        window.scroll({top: 0, left: 0, behavior: 'smooth'});
+                        console.log(error);
+                    });
+                } else if (validasi_password === false) {
+                    this.alert.error = false;
+                    this.alert.update = false;
+                    this.alert.validate = false;
+                    this.alert.validatepassword = true;
+                    setTimeout(() => this.alert.validatepassword = false, 3000);
+                } else if (validasi === false) {
+                    this.alert.error = false;
+                    this.alert.update = false;
+                    this.alert.validate = true;
+                    this.alert.validatepassword = false;
+                    setTimeout(() => this.alert.validate = false, 3000);
+                }
+                this.isLoading = false;
+            },
+            validatePassword() {
+                if (this.backuser.password === this.backuser.repassword) {
+                    this.validasi.password = false;
+                    this.validasi.repassword = false;
+                    return true;
+                } else {
+                    this.validasi.password = true;
+                    this.validasi.repassword = true;
+                    return false;
+                }
+            },
+            validate() {
+                let condition = 0;
+
+                if (this.backuser.password.length === 0) {
+                    this.validasi.password = true;
+                    condition++;
+                } else {
+                    this.validasi.password = false;
+                }
+
+                if (this.backuser.repassword.length === 0) {
+                    this.validasi.repassword = true;
+                    condition++;
+                } else {
+                    this.validasi.repassword = false;
+                }
+
+                if (condition > 0) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        },
+        created() {
+            this.isLoading = true;
+        },
+        mounted() {
             this.isLoading = false;
         }
-    },
-    created() {
-        this.isLoading = true;
-    },
-    mounted() {
-        this.isLoading = false;
-    }
-};
+    };
 </script>

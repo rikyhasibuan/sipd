@@ -11,7 +11,7 @@
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Nomor Surat Perintah *</label>
-                                        <input type="text" class="form-control" v-model="dinasboptim.nomor_sp" placeholder="Isi Nomor Surat Perintah" required="required">
+                                        <input type="text" class="form-control" v-model="dinasboptim.nomor_sp" placeholder="Isi Nomor Surat Perintah" required>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Tanggal Surat Perintah *</label>
@@ -21,14 +21,14 @@
                                             v-model="dinasboptim.tgl_sp"
                                             :config="options"
                                             class="form-control"
-                                            placeholder="Tanggal Surat Perintah" autocomplete="off">
+                                            placeholder="Tanggal Surat Perintah" autocomplete="off" required>
                                         </date-picker>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Irban *</label>
-                                        <select v-model="dinasboptim.irban_id" @change="onChangeIrban($event)" class="form-control" required="required">
+                                        <select v-model="dinasboptim.irban_id" @change="onChangeIrban($event)" class="form-control" required>
                                             <option value="">Pilih Irban</option>
                                             <option v-for="v in this.irban_data" :value="v.id" :key="v.id">{{ v.nama_irban }}</option>
                                         </select>
@@ -36,7 +36,7 @@
 
                                     <div class="form-group col-md-6">
                                         <label>Auditan *</label>
-                                        <select v-model="dinasboptim.auditan" class="form-control" required="required">
+                                        <select v-model="dinasboptim.auditan" class="form-control" required>
                                             <option value="">Pilih Auditan</option>
                                             <optgroup v-for="(k,v) in this.audit_data" :key="v" :label="v">
                                                 <option v-for="val in k" :key="val" :value="val">{{ val }}</option>
@@ -48,7 +48,7 @@
                                 <div class="row">
                                     <div class="form-group col-md-4">
                                         <label>Wakil Penanggung Jawab *</label>
-                                        <select v-model="dinasboptim.wakilpenanggungjawab" class="form-control" required="required">
+                                        <select v-model="dinasboptim.wakilpenanggungjawab" class="form-control" required>
                                             <option value="">Pilih Wakil Penanggung Jawab</option>
                                             <option v-for="v in personil_data.wakilpenanggungjawab" :key="v.id" :value="v.nip">
                                                 {{ v.nama }} - {{ v.jabatan }}
@@ -57,7 +57,7 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Pengendali Teknis *</label>
-                                        <select v-model="dinasboptim.pengendaliteknis" class="form-control" required="required">
+                                        <select v-model="dinasboptim.pengendaliteknis" class="form-control" required>
                                             <option value="">Pilih Pengendali Teknis</option>
                                             <option v-for="v in personil_data.pengendaliteknis" :key="v.id" :value="v.nip">
                                                 {{ v.nama }} - {{ v.jabatan }}
@@ -66,7 +66,7 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Ketua Tim *</label>
-                                        <select v-model="dinasboptim.ketuatim" class="form-control" required="required">
+                                        <select v-model="dinasboptim.ketuatim" class="form-control" required>
                                             <option value="">Pilih Ketua Tim</option>
                                             <option v-for="v in personil_data.ketuatim" :key="v.id" :value="v.nip">
                                                 {{ v.nama }} - {{ v.jabatan }}
@@ -95,7 +95,7 @@
                                 <div class="row">
                                     <div class="form-group col-md-12">
                                         <label>Lampirkan Bukti Pendukung (PDF / DOC / JPG / RAR / ZIP) *</label>
-                                        <input type="file" ref="file" required="required" @change="handleFileUpload()">
+                                        <input type="file" ref="file" @change="handleFileUpload()" required>
                                     </div>
                                 </div>
 
@@ -174,10 +174,6 @@
                     formData.append('lampiran', this.dinasboptim.lampiran);
                 }
 
-                /*  for( var i = 0; i < this.lampiran.length; i++ ){
-                    let file = this.lampiran[i];
-                    formData.append('lampiran[' + i + ']', file);
-                } */
                 return formData;
             },
             onSubmit(evt) {
@@ -186,17 +182,17 @@
                 .then(result => {
                     this.response(result);
                 }).catch(error => {
-                    this.$Progress.finish();
-                    this.errorAlert = true;
-                    this.saveAlert = false;
-                    this.duplicateAlert = false;
+                    this.isLoading = false;
+                    this.alert.error = true;
+                    this.alert.duplicate = false;
+                    this.alert.save = false;
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     console.log(error);
                 });
             },
             onChangeIrban(evt) {
                 const irban = evt.target.value;
-                service.fetchData('../../api/ajax/dinasbop/tujuan/'+ irban)
+                service.fetchData('../../api/ajax/dinasbop/tujuan?dinas=tim&act=create&dinasbop='+this.dinasbop+'&irban='+ irban)
                 .then(response => {
                     this.dinasboptim.auditan = '';
                     this.audit_data = response;
@@ -205,7 +201,7 @@
                     console.log(error);
                 });
 
-                service.fetchData('../../api/ajax/dinasbop/personil/'+ irban)
+                service.fetchData('../../api/ajax/dinasbop/personil?irban='+ irban)
                 .then(response => {
                     this.dinasboptim.wakilpenanggungjawab = '';
                     this.dinasboptim.pengendaliteknis = '';

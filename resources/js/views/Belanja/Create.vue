@@ -10,7 +10,7 @@
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label>Program *</label>
-                                    <select v-model="belanja.program_id" @change="onChangeProgram($event)" class="form-control" required="required">
+                                    <select v-model="belanja.program_id" @change="onChangeProgram($event)" class="form-control" required>
                                         <option value="">Pilih Program</option>
                                         <option v-for="v in this.program" :value="v.id" :key="v.id">{{ v.nama_program }}</option>
                                     </select>
@@ -20,7 +20,7 @@
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label>Kegiatan *</label>
-                                    <select v-model="belanja.kegiatan_id" class="form-control" required="required">
+                                    <select v-model="belanja.kegiatan_id" class="form-control" required>
                                         <option value="">Pilih Kegiatan</option>
                                         <option v-for="v in this.kegiatan" :value="v.id" :key="v.id">{{ v.nama_kegiatan }}</option>
                                     </select>
@@ -30,7 +30,7 @@
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label>Kode Belanja *</label>
-                                    <input type="text" class="form-control" v-model="belanja.kode_belanja" required="required">
+                                    <input type="text" class="form-control" v-model="belanja.kode_belanja" required>
                                 </div>
                             </div>
 

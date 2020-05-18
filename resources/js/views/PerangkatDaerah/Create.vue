@@ -71,7 +71,7 @@ export default {
     },
     props: ['api','route','kabkota'],
     methods: {
-        resets() {
+        reset() {
             this.skpd.nama_skpd = '';
             this.skpd.alamat = '';
             this.skpd.kontak = '';
