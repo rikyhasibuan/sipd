@@ -104,7 +104,7 @@ $kpa = $timdinas->get_sekretaris();
                     <td width="25%"></td>
                     <td width="25%">
                         <div style="text-align: center;">
-                            <table cellpadding="2" cellspacing="2" style="width:30%;">
+                            <table cellpadding="2" cellspacing="2">
                                 <tr>
                                     <td width="10%" style="text-align: center;">Bandung, {!! $common->generate_indonesia_date($dinasbopsupervisi->tgl_sp) !!}</td>
                                 </tr>

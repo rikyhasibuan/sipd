@@ -192,7 +192,7 @@ $total = $dinasbopdriver->total;
 						<tr>
 							<td width="25%"></td>
 							<td width="25%">
-								<center>
+								<div style="text-align: center;">
 									<table cellpadding="2" cellspacing="2" style="width:30%;">
 										<tr>
 											<td width="10%" style="text-align: center;">
@@ -200,7 +200,7 @@ $total = $dinasbopdriver->total;
 											</td>
 										</tr>
 									</table>
-								</center>
+								</div>
 							</td>
 						</tr>
 						<tr>

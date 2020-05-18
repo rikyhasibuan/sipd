@@ -95,8 +95,10 @@
                     format: 'YYYY-MM-DD',
                     useCurrent: false,
                     locale: 'id',
-                    minDate:this.dinasbop_data.dari,
-                    maxDate:this.dinasbop_data.sampai
+                    maxDate: moment(this.dinasbop_data.sampai).add(1, 'day'),
+                    disabledDates: [
+                        moment(this.dinasbop_data.sampai).add(1, 'day')
+                    ]
                 },
                 isLoading: false
             }

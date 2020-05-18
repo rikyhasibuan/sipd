@@ -195,7 +195,7 @@ $total = $dinasbopinspektur->total;
                             <table cellpadding="2" cellspacing="2" style="width:30%;">
                                 <tr>
                                     <td width="10%" style="text-align: center;">
-                                        Bandung, {!! strtoupper($common->generate_indonesia_date(dinasbopinspektur->tgl_sp)) !!}
+                                        Bandung, {!! $common->generate_indonesia_date($dinasbopinspektur->tgl_sp) !!}
                                     </td>
                                 </tr>
                             </table>

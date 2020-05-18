@@ -201,7 +201,7 @@ export default {
         deleteData(id) {
             service.deleteData(this.api + '/inspektur/' + this.dinasbop.id + '/' + id)
             .then(response => {
-                if(response.status === 'OK') {
+                if(response.status === 'ok') {
                     this.alert.delete = true;
                     this.inspekturmodal = false;
                     $('#delete_inspektur_modal').modal('hide');

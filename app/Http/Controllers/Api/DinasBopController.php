@@ -349,6 +349,7 @@ class DinasBopController extends Controller
             $dinasbopinspektur->inspektur = $timdinasbop['inspektur'];
             $dinasbopinspektur->total = $timdinasbop['total_anggaran'];
             $dinasbopinspektur->created_at = date('Y-m-d H:i:s');
+
             if ($dinasbopinspektur->save()) {
                 $dinasbop = DinasBop::find($request['dinasbop']);
                 $biaya_bop = $dinasbop->total_anggaran;
