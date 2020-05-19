@@ -118,6 +118,7 @@ class DinasBopController extends Controller
         $timdinas = new TimDinas();
         $parameter = [
                         'dinasbop' => $request['dinasbop'],
+                        'idtim' => '',
                         'auditan'=> $request->input('auditan'),
                         'wakilpenanggungjawab' => $request->input('wakilpenanggungjawab'),
                         'pengendaliteknis' => $request->input('pengendaliteknis'),
@@ -155,8 +156,9 @@ class DinasBopController extends Controller
     {
         $timdinas = new TimDinas();
         $parameter = [
-            'dinasbop'=>$request['id'],
-            'auditan'=> $request->input('auditan'),
+            'dinasbop' => $request['dinasbop'],
+            'idtim' => $request['id'],
+            'auditan' => $request->input('auditan'),
             'wakilpenanggungjawab' => $request->input('wakilpenanggungjawab'),
             'pengendaliteknis' => $request->input('pengendaliteknis'),
             'ketuatim' => $request->input('ketuatim'),
@@ -204,7 +206,6 @@ class DinasBopController extends Controller
             $dinasboptim = DinasBopTim::find($request['id']);
             $dinasbop_id = $dinasboptim->dinasbop_id;
             $anggaran_tim = $dinasboptim->total_anggaran;
-            //Storage::delete($dinasboptim->lampiran);
             if ($dinasboptim->delete()) {
                 $dinasbop = DinasBop::find($dinasbop_id);
                 $total_anggaran = $dinasbop->total_anggaran;
@@ -534,7 +535,7 @@ class DinasBopController extends Controller
     {
         $timdinas = new TimDinas();
         $parameter = [
-            'reviu' => '',
+            'idtim' => '',
             'dinasbop' => $request['dinasbop'],
             'dari'=>$request->input('dari'),
             'sampai'=>$request->input('sampai'),
@@ -578,7 +579,7 @@ class DinasBopController extends Controller
     {
         $timdinas = new TimDinas();
         $parameter = [
-            'reviu' => '',
+            'idtim' => $request['id'],
             'dinasbop' => $request['dinasbop'],
             'dari'=>$request->input('dari'),
             'sampai'=>$request->input('sampai'),
@@ -644,7 +645,7 @@ class DinasBopController extends Controller
     {
         $timdinas = new TimDinas();
         $parameter = [
-            'supervisi' => '',
+            'idtim' => '',
             'dinasbop' => $request['dinasbop'],
             'dari'=>$request->input('dari'),
             'sampai'=>$request->input('sampai'),
@@ -688,7 +689,7 @@ class DinasBopController extends Controller
     {
         $timdinas = new TimDinas();
         $parameter = [
-            'supervisi' => '',
+            'idtim' => $request['id'],
             'dinasbop' => $request['dinasbop'],
             'dari'=>$request->input('dari'),
             'sampai'=>$request->input('sampai'),
@@ -814,7 +815,9 @@ class DinasBopController extends Controller
     {
         $timdinas = new TimDinas();
         $parameter = [
+            'idtim' => '',
             'pengumpuldata' => $request['pengumpuldata'],
+            'dinasbop' => $request['dinasbop'],
             'auditan'=> $request->input('auditan'),
             'wakilpenanggungjawab' => $request->input('wakilpenanggungjawab'),
             'pengendaliteknis' => $request->input('pengendaliteknis'),
@@ -854,9 +857,13 @@ class DinasBopController extends Controller
 
     public function put_pengumpuldata_tim_data(Request $request)
     {
+
+        $dinasboptimpengumpuldata = DinasBopPengumpulDataTim::find($request['id']);
         $timdinas = new TimDinas();
         $parameter = [
-            'pengumpuldata'=>$request['id'],
+            'idtim' => $request['id'],
+            'dinasbop' => $dinasboptimpengumpuldata->dinasbop_id,
+            'pengumpuldata' => $request['pengumpuldata'],
             'auditan'=> $request->input('auditan'),
             'wakilpenanggungjawab' => $request->input('wakilpenanggungjawab'),
             'pengendaliteknis' => $request->input('pengendaliteknis'),
@@ -867,7 +874,6 @@ class DinasBopController extends Controller
 
         $timdinasbop = $timdinas->generate_pengumpuldata_bop($parameter);
 
-        $dinasboptimpengumpuldata = DinasBopPengumpulDataTim::find($request['id']);
         $anggaran_pengumpuldata_lama = $dinasboptimpengumpuldata->total_anggaran;
 
         $dinasboptimpengumpuldata->irban_id = $request->input('irban_id');

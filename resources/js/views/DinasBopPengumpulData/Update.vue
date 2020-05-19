@@ -75,12 +75,17 @@
                 options: {
                     format: 'YYYY-MM-DD',
                     useCurrent: false,
-                    locale: 'id'
+                    locale: 'id',
+                    minDate: this.dinasbop.dari,
+                    maxDate: moment(this.dinasbop.sampai).add(1, 'day'),
+                    disabledDates: [
+                        moment(this.dinasbop.sampai).add(1, 'day')
+                    ]
                 },
                 isLoading: false,
             }
         },
-        props: ['dinasboppengumpuldata', 'api', 'route'],
+        props: ['dinasboppengumpuldata', 'dinasbop', 'api', 'route'],
         methods: {
             onSubmit(evt) {
                 this.isLoading = false;

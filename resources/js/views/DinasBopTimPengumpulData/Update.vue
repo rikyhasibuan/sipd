@@ -181,7 +181,7 @@
             onChangeIrban(evt) {
                 const irban = evt.target.value;
                 // ambil data auditan berdasarkan irban
-                service.fetchData('../../api/ajax/dinasbop/tujuan/'+ irban)
+                service.fetchData('../../api/ajax/dinasbop/tujuan?dinas=tim&act=update&dinasbop='+this.dinasbop+'&irban='+ irban)
                 .then(response => {
                     this.tim.auditan = '';
                     this.audit_data = response;
@@ -193,7 +193,7 @@
                 });
 
                 // ambil data personil berdasarkan irban
-                service.fetchData('../../api/ajax/dinasbop/personil/'+ irban)
+                service.fetchData('../../api/ajax/dinasbop/personil?irban='+ irban)
                 .then(response => {
                     this.tim.wakilpenanggungjawab = '';
                     this.tim.pengendaliteknis = '';
@@ -225,7 +225,7 @@
             const irban = this.dinasboptimpengumpuldata.irban_id;
 
             // ambil data auditan berdasarkan irban
-            service.fetchData('../../api/ajax/dinasbop/tujuan/'+ irban)
+            service.fetchData('../../api/ajax/dinasbop/tujuan?dinas=tim&act=update&dinasbop='+this.dinasbop+'&irban='+ irban)
             .then(response => {
                 this.audit_data = response;
             })
@@ -234,7 +234,7 @@
             });
 
             // ambil data personil berdasarkan irban
-            service.fetchData('../../api/ajax/dinasbop/personil/'+ irban)
+            service.fetchData('../../api/ajax/dinasbop/personil?irban='+ irban)
             .then(response => {
                 this.personil_data = response;
                 this.personil_data.anggota.forEach(item => {
@@ -252,7 +252,6 @@
         },
         mounted() {
             this.isLoading = false;
-            console.log(this.tim.anggota);
         }
     };
 </script>

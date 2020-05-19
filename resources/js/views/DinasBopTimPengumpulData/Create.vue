@@ -174,9 +174,10 @@
                     console.log(error);
                 });
             },
+
             onChangeIrban(evt) {
                 const irban = evt.target.value;
-                service.fetchData('../../api/ajax/dinasbop/tujuan/'+ irban)
+                service.fetchData('../../api/ajax/dinasbop/tujuan?dinas=pengumpuldata&act=create&dinasbop='+this.dinasbop+'&irban='+ irban)
                 .then(response => {
                     this.dinasboptimpengumpuldata.auditan = '';
                     this.audit_data = response;
@@ -185,7 +186,7 @@
                     console.log(error);
                 });
 
-                service.fetchData('../../api/ajax/dinasbop/personil/'+ irban)
+                service.fetchData('../../api/ajax/dinasbop/personil?irban='+ irban)
                 .then(response => {
                     this.dinasboptimpengumpuldata.wakilpenanggungjawab = '';
                     this.dinasboptimpengumpuldata.pengendaliteknis = '';

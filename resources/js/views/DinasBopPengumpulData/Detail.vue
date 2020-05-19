@@ -1,5 +1,5 @@
 <template>
-    <div style="margin-top:25px;" v-if="dinasboppengumpuldata.length > 0">
+    <div style="margin-top:25px;" v-if="emptyData === false">
         <transition name="fade">
             <table class="table table-hover table-striped table-bordered">
                 <tbody>
@@ -62,7 +62,9 @@
                 </tbody>
             </table>
         </transition>
+
         <div style="margin-top:25px;"></div>
+
         <div class="row" >
             <div class="col-md-12">
                 <div class="pull-left" v-if="emptyData === false">
@@ -190,7 +192,7 @@
                     </table>
                 </transition>
                 <!-- tampil modal untuk konfirmasi delete -->
-                <transition>
+                <transition name="fade">
                     <div class="modal" id="pengumpuldatamodal" tabindex="-1" role="dialog">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -294,7 +296,11 @@
         },
         created() {
             this.isLoading = true;
-            if (this.dinasboppengumpuldata === null || this.dinasboppengumpuldata === undefined) {
+
+        },
+        mounted() {
+            this.isLoading = false;
+            if (this.dinasboppengumpuldata.length === 0) {
                 this.emptyData = true;
             } else {
                 this.emptyData = false;
@@ -311,9 +317,6 @@
                     this.total_biaya_tim += this.dinasboptimpengumpuldata[x].total_anggaran;
                 }
             }
-        },
-        mounted() {
-            this.isLoading = false;
         }
     };
 </script>

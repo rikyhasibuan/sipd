@@ -201,7 +201,7 @@ export default {
         deleteData(id) {
             service.deleteData(this.api + '/sekretaris/' + this.dinasbop.id + '/' + id)
             .then(response => {
-                if(response.status === 'OK') {
+                if(response.status === 'ok') {
                     this.alert.delete = true;
                     this.sekretarismodal = false;
                     $('#delete_sekretaris_modal').modal('hide');

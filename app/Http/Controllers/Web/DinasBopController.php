@@ -574,12 +574,14 @@ class DinasBopController extends Controller
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-database"></i> ' . $this->title . '</a>';
         $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data';
 
+        $dinasbop = DinasBop::find($request['dinasbop']);
         $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api . '/pengumpuldata?dinasbop=' . $request['dinasbop']);
         $data['act'] = 'create';
+        $data['dinasbop'] = $dinasbop;
         $data['route'] = url($this->route  .'/detail?id='. $request['dinasbop']);
         return View::make('dinasbop.form_pengumpuldata', $data);
     }
@@ -592,6 +594,7 @@ class DinasBopController extends Controller
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
 
         $dinasboppengumpuldata = DinasBopPengumpuldata::find($request['id']);
+        $dinasbop = DinasBop::find($request['dinasbop']);
 
         $data = array();
         $data['title']  = $this->title;
@@ -601,6 +604,7 @@ class DinasBopController extends Controller
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api . '/pengumpuldata?dinasbop='.$request['dinasbop'].'&id=' . $dinasboppengumpuldata->id);
         $data['act'] = 'edit';
+        $data['dinasbop'] = $dinasbop;
         $data['route'] = url($this->route  .'/detail?id='. $request['dinasbop']);
         return View::make('dinasbop.form_pengumpuldata', $data);
     }

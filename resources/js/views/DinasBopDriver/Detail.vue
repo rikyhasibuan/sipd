@@ -199,7 +199,7 @@ export default {
             this.isLoading = true;
             service.deleteData(this.api + '/driver/' + this.dinasbop.id + '/' + id)
             .then(response => {
-                if(response.status === 'OK') {
+                if(response.status === 'ok') {
                     this.isLoading = false;
                     this.alert.delete = true;
                     this.drivermodal = false;
