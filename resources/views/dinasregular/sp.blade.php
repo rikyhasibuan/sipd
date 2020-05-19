@@ -16,10 +16,6 @@ $kpa = $timdinas->get_sekretaris();
     <style>
         @page  {
             size: auto;
-            margin-top: 0in;
-            margin-left: 0.5in;
-            margin-right: 0.5in;
-            margin-bottom: 0.20in;
         }
         body {
             margin: 0px;

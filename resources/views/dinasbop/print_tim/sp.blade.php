@@ -15,8 +15,8 @@ $inspektur = $timdinas->get_inspektur();
     <link rel="stylesheet" href="{!! asset('css/bootstrap.min.css') !!}">
     <style>
         @media print {
-            @page  {
-                size: auto;
+            @page {
+                size:auto;
             }
             body {
                 margin: 0px;
@@ -48,7 +48,7 @@ $inspektur = $timdinas->get_inspektur();
                 <div style="padding-left:0.5cm;padding-right:0.5cm;">
                     <table cellpadding="2" cellspacing="2" style="width:100%;">
                         <tr>
-                            <td width="7%" style="text-align: left; vertical-align:text-top;">Dasar</td>
+                            <td width="5%" style="text-align: left; vertical-align:text-top;">Dasar</td>
                             <td width="5%" style="text-align: center; vertical-align:text-top;">:</td>
                             <td width="80%" style="text-align: justify; vertical-align:text-top;">
                                 <table cellpadding="2" cellspacing="2" style="width:100%;table-layout:fixed;">
@@ -79,9 +79,11 @@ $inspektur = $timdinas->get_inspektur();
                     <div style="margin-top:20px;"></div>
                     <table cellpadding="2" cellspacing="2" style="width:100%;">
                         <tr>
-                            <td width="7%" style="text-align: left; vertical-align:text-top;">Kepada</td>
+                            <td width="5%" style="text-align: left; vertical-align:text-top;">Kepada</td>
                             <td width="5%" style="text-align: center; vertical-align:text-top;">:</td>
                             <td width="80%" style="text-align: justify;">
+
+
                                 <span style="margin-right:20px;">1.</span>
                                 <span style="margin-right:50px;">Nama</span>
                                 <span style="margin-right:30px;">:</span>
@@ -156,7 +158,7 @@ $inspektur = $timdinas->get_inspektur();
                     <div style="margin-top:5px;"></div>
                     <table cellpadding="2" cellspacing="2" style="width:100%;">
                         <tr>
-                            <td width="7%" style="text-align: left; vertical-align:text-top;">Untuk</td>
+                            <td width="5%" style="text-align: left; vertical-align:text-top;">Untuk</td>
                             <td width="5%" style="text-align: center; vertical-align:text-top;">:</td>
                             <td width="80%" style="text-align: justify; vertical-align:text-top;">
                                 <table cellpadding="2" cellspacing="2" style="width:100%;table-layout:fixed;">
@@ -185,7 +187,7 @@ $inspektur = $timdinas->get_inspektur();
                     <div style="margin-top:5px;"></div>
                     <table cellpadding="2" cellspacing="2" style="width:100%;">
                         <tr>
-                            <td width="7%" style="text-align: left; vertical-align:text-top;">Waktu</td>
+                            <td width="5%" style="text-align: left; vertical-align:text-top;">Waktu</td>
                             <td width="5%" style="text-align: center; vertical-align:text-top;">:</td>
                             <td width="80%" style="text-align: justify; vertical-align:text-top;">
                                 Mulai tanggal {!! $common->generate_indonesia_date($dinasboptim->dinasbop->dari) !!}
