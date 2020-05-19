@@ -62,7 +62,7 @@ class IrbanController extends Controller
     public function put_data(Request $request)
     {
         try {
-            $irban = Bop::find($request['id']);
+            $irban = Irban::find($request['id']);
             $irban->nama_irban = $request->input('nama_irban');
             $irban->updated_at = date('Y-m-d H:i:s');
             if ($irban->save()) {

@@ -90,7 +90,6 @@ export default {
     props: ['level_data', 'pegawai_data', 'api', 'route'],
     methods: {
         onSubmit(evt) {
-            evt.preventDefault();
             this.alert.error = false;
             this.alert.duplicate = false;
             this.alert.save = false;

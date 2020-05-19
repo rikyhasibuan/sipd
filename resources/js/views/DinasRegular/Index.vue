@@ -51,16 +51,16 @@
                                 <thead>
                                     <tr>
                                         <th style="width:20%;text-align:center;">Kegiatan</th>
-                                        <th style="width:2%;text-align:center;">Kodering</th>
-                                        <th style="width:10%;text-align:center;">Waktu</th>
-                                        <th style="width:5%;text-align:center;">Anggaran</th>
+                                        <th style="width:12%;text-align:center;">Belanja</th>
+                                        <th style="width:8%;text-align:center;">Waktu</th>
+                                        <th style="width:5%;text-align:center;">Penyerapan Anggaran</th>
                                         <th style="width:8%;text-align:center;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="v in dinasregular" :key="v.id">
                                         <td><a :href="route + '/detail?id=' + v.id">{{ v.kegiatan.nama_kegiatan }}</a></td>
-                                        <td style="text-align:center;">{{ v.belanja.kode_belanja }}</td>
+                                        <td style="text-align:center;">{{ v.belanja.nama_belanja }}</td>
                                         <td style="text-align:center;">{{ v.dari | moment }} s.d {{ v.sampai | moment }}</td>
                                         <td style="text-align:right;">Rp. {{ (parseInt(v.total_harian) + parseInt(v.total_akomodasi) + parseInt(v.total_transportasi.total)) | rupiah }}</td>
                                         <td>
