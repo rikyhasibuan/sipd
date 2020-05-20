@@ -3,10 +3,10 @@ use App\Libraries\Common;
 use App\Libraries\TimDinas;
 $common = new Common();
 $timdinas = new TimDinas();
-$diff = date_diff(date_create($timpengumpuldata->dinasboppengumpuldata->dari), date_create($timpengumpuldata->dinasboppengumpuldata->sampai));
+$diff = date_diff(date_create($timadministrasi->dinasbopadministrasi->dari), date_create($timadministrasi->dinasbopadministrasi->sampai));
 $durasi = $diff->days + 1;
 $kpa = $timdinas->get_sekretaris();
-$total = $timpengumpuldata->dinasboppengumpuldata->total_anggaran;
+$total = $timadministrasi->dinasbopadministrasi->total_anggaran;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -72,15 +72,15 @@ $total = $timpengumpuldata->dinasboppengumpuldata->total_anggaran;
 							</tr>
 							<tr>
 								<td style="width:5%;">Lampiran SPD Nomor</td>
-								<td style="width:20%;">: {!! $timpengumpuldata->nomor_sp !!}</td>
+								<td style="width:20%;">: {!! $timadministrasi->nomor_sp !!}</td>
 								<td style="width:2%;">Tanggal BKU</td>
 								<td style="width:20%;">: </td>
 							</tr>
 							<tr>
 								<td style="width:5%;">Tanggal</td>
-								<td style="width:20%;">: {!! $common->generate_indonesia_date($timpengumpuldata->tgl_sp) !!}</td>
+								<td style="width:20%;">: {!! $common->generate_indonesia_date($timadministrasi->tgl_sp) !!}</td>
 								<td style="width:2%;">Kodering</td>
-								<td style="width:20%;">: {!! $timpengumpuldata->dinasboppengumpuldata->dinasbop->belanja->kode_belanja !!}</td>
+								<td style="width:20%;">: {!! $timadministrasi->dinasbopadministrasi->dinasbop->belanja->kode_belanja !!}</td>
 							</tr>
 						</table>
 					</center>
@@ -98,8 +98,8 @@ $total = $timpengumpuldata->dinasboppengumpuldata->total_anggaran;
 							<tr>
 								<td style="text-align: center;"></td>
 								<td colspan="3">
-										Perjalanan Dinas {!! $timpengumpuldata->dinasboppengumpuldata->dinasbop->kegiatan->nama_kegiatan !!}, selama {!! $durasi !!} hari dari tanggal {!! $common->generate_indonesia_date($timpengumpuldata->dinasboppengumpuldata->dari) !!}
-										s.d {!! $common->generate_indonesia_date($timpengumpuldata->dinasboppengumpuldata->sampai) !!}.
+										Perjalanan Dinas {!! $timadministrasi->dinasbopadministrasi->dinasbop->kegiatan->nama_kegiatan !!}, selama {!! $durasi !!} hari dari tanggal {!! $common->generate_indonesia_date($timadministrasi->dinasbopadministrasi->dari) !!}
+										s.d {!! $common->generate_indonesia_date($timadministrasi->dinasbopadministrasi->sampai) !!}.
 								</td>
 							</tr>
 							<tr>
@@ -113,20 +113,20 @@ $total = $timpengumpuldata->dinasboppengumpuldata->total_anggaran;
 								<td>
 									<table width="100%" class="table-print table table-borderless">
 										<tr>
-											<td style="width:20%;vertical-align:middle;">{!! $timpengumpuldata->tim['ketuatim']['nama'] !!}</td>
+											<td style="width:20%;vertical-align:middle;">{!! $timadministrasi->tim['ketuatim']['nama'] !!}</td>
 											<td style="width:20%;text-align:center;vertical-align:middle;">Ketua Tim</td>
 											<td style="width:15%;text-align:center;vertical-align:middle;">
-												{!! $timpengumpuldata->tim['ketuatim']['golongan'] !!}
+												{!! $timadministrasi->tim['ketuatim']['golongan'] !!}
 											</td>
 											<td style="width:4%;text-align:center;vertical-align:middle;">
-												{!! $timpengumpuldata->tim['ketuatim']['hari'] !!} hari
+												{!! $timadministrasi->tim['ketuatim']['hari'] !!} hari
 											</td>
 											<td style="width:1%;text-align:center;vertical-align:middle;">x</td>
 											<td style="width:10%;vertical-align:middle;">
-												Rp.{!! $common->rupiah($timpengumpuldata->tim['ketuatim']['biaya']) !!}
+												Rp.{!! $common->rupiah($timadministrasi->tim['ketuatim']['biaya']) !!}
 											</td>
 										</tr>
-										@foreach($timpengumpuldata->tim['anggota'] as $v)
+										@foreach($timadministrasi->tim['anggota'] as $v)
 											<tr>
 												<td style="width:20%;vertical-align:middle;">{!! $v['nama'] !!}</td>
 												<td style="width:20%;text-align:center;vertical-align:middle;">Anggota</td>
@@ -142,10 +142,10 @@ $total = $timpengumpuldata->dinasboppengumpuldata->total_anggaran;
 									<table width="100%" class="table-print table table-borderless">
 										<tr>
 											<td style="text-align:right;vertical-align:middle;">
-												Rp.{!! $common->rupiah($timpengumpuldata->tim['ketuatim']['total']) !!}
+												Rp.{!! $common->rupiah($timadministrasi->tim['ketuatim']['total']) !!}
 											</td>
 										</tr>
-										@foreach($timpengumpuldata->tim['anggota'] as $v)
+										@foreach($timadministrasi->tim['anggota'] as $v)
 											<tr>
 												<td style="text-align:right;vertical-align:middle;">
 													Rp.{!! $common->rupiah($v['total']) !!}
@@ -159,7 +159,7 @@ $total = $timpengumpuldata->dinasboppengumpuldata->total_anggaran;
 										<tr><td style="text-align:center;vertical-align:middle;">Terlampir</td></tr>
 										<tr><td style="text-align:center;vertical-align:middle;">Terlampir</td></tr>
 										<tr><td style="text-align:center;vertical-align:middle;">Terlampir</td></tr>
-										@foreach($timpengumpuldata->tim['anggota'] as $v)
+										@foreach($timadministrasi->tim['anggota'] as $v)
 											<tr><td style="text-align:center;vertical-align:middle;">Terlampir</td></tr>
 										@endforeach
 									</table>
@@ -169,7 +169,7 @@ $total = $timpengumpuldata->dinasboppengumpuldata->total_anggaran;
 								<td style="text-align:center;"></td>
 								<td><b>Jumlah Biaya Operasional Inspektorat</b></td>
 								<td style="text-align: right;vertical-align:middle;">
-									<b>Rp.{!! $common->rupiah($timpengumpuldata->total_anggaran) !!}</b>
+									<b>Rp.{!! $common->rupiah($timadministrasi->total_anggaran) !!}</b>
 								</td>
 								<td></td>
 							</tr>
@@ -200,11 +200,11 @@ $total = $timpengumpuldata->dinasboppengumpuldata->total_anggaran;
 							</tr>
 							<tr>
 								<td colspan="2"><b>Jumlah Total</b></td>
-								<td style="text-align: right; vertical-align:middle;"><b>Rp.{!! $common->rupiah(($timpengumpuldata->total_anggaran) ) !!}</b></td>
+								<td style="text-align: right; vertical-align:middle;"><b>Rp.{!! $common->rupiah(($timadministrasi->total_anggaran) ) !!}</b></td>
 								<td></td>
 							</tr>
 							<tr>
-								<td colspan="4"><b><i>{!! $common->terbilang($timpengumpuldata->total_anggaran) !!} Rupiah</i></b></td>
+								<td colspan="4"><b><i>{!! $common->terbilang($timadministrasi->total_anggaran) !!} Rupiah</i></b></td>
 							</tr>
 						</tbody>
 					</table>
@@ -216,7 +216,7 @@ $total = $timpengumpuldata->dinasboppengumpuldata->total_anggaran;
 									<table cellpadding="2" cellspacing="2" style="width:30%;">
 										<tr>
 											<td width="10%" style="text-align: center;">
-												Bandung, {!! $common->generate_indonesia_date($timpengumpuldata->tgl_sp) !!}
+												Bandung, {!! $common->generate_indonesia_date($timadministrasi->tgl_sp) !!}
 											</td>
 										</tr>
 									</table>
@@ -230,7 +230,7 @@ $total = $timpengumpuldata->dinasboppengumpuldata->total_anggaran;
 										<td width="20%" style="text-align: center;">Telah dibayar sejumlah</td>
 									</tr>
 									<tr>
-										<td width="20%" style="text-align: center;">Rp.{!! $common->rupiah($timpengumpuldata->total_anggaran) !!}</td>
+										<td width="20%" style="text-align: center;">Rp.{!! $common->rupiah($timadministrasi->total_anggaran) !!}</td>
 									</tr>
 									<tr>
 										<td width="20%" style="text-align: center;"><b>Bendahara Pengeluaran Pembantu</b></td>
@@ -239,11 +239,11 @@ $total = $timpengumpuldata->dinasboppengumpuldata->total_anggaran;
 										<td width="10%" style="text-align: center;"><br><br><br></td>
 									</tr>
 									<tr>
-										<td width="10%" style="text-align: center;">{!! $timpengumpuldata->dinasboppengumpuldata->dinasbop->kegiatan->pegawai->nama !!}</td>
+										<td width="10%" style="text-align: center;">{!! $timadministrasi->dinasbopadministrasi->dinasbop->kegiatan->pegawai->nama !!}</td>
 									</tr>
 									<tr>
 										<td width="10%" style="text-align: center;">
-											NIP. {!! $timpengumpuldata->dinasboppengumpuldata->dinasbop->kegiatan->pegawai->nip !!}
+											NIP. {!! $timadministrasi->dinasbopadministrasi->dinasbop->kegiatan->pegawai->nip !!}
 										</td>
 									</tr>
 								</table>
@@ -257,7 +257,7 @@ $total = $timpengumpuldata->dinasboppengumpuldata->total_anggaran;
 									</tr>
 									<tr>
 										<td width="20%" style="text-align: center;">
-											Rp.{!! $common->rupiah($timpengumpuldata->total_anggaran) !!}
+											Rp.{!! $common->rupiah($timadministrasi->total_anggaran) !!}
 										</td>
 									</tr>
 									<tr>
@@ -268,12 +268,12 @@ $total = $timpengumpuldata->dinasboppengumpuldata->total_anggaran;
 									</tr>
 									<tr>
 										<td width="10%" style="text-align: center;">
-											{!! $timpengumpuldata->tim['anggota'][0]['nama'] !!}
+											{!! $timadministrasi->tim['anggota'][0]['nama'] !!}
 										</td>
 									</tr>
 									<tr>
 										<td width="10%" style="text-align: center;">
-											NIP. {!! $timpengumpuldata->tim['anggota'][0]['nip'] !!}
+											NIP. {!! $timadministrasi->tim['anggota'][0]['nip'] !!}
 										</td>
 									</tr>
 								</table>
@@ -288,7 +288,7 @@ $total = $timpengumpuldata->dinasboppengumpuldata->total_anggaran;
 						<table width="100%">
 							<tr>
 								<td width="90%">Ditetapkan sejumlah</td>
-								<td width="10%" style="text-align:right;">Rp.{!! $common->rupiah(($timpengumpuldata->total_anggaran) ) !!}</td>
+								<td width="10%" style="text-align:right;">Rp.{!! $common->rupiah(($timadministrasi->total_anggaran) ) !!}</td>
 							</tr>
 							<tr>
 								<td width="90%">Yang telah dibayar semula</td>
@@ -299,7 +299,7 @@ $total = $timpengumpuldata->dinasboppengumpuldata->total_anggaran;
 							</tr>
 							<tr>
 								<td width="90%">Sisa kurang/lebih</td>
-								<td width="5%" style="text-align:right;">Rp.{!! $common->rupiah(($timpengumpuldata->total_anggaran) ) !!}</td>
+								<td width="5%" style="text-align:right;">Rp.{!! $common->rupiah(($timadministrasi->total_anggaran) ) !!}</td>
 							</tr>
 						</table>
 						<div style="margin-bottom:20px;"></div>

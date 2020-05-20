@@ -40,12 +40,11 @@
                                 <i class="fa fa-user"></i> Pengumpul Data
                             </a>
                         </li>
-                        <!--
                         <li class="nav-item">
                             <a data-toggle="tab" class="nav-link" href="#administrasi" :data-id="'tabadministrasi'" @click="onChangeTabs($event)" :class="(last_tab == 'administrasi') ? 'active' : ''">
                                 <i class="fa fa-user"></i> Pengadministrasi
                             </a>
-                        </li>-->
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div id="tim" class="tab-pane fade" :class="{ 'active': (last_tab == 'tim'), 'show': (last_tab == 'tim') }">
@@ -119,16 +118,17 @@
                                 :api=api>
                             </dinasboppengumpuldata-detail>
                         </div>
-                        <!--
                         <div id="administrasi" class="tab-pane fade" :class="{ 'active': (last_tab == 'administrasi'), 'show': (last_tab == 'administrasi') }">
                             <dinasbopadministrasi-detail
                                 :dinasbop=dinasbop
-                                :dinasbopdriver=dinasbopdriver
+                                :dinasbopadministrasi=dinasbopadministrasi
+                                :dinasboptimadministrasi=dinasboptimadministrasi
                                 :route=route
                                 :print_action=print_action
+                                :access=access
                                 :api=api>
                             </dinasbopadministrasi-detail>
-                        </div>-->
+                        </div>
                     </div>
 
                     <!--
@@ -168,6 +168,8 @@
             'dinasbopsupervisi',
             'dinasboppengumpuldata',
             'dinasboptimpengumpuldata',
+            'dinasbopadministrasi',
+            'dinasboptimadministrasi',
             'route',
             'print_action',
             'access',

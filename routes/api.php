@@ -159,6 +159,13 @@ Route::post('dinasbop/timpengumpuldata', 'Api\DinasBopController@post_pengumpuld
 Route::put('dinasbop/timpengumpuldata', 'Api\DinasBopController@put_pengumpuldata_tim_data');
 Route::delete('dinasbop/timpengumpuldata', 'Api\DinasBopController@delete_pengumpuldata_tim_data');
 
+Route::post('dinasbop/administrasi', 'Api\DinasBopController@post_administrasi_data');
+Route::put('dinasbop/administrasi', 'Api\DinasBopController@put_administrasi_data');
+Route::delete('dinasbop/administrasi', 'Api\DinasBopController@delete_administrasi_data');
+Route::post('dinasbop/timadministrasi', 'Api\DinasBopController@post_administrasi_tim_data');
+Route::put('dinasbop/timadministrasi', 'Api\DinasBopController@put_administrasi_tim_data');
+Route::delete('dinasbop/timadministrasi', 'Api\DinasBopController@delete_administrasi_tim_data');
+
 // dinas regular
 Route::get('dinasregular', 'Api\DinasRegularController@get_data');
 Route::get('dinasregular/{id}', 'Api\DinasRegularController@show_data');

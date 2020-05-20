@@ -120,6 +120,11 @@ Route::get('dinasbop/pengumpuldata/edit', 'Web\DinasBopController@edit_pengumpul
 Route::get('dinasbop/timpengumpuldata/create', 'Web\DinasBopController@create_pengumpuldata_tim');
 Route::get('dinasbop/timpengumpuldata/edit', 'Web\DinasBopController@edit_pengumpuldata_tim');
 
+Route::get('dinasbop/administrasi/create', 'Web\DinasBopController@create_administrasi');
+Route::get('dinasbop/administrasi/edit', 'Web\DinasBopController@edit_administrasi');
+
+Route::get('dinasbop/timadministrasi/create', 'Web\DinasBopController@create_administrasi_tim');
+Route::get('dinasbop/timadministrasi/edit', 'Web\DinasBopController@edit_administrasi_tim');
 
 // dinas regular
 Route::get('dinasregular', 'Web\DinasRegularController@index');

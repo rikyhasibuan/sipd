@@ -230,6 +230,9 @@ Vue.component('dinasbopadministrasi-create', require('./views/DinasBopAdministra
 Vue.component('dinasbopadministrasi-update', require('./views/DinasBopAdministrasi/Update.vue'));
 Vue.component('dinasbopadministrasi-detail', require('./views/DinasBopAdministrasi/Detail.vue'));
 
+Vue.component('dinasboptimadministrasi-create', require('./views/DinasBopTimAdministrasi/Create.vue'));
+Vue.component('dinasboptimadministrasi-update', require('./views/DinasBopTimAdministrasi/Update.vue'));
+
 Vue.component('dinasbopdriver-create', require('./views/DinasBopDriver/Create.vue'));
 Vue.component('dinasbopdriver-update', require('./views/DinasBopDriver/Update.vue'));
 Vue.component('dinasbopdriver-detail', require('./views/DinasBopDriver/Detail.vue'));

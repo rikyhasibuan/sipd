@@ -11,6 +11,8 @@
             :dinasbopsupervisi = '{{ json_encode($dinasbopsupervisi) }}'
             :dinasboppengumpuldata = '{{ json_encode($dinasboppengumpuldata) }}'
             :dinasboptimpengumpuldata = '{{ json_encode($dinasboptimpengumpuldata) }}'
+            :dinasbopadministrasi = '{{ json_encode($dinasbopadministrasi) }}'
+            :dinasboptimadministrasi = '{{ json_encode($dinasboptimadministrasi) }}'
             :route = '{{ json_encode($route) }}'
             :access = '{{ json_encode($access) }}'
             :api = '{{ json_encode($api) }}'>

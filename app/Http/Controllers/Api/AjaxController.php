@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\DinasBopPengumpulDataTim;
+use App\Models\DinasBopAdministrasiTim;
 use App\Models\DinasBopTim;
 use App\Models\Kegiatan;
 use App\Models\Belanja;
@@ -144,6 +145,49 @@ class AjaxController extends Controller
             if (count($pengumpuldata) > 0) {
                 $auditan = [];
                 foreach ($pengumpuldata as $v) {
+                    array_push($auditan, $v->auditan);
+                }
+
+                $kabkota = IrbanKabkota::where('irban_id', $request['irban'])
+                    ->with(['kabkota' => function ($query) use ($auditan) {
+                        $query->whereNotIn('nama_kabkota', $auditan);
+                    }])->get();
+
+                $skpd = IrbanSkpd::where('irban_id', $request['irban'])
+                    ->with(['skpd' => function ($query) use ($auditan) {
+                        $query->whereNotIn('nama_skpd', $auditan);
+                    }])->get();
+
+                foreach ($kabkota as $v) {
+                    if ($v->kabkota != null) {
+                        $response['Kabupaten / Kota'][$v->kabkota->nama_kabkota] = $v->kabkota->nama_kabkota;
+                    }
+                }
+
+                foreach ($skpd as $v) {
+                    if ($v->skpd != null) {
+                        $response['Perangkat Daerah'][$v->skpd->nama_skpd] = $v->skpd->nama_skpd;
+                    }
+                }
+
+            } else {
+                $kabkota = IrbanKabkota::where('irban_id', $request['irban'])->with('kabkota')->get();
+                $skpd = IrbanSkpd::where('irban_id', $request['irban'])->with('skpd')->get();
+
+                foreach ($kabkota as $v) {
+                    $response['Kabupaten / Kota'][$v->kabkota->nama_kabkota] = $v->kabkota->nama_kabkota;
+                }
+
+                foreach ($skpd as $v) {
+                    $response['Perangkat Daerah'][$v->skpd->nama_skpd] = $v->skpd->nama_skpd;
+                }
+            }
+        } elseif ($request['dinas'] == 'administrasi') {
+            $administrasi = DinasBopAdministrasiTim::where('dinasbop_id', $request['dinasbop'])->get();
+
+            if (count($administrasi) > 0) {
+                $auditan = [];
+                foreach ($administrasi as $v) {
                     array_push($auditan, $v->auditan);
                 }
 
