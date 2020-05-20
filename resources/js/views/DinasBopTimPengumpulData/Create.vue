@@ -94,7 +94,7 @@
                 options: {
                     format: 'YYYY-MM-DD',
                     useCurrent: false,
-                    locale: 'id'
+                    locale: 'id',
                 },
                 dinasboptimpengumpuldata: {
                     'nomor_sp': '',

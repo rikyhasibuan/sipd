@@ -108,8 +108,6 @@
                     'tgl_sp': '',
                     'auditan': '',
                     'irban_id': '',
-                    'wakilpenanggungjawab':'',
-                    'pengendaliteknis':'',
                     'ketuatim':'',
                     'anggota':[]
                 },
@@ -130,8 +128,6 @@
                 formData.append('tgl_sp', this.tim.tgl_sp);
                 formData.append('auditan', this.tim.auditan);
                 formData.append('irban_id', this.tim.irban_id);
-                formData.append('wakilpenanggungjawab', this.tim.wakilpenanggungjawab);
-                formData.append('pengendaliteknis', this.tim.pengendaliteknis);
                 formData.append('ketuatim', this.tim.ketuatim);
                 formData.append('anggota', JSON.stringify(this.tim.anggota));
                 return formData;
@@ -175,8 +171,6 @@
                 // ambil data personil berdasarkan irban
                 service.fetchData('../../api/ajax/dinasbop/personil?irban='+ irban)
                 .then(response => {
-                    this.tim.wakilpenanggungjawab = '';
-                    this.tim.pengendaliteknis = '';
                     this.tim.ketuatim = '';
                     this.tim.anggota = [];
                     this.personil_data = response;
@@ -198,8 +192,6 @@
             this.tim.auditan = this.dinasboptimpengumpuldata.auditan;
             this.tim.nomor_sp = this.dinasboptimpengumpuldata.nomor_sp;
             this.tim.tgl_sp = this.dinasboptimpengumpuldata.tgl_sp;
-            this.tim.wakilpenanggungjawab = this.dinasboptimpengumpuldata.tim.wakilpenanggungjawab.nip;
-            this.tim.pengendaliteknis = this.dinasboptimpengumpuldata.tim.pengendaliteknis.nip;
             this.tim.ketuatim = this.dinasboptimpengumpuldata.tim.ketuatim.nip;
 
             const irban = this.dinasboptimpengumpuldata.irban_id;
