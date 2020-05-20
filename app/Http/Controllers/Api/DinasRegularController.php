@@ -60,7 +60,9 @@ class DinasRegularController extends Controller
                 'auditan'=> $request->input('auditan'),
                 'tim' => $request->input('tim'),
                 'dari' => $request->input('dari'),
-                'sampai' => $request->input('sampai')
+                'sampai' => $request->input('sampai'),
+                'id' => '',
+                'act' => 'create'
             ];
 
             $timdinasregular = $timdinas->generate_tim_regular($parameter);
@@ -107,7 +109,9 @@ class DinasRegularController extends Controller
             'auditan' => $request->input('auditan'),
             'tim' => $request->input('tim'),
             'dari' => $request->input('dari'),
-            'sampai' => $request->input('sampai')
+            'sampai' => $request->input('sampai'),
+            'id' => $request['id'],
+            'act' => 'put'
         ];
 
         $timdinasregular = $timdinas->generate_tim_regular($parameter);

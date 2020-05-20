@@ -437,7 +437,7 @@ class TimDinas
             $pegawai = Pegawai::searchNip($t['key'])->first();
             $roman_golongan = $this->_common->split_golongan($pegawai['golongan']);
             $golongan = $this->_common->generate_golongan($roman_golongan);
-            $check_personil = self::check_personil_regular($t['key']);
+            $check_personil = self::check_personil_regular($parameter['act'], $parameter['id'], $parameter['dari'], $parameter['sampai'], $t['key']);
 
             $tim[$i]['nip'] = $pegawai['nip'];
             $tim[$i]['nama'] = $pegawai['nama'];
@@ -795,27 +795,46 @@ class TimDinas
      * @param string $nip
      * @return boolean
      */
-    public function check_personil_regular($nip)
+    public function check_personil_regular($act, $id, $dari, $sampai, $nip)
     {
-        $current_date = date('Y-m-d');
-        $dinasregular = DinasRegular::where('dari', '<=', $current_date)->where('sampai', '>=', $current_date)->get();
-
-        if (count($dinasregular) > 0) {
-            $i = 0;
-            foreach ($dinasregular->tim as $v) {
-                if ($v['nip'] == $nip) {
-                    $i++;
+        if ($act == 'create') {
+            $dinasregular = DinasRegular::where('dari', $dari)->where('sampai', $sampai)->get();
+            if (count($dinasregular) > 0) {
+                $i = 0;
+                foreach ($dinasregular->tim as $v) {
+                    if ($v['nip'] == $nip) {
+                        $i++;
+                    }
                 }
-            }
 
-            if ($i == 0) {
-                return true;
+                if ($i == 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+
             } else {
-                return false;
+                return true;
             }
+        } elseif ($act == 'put') {
+            $dinasregular = DinasRegular::where('dari', $dari)->where('sampai', $sampai)->where('id', '!=', $id)->get();
+            if (count($dinasregular) > 0) {
+                $i = 0;
+                foreach ($dinasregular->tim as $v) {
+                    if ($v['nip'] == $nip) {
+                        $i++;
+                    }
+                }
 
-        } else {
-            return true;
+                if ($i == 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            } else {
+                return true;
+            }
         }
     }
 

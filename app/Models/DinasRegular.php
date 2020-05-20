@@ -4,58 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class DinasRegular
- *
- * @package App\Models
- * @property int $id
- * @property int $program_id
- * @property int $kegiatan_id
- * @property int|null $belanja_id
- * @property string|null $nomor_sp
- * @property string|null $tgl_sp
- * @property array|null $dasar
- * @property array|null $untuk
- * @property string|null $auditan
- * @property \Illuminate\Support\Carbon|null $dari
- * @property \Illuminate\Support\Carbon|null $sampai
- * @property int|null $lama_inap
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\DinasRegularTim[] $tim
- * @property int|null $total_harian
- * @property int|null $total_akomodasi
- * @property array|null $total_transportasi
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Belanja|null $belanja
- * @property-read \App\Models\Kegiatan $kegiatan
- * @property-read \App\Models\Program $program
- * @property-read int|null $tim_count
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular searchBelanja($belanja)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular searchKegiatan($kegiatan)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular searchProgram($program)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular whereAuditan($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular whereBelanjaId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular whereDari($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular whereDasar($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular whereKegiatanId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular whereLamaInap($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular whereNomorSp($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular whereProgramId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular whereSampai($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular whereTglSp($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular whereTim($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular whereTotalAkomodasi($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular whereTotalHarian($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular whereTotalTransportasi($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular whereUntuk($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasRegular whereUpdatedAt($value)
- * @mixin \Eloquent
- */
 class DinasRegular extends Model
 {
     protected $table = 'dinasregular';
