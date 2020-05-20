@@ -100,7 +100,7 @@ $total = $dinasbopsekretaris->total;
                 <tr>
                     <td style="text-align: center;"></td>
                     <td colspan="3">
-                        Perjalanan Dinas {!! $dinasbopsekretaris->dinasbop->kegiatan->nama_kegiatan !!}, selama {!! $durasi !!} hari dari tanggal {!! strtoupper($common->generate_indonesia_date($dinasbopsekretaris->dari)) !!} s.d {!! strtoupper($common->generate_indonesia_date($dinasbopsekretaris->sampai)) !!}.
+                        Perjalanan Dinas {!! $dinasbopsekretaris->dinasbop->kegiatan->nama_kegiatan !!}, selama {!! $durasi !!} hari dari tanggal {!! $common->generate_indonesia_date($dinasbopsekretaris->dari) !!} s.d {!! $common->generate_indonesia_date($dinasbopsekretaris->sampai) !!}.
                     </td>
                 </tr>
                 <tr>

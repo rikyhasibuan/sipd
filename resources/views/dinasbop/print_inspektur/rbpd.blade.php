@@ -100,7 +100,7 @@ $total = $dinasbopinspektur->total;
                 <tr>
                     <td style="text-align: center;"></td>
                     <td colspan="3">
-                        Perjalanan Dinas {!! $dinasbopinspektur->dinasbop->kegiatan->nama_kegiatan !!}, selama {!! $durasi !!} hari dari tanggal {!! strtoupper($common->generate_indonesia_date($dinasbopinspektur->dari)) !!} s.d {!! strtoupper($common->generate_indonesia_date($dinasbopinspektur->sampai)) !!}.
+                        Perjalanan Dinas {!! $dinasbopinspektur->dinasbop->kegiatan->nama_kegiatan !!}, selama {!! $durasi !!} hari dari tanggal {!! $common->generate_indonesia_date($dinasbopinspektur->dari) !!} s.d {!! $common->generate_indonesia_date($dinasbopinspektur->sampai) !!}.
                     </td>
                 </tr>
                 <tr>
