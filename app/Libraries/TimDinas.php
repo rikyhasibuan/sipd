@@ -147,46 +147,6 @@ class TimDinas
         $durasi = $diff->days + 1;
         $total_anggaran = 0;
 
-        // Wakil Penanggung Jawab
-        $query_pegawai = Pegawai::searchNip($parameter['wakilpenanggungjawab'])->first();
-        $query_bop = Bop::where('jabatan', 'Wakil Penanggungjawab/Suvervisi')->first();
-        $check_wp = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $query_pegawai['nip'], $query_dinasbop->dari, $query_dinasbop->sampai, $parameter['act'], 'pengumpuldata');
-        $tim['wakilpenanggungjawab']['nip'] = $query_pegawai['nip'];
-        $tim['wakilpenanggungjawab']['nama'] = $query_pegawai['nama'];
-        $tim['wakilpenanggungjawab']['golongan'] = $query_pegawai['golongan'];
-        $tim['wakilpenanggungjawab']['pangkat'] = $query_pegawai['pangkat'];
-        $tim['wakilpenanggungjawab']['jabatan'] = $query_pegawai['jabatan'];
-        $tim['wakilpenanggungjawab']['hari'] = $durasi;
-        if ($check_wp == true) {
-            $tim['wakilpenanggungjawab']['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['wakilpenanggungjawab']['total'] = $durasi * $query_bop['biaya_per_hari'];
-            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
-        } else {
-            $tim['wakilpenanggungjawab']['biaya'] = 0;
-            $tim['wakilpenanggungjawab']['total'] = 0;
-            $total_anggaran += 0;
-        }
-
-        // Pengendali Teknis
-        $query_pegawai = Pegawai::SearchNip($parameter['pengendaliteknis'])->first();
-        $query_bop = Bop::where('jabatan', 'Pengendali Teknis')->first();
-        $check_dalnis = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $query_pegawai['nip'], $query_dinasbop->dari, $query_dinasbop->sampai, $parameter['act'], 'pengumpuldata');
-        $tim['pengendaliteknis']['nip'] = $query_pegawai['nip'];
-        $tim['pengendaliteknis']['nama'] = $query_pegawai['nama'];
-        $tim['pengendaliteknis']['golongan'] = $query_pegawai['golongan'];
-        $tim['pengendaliteknis']['pangkat'] = $query_pegawai['pangkat'];
-        $tim['pengendaliteknis']['jabatan'] = $query_pegawai['jabatan'];
-        $tim['pengendaliteknis']['hari'] = $durasi;
-        if ($check_dalnis == true) {
-            $tim['pengendaliteknis']['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['pengendaliteknis']['total'] = $durasi * $query_bop['biaya_per_hari'];
-            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
-        } else {
-            $tim['pengendaliteknis']['biaya'] = 0;
-            $tim['pengendaliteknis']['total'] = 0;
-            $total_anggaran += 0;
-        }
-
         // Ketua Tim
         $query_pegawai = Pegawai::searchNip($parameter['ketuatim'])->first();
         $query_bop = Bop::where('jabatan', 'Ketua Tim')->first();
@@ -668,14 +628,6 @@ class TimDinas
 
             if (count($query['dinasboppengumpuldata']) > 0) {
                 foreach ($query['dinasboppengumpuldata'] as $v) {
-                    if ($v['tim']['wakilpenanggungjawab']['nip'] == $nip) {
-                        $i++;
-                    }
-
-                    if ($v['tim']['pengendaliteknis']['nip'] == $nip) {
-                        $i++;
-                    }
-
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         $i++;
                     }
@@ -750,14 +702,6 @@ class TimDinas
 
             if (count($query['dinasboppengumpuldata']) > 0) {
                 foreach ($query['dinasboppengumpuldata'] as $v) {
-                    if ($v['tim']['wakilpenanggungjawab']['nip'] == $nip) {
-                        $i++;
-                    }
-
-                    if ($v['tim']['pengendaliteknis']['nip'] == $nip) {
-                        $i++;
-                    }
-
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         $i++;
                     }

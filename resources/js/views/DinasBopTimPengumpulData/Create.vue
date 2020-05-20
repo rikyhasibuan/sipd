@@ -26,7 +26,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
                                         <label>Irban *</label>
                                         <select v-model="dinasboptimpengumpuldata.irban_id" @change="onChangeIrban($event)" class="form-control" required="required">
                                             <option value="">Pilih Irban</option>
@@ -34,7 +34,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
                                         <label>Auditan *</label>
                                         <select v-model="dinasboptimpengumpuldata.auditan" class="form-control" required="required">
                                             <option value="">Pilih Auditan</option>
@@ -43,27 +43,7 @@
                                             </optgroup>
                                         </select>
                                     </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="form-group col-md-4">
-                                        <label>Wakil Penanggung Jawab *</label>
-                                        <select v-model="dinasboptimpengumpuldata.wakilpenanggungjawab" class="form-control" required="required">
-                                            <option value="">Pilih Wakil Penanggung Jawab</option>
-                                            <option v-for="v in personil_data.wakilpenanggungjawab" :key="v.id" :value="v.nip">
-                                                {{ v.nama }} - {{ v.jabatan }}
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label>Pengendali Teknis *</label>
-                                        <select v-model="dinasboptimpengumpuldata.pengendaliteknis" class="form-control" required="required">
-                                            <option value="">Pilih Pengendali Teknis</option>
-                                            <option v-for="v in personil_data.pengendaliteknis" :key="v.id" :value="v.nip">
-                                                {{ v.nama }} - {{ v.jabatan }}
-                                            </option>
-                                        </select>
-                                    </div>
                                     <div class="form-group col-md-4">
                                         <label>Ketua Tim *</label>
                                         <select v-model="dinasboptimpengumpuldata.ketuatim" class="form-control" required="required">
@@ -74,7 +54,6 @@
                                         </select>
                                     </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="form-group col-md-12">
                                         <label>Anggota *</label>
@@ -122,8 +101,6 @@
                     'tgl_sp': '',
                     'auditan': '',
                     'irban_id': '',
-                    'wakilpenanggungjawab':'',
-                    'pengendaliteknis':'',
                     'ketuatim':'',
                     'anggota':[]
                 },
@@ -154,8 +131,6 @@
                 formData.append('tgl_sp', this.dinasboptimpengumpuldata.tgl_sp);
                 formData.append('auditan', this.dinasboptimpengumpuldata.auditan);
                 formData.append('irban_id', this.dinasboptimpengumpuldata.irban_id);
-                formData.append('wakilpenanggungjawab', this.dinasboptimpengumpuldata.wakilpenanggungjawab);
-                formData.append('pengendaliteknis', this.dinasboptimpengumpuldata.pengendaliteknis);
                 formData.append('ketuatim', this.dinasboptimpengumpuldata.ketuatim);
                 formData.append('anggota', JSON.stringify(this.dinasboptimpengumpuldata.anggota));
                 return formData;
@@ -188,8 +163,6 @@
 
                 service.fetchData('../../api/ajax/dinasbop/personil?irban='+ irban)
                 .then(response => {
-                    this.dinasboptimpengumpuldata.wakilpenanggungjawab = '';
-                    this.dinasboptimpengumpuldata.pengendaliteknis = '';
                     this.dinasboptimpengumpuldata.ketuatim = '';
                     this.dinasboptimpengumpuldata.anggota = '';
                     this.personil_data = response;
@@ -222,8 +195,6 @@
                 this.dinasboptimpengumpuldata.auditan = '';
                 this.dinasboptimpengumpuldata.nomor_sp = '';
                 this.dinasboptimpengumpuldata.tgl_sp = '';
-                this.dinasboptimpengumpuldata.wakilpenanggungjawab = '';
-                this.dinasboptimpengumpuldata.pengendaliteknis = '';
                 this.dinasboptimpengumpuldata.ketuatim = '';
                 this.dinasboptimpengumpuldata.anggota = [];
                 this.dinasboptimpengumpuldata.driver = '';

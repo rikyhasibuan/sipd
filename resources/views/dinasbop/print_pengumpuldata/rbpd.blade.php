@@ -113,34 +113,6 @@ $total = $timpengumpuldata->dinasboppengumpuldata->total_anggaran;
 								<td>
 									<table width="100%" class="table-print table table-borderless">
 										<tr>
-											<td style="width:20%;vertical-align:middle;">{!! $timpengumpuldata->tim['wakilpenanggungjawab']['nama'] !!}</td>
-											<td style="width:20%;text-align:center;vertical-align:middle;">Wakil Penanggung Jawab</td>
-											<td style="width:15%;text-align:center;vertical-align:middle;">
-												{!! $timpengumpuldata->tim['wakilpenanggungjawab']['golongan'] !!}
-											</td>
-											<td style="width:4%;text-align:center;vertical-align:middle;">
-												{!! $timpengumpuldata->tim['wakilpenanggungjawab']['hari'] !!} hari
-											</td>
-											<td style="width:1%;text-align:center;vertical-align:middle;">x</td>
-											<td style="width:10%;vertical-align:middle;">
-												Rp.{!! $common->rupiah($timpengumpuldata->tim['wakilpenanggungjawab']['biaya']) !!}
-											</td>
-										</tr>
-										<tr>
-											<td style="width:20%;vertical-align:middle;">{!! $timpengumpuldata->tim['pengendaliteknis']['nama'] !!}</td>
-											<td style="width:20%;text-align:center;vertical-align:middle;">Pengendali Teknis</td>
-											<td style="width:15%;text-align:center;vertical-align:middle;">
-												{!! $timpengumpuldata->tim['pengendaliteknis']['golongan'] !!}
-											</td>
-											<td style="width:4%;text-align:center;vertical-align:middle;">
-												{!! $timpengumpuldata->tim['pengendaliteknis']['hari'] !!} hari
-											</td>
-											<td style="width:1%;text-align:center;vertical-align:middle;">x</td>
-											<td style="width:10%;vertical-align:middle;">
-												Rp.{!! $common->rupiah($timpengumpuldata->tim['pengendaliteknis']['biaya']) !!}
-											</td>
-										</tr>
-										<tr>
 											<td style="width:20%;vertical-align:middle;">{!! $timpengumpuldata->tim['ketuatim']['nama'] !!}</td>
 											<td style="width:20%;text-align:center;vertical-align:middle;">Ketua Tim</td>
 											<td style="width:15%;text-align:center;vertical-align:middle;">

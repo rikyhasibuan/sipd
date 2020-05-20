@@ -95,8 +95,8 @@ $total = $timpengumpuldata->dinasboppengumpuldata->total_anggaran;
                                 <td width="3%" style="text-align: center;">2</td>
                                 <td width="30%">Nama / NIP Pegawai yang melaksanakan perjalanan</td>
                                 <td width="60%" colspan="2">
-                                    {!! $timpengumpuldata->tim['wakilpenanggungjawab']['nama'] !!}<br>
-                                    {!! $timpengumpuldata->tim['wakilpenanggungjawab']['nip'] !!}
+                                    {!! $timpengumpuldata->tim['ketuatim']['nama'] !!}<br>
+                                    {!! $timpengumpuldata->tim['ketuatim']['nip'] !!}
                                 </td>
                             </tr>
                             <tr>
@@ -105,9 +105,9 @@ $total = $timpengumpuldata->dinasboppengumpuldata->total_anggaran;
                                     Tingkat Biaya Perjalanan Dinas
                                 </td>
                                 <td width="60%" colspan="2">
-                                    {!! $timpengumpuldata->tim['wakilpenanggungjawab']['pangkat'] !!}
-                                    {!! $timpengumpuldata->tim['wakilpenanggungjawab']['golongan'] !!}<br>
-                                    Wakil Penanggungjawab<br>
+                                    {!! $timpengumpuldata->tim['ketuatim']['pangkat'] !!}
+                                    {!! $timpengumpuldata->tim['ketuatim']['golongan'] !!}<br>
+                                    Ketua Tim<br>
                                 </td>
                             </tr>
                             <tr>
@@ -148,8 +148,6 @@ $total = $timpengumpuldata->dinasboppengumpuldata->total_anggaran;
                                 <td width="3%" style="text-align: center;"></td>
                                 <td width="30%">
                                     <ol style="margin-left: -30px;">
-                                        <li>{!! $timpengumpuldata->tim['pengendaliteknis']['nama'] !!}</li>
-                                        <li>{!! $timpengumpuldata->tim['ketuatim']['nama'] !!}</li>
                                         @for($i = 0; $i < count($timpengumpuldata->tim['anggota']); $i++)
                                             <li>{!! $timpengumpuldata->tim['anggota'][$i]['nama'] !!}</li>
                                         @endfor

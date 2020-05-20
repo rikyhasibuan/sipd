@@ -25,7 +25,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label>Irban *</label>
                                     <select v-model="tim.irban_id" @change="onChangeIrban($event)" class="form-control" required="required">
                                         <option value="">Pilih Irban</option>
@@ -33,7 +33,7 @@
                                     </select>
                                 </div>
 
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label>Auditan *</label>
                                     <select v-model="tim.auditan" class="form-control" required="required">
                                         <option value="">Pilih Auditan</option>
@@ -42,27 +42,7 @@
                                         </optgroup>
                                     </select>
                                 </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label>Wakil Penanggung Jawab *</label>
-                                    <select v-model="tim.wakilpenanggungjawab" class="form-control" required="required">
-                                        <option value="">Pilih Wakil Penanggung Jawab</option>
-                                        <option v-for="v in personil_data.wakilpenanggungjawab" :key="v.id" :value="v.nip">
-                                            {{ v.nama }} - {{ v.jabatan }}
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label>Pengendali Teknis *</label>
-                                    <select v-model="tim.pengendaliteknis" class="form-control" required="required">
-                                        <option value="">Pilih Pengendali Teknis</option>
-                                        <option v-for="v in personil_data.pengendaliteknis" :key="v.id" :value="v.nip">
-                                            {{ v.nama }} - {{ v.jabatan }}
-                                        </option>
-                                    </select>
-                                </div>
                                 <div class="form-group col-md-4">
                                     <label>Ketua Tim *</label>
                                     <select v-model="tim.ketuatim" class="form-control" required="required">

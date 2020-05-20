@@ -819,8 +819,6 @@ class DinasBopController extends Controller
             'pengumpuldata' => $request['pengumpuldata'],
             'dinasbop' => $request['dinasbop'],
             'auditan'=> $request->input('auditan'),
-            'wakilpenanggungjawab' => $request->input('wakilpenanggungjawab'),
-            'pengendaliteknis' => $request->input('pengendaliteknis'),
             'ketuatim' => $request->input('ketuatim'),
             'anggota' => json_decode($request->input('anggota'), true),
             'act' => 'create'
@@ -865,8 +863,6 @@ class DinasBopController extends Controller
             'dinasbop' => $dinasboptimpengumpuldata->dinasbop_id,
             'pengumpuldata' => $request['pengumpuldata'],
             'auditan'=> $request->input('auditan'),
-            'wakilpenanggungjawab' => $request->input('wakilpenanggungjawab'),
-            'pengendaliteknis' => $request->input('pengendaliteknis'),
             'ketuatim' => $request->input('ketuatim'),
             'anggota' => $request->input('anggota'),
             'act' => 'put'

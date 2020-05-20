@@ -66,14 +66,6 @@ $inspektur = $timdinas->get_inspektur();
                                         Tanggal : {!! $common->generate_indonesia_date($v->tgl_sp) !!}
                                     </td>
                                     <td>
-                                        <b>Wakil Penanggungjawab</b>
-                                        <br>
-                                        {!! $v->tim['wakilpenanggungjawab']['nama'] !!}
-                                        <br>
-                                        <b>Pengendali Teknis</b>
-                                        <br>
-                                        {!! $v->tim['pengendaliteknis']['nama'] !!}
-                                        <br>
                                         <b>Ketua Tim</b>
                                         <br>
                                         {!! $v->tim['ketuatim']['nama'] !!}

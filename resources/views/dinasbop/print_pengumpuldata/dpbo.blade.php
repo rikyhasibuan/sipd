@@ -68,26 +68,6 @@ $kpa = $timdinas->get_sekretaris();
                 </thead>
                 <tbody>
                 <tr>
-                    <td style="text-align: center;">1</td>
-                    <td>{!! $timpengumpuldata->tim['wakilpenanggungjawab']['nama'] !!}</td>
-                    <td style="text-align: center;">WAKIL PENANGGUNGJAWAB {!! $timpengumpuldata->tim['wakilpenanggungjawab']['golongan'] !!}</td>
-                    <td style="text-align: right;">Rp.{!! $common->rupiah($timpengumpuldata->tim['wakilpenanggungjawab']['total']) !!}</td>
-                    <td></td>
-                    <td></td>
-                    <td style="text-align: right;">Rp.{!! $common->rupiah($timpengumpuldata->tim['wakilpenanggungjawab']['total']) !!}</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td style="text-align: center;">2</td>
-                    <td>{!! $timpengumpuldata->tim['pengendaliteknis']['nama'] !!}</td>
-                    <td style="text-align: center;">PENGENDALI TEKNIS {!! $timpengumpuldata->tim['pengendaliteknis']['golongan'] !!}</td>
-                    <td style="text-align: right;">Rp.{!! $common->rupiah($timpengumpuldata->tim['pengendaliteknis']['total']) !!}</td>
-                    <td></td>
-                    <td></td>
-                    <td style="text-align: right;">Rp.{!! $common->rupiah($timpengumpuldata->tim['pengendaliteknis']['total']) !!}</td>
-                    <td></td>
-                </tr>
-                <tr>
                     <td style="text-align: center;">3</td>
                     <td>{!! $timpengumpuldata->tim['ketuatim']['nama'] !!}</td>
                     <td style="text-align: center;">KETUA TIM {!! $timpengumpuldata->tim['ketuatim']['golongan'] !!}</td>

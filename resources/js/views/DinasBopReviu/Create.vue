@@ -123,6 +123,7 @@
                     format: 'YYYY-MM-DD',
                     useCurrent: false,
                     locale:'id',
+                    minDate: moment(this.dinasbop_data.dari),
                     maxDate: moment(this.dinasbop_data.sampai).add(1, 'day'),
                     disabledDates: [
                         moment(this.dinasbop_data.sampai).add(1, 'day')

@@ -85,38 +85,6 @@ $inspektur = $timdinas->get_sekretaris();
                                 <span style="margin-right:20px;">1.</span>
                                 <span style="margin-right:50px;">Nama</span>
                                 <span style="margin-right:30px;">:</span>
-                                <span style="margin-right:20px;">{!! $timpengumpuldata->tim['wakilpenanggungjawab']['nama'] !!}</span>
-                                <br>
-                                <span style="margin-right:35px;"></span>
-                                <span style="margin-right:63px;">NIP</span>
-                                <span style="margin-right:30px;">:</span>
-                                <span style="margin-right:20px;">{!! $timpengumpuldata->tim['wakilpenanggungjawab']['nip'] !!}</span>
-                                <br>
-                                <span style="margin-right:35px;"></span>
-                                <span style="margin-right:40px;">Jabatan</span>
-                                <span style="margin-right:30px;">:</span>
-                                <span style="margin-right:20px;">Wakil Penanggung Jawab</span>
-                                <br><br>
-
-                                <span style="margin-right:20px;">2.</span>
-                                <span style="margin-right:50px;">Nama</span>
-                                <span style="margin-right:30px;">:</span>
-                                <span style="margin-right:20px;">{!! $timpengumpuldata->tim['pengendaliteknis']['nama'] !!}</span>
-                                <br>
-                                <span style="margin-right:35px;"></span>
-                                <span style="margin-right:63px;">NIP</span>
-                                <span style="margin-right:30px;">:</span>
-                                <span style="margin-right:20px;">{!! $timpengumpuldata->tim['pengendaliteknis']['nip'] !!}</span>
-                                <br>
-                                <span style="margin-right:35px;"></span>
-                                <span style="margin-right:40px;">Jabatan</span>
-                                <span style="margin-right:30px;">:</span>
-                                <span style="margin-right:20px;">Pengendali Teknis</span>
-                                <br><br>
-
-                                <span style="margin-right:20px;">3.</span>
-                                <span style="margin-right:50px;">Nama</span>
-                                <span style="margin-right:30px;">:</span>
                                 <span style="margin-right:20px;">{!! $timpengumpuldata->tim['ketuatim']['nama'] !!}</span>
                                 <br>
                                 <span style="margin-right:35px;"></span>
@@ -130,7 +98,7 @@ $inspektur = $timdinas->get_sekretaris();
                                 <span style="margin-right:20px;">Ketua Tim</span>
                                 <br><br>
 
-                                <?php $i = 4; ?>
+                                <?php $i = 1; ?>
                                 @foreach($timpengumpuldata->tim['anggota'] as $anggota)
                                     <span style="margin-right:20px;">{!! $i !!}.</span>
                                     <span style="margin-right:50px;">Nama</span>

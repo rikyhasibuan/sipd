@@ -97,14 +97,6 @@
                                 Tanggal : {{ v.tgl_sp | moment }}
                             </td>
                             <td>
-                                <b>Wakil Penanggungjawab</b>
-                                <br>
-                                {{ v.tim.wakilpenanggungjawab.nama }}
-                                <br><br>
-                                <b>Pengendali Teknis</b>
-                                <br>
-                                {{ v.tim.pengendaliteknis.nama }}
-                                <br><br>
                                 <b>Ketua Tim</b>
                                 <br>
                                 {{ v.tim.ketuatim.nama }}
@@ -115,18 +107,6 @@
                                 </ol>
                             </td>
                             <td>
-                                <b></b>
-                                <br>
-                                {{ v.tim.wakilpenanggungjawab.hari }} hari
-                                x
-                                Rp.{{ v.tim.wakilpenanggungjawab.biaya | rupiah }} =
-                                Rp.{{ v.tim.wakilpenanggungjawab.total | rupiah }}
-                                <br><br><br>
-                                {{ v.tim.pengendaliteknis.hari }} hari
-                                x
-                                Rp.{{ v.tim.pengendaliteknis.biaya | rupiah }} =
-                                Rp.{{ v.tim.pengendaliteknis.total | rupiah }}
-                                <br><br><br>
                                 {{ v.tim.ketuatim.hari }} hari
                                 x
                                 Rp.{{ v.tim.ketuatim.biaya | rupiah }} =
@@ -148,8 +128,7 @@
                                     <a :href="route + '/timpengumpuldata/edit?pengumpuldata='+ dinasboppengumpuldata.id +'&id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
                                         <i class="fa fa-wrench"></i> Ubah
                                     </a>
-                                    <a href="#" @click="toggleModal(v.id)"
-                                       class="btn btn-sm btn-danger">
+                                    <a href="#" @click="toggleModal(v.id)" class="btn btn-sm btn-danger">
                                         <i class="fa fa-trash-o"></i> Hapus
                                     </a>
                                     <div class="btn-group">
