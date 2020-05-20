@@ -25,29 +25,21 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label>Irban *</label>
-                                    <select v-model="tim.irban_id" @change="onChangeIrban($event)" class="form-control" required="required">
-                                        <option value="">Pilih Irban</option>
-                                        <option v-for="v in this.irban_data" :value="v.id" :key="v.id">{{ v.nama_irban }}</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <label>Auditan *</label>
                                     <select v-model="tim.auditan" class="form-control" required="required">
                                         <option value="">Pilih Auditan</option>
-                                        <optgroup v-for="(k,v) in this.audit_data" :key="v" :label="v">
+                                        <optgroup v-for="(k,v) in this.auditan_data" :key="v" :label="v">
                                             <option v-for="val in k" :key="val" :value="val">{{ val }}</option>
                                         </optgroup>
                                     </select>
                                 </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <label>Ketua Tim *</label>
                                     <select v-model="tim.ketuatim" class="form-control" required="required">
                                         <option value="">Pilih Ketua Tim</option>
-                                        <option v-for="v in personil_data.ketuatim" :key="v.id" :value="v.nip">
+                                        <option v-for="v in ketua" :key="v.id" :value="v.nip">
                                             {{ v.nama }} - {{ v.jabatan }}
                                         </option>
                                     </select>
@@ -99,7 +91,6 @@
                     useCurrent: false,
                     locale: 'id'
                 },
-                personil_data:[],
                 anggota_data:[],
                 audit_data:[],
                 isLoading: false,
@@ -107,7 +98,6 @@
                     'nomor_sp': '',
                     'tgl_sp': '',
                     'auditan': '',
-                    'irban_id': '',
                     'ketuatim':'',
                     'anggota':[]
                 },
@@ -115,7 +105,8 @@
         },
         props: [
             'auditan_data',
-            'irban_data',
+            'anggota',
+            'ketua',
             'dinasbop',
             'dinasboptimpengumpuldata',
             'api',
@@ -127,7 +118,6 @@
                 formData.append('nomor_sp', this.tim.nomor_sp);
                 formData.append('tgl_sp', this.tim.tgl_sp);
                 formData.append('auditan', this.tim.auditan);
-                formData.append('irban_id', this.tim.irban_id);
                 formData.append('ketuatim', this.tim.ketuatim);
                 formData.append('anggota', JSON.stringify(this.tim.anggota));
                 return formData;
@@ -153,73 +143,23 @@
                     setTimeout(() => this.alert.update = false, 5000);
                 }
                 this.isLoading = false;
-            },
-            onChangeIrban(evt) {
-                const irban = evt.target.value;
-                // ambil data auditan berdasarkan irban
-                service.fetchData('../../api/ajax/dinasbop/tujuan?dinas=tim&act=update&dinasbop='+this.dinasbop+'&irban='+ irban)
-                .then(response => {
-                    this.tim.auditan = '';
-                    this.audit_data = response;
-                })
-                .catch(error => {
-                    this.isLoading = false;
-                    this.alert.error = true;
-                    console.log(error);
-                });
-
-                // ambil data personil berdasarkan irban
-                service.fetchData('../../api/ajax/dinasbop/personil?irban='+ irban)
-                .then(response => {
-                    this.tim.ketuatim = '';
-                    this.tim.anggota = [];
-                    this.personil_data = response;
-                    this.personil_data.anggota.forEach(item => {
-                        this.anggota_data.push({'label': item.nama +' - '+ item.jabatan,'key':item.nip})
-                    });
-                })
-                .catch(error => {
-                    this.isLoading = false;
-                    this.alert.error = true;
-                    console.log(error);
-                });
             }
         },
         created() {
             this.$cookies.set("last_tab", "pengumpuldata");
             this.isLoading = true;
-            this.tim.irban_id = this.dinasboptimpengumpuldata.irban_id;
             this.tim.auditan = this.dinasboptimpengumpuldata.auditan;
             this.tim.nomor_sp = this.dinasboptimpengumpuldata.nomor_sp;
             this.tim.tgl_sp = this.dinasboptimpengumpuldata.tgl_sp;
             this.tim.ketuatim = this.dinasboptimpengumpuldata.tim.ketuatim.nip;
 
-            const irban = this.dinasboptimpengumpuldata.irban_id;
-
-            // ambil data auditan berdasarkan irban
-            service.fetchData('../../api/ajax/dinasbop/tujuan?dinas=tim&act=update&dinasbop='+this.dinasbop+'&irban='+ irban)
-            .then(response => {
-                this.audit_data = response;
-            })
-            .catch(error => {
-                console.log(error);
-            });
-
-            // ambil data personil berdasarkan irban
-            service.fetchData('../../api/ajax/dinasbop/personil?irban='+ irban)
-            .then(response => {
-                this.personil_data = response;
-                this.personil_data.anggota.forEach(item => {
-                    this.anggota_data.push({'label': item.nama +' - '+ item.jabatan,'key':item.nip});
-                });
-            })
-            .catch(error => {
-                console.log(error);
-            });
-
-            let anggota = this.dinasboptimpengumpuldata.tim.anggota;
-            anggota.forEach(item => {
+            let anggota_list = this.dinasboptimpengumpuldata.tim.anggota;
+            anggota_list.forEach(item => {
                 this.tim.anggota.push({'label': item.nama +' - '+ item.jabatan,'key':item.nip});
+            });
+
+            this.anggota.forEach(item => {
+                this.anggota_data.push({'label': item.nama +' - '+ item.jabatan,'key':item.nip});
             });
         },
         mounted() {

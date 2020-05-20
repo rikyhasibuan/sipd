@@ -18,6 +18,8 @@ use App\Models\DinasBopSupervisi;
 use App\Models\DinasBopPengumpulData;
 use App\Models\DinasBopPengumpulDataTim;
 use App\Models\Irban;
+use App\Models\IrbanKabkota;
+use App\Models\IrbanSkpd;
 use App\Libraries\Access;
 use Closure;
 
@@ -616,8 +618,46 @@ class DinasBopController extends Controller
         $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> ' . $this->title . '</a>';
         $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data Tim';
 
-        $irban = Irban::all();
         $auditan = [];
+        $kabkota = IrbanKabkota::with('kabkota')->get();
+        $skpd = IrbanSkpd::with('skpd')->get();
+
+        foreach ($kabkota as $v) {
+            $auditan['Kabupaten / Kota'][$v->kabkota->nama_kabkota] = $v->kabkota->nama_kabkota;
+        }
+
+        foreach ($skpd as $v) {
+            $auditan['Perangkat Daerah'][$v->skpd->nama_skpd] = $v->skpd->nama_skpd;
+        }
+
+        $jabatan_anggota = [
+            'Analis Perencanaan, Evaluasi dan Pelaporan',
+            'Pengelola Evaluasi Tindak Lanjut Laporan Hasil Pemeriksaan',
+            'Analis Laporan Hasil Pengawasan',
+            'Perencana Pertama',
+            'Pengolah Data Perencanaan dan Penganggaran',
+            'Pengadministrasi Perencanaan dan Program',
+            'Pengelola Keuangan',
+            'Verifikatur',
+            'Analis Laporan Keuangan',
+            'Bendahara',
+            'Pengadministrasi Keuangan',
+            'Pengelola Gaji',
+            'Pengadministrasi Umum',
+            'Pengelola Barang Milik Negara',
+            'Pengelola Kepegawaian',
+            'Analis Sumber Daya Manusia Aparatur',
+            'Pengelola Barang Milik Negara (Penyimpan Barang)'
+        ];
+
+        $jabatan_ketua = [
+            'Kepala Sub Bagian Perencanaan dan Pelaporan',
+            'Kepala Sub Bagian Keuangan dan Aset',
+            'Kepala Sub Bagian Kepegawaian dan Umum'
+        ];
+
+        $anggota = Pegawai::whereIn('jabatan', $jabatan_anggota)->get();
+        $ketua = Pegawai::whereIn('jabatan', $jabatan_ketua)->get();
 
         $data = [];
         $data['title']  = $this->title;
@@ -625,8 +665,9 @@ class DinasBopController extends Controller
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api . '/timpengumpuldata?dinasbop='.$request['dinasbop'].'&pengumpuldata=' . $request['pengumpuldata']);
         $data['act'] = 'create';
-        $data['irban'] = $irban;
         $data['auditan'] = $auditan;
+        $data['anggota'] = $anggota;
+        $data['ketua'] = $ketua;
         $data['route'] = url($this->route.'/detail?id='. $request['dinasbop']);
         $data['dinasbop'] = $request['dinasbop'];
         $data['pengumpuldata'] = $request['pengumpuldata'];
@@ -641,9 +682,47 @@ class DinasBopController extends Controller
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
 
         $dinasboptimpengumpuldata = DinasBopPengumpulDataTim::find($request['id']);
+        
+        $jabatan_anggota = [
+            'Analis Perencanaan, Evaluasi dan Pelaporan',
+            'Pengelola Evaluasi Tindak Lanjut Laporan Hasil Pemeriksaan',
+            'Analis Laporan Hasil Pengawasan',
+            'Perencana Pertama',
+            'Pengolah Data Perencanaan dan Penganggaran',
+            'Pengadministrasi Perencanaan dan Program',
+            'Pengelola Keuangan',
+            'Verifikatur',
+            'Analis Laporan Keuangan',
+            'Bendahara',
+            'Pengadministrasi Keuangan',
+            'Pengelola Gaji',
+            'Pengadministrasi Umum',
+            'Pengelola Barang Milik Negara',
+            'Pengelola Kepegawaian',
+            'Analis Sumber Daya Manusia Aparatur',
+            'Pengelola Barang Milik Negara (Penyimpan Barang)'
+        ];
 
-        $irban = Irban::all();
+        $jabatan_ketua = [
+            'Kepala Sub Bagian Perencanaan dan Pelaporan',
+            'Kepala Sub Bagian Keuangan dan Aset',
+            'Kepala Sub Bagian Kepegawaian dan Umum'
+        ];
+
+        $anggota = Pegawai::whereIn('jabatan', $jabatan_anggota)->get();
+        $ketua = Pegawai::whereIn('jabatan', $jabatan_ketua)->get();
+        
         $auditan = [];
+        $kabkota = IrbanKabkota::with('kabkota')->get();
+        $skpd = IrbanSkpd::with('skpd')->get();
+
+        foreach ($kabkota as $v) {
+            $auditan['Kabupaten / Kota'][$v->kabkota->nama_kabkota] = $v->kabkota->nama_kabkota;
+        }
+
+        foreach ($skpd as $v) {
+            $auditan['Perangkat Daerah'][$v->skpd->nama_skpd] = $v->skpd->nama_skpd;
+        }
 
         $data = [];
         $data['title']  = $this->title;
@@ -652,8 +731,9 @@ class DinasBopController extends Controller
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api . '/timpengumpuldata?id='.$request['id'].'&pengumpuldata=' . $request['pengumpuldata']);
         $data['act'] = 'edit';
-        $data['irban'] = $irban;
         $data['auditan'] = $auditan;
+        $data['anggota'] = $anggota;
+        $data['ketua'] = $ketua;
         $data['dinasbop'] = $request['dinasbop'];
         $data['pengumpuldata'] = $request['pengumpuldata'];
         $data['route'] = url($this->route.'/detail?id='.$dinasboptimpengumpuldata->dinasbop_id);

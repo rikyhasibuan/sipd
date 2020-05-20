@@ -26,15 +26,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group col-md-4">
-                                        <label>Irban *</label>
-                                        <select v-model="dinasboptimpengumpuldata.irban_id" @change="onChangeIrban($event)" class="form-control" required="required">
-                                            <option value="">Pilih Irban</option>
-                                            <option v-for="v in this.irban_data" :value="v.id" :key="v.id">{{ v.nama_irban }}</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-6">
                                         <label>Auditan *</label>
                                         <select v-model="dinasboptimpengumpuldata.auditan" class="form-control" required="required">
                                             <option value="">Pilih Auditan</option>
@@ -44,11 +36,11 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-6">
                                         <label>Ketua Tim *</label>
                                         <select v-model="dinasboptimpengumpuldata.ketuatim" class="form-control" required="required">
                                             <option value="">Pilih Ketua Tim</option>
-                                            <option v-for="v in personil_data.ketuatim" :key="v.id" :value="v.nip">
+                                            <option v-for="v in ketua" :key="v.id" :value="v.nip">
                                                 {{ v.nama }} - {{ v.jabatan }}
                                             </option>
                                         </select>
@@ -100,12 +92,10 @@
                     'nomor_sp': '',
                     'tgl_sp': '',
                     'auditan': '',
-                    'irban_id': '',
                     'ketuatim':'',
                     'anggota':[]
                 },
                 form:'',
-                personil_data:[],
                 anggota_data:[],
                 audit_data:[],
                 alert: {
@@ -118,8 +108,8 @@
         },
         props: [
             'auditan_data',
-            'driver_data',
-            'irban_data',
+            'anggota',
+            'ketua',
             'dinasbop',
             'api',
             'route'
@@ -130,7 +120,6 @@
                 formData.append('nomor_sp', this.dinasboptimpengumpuldata.nomor_sp);
                 formData.append('tgl_sp', this.dinasboptimpengumpuldata.tgl_sp);
                 formData.append('auditan', this.dinasboptimpengumpuldata.auditan);
-                formData.append('irban_id', this.dinasboptimpengumpuldata.irban_id);
                 formData.append('ketuatim', this.dinasboptimpengumpuldata.ketuatim);
                 formData.append('anggota', JSON.stringify(this.dinasboptimpengumpuldata.anggota));
                 return formData;
@@ -146,31 +135,6 @@
                     this.alert.duplicate = false;
                     this.alert.save = false;
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-                    console.log(error);
-                });
-            },
-
-            onChangeIrban(evt) {
-                const irban = evt.target.value;
-                service.fetchData('../../api/ajax/dinasbop/tujuan?dinas=pengumpuldata&act=create&dinasbop='+this.dinasbop+'&irban='+ irban)
-                .then(response => {
-                    this.dinasboptimpengumpuldata.auditan = '';
-                    this.audit_data = response;
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-
-                service.fetchData('../../api/ajax/dinasbop/personil?irban='+ irban)
-                .then(response => {
-                    this.dinasboptimpengumpuldata.ketuatim = '';
-                    this.dinasboptimpengumpuldata.anggota = '';
-                    this.personil_data = response;
-                    this.personil_data.anggota.forEach(item => {
-                        this.anggota_data.push({'label': item.nama +' - '+ item.jabatan , 'key':item.nip})
-                    });
-                })
-                .catch(error => {
                     console.log(error);
                 });
             },
@@ -190,20 +154,20 @@
                 }
             },
             reset() {
-                Object.keys(this.form).forEach(function(key,index) { self.data.form[key] = ''; });
-                this.dinasboptimpengumpuldata.irban_id = '';
                 this.dinasboptimpengumpuldata.auditan = '';
                 this.dinasboptimpengumpuldata.nomor_sp = '';
                 this.dinasboptimpengumpuldata.tgl_sp = '';
                 this.dinasboptimpengumpuldata.ketuatim = '';
                 this.dinasboptimpengumpuldata.anggota = [];
-                this.dinasboptimpengumpuldata.driver = '';
             }
         },
         created() {
             this.$cookies.set("last_tab", "pengumpuldata");
             this.isLoading = true;
             this.audit_data = this.auditan_data;
+            this.anggota.forEach(item => {
+                this.anggota_data.push({'label': item.nama +' - '+ item.jabatan,'key':item.nip});
+            });
         },
         mounted() {
             this.isLoading = false;

@@ -3,10 +3,11 @@
     <div id="app">
         @if ($act == 'create')
             <dinasboptimpengumpuldata-create
-                :irban_data='{!! json_encode($irban) !!}'
                 :pengumpuldata='{!! json_encode($pengumpuldata) !!}'
                 :dinasbop='{!! json_encode($dinasbop) !!}'
                 :auditan_data='{!! json_encode($auditan) !!}'
+                :anggota='{!! json_encode($anggota) !!}'
+                :ketua='{!! json_encode($ketua) !!}'
                 :route='{!! json_encode($route) !!}'
                 :api='{!! json_encode($api) !!}'>
             </dinasboptimpengumpuldata-create>
@@ -15,7 +16,8 @@
                 :dinasboptimpengumpuldata='{!! json_encode($dinasboptimpengumpuldata) !!}'
                 :pengumpuldata='{!! json_encode($pengumpuldata) !!}'
                 :dinasbop='{!! json_encode($dinasbop) !!}'
-                :irban_data='{!! json_encode($irban) !!}'
+                :anggota='{!! json_encode($anggota) !!}'
+                :ketua='{!! json_encode($ketua) !!}'
                 :auditan_data='{!! json_encode($auditan) !!}'
                 :route='{!! json_encode($route) !!}'
                 :api='{!! json_encode($api) !!}'>

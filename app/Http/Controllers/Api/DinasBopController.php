@@ -828,7 +828,6 @@ class DinasBopController extends Controller
         $dinasboptim = new DinasBopPengumpulDataTim();
         $dinasboptim->dinasbop_id = $request['dinasbop'];
         $dinasboptim->dinasbop_pengumpuldata_id = $request['pengumpuldata'];
-        $dinasboptim->irban_id = $request->input('irban_id');
         $dinasboptim->auditan = $request->input('auditan');
         $dinasboptim->nomor_sp = $request->input('nomor_sp');
         $dinasboptim->tgl_sp = $request->input('tgl_sp');
@@ -855,7 +854,6 @@ class DinasBopController extends Controller
 
     public function put_pengumpuldata_tim_data(Request $request)
     {
-
         $dinasboptimpengumpuldata = DinasBopPengumpulDataTim::find($request['id']);
         $timdinas = new TimDinas();
         $parameter = [
@@ -872,7 +870,6 @@ class DinasBopController extends Controller
 
         $anggaran_pengumpuldata_lama = $dinasboptimpengumpuldata->total_anggaran;
 
-        $dinasboptimpengumpuldata->irban_id = $request->input('irban_id');
         $dinasboptimpengumpuldata->auditan = $request->input('auditan');
         $dinasboptimpengumpuldata->nomor_sp = $request->input('nomor_sp');
         $dinasboptimpengumpuldata->tgl_sp = $request->input('tgl_sp');

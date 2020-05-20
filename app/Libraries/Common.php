@@ -8,6 +8,7 @@ class Common
 {
     protected $_bilangan = [
         '',
+        'Nol',
         'Satu',
         'Dua',
         'Tiga',
