@@ -73,8 +73,14 @@
                     <a v-if="(approval_type === 'sekretaris' || approval_type === 'administrator') && (approval_tab.inspektur.approval === 0)" class="btn btn-warning mb-2 mr-2" href="#" @click="toggleRevisiModal()">
                         <i class="fa fa-edit"></i> Form Revisi Sekretaris
                     </a>
+                    <a v-if="(approval_type === 'sekretaris' || approval_type === 'administrator') && (approval_tab.sekretaris.approval === 0)" class="btn btn-success mb-2 mr-2" href="#" @click="toggleApprovalModal()">
+                        <i class="fa fa-check"></i> Approval Sekretaris
+                    </a>
                     <a v-if="(approval_type === 'kassubag' || approval_type === 'administrator') && (approval_tab.inspektur.approval === 0)" class="btn btn-warning mb-2 mr-2" href="#" @click="toggleRevisiModal()">
                         <i class="fa fa-edit"></i> Form Revisi Kassubag
+                    </a>
+                    <a v-if="(approval_type === 'kassubag' || approval_type === 'administrator') && (approval_tab.kassubag.approval === 0)" class="btn btn-success mb-2 mr-2" href="#" @click="toggleApprovalModal()">
+                        <i class="fa fa-check"></i> Approval Kassubag
                     </a>
                 </span>
             </div>

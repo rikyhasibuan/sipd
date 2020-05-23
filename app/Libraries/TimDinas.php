@@ -20,7 +20,7 @@ use App\Models\DinasBopSekretaris;
 use App\Models\DinasBopReviu;
 use App\Models\DinasBopSupervisi;
 use App\Models\DinasRegular;
-use Appp\Models\DinasBopApproval;
+use App\Models\DinasBopApproval;
 use App\Models\Harian;
 use App\Models\Kabkota;
 use App\Models\Pegawai;
