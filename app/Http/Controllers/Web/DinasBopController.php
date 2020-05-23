@@ -19,6 +19,7 @@ use App\Models\DinasBopPengumpulData;
 use App\Models\DinasBopPengumpulDataTim;
 use App\Models\DinasBopAdministrasi;
 use App\Models\DinasBopAdministrasiTim;
+use App\Models\DinasBopApproval;
 use App\Models\Irban;
 use App\Models\IrbanKabkota;
 use App\Models\IrbanSkpd;
@@ -136,6 +137,7 @@ class DinasBopController extends Controller
         $dinasbopsekretaris = DinasBopSekretaris::where('dinasbop_id', $dinasbop->id)->get();
         $dinasbopreviu = DinasBopReviu::where('dinasbop_id', $dinasbop->id)->first();
         $dinasbopsupervisi = DinasBopSupervisi::where('dinasbop_id', $dinasbop->id)->first();
+        $dinasbopapproval = DinasBopApproval::where('dinasbop_id', $dinasbop->id)->get();
         $dinasboppengumpuldata_count = DinasBopPengumpulData::where('dinasbop_id', $dinasbop->id)->count();
         $dinasbopadministrasi_count = DinasBopAdministrasi::where('dinasbop_id', $dinasbop->id)->count();
 
@@ -175,6 +177,7 @@ class DinasBopController extends Controller
         $data['dinasboptimpengumpuldata'] = $dinasboptimpengumpuldata;
         $data['dinasbopadministrasi'] = $dinasbopadministrasi;
         $data['dinasboptimadministrasi'] = $dinasboptimadministrasi;
+        $data['dinasbopapproval'] = $dinasbopapproval;
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api);
         $data['route'] = url($this->route);

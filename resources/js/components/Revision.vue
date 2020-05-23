@@ -1,0 +1,56 @@
+<template>
+    <div>
+        <!-- Approval Modal -->
+        <div class="modal" id="revision_modal" tabindex="-1" role="dialog" @close="close">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Form Revisi</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST">
+                            <div class="row">
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label>Catatan Revisi *</label>
+                                    <textarea class="form-control" v-model="catatan" rows="5"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <button type="button" class="btn btn-flat btn-success" @click.prevent="createRevision()"><i class="fa fa-check"></i> Simpan</button>
+                                    <button type="button" class="btn btn-flat btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default {
+        data() {
+            return {
+                catatan: ''
+            }
+        },
+        methods: {
+            close() {
+                this.$emit('close');
+            },
+            createRevision() {
+                this.$emit('create', this.catatan);
+            },
+            updateRevision() {
+                this.$emit('update', this.catatan);
+            }
+        }
+    };
+</script>

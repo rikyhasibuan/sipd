@@ -16,6 +16,7 @@ use App\Models\DinasBopPengumpulData;
 use App\Models\DinasBopPengumpulDataTim;
 use App\Models\DinasBopAdministrasi;
 use App\Models\DinasBopAdministrasiTim;
+use App\Models\DinasBopApproval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Storage;
@@ -65,6 +66,8 @@ class DinasBopController extends Controller
             $dinasbop->created_at = date('Y-m-d H:i:s');
 
             if ($dinasbop->save()) {
+                $timdinas = new TimDinas();
+                $timdinas->generate_approval_bop($dinasbop->id);
                 return response()->json(['status'=>'ok'], 200);
             } else {
                 return response()->json(['status'=>'failed'], 500);
@@ -1280,6 +1283,67 @@ class DinasBopController extends Controller
             }
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function put_approval_data(Request $request)
+    {
+        $act = $request['act'];
+        $type = $request['type'];
+        $tab = $request['tab'];
+        $dinasbop_id = $request['id'];
+
+        if ($act == 'revision') {
+            $approvalbop = DinasBopApproval::where('dinasbop_id', $dinasbop_id)->where('tab', $tab)->first();
+            $column = $approvalbop[$type];
+            array_push($column['catatan'], $request->input('catatan'));
+            $primary_id = $approvalbop['id'];
+
+            $dinasboprevision = DinasBopApproval::find($primary_id);
+            $dinasboprevision->{$type} = $column;
+            $dinasboprevision->updated_at = date('Y-m-d H:i:s');
+            if ($dinasboprevision->save()) {
+                return response()->json(['status'=>'ok'], 200);
+            } else {
+                return response()->json(['status'=>'failed'], 500);
+            }
+        } else if ($act == 'approve') {
+            $approvalbop = DinasBopApproval::where('dinasbop_id', $dinasbop_id)->where('tab', $tab)->first();
+            $column = $approvalbop[$type];
+            $column['approval'] = 1;
+            $primary_id = $approvalbop['id'];
+
+            $dinasbopapproval = DinasBopApproval::find($primary_id);
+            $dinasbopapproval->{$type} = $column;
+            $dinasbopapproval->updated_at = date('Y-m-d H:i:s');
+            if ($dinasbopapproval->save()) {
+                $dinasboplock = DinasBopApproval::find($primary_id);
+                $i = 0;
+                if ($dinasboplock->inspektur['approval'] == 1) {
+                    $i++;
+                }
+                if ($dinasboplock->sekretaris['approval'] == 1) {
+                    $i++;
+                }
+                if ($dinasboplock->kassubag['approval'] == 1) {
+                    $i++;
+                }
+
+                if ($i == 3) {
+                    $dinasboplock->lock = 1;
+                    $dinasboplock->save();
+                }
+                return response()->json(['status'=>'ok'], 200);
+            } else {
+                return response()->json(['status'=>'failed'], 500);
+            }
+        } else if ($act == 'lock') {
+            $dinasboplock = DinasBopApproval::where('dinasbop_id', $dinasbop_id)->where('tab', $tab)->update('lock', 1);
+            if ($dinasboplock) {
+                return response()->json(['status'=>'ok'], 200);
+            } else {
+                return response()->json(['status'=>'failed'], 500);
+            }
         }
     }
 }

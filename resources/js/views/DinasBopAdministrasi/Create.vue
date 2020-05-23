@@ -10,21 +10,21 @@
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label>Dasar Surat Perintah *</label>
-                                    <input type="text" class="form-control" placeholder="Dasar 1" v-model="dinasboppengumpuldata.dasar[0]" required="required">
+                                    <input type="text" class="form-control" placeholder="Dasar 1" v-model="dinasbopadministrasi.dasar[0]" required="required">
                                     <br>
-                                    <input type="text" class="form-control" placeholder="Dasar 2" v-model="dinasboppengumpuldata.dasar[1]">
+                                    <input type="text" class="form-control" placeholder="Dasar 2" v-model="dinasbopadministrasi.dasar[1]">
                                     <br>
-                                    <input type="text" class="form-control" placeholder="Dasar 3" v-model="dinasboppengumpuldata.dasar[2]">
+                                    <input type="text" class="form-control" placeholder="Dasar 3" v-model="dinasbopadministrasi.dasar[2]">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label>Tujuan Pemeriksaan *</label>
-                                    <input type="text" class="form-control" placeholder="Tujuan 1" v-model="dinasboppengumpuldata.untuk[0]" required="required">
+                                    <input type="text" class="form-control" placeholder="Tujuan 1" v-model="dinasbopadministrasi.untuk[0]" required="required">
                                     <br>
-                                    <input type="text" class="form-control" placeholder="Tujuan 2" v-model="dinasboppengumpuldata.untuk[1]">
+                                    <input type="text" class="form-control" placeholder="Tujuan 2" v-model="dinasbopadministrasi.untuk[1]">
                                     <br>
-                                    <input type="text" class="form-control" placeholder="Tujuan 3" v-model="dinasboppengumpuldata.untuk[2]">
+                                    <input type="text" class="form-control" placeholder="Tujuan 3" v-model="dinasbopadministrasi.untuk[2]">
                                 </div>
                             </div>
                             <div class="row">
@@ -33,7 +33,7 @@
                                     <date-picker
                                         id="dari"
                                         name="dari"
-                                        v-model="dinasboppengumpuldata.dari"
+                                        v-model="dinasbopadministrasi.dari"
                                         :config="options"
                                         class="form-control"
                                         placeholder="Tanggal Mulai"
@@ -46,7 +46,7 @@
                                     <date-picker
                                         id="sampai"
                                         name="sampai"
-                                        v-model="dinasboppengumpuldata.sampai"
+                                        v-model="dinasbopadministrasi.sampai"
                                         :config="options"
                                         class="form-control"
                                         placeholder="Tanggal Selesai"
@@ -75,7 +75,7 @@
     export default {
         data() {
             return {
-                dinasboppengumpuldata: {
+                dinasbopadministrasi: {
                     'dasar': [],
                     'untuk': [],
                     'dari': '',
@@ -106,7 +106,7 @@
         ],
         methods: {
             onSubmit(evt) {
-                service.postData(this.api, this.dinasboppengumpuldata)
+                service.postData(this.api, this.dinasbopadministrasi)
                 .then(result => {
                     this.response(result);
                 }).catch(error => {
@@ -135,14 +135,14 @@
                 }
             },
             reset() {
-                this.dinasboppengumpuldata.dasar = [];
-                this.dinasboppengumpuldata.untuk = [];
-                this.dinasboppengumpuldata.dari = '';
-                this.dinasboppengumpuldata.sampai = '';
+                this.dinasbopadministrasi.dasar = [];
+                this.dinasbopadministrasi.untuk = [];
+                this.dinasbopadministrasi.dari = '';
+                this.dinasbopadministrasi.sampai = '';
             }
         },
         created() {
-            this.$cookies.set("last_tab", "pengumpuldata");
+            this.$cookies.set("last_tab", "administrasi");
             this.isLoading = true;
         },
         mounted() {

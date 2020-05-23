@@ -166,6 +166,9 @@ Route::post('dinasbop/timadministrasi', 'Api\DinasBopController@post_administras
 Route::put('dinasbop/timadministrasi', 'Api\DinasBopController@put_administrasi_tim_data');
 Route::delete('dinasbop/timadministrasi', 'Api\DinasBopController@delete_administrasi_tim_data');
 
+Route::post('dinasbop/approval', 'Api\DinasBopController@post_approval_data');
+Route::put('dinasbop/approval', 'Api\DinasBopController@put_approval_data');
+
 // dinas regular
 Route::get('dinasregular', 'Api\DinasRegularController@get_data');
 Route::get('dinasregular/{id}', 'Api\DinasRegularController@show_data');

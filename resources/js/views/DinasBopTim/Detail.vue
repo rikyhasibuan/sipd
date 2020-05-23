@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top:25px;">
+    <div style="margin-top:25px;">
     <transition name="fade">
         <table class="table table-hover table-striped table-bordered">
             <tbody>
@@ -58,8 +58,24 @@
             <div class="pull-left">
                 <a v-if="access.write === 1" :href="route + '/tim/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Tim</a>
                 <span v-if="dinasboptim.length > 0">
-                <a v-if="access.write === 1" class="btn btn-default mb-2 mr-2" href="#" @click="print_personil_all(dinasbop.id)">
+
+                <a v-if="approval_tab.lock === 1" class="btn btn-default mb-2 mr-2" href="#" @click="print_personil_all(dinasbop.id)">
                     <i class="fa fa-users"></i> Cetak Daftar Personil</a>
+                </span>
+
+                <span v-if="access.approval === 1">
+                    <a v-if="(approval_type === 'inspektur' || approval_type === 'administrator') && (approval_tab.inspektur.approval === 0)" class="btn btn-warning mb-2 mr-2" href="#" @click="toggleRevisiModal()">
+                        <i class="fa fa-edit"></i> Form Revisi Inspektur
+                    </a>
+                    <a v-if="(approval_type === 'inspektur' || approval_type === 'administrator') && (approval_tab.inspektur.approval === 0)" class="btn btn-success mb-2 mr-2" href="#" @click="toggleApprovalModal()">
+                        <i class="fa fa-check"></i> Approval Inspektur
+                    </a>
+                    <a v-if="(approval_type === 'sekretaris' || approval_type === 'administrator') && (approval_tab.inspektur.approval === 0)" class="btn btn-warning mb-2 mr-2" href="#" @click="toggleRevisiModal()">
+                        <i class="fa fa-edit"></i> Form Revisi Sekretaris
+                    </a>
+                    <a v-if="(approval_type === 'kassubag' || approval_type === 'administrator') && (approval_tab.inspektur.approval === 0)" class="btn btn-warning mb-2 mr-2" href="#" @click="toggleRevisiModal()">
+                        <i class="fa fa-edit"></i> Form Revisi Kassubag
+                    </a>
                 </span>
             </div>
         </div>
@@ -67,7 +83,6 @@
     <div class="row">
         <div class="col-md-12">
             <v-alert :alert="alert"></v-alert>
-            <!-- tampil tim -->
             <transition name="fade">
                 <table class="table table-hover table-striped table-bordered" v-if="showTable == true">
                     <thead>
@@ -143,7 +158,7 @@
                                 </div>
                             </td>
                             <td style="text-align: center; vertical-align:middle;">
-                                <div style="text-align: center;" v-if="(access.update === 1) & (access.delete === 1)">
+                                <div style="text-align: center;" v-if="(access.update === 1) && (access.delete === 1)">
                                     <a :href="route + '/tim/edit?dinasbop='+ dinasbop.id +'&id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
                                         <i class="fa fa-wrench"></i> Ubah
                                     </a>
@@ -151,7 +166,7 @@
                                         class="btn btn-sm btn-danger">
                                         <i class="fa fa-trash-o"></i> Hapus
                                     </a>
-                                    <div class="btn-group">
+                                    <div class="btn-group" v-if="approval_tab.lock === 1">
                                         <button type="button" class="btn btn-default"><i class="fa fa-print"></i> Print</button>
                                         <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
                                             <span class="sr-only">Toggle Dropdown</span>
@@ -167,7 +182,7 @@
                                 <div style="text-align: center;" v-else>
                                     <button class="btn btn-sm btn-warning disabled mr-sm-1"><i class="fa fa-wrench"></i> Ubah</button>
                                     <button class="btn btn-sm btn-danger disabled"><i class="fa fa-trash-o"></i> Hapus</button>
-                                    <div class="btn-group">
+                                    <div class="btn-group" v-if="approval_tab.lock === 1">
                                         <button type="button" class="btn btn-default"><i class="fa fa-print"></i> Print</button>
                                         <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
                                             <span class="sr-only">Toggle Dropdown</span>
@@ -191,15 +206,16 @@
                     </tbody>
                 </table>
             </transition>
-            <!-- tampil modal untuk konfirmasi delete -->
+            <transition name="fade"><v-revision-log :revision=approval_tab></v-revision-log></transition>
             <transition name="fade"><v-modal :id="id" @delete="deleteData"></v-modal></transition>
+            <transition name="fade"><v-revision @create="createRevision"></v-revision></transition>
+            <transition name="fade"><v-approval @approve="createApproval"></v-approval></transition>
         </div>
     </div>
-  </div>
+    </div>
 </template>
 
 <script>
-
 import service from './../../services.js';
 export default {
     data() {
@@ -213,10 +229,11 @@ export default {
             },
             total_biaya_tim:0,
             showTable: false,
-            id:''
+            id:'',
+            approval_tab:[]
         }
     },
-    props: ['dinasbop', 'dinasboptim', 'route', 'print_action', 'api', 'access'],
+    props: ['dinasbop', 'dinasbopapproval', 'dinasboptim', 'route', 'print_action', 'api', 'access', 'approval_type'],
     methods: {
         print_sp(id) {
             let new_window = window.open();
@@ -246,6 +263,12 @@ export default {
             $("#deletemodal").modal('show');
             this.id = id;
         },
+        toggleRevisiModal() {
+            $("#revision_modal").modal('show');
+        },
+        toggleApprovalModal() {
+            $("#approval_modal").modal('show');
+        },
         deleteData(id) {
             service.deleteData(this.api + '/tim/' + this.dinasbop.id + '/' + id)
             .then(response => {
@@ -263,6 +286,41 @@ export default {
                 this.alert.error = true;
                 $('#deletemodal').modal('hide');
                 window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                console.log(error);
+            });
+        },
+        createRevision(catatan) {
+            service.putData(this.api + '/approval?act=revision&type='+this.approval_type+'&tab=tim&id=' + this.dinasbop.id, {catatan: catatan})
+            .then(response => {
+                if(response.status === 'ok') {
+                    this.alert.delete = true;
+                    $('#revision_modal').modal('hide');
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                    alert('CATATAN REVISI BERHASIL DIBUAT');
+                    location.reload();
+                }
+            }).catch(error => {
+                this.alert.delete = false;
+                this.alert.error = true;
+                $('#revision_modal').modal('hide');
+                alert('TERJADI KESALAHAN PADA SISTEM!');
+                window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                console.log(error);
+            });
+        },
+        createApproval() {
+            service.putData(this.api + '/approval?act=approve&type='+this.approval_type+'&tab=tim&id=' + this.dinasbop.id)
+            .then(response => {
+                if(response.status === 'ok') {
+                    $('#approval_modal').modal('hide');
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                    alert('PROSES APPROVAL BERHASIL');
+                    location.reload();
+                }
+            }).catch(error => {
+                $('#approval_modal').modal('hide');
+                window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                alert('TERJADI KESALAHAN PADA SISTEM!');
                 console.log(error);
             });
         }
@@ -283,6 +341,8 @@ export default {
     },
     mounted() {
         this.isLoading = false;
+        this.approval_tab = this.dinasbopapproval.find(dinasbopapproval=> dinasbopapproval.tab === 'tim');
+        console.log(this.approval_tab.inspektur.approval);
     }
 };
 </script>

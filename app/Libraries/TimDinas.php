@@ -20,6 +20,7 @@ use App\Models\DinasBopSekretaris;
 use App\Models\DinasBopReviu;
 use App\Models\DinasBopSupervisi;
 use App\Models\DinasRegular;
+use Appp\Models\DinasBopApproval;
 use App\Models\Harian;
 use App\Models\Kabkota;
 use App\Models\Pegawai;
@@ -966,5 +967,30 @@ class TimDinas
     public function get_sekretaris()
     {
         return Pegawai::where('jabatan', 'Sekretaris')->first();
+    }
+
+    public function generate_approval_bop($id) {
+        $tabs = [
+            'tim',
+            'driver',
+            'sekretaris',
+            'inspektur',
+            'reviu',
+            'supervisi',
+            'pengumpuldata',
+            'administrasi'
+        ];
+
+        foreach ($tabs as $v) {
+            $approval = new DinasBopApproval();
+            $approval->dinasbop_id = $id;
+            $approval->tab = $v;
+            $approval->inspektur = ['catatan'=>[], 'approval'=>0];
+            $approval->sekretaris = ['catatan'=>[], 'approval'=>0];
+            $approval->kassubag = ['catatan'=>[], 'approval'=>0];
+            $approval->lock = 0;
+            $approval->created_at = date('Y-m-d H:i:s');
+            $approval->save();
+        }
     }
 }

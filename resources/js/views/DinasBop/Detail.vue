@@ -49,12 +49,14 @@
                     <div class="tab-content">
                         <div id="tim" class="tab-pane fade" :class="{ 'active': (last_tab == 'tim'), 'show': (last_tab == 'tim') }">
                             <dinasboptim-detail
-                                :dinasbop = dinasbop
-                                :dinasboptim = dinasboptim
-                                :route = route
-                                :print_action = print_action
-                                :access = access
-                                :api = api>
+                                :dinasbop=dinasbop
+                                :dinasboptim=dinasboptim
+                                :dinasbopapproval=dinasbopapproval
+                                :route=route
+                                :print_action=print_action
+                                :access=access
+                                :approval_type=approval_type
+                                :api=api>
                             </dinasboptim-detail>
                         </div>
                         <div id="inspektur" class="tab-pane fade" :class="{ 'active': (last_tab == 'inspektur'), 'show': (last_tab == 'inspektur') }">
@@ -64,6 +66,7 @@
                                 :route=route
                                 :print_action=print_action
                                 :access=access
+                                :approval_type = approval_type
                                 :api=api>
                             </dinasbopinspektur-detail>
                         </div>
@@ -73,6 +76,7 @@
                                 :dinasbopsekretaris = dinasbopsekretaris
                                 :route = route
                                 :print_action = print_action
+                                :approval_type = approval_type
                                 :access=access
                                 :api = api>
                             </dinasbopsekretaris-detail>
@@ -83,6 +87,7 @@
                                 :dinasbopdriver = dinasbopdriver
                                 :route = route
                                 :print_action = print_action
+                                :approval_type = approval_type
                                 :access=access
                                 :api = api>
                             </dinasbopdriver-detail>
@@ -93,6 +98,7 @@
                                 :dinasbopreviu = dinasbopreviu
                                 :route = route
                                 :print_action = print_action
+                                :approval_type = approval_type
                                 :access=access
                                 :api = api>
                             </dinasbopreviu-detail>
@@ -103,6 +109,7 @@
                                 :dinasbopsupervisi = dinasbopsupervisi
                                 :route = route
                                 :print_action = print_action
+                                :approval_type = approval_type
                                 :access=access
                                 :api = api>
                             </dinasbopsupervisi-detail>
@@ -114,6 +121,7 @@
                                 :dinasboptimpengumpuldata=dinasboptimpengumpuldata
                                 :route=route
                                 :print_action=print_action
+                                :approval_type = approval_type
                                 :access=access
                                 :api=api>
                             </dinasboppengumpuldata-detail>
@@ -125,6 +133,7 @@
                                 :dinasboptimadministrasi=dinasboptimadministrasi
                                 :route=route
                                 :print_action=print_action
+                                :approval_type = approval_type
                                 :access=access
                                 :api=api>
                             </dinasbopadministrasi-detail>
@@ -147,15 +156,8 @@
         data() {
             return {
                 isLoading: false,
-                options: {},
-                alert: {
-                    error:false,
-                    empty:false,
-                    delete:false
-                },
-                showTable: false,
                 last_tab: '',
-                id:''
+                approval_type: ''
             }
         },
         props: [
@@ -170,6 +172,7 @@
             'dinasboptimpengumpuldata',
             'dinasbopadministrasi',
             'dinasboptimadministrasi',
+            'dinasbopapproval',
             'route',
             'print_action',
             'access',
@@ -215,6 +218,25 @@
                 this.last_tab = 'tim';
             } else {
                 this.last_tab = this.$cookies.get("last_tab");
+            }
+
+            let level = this.$cookies.get('level');
+            if (level === '1') {
+                this.approval_type = 'administrator';
+            } else if (level == '3') {
+                if (this.$cookies.get('jabatan') == 'Inspektur') {
+                    this.approval_type = 'inspektur';
+                } else if (this.$cookies.get('jabatan') == 'Sekretaris') {
+                    this.approval_type = 'sekretaris';
+                } else if (this.$cookies.get('jabatan') == 'Kepala Sub Bagian Kepegawaian dan Umum') {
+                    this.approval_type = 'kassubag';
+                } else if (this.$cookies.get('jabatan') == 'Kepala Sub Bagian Keuangan dan Aset') {
+                    this.approval_type = 'kassubag';
+                } else if (this.$cookies.get('jabatan') == 'Kepala Sub Bagian Perencanaan dan Pelaporan') {
+                    this.approval_type = 'kassubag';
+                }
+            } else if (level == '2') {
+                this.approval_type = 'operator';
             }
         },
         mounted() {

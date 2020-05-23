@@ -18,19 +18,22 @@ class LoginController extends Controller
             $user = User::where($user_data)->first();
 
             if ($user) {
-                $response = array();
-                $response['login'] = 'true';
-                $response['id'] = $user['id'];
-                $response['nip'] = $user['nip'];
-                $response['level'] = $user['level_id'];
-                if ($user['level_id'] != '1') {
-                    $pegawai = Pegawai::where('nip', $user['nip'])->first();
-                    $response['jabatan'] = $pegawai['jabatan'];
+                if ($user['status'] == 1) {
+                    $response = array();
+                    $response['login'] = 'true';
+                    $response['id'] = $user['id'];
+                    $response['nip'] = $user['nip'];
+                    $response['level'] = $user['level_id'];
+                    if ($user['level_id'] != 1) {
+                        $pegawai = Pegawai::where('nip', $user['nip'])->first();
+                        $response['jabatan'] = $pegawai['jabatan'];
+                    } else {
+                        $response['jabatan'] = 'Administrator';
+                    }
+                    return response()->json($response, 200);
                 } else {
-                    $response['jabatan'] = 'Administrator';
+                    return response()->json(['login' => 'inactive'], 200);
                 }
-
-                return response()->json($response, 200);
             } else {
                 return response()->json(['login' => 'false'], 200);
             }
