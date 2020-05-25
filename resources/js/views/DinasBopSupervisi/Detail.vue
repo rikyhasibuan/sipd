@@ -67,10 +67,10 @@
             <div class="col-md-12">
                 <div class="pull-left">
                     <span v-if="dinasbopsupervisi === null">
-                    <a v-if="access.write === 1" :href="route + '/supervisi/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Tim Supervisi</a>
+                        <a v-if="access.write === 1" :href="route + '/supervisi/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Tim Supervisi</a>
                     </span>
                     <span v-else>
-                        <a v-if="access.update === 1" :href="route + '/supervisi/edit?id='+dinasbopsupervisi.id+'&dinasbop=' + dinasbop.id" class="btn btn-warning mb-2 mr-2"><i class="fa fa-wrench"></i> Ubah Tim Supervisi</a>
+                        <a v-if="approval_tab.lock === 0 && access.update === 1" :href="route + '/supervisi/edit?id='+dinasbopsupervisi.id+'&dinasbop=' + dinasbop.id" class="btn btn-warning mb-2 mr-2"><i class="fa fa-wrench"></i> Ubah Tim Supervisi</a>
 
                         <div class="btn-group">
                             <button type="button" class="btn btn-default mb-2"><i class="fa fa-print"></i> Print</button>

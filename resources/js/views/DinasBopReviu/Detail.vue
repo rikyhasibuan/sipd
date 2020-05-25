@@ -67,10 +67,10 @@
             <div class="col-md-12">
                 <div class="pull-left">
                     <span v-if="dinasbopreviu === null">
-                    <a v-if="access.write === 1" :href="route + '/reviu/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Tim Reviu & Monitoring</a>
+                        <a v-if="access.write === 1" :href="route + '/reviu/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Tim Reviu & Monitoring</a>
                     </span>
                     <span v-else>
-                        <a v-if="access.update === 1" :href="route + '/reviu/edit?id='+dinasbopreviu.id+'&dinasbop=' + dinasbop.id" class="btn btn-warning mb-2 mr-2"><i class="fa fa-wrench"></i> Ubah Tim Reviu & Monitoring</a>
+                        <a v-if="approval_tab.lock === 0 && access.update === 1" :href="route + '/reviu/edit?id='+dinasbopreviu.id+'&dinasbop=' + dinasbop.id" class="btn btn-warning mb-2 mr-2"><i class="fa fa-wrench"></i> Ubah Tim Reviu & Monitoring</a>
                         <div class="btn-group">
                             <button type="button" class="btn btn-default mb-2"><i class="fa fa-print"></i> Print</button>
                             <button type="button" class="btn btn-default mb-2 dropdown-toggle dropdown-icon" data-toggle="dropdown">

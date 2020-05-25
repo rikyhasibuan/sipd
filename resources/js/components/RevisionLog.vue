@@ -23,49 +23,39 @@
         <div style="margin-top:10px;"></div>
         <div class="direct-chat-messages" style="height:auto !important;" v-if="revision.inspektur.catatan.length > 0">
           <div class="direct-chat-msg">
-            <div class="direct-chat-infos clearfix">
-              <span class="direct-chat-name float-left">Catatan Inspektur</span>
-            </div>
             <div class="direct-chat-text" style="margin-left: 0px !important;" v-for="v in revision.inspektur.catatan" :key="v">
               {{ v }}
             </div>
           </div>
-
         </div>
-        <div class="alert alert-danger" role="alert" v-else style="text-align: center;">
-            <i class="fa fa-exclamation-triangle"></i> DATA TIDAK DITEMUKAN
+        <div class="alert alert-danger" role="alert"  style="text-align: center;">
+            <i class="fa fa-exclamation-triangle"></i> TIDAK ADA CATATAN REVISI
         </div>
       </div>
       <div role="tabpanel" class="tab-pane fade" id="revlogsekretaris">
         <div style="margin-top:10px;"></div>
         <div class="direct-chat-messages" style="height:auto !important;" v-if="revision.sekretaris.catatan.length > 0">
           <div class="direct-chat-msg">
-            <div class="direct-chat-infos clearfix">
-              <span class="direct-chat-name float-left">Catatan Sekretaris</span>
-            </div>
             <div class="direct-chat-text" style="margin-left: 0px !important;" v-for="v in revision.sekretaris.catatan" :key="v">
               {{ v }}
             </div>
           </div>
         </div>
         <div class="alert alert-danger" role="alert" v-else style="text-align: center;">
-            <i class="fa fa-exclamation-triangle"></i> DATA TIDAK DITEMUKAN
+            <i class="fa fa-exclamation-triangle"></i> TIDAK ADA CATATAN REVISI
         </div>
       </div>
       <div role="tabpanel" class="tab-pane fade" id="revlogkassubag">
         <div style="margin-top:10px;"></div>
         <div class="direct-chat-messages" style="height:auto !important;" v-if="revision.kassubag.catatan.length > 0">
           <div class="direct-chat-msg">
-            <div class="direct-chat-infos clearfix">
-              <span class="direct-chat-name float-left">Catatan Kassubag</span>
-            </div>
             <div class="direct-chat-text" style="margin-left: 0px !important;" v-for="v in revision.kassubag.catatan" :key="v">
               {{ v }}
             </div>
           </div>
         </div>
         <div class="alert alert-danger" role="alert" v-else style="text-align: center;">
-            <i class="fa fa-exclamation-triangle"></i> DATA TIDAK DITEMUKAN
+            <i class="fa fa-exclamation-triangle"></i> TIDAK ADA CATATAN REVISI
         </div>
       </div>
     </div>

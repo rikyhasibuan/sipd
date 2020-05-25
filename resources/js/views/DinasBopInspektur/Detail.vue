@@ -32,7 +32,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="pull-left">
-                    <a v-if="access.write === 1" :href="route + '/inspektur/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Data</a>
+                    <a v-if="approval_tab.lock === 0 && access.write === 1" :href="route + '/inspektur/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Data</a>
                 </div>
 
                 <span v-if="dinasbopinspektur.length !== 0 && access.approval === 1">
@@ -110,11 +110,11 @@
                                 </td>
                                 <td style="text-align: center; vertical-align:middle;">
                                     <div style="text-align: center;">
-                                        <a v-if="access.update === 1" :href="route + '/inspektur/edit?dinasbop='+ dinasbop.id +'&id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
+                                        <a v-if="approval_tab.lock === 0 && access.update === 1" :href="route + '/inspektur/edit?dinasbop='+ dinasbop.id +'&id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
                                             <i class="fa fa-wrench"></i> Ubah
                                         </a>
                                         <button v-else class="btn btn-sm btn-warning disabled mr-sm-1"><i class="fa fa-wrench"></i> Ubah</button>
-                                        <a v-if="access.delete === 1" href="#" @click="toggleModal(v.id)"
+                                        <a v-if="approval_tab.lock === 0 && access.delete === 1" href="#" @click="toggleModal(v.id)"
                                            class="btn btn-sm btn-danger">
                                             <i class="fa fa-trash-o"></i> Hapus
                                         </a>
