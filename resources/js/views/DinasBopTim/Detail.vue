@@ -49,12 +49,23 @@
                         </div>
                     </td>
                 </tr>
+                <tr>
+                    <td style="width:15%;">
+                        <b>Status Approval</b>
+                    </td>
+                    <td>
+                        <span v-if="approval_tab.kassubag.approval === 1" class="badge badge-success" style="padding:0.75em 0.75em !important;">KASSUBAG SUDAH MENYETUJUI</span>
+                        <span v-if="approval_tab.sekretaris.approval === 1" class="badge badge-success" style="padding:0.75em 0.75em !important;">SEKRETARIS SUDAH MENYETUJUI</span>
+                        <span v-if="approval_tab.inspektur.approval === 1" class="badge badge-success" style="padding:0.75em 0.75em !important;">INSPEKTUR SUDAH MENYETUJUI</span>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </transition>
     <div style="margin-top:25px;"></div>
     <div class="row">
         <div class="col-md-12">
+            <hr>
             <div class="pull-left">
                 <a v-if="access.write === 1" :href="route + '/tim/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Tim</a>
                 <span v-if="dinasboptim.length > 0">
@@ -63,24 +74,24 @@
                     <i class="fa fa-users"></i> Cetak Daftar Personil</a>
                 </span>
 
-                <span v-if="access.approval === 1">
-                    <a v-if="(approval_type === 'inspektur' || approval_type === 'administrator') && (approval_tab.inspektur.approval === 0)" class="btn btn-warning mb-2 mr-2" href="#" @click="toggleRevisiModal()">
-                        <i class="fa fa-edit"></i> Form Revisi Inspektur
-                    </a>
-                    <a v-if="(approval_type === 'inspektur' || approval_type === 'administrator') && (approval_tab.inspektur.approval === 0)" class="btn btn-success mb-2 mr-2" href="#" @click="toggleApprovalModal()">
-                        <i class="fa fa-check"></i> Approval Inspektur
-                    </a>
-                    <a v-if="(approval_type === 'sekretaris' || approval_type === 'administrator') && (approval_tab.inspektur.approval === 0)" class="btn btn-warning mb-2 mr-2" href="#" @click="toggleRevisiModal()">
-                        <i class="fa fa-edit"></i> Form Revisi Sekretaris
-                    </a>
-                    <a v-if="(approval_type === 'sekretaris' || approval_type === 'administrator') && (approval_tab.sekretaris.approval === 0)" class="btn btn-success mb-2 mr-2" href="#" @click="toggleApprovalModal()">
-                        <i class="fa fa-check"></i> Approval Sekretaris
-                    </a>
-                    <a v-if="(approval_type === 'kassubag' || approval_type === 'administrator') && (approval_tab.inspektur.approval === 0)" class="btn btn-warning mb-2 mr-2" href="#" @click="toggleRevisiModal()">
+                <span v-if="dinasboptim.length !== 0 && access.approval === 1">
+                    <a v-if="(approval_type === 'kassubag' || approval_type === 'administrator') && (approval_tab.kassubag.approval === 0)" class="btn btn-warning mb-2 mr-2" href="#" @click="toggleRevisiModal('kassubag')">
                         <i class="fa fa-edit"></i> Form Revisi Kassubag
                     </a>
-                    <a v-if="(approval_type === 'kassubag' || approval_type === 'administrator') && (approval_tab.kassubag.approval === 0)" class="btn btn-success mb-2 mr-2" href="#" @click="toggleApprovalModal()">
+                    <a v-if="(approval_type === 'kassubag' || approval_type === 'administrator') && (approval_tab.kassubag.approval === 0)" class="btn btn-success mb-2 mr-2" href="#" @click="toggleApprovalModal('kassubag')">
                         <i class="fa fa-check"></i> Approval Kassubag
+                    </a>
+                    <a v-if="(approval_type === 'sekretaris' || approval_type === 'administrator') && (approval_tab.sekretaris.approval === 0)" class="btn btn-warning mb-2 mr-2" href="#" @click="toggleRevisiModal('sekretaris')">
+                        <i class="fa fa-edit"></i> Form Revisi Sekretaris
+                    </a>
+                    <a v-if="(approval_type === 'sekretaris' || approval_type === 'administrator') && (approval_tab.sekretaris.approval === 0)" class="btn btn-success mb-2 mr-2" href="#" @click="toggleApprovalModal('sekretaris')">
+                        <i class="fa fa-check"></i> Approval Sekretaris
+                    </a>
+                    <a v-if="(approval_type === 'inspektur' || approval_type === 'administrator') && (approval_tab.inspektur.approval === 0)" class="btn btn-warning mb-2 mr-2" href="#" @click="toggleRevisiModal('inspektur')">
+                        <i class="fa fa-edit"></i> Form Revisi Inspektur
+                    </a>
+                    <a v-if="(approval_type === 'inspektur' || approval_type === 'administrator') && (approval_tab.inspektur.approval === 0)" class="btn btn-success mb-2 mr-2" href="#" @click="toggleApprovalModal('inspektur')">
+                        <i class="fa fa-check"></i> Approval Inspektur
                     </a>
                 </span>
             </div>
@@ -164,30 +175,16 @@
                                 </div>
                             </td>
                             <td style="text-align: center; vertical-align:middle;">
-                                <div style="text-align: center;" v-if="(access.update === 1) && (access.delete === 1)">
-                                    <a :href="route + '/tim/edit?dinasbop='+ dinasbop.id +'&id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
+                                <div style="text-align: center;">
+                                    <a v-if="access.update === 1" :href="route + '/tim/edit?dinasbop='+ dinasbop.id +'&id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
                                         <i class="fa fa-wrench"></i> Ubah
                                     </a>
-                                    <a href="#" @click="toggleModal(v.id)"
+                                    <button v-else class="btn btn-sm btn-warning disabled mr-sm-1"><i class="fa fa-wrench"></i> Ubah</button>
+                                    <a v-if="access.delete === 1" href="#" @click="toggleModal(v.id)"
                                         class="btn btn-sm btn-danger">
                                         <i class="fa fa-trash-o"></i> Hapus
                                     </a>
-                                    <div class="btn-group" v-if="approval_tab.lock === 1">
-                                        <button type="button" class="btn btn-default"><i class="fa fa-print"></i> Print</button>
-                                        <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                            <div class="dropdown-menu" role="menu">
-                                                <a class="dropdown-item" href="#" @click="print_sp(v.id)">Surat Perintah</a>
-                                                <a class="dropdown-item" href="#" @click="print_spd(v.id)">Surat Perjalanan Dinas (SPD)</a>
-                                                <a class="dropdown-item" href="#" @click="print_rbpd(v.id)">Rincian Biaya Perjalanan Dinas</a>
-                                                <a class="dropdown-item" href="#" @click="print_dpbo(v.id)">Daftar Pembayaran</a>
-                                            </div>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div style="text-align: center;" v-else>
-                                    <button class="btn btn-sm btn-warning disabled mr-sm-1"><i class="fa fa-wrench"></i> Ubah</button>
-                                    <button class="btn btn-sm btn-danger disabled"><i class="fa fa-trash-o"></i> Hapus</button>
+                                    <button v-else class="btn btn-sm btn-danger disabled"><i class="fa fa-trash-o"></i> Hapus</button>
                                     <div class="btn-group" v-if="approval_tab.lock === 1">
                                         <button type="button" class="btn btn-default"><i class="fa fa-print"></i> Print</button>
                                         <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
@@ -212,10 +209,15 @@
                     </tbody>
                 </table>
             </transition>
-            <transition name="fade"><v-revision-log :revision=approval_tab></v-revision-log></transition>
             <transition name="fade"><v-modal :id="id" @delete="deleteData"></v-modal></transition>
-            <transition name="fade"><v-revision @create="createRevision"></v-revision></transition>
-            <transition name="fade"><v-approval @approve="createApproval"></v-approval></transition>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-xs-12" v-if="dinasboptim.length !== 0">
+            <hr>
+            <transition name="fade"><v-revision-log :revision=approval_tab></v-revision-log></transition>
+            <transition name="fade"><v-revision :role="approval_role" @revision="createRevision"></v-revision></transition>
+            <transition name="fade"><v-approval :role="approval_role" @approve="createApproval"></v-approval></transition>
         </div>
     </div>
     </div>
@@ -236,7 +238,8 @@ export default {
             total_biaya_tim:0,
             showTable: false,
             id:'',
-            approval_tab:[]
+            approval_tab:[],
+            approval_role:''
         }
     },
     props: ['dinasbop', 'dinasbopapproval', 'dinasboptim', 'route', 'print_action', 'api', 'access', 'approval_type'],
@@ -269,10 +272,12 @@ export default {
             $("#deletemodal").modal('show');
             this.id = id;
         },
-        toggleRevisiModal() {
+        toggleRevisiModal(role) {
+            this.approval_role = role;
             $("#revision_modal").modal('show');
         },
-        toggleApprovalModal() {
+        toggleApprovalModal(role) {
+            this.approval_role = role;
             $("#approval_modal").modal('show');
         },
         deleteData(id) {
@@ -295,8 +300,8 @@ export default {
                 console.log(error);
             });
         },
-        createRevision(catatan) {
-            service.putData(this.api + '/approval?act=revision&type='+this.approval_type+'&tab=tim&id=' + this.dinasbop.id, {catatan: catatan})
+        createRevision(callback) {
+            service.putData(this.api + '/approval?act=revision&type='+callback.role+'&tab=tim&id=' + this.dinasbop.id, {catatan: callback.catatan})
             .then(response => {
                 if(response.status === 'ok') {
                     this.alert.delete = true;
@@ -314,8 +319,8 @@ export default {
                 console.log(error);
             });
         },
-        createApproval() {
-            service.putData(this.api + '/approval?act=approve&type='+this.approval_type+'&tab=tim&id=' + this.dinasbop.id)
+        createApproval(role) {
+            service.putData(this.api + '/approval?act=approve&type='+role+'&tab=tim&id=' + this.dinasbop.id)
             .then(response => {
                 if(response.status === 'ok') {
                     $('#approval_modal').modal('hide');
@@ -347,7 +352,7 @@ export default {
     },
     mounted() {
         this.isLoading = false;
-        this.approval_tab = this.dinasbopapproval.find(dinasbopapproval=> dinasbopapproval.tab === 'tim');
+        this.approval_tab = this.dinasbopapproval.find(dinasbopapproval => dinasbopapproval.tab === 'tim');
         console.log(this.approval_tab.inspektur.approval);
     }
 };

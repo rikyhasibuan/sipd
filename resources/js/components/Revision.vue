@@ -41,15 +41,13 @@
                 catatan: ''
             }
         },
+        props: ['role'],
         methods: {
             close() {
                 this.$emit('close');
             },
             createRevision() {
-                this.$emit('create', this.catatan);
-            },
-            updateRevision() {
-                this.$emit('update', this.catatan);
+                this.$emit('revision', {catatan:this.catatan, role:this.role});
             }
         }
     };

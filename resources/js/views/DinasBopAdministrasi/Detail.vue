@@ -59,6 +59,16 @@
                         </div>
                     </td>
                 </tr>
+                <tr>
+                    <td style="width:15%;">
+                        <b>Status Approval</b>
+                    </td>
+                    <td>
+                        <span v-if="approval_tab.kassubag.approval === 1" class="badge badge-success" style="padding:0.75em 0.75em !important;">KASSUBAG SUDAH MENYETUJUI</span>
+                        <span v-if="approval_tab.sekretaris.approval === 1" class="badge badge-success" style="padding:0.75em 0.75em !important;">SEKRETARIS SUDAH MENYETUJUI</span>
+                        <span v-if="approval_tab.inspektur.approval === 1" class="badge badge-success" style="padding:0.75em 0.75em !important;">INSPEKTUR SUDAH MENYETUJUI</span>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </transition>
@@ -70,6 +80,28 @@
                 <div class="pull-left" v-if="emptyData === false">
                     <a v-if="access.update === 1" :href="route + '/administrasi/edit?id='+dinasbopadministrasi.id+'&dinasbop=' + dinasbop.id" class="btn btn-warning mb-2 mr-2"><i class="fa fa-wrench"></i> Ubah Data Dinas</a>
                     <a v-if="access.write === 1" :href="route + '/timadministrasi/create?administrasi='+dinasbopadministrasi.id+'&dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Tim Pengadministrasi</a>
+
+                    <span v-if="dinasboptimadministrasi.length !== 0 && access.approval === 1">
+                        <a v-if="(approval_type === 'kassubag' || approval_type === 'administrator') && (approval_tab.kassubag.approval === 0)" class="btn btn-warning mb-2 mr-2" href="#" @click="toggleRevisiModal('kassubag')">
+                            <i class="fa fa-edit"></i> Form Revisi Kassubag
+                        </a>
+                        <a v-if="(approval_type === 'kassubag' || approval_type === 'administrator') && (approval_tab.kassubag.approval === 0)" class="btn btn-success mb-2 mr-2" href="#" @click="toggleApprovalModal('kassubag')">
+                            <i class="fa fa-check"></i> Approval Kassubag
+                        </a>
+                        <a v-if="(approval_type === 'sekretaris' || approval_type === 'administrator') && (approval_tab.sekretaris.approval === 0)" class="btn btn-warning mb-2 mr-2" href="#" @click="toggleRevisiModal('sekretaris')">
+                            <i class="fa fa-edit"></i> Form Revisi Sekretaris
+                        </a>
+                        <a v-if="(approval_type === 'sekretaris' || approval_type === 'administrator') && (approval_tab.sekretaris.approval === 0)" class="btn btn-success mb-2 mr-2" href="#" @click="toggleApprovalModal('sekretaris')">
+                            <i class="fa fa-check"></i> Approval Sekretaris
+                        </a>
+                        <a v-if="(approval_type === 'inspektur' || approval_type === 'administrator') && (approval_tab.inspektur.approval === 0)" class="btn btn-warning mb-2 mr-2" href="#" @click="toggleRevisiModal('inspektur')">
+                            <i class="fa fa-edit"></i> Form Revisi Inspektur
+                        </a>
+                        <a v-if="(approval_type === 'inspektur' || approval_type === 'administrator') && (approval_tab.inspektur.approval === 0)" class="btn btn-success mb-2 mr-2" href="#" @click="toggleApprovalModal('inspektur')">
+                            <i class="fa fa-check"></i> Approval Inspektur
+                        </a>
+                    </span>
+
                 </div>
             </div>
         </div>
@@ -124,30 +156,17 @@
                                 <b>Total : Rp.{{ v.total_anggaran | rupiah }}</b>
                             </td>
                             <td style="text-align: center; vertical-align:middle;">
-                                <div style="text-align: center;" v-if="(access.update === 1) & (access.delete === 1)">
-                                    <a :href="route + '/timadministrasi/edit?administrasi='+ dinasbopadministrasi.id +'&id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
+                                <div style="text-align: center;">
+                                    <a v-if="access.update === 1" :href="route + '/administrasi/edit?dinasbop='+ dinasbop.id +'&id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
                                         <i class="fa fa-wrench"></i> Ubah
                                     </a>
-                                    <a href="#" @click="toggleModal(v.id)" class="btn btn-sm btn-danger">
+                                    <button v-else class="btn btn-sm btn-warning disabled mr-sm-1"><i class="fa fa-wrench"></i> Ubah</button>
+                                    <a v-if="access.delete === 1" href="#" @click="toggleModal(v.id)"
+                                       class="btn btn-sm btn-danger">
                                         <i class="fa fa-trash-o"></i> Hapus
                                     </a>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-default"><i class="fa fa-print"></i> Print</button>
-                                        <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                            <div class="dropdown-menu" role="menu">
-                                                <a class="dropdown-item" href="#" @click="print_sp(v.id)">Surat Perintah</a>
-                                                <a class="dropdown-item" href="#" @click="print_spd(v.id)">Surat Perjalanan Dinas (SPD)</a>
-                                                <a class="dropdown-item" href="#" @click="print_rbpd(v.id)">Rincian Biaya Perjalanan Dinas</a>
-                                                <a class="dropdown-item" href="#" @click="print_dpbo(v.id)">Daftar Pembayaran</a>
-                                            </div>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div style="text-align: center;" v-else>
-                                    <button class="btn btn-sm btn-warning disabled mr-sm-1"><i class="fa fa-wrench"></i> Ubah</button>
-                                    <button class="btn btn-sm btn-danger disabled"><i class="fa fa-trash-o"></i> Hapus</button>
-                                    <div class="btn-group">
+                                    <button v-else class="btn btn-sm btn-danger disabled"><i class="fa fa-trash-o"></i> Hapus</button>
+                                    <div class="btn-group" v-if="approval_tab.lock === 1">
                                         <button type="button" class="btn btn-default"><i class="fa fa-print"></i> Print</button>
                                         <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
                                             <span class="sr-only">Toggle Dropdown</span>
@@ -195,6 +214,12 @@
                     </div>
                 </transition>
             </div>
+            <div class="col-md-12 col-xs-12" v-if="dinasboptimadministrasi.length !== 0">
+                <hr>
+                <transition name="fade"><v-revision-log :revision=approval_tab></v-revision-log></transition>
+                <transition name="fade"><v-revision :role="approval_role" @revision="createRevision"></v-revision></transition>
+                <transition name="fade"><v-approval :role="approval_role" @approve="createApproval"></v-approval></transition>
+            </div>
         </div>
     </div>
     <div style="margin-top:25px;" v-else>
@@ -219,10 +244,12 @@
                 total_biaya_tim:0,
                 showTable: false,
                 emptyData:false,
-                administrasiid:''
+                administrasiid:'',
+                approval_tab:{},
+                approval_role:''
             }
         },
-        props: ['dinasbop','dinasbopadministrasi','dinasboptimadministrasi', 'route', 'print_action', 'api', 'access'],
+        props: ['dinasbop', 'dinasbopapproval', 'dinasbopadministrasi','dinasboptimadministrasi', 'route', 'print_action', 'api', 'access', 'approval_type'],
         methods: {
             print_sp(id) {
                 let new_window = window.open();
@@ -271,6 +298,49 @@
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     console.log(error);
                 });
+            },
+            toggleRevisiModal(role) {
+                this.approval_role = role;
+                $("#revision_modal").modal('show');
+            },
+            toggleApprovalModal(role) {
+                this.approval_role = role;
+                $("#approval_modal").modal('show');
+            },
+            createRevision(callback) {
+                service.putData(this.api + '/approval?act=revision&type='+callback.role+'&tab=administrasi&id=' + this.dinasbop.id, {catatan: callback.catatan})
+                    .then(response => {
+                        if(response.status === 'ok') {
+                            this.alert.delete = true;
+                            $('#revision_modal').modal('hide');
+                            window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                            alert('CATATAN REVISI BERHASIL DIBUAT');
+                            location.reload();
+                        }
+                    }).catch(error => {
+                    this.alert.delete = false;
+                    this.alert.error = true;
+                    $('#revision_modal').modal('hide');
+                    alert('TERJADI KESALAHAN PADA SISTEM!');
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                    console.log(error);
+                });
+            },
+            createApproval(role) {
+                service.putData(this.api + '/approval?act=approve&type='+role+'&tab=administrasi&id=' + this.dinasbop.id)
+                    .then(response => {
+                        if(response.status === 'ok') {
+                            $('#approval_modal').modal('hide');
+                            window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                            alert('PROSES APPROVAL BERHASIL');
+                            location.reload();
+                        }
+                    }).catch(error => {
+                    $('#approval_modal').modal('hide');
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                    alert('TERJADI KESALAHAN PADA SISTEM!');
+                    console.log(error);
+                });
             }
         },
         created() {
@@ -296,6 +366,7 @@
                     this.total_biaya_tim += this.dinasboptimadministrasi[x].total_anggaran;
                 }
             }
+            this.approval_tab = this.dinasbopapproval.find(dinasbopapproval => dinasbopapproval.tab === 'administrasi');
         }
     };
 </script>

@@ -55,7 +55,7 @@
                                         <td style="text-align:right;">{{ v.eselon_4_gol_3_4 | rupiah }}</td>
                                         <td style="text-align:right;">{{ v.gol_1_2 | rupiah }}</td>
                                         <td>
-                                            <div style="text-align: center;" v-if="(access.update === 1) & (access.delete === 1)">
+                                            <div style="text-align: center;" v-if="(access.update === 1)">
                                                 <a :href="route + '/edit?id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
                                                     <i class="fa fa-wrench"></i> Ubah
                                                 </a>

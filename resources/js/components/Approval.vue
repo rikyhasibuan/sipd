@@ -27,12 +27,13 @@
 
 <script>
     export default {
+        props: ['role'],
         methods: {
             close() {
                 this.$emit('close');
             },
             approveButton() {
-                this.$emit('approve');
+                this.$emit('approve', this.role);
             }
         }
     };

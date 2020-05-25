@@ -63,6 +63,7 @@
                             <dinasbopinspektur-detail
                                 :dinasbop=dinasbop
                                 :dinasbopinspektur=dinasbopinspektur
+                                :dinasbopapproval=dinasbopapproval
                                 :route=route
                                 :print_action=print_action
                                 :access=access
@@ -74,6 +75,7 @@
                             <dinasbopsekretaris-detail
                                 :dinasbop = dinasbop
                                 :dinasbopsekretaris = dinasbopsekretaris
+                                :dinasbopapproval=dinasbopapproval
                                 :route = route
                                 :print_action = print_action
                                 :approval_type = approval_type
@@ -85,6 +87,7 @@
                             <dinasbopdriver-detail
                                 :dinasbop = dinasbop
                                 :dinasbopdriver = dinasbopdriver
+                                :dinasbopapproval=dinasbopapproval
                                 :route = route
                                 :print_action = print_action
                                 :approval_type = approval_type
@@ -96,6 +99,7 @@
                             <dinasbopreviu-detail
                                 :dinasbop = dinasbop
                                 :dinasbopreviu = dinasbopreviu
+                                :dinasbopapproval=dinasbopapproval
                                 :route = route
                                 :print_action = print_action
                                 :approval_type = approval_type
@@ -107,6 +111,7 @@
                             <dinasbopsupervisi-detail
                                 :dinasbop = dinasbop
                                 :dinasbopsupervisi = dinasbopsupervisi
+                                :dinasbopapproval=dinasbopapproval
                                 :route = route
                                 :print_action = print_action
                                 :approval_type = approval_type
@@ -119,6 +124,7 @@
                                 :dinasbop=dinasbop
                                 :dinasboppengumpuldata=dinasboppengumpuldata
                                 :dinasboptimpengumpuldata=dinasboptimpengumpuldata
+                                :dinasbopapproval=dinasbopapproval
                                 :route=route
                                 :print_action=print_action
                                 :approval_type = approval_type
@@ -131,6 +137,7 @@
                                 :dinasbop=dinasbop
                                 :dinasbopadministrasi=dinasbopadministrasi
                                 :dinasboptimadministrasi=dinasboptimadministrasi
+                                :dinasbopapproval=dinasbopapproval
                                 :route=route
                                 :print_action=print_action
                                 :approval_type = approval_type
@@ -139,11 +146,6 @@
                             </dinasbopadministrasi-detail>
                         </div>
                     </div>
-
-                    <!--
-                        <button type="button" class="btn btn-success" @click="approve()" v-show="dinasbop.status === 0" style="margin-right:5px;"><i class="fa fa-check"></i> Setujui</button>
-                        <button type="button" class="btn btn-warning" @click="revisi()" v-show="dinasbop.status === 0" style="margin-right:5px;"><i class="fa fa-info"></i> Revisi</button>
-                    -->
                     <a :href="route" class="btn btn-danger"><i class="fa fa-arrow-left"></i> Kembali</a>
                 </div>
             </div>

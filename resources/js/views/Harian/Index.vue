@@ -53,13 +53,11 @@
                                         <td style="text-align:right;">{{ v.gol_3 | rupiah }}</td>
                                         <td style="text-align:right;">{{ v.gol_4 | rupiah }}</td>
                                         <td>
-                                            <div style="text-align: center;" v-if="(access.update === 1) & (access.delete === 1)">
-                                                <a :href="route + '/edit?id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
+                                            <div style="text-align: center;">
+                                                <a v-if="(access.update === 1)" :href="route + '/edit?id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
                                                     <i class="fa fa-wrench"></i> Ubah
                                                 </a>
-                                            </div>
-                                            <div style="text-align: center;" v-else>
-                                                <button class="btn btn-sm btn-warning disabled mr-sm-1"><i class="fa fa-wrench"></i> Ubah</button>
+                                                <button v-else class="btn btn-sm btn-warning disabled mr-sm-1"><i class="fa fa-wrench"></i> Ubah</button>
                                             </div>
                                         </td>
                                     </tr>

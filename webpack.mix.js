@@ -34,10 +34,11 @@ mix
     .js('./resources/sass/admin-lte/dist/js/adminlte.min.js', 'js/adminlte.js')
     .sass('./resources/sass/login.scss', 'css/login.css')
     .sass('./resources/sass/app.scss', 'css/app.css')
+    .sass('./resources/sass/print.scss', 'css/print.css')
     .options({ processCssUrls: false })
     .autoExtract();
 
-    
+
 if (mix.inProduction()) {
     mix.version();
 }

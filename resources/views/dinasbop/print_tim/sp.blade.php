@@ -13,7 +13,13 @@ $inspektur = $timdinas->get_inspektur();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Surat Perintah</title>
     <link rel="stylesheet" href="{!! asset('css/bootstrap.min.css') !!}">
+    <link href="https://db.onlinewebfonts.com/c/4267d8aa8711bb8c72cbefb26066c9e0?family=Bookman+Old+Style" rel="stylesheet" type="text/css"/>
     <style>
+        * {
+            font-family: "Bookman Old Style";
+            font-size: 12pt;
+        }
+
         @media print {
             @page {
                 size:auto;
@@ -23,7 +29,7 @@ $inspektur = $timdinas->get_inspektur();
             }
 
             * {
-                font-family: 'Times New Roman', Times, serif;
+                font-family: "Bookman Old Style";
                 font-size: 12pt;
             }
 
@@ -79,75 +85,73 @@ $inspektur = $timdinas->get_inspektur();
                     <div style="margin-top:20px;"></div>
                     <table cellpadding="2" cellspacing="2" style="width:100%;">
                         <tr>
-                            <td width="5%" style="text-align: left; vertical-align:text-top;">Kepada</td>
-                            <td width="5%" style="text-align: center; vertical-align:text-top;">:</td>
-                            <td width="80%" style="text-align: justify;">
-
-
-                                <span style="margin-right:20px;">1.</span>
-                                <span style="margin-right:50px;">Nama</span>
-                                <span style="margin-right:30px;">:</span>
-                                <span style="margin-right:20px;">{!! $dinasboptim->tim['wakilpenanggungjawab']['nama'] !!}</span>
+                            <td width="5%" style="text-align:left; vertical-align:text-top;">Kepada</td>
+                            <td width="5%" style="text-align:center; vertical-align:text-top;">:</td>
+                            <td width="80%" style="text-align:justify;">
+                                <span style="margin-right:1rem;">1.</span>
+                                <span style="margin-right:3rem;">Nama</span>
+                                <span style="margin-right:2rem;">:</span>
+                                <span>{!! $dinasboptim->tim['wakilpenanggungjawab']['nama'] !!}</span>
                                 <br>
-                                <span style="margin-right:35px;"></span>
-                                <span style="margin-right:63px;">NIP</span>
-                                <span style="margin-right:30px;">:</span>
-                                <span style="margin-right:20px;">{!! $dinasboptim->tim['wakilpenanggungjawab']['nip'] !!}</span>
+                                <span style="margin-right:2.3rem;"></span>
+                                <span style="margin-right:4.1rem;">NIP</span>
+                                <span style="margin-right:2rem;">:</span>
+                                <span>{!! $dinasboptim->tim['wakilpenanggungjawab']['nip'] !!}</span>
                                 <br>
-                                <span style="margin-right:35px;"></span>
-                                <span style="margin-right:40px;">Jabatan</span>
-                                <span style="margin-right:30px;">:</span>
-                                <span style="margin-right:20px;">Wakil Penanggung Jawab</span>
+                                <span style="margin-right:2.3rem;"></span>
+                                <span style="margin-right:1.8rem;">Jabatan</span>
+                                <span style="margin-right:2rem;">:</span>
+                                <span>Wakil Penanggung Jawab</span>
                                 <br><br>
 
-                                <span style="margin-right:20px;">2.</span>
-                                <span style="margin-right:50px;">Nama</span>
-                                <span style="margin-right:30px;">:</span>
-                                <span style="margin-right:20px;">{!! $dinasboptim->tim['pengendaliteknis']['nama'] !!}</span>
+                                <span style="margin-right:1rem;">2.</span>
+                                <span style="margin-right:3rem;">Nama</span>
+                                <span style="margin-right:2rem;">:</span>
+                                <span>{!! $dinasboptim->tim['pengendaliteknis']['nama'] !!}</span>
                                 <br>
-                                <span style="margin-right:35px;"></span>
-                                <span style="margin-right:63px;">NIP</span>
-                                <span style="margin-right:30px;">:</span>
-                                <span style="margin-right:20px;">{!! $dinasboptim->tim['pengendaliteknis']['nip'] !!}</span>
+                                <span style="margin-right:2.3rem;"></span>
+                                <span style="margin-right:4.1rem;">NIP</span>
+                                <span style="margin-right:2rem;">:</span>
+                                <span>{!! $dinasboptim->tim['pengendaliteknis']['nip'] !!}</span>
                                 <br>
-                                <span style="margin-right:35px;"></span>
-                                <span style="margin-right:40px;">Jabatan</span>
-                                <span style="margin-right:30px;">:</span>
-                                <span style="margin-right:20px;">Pengendali Teknis</span>
+                                <span style="margin-right:2.3rem;"></span>
+                                <span style="margin-right:1.8rem;">Jabatan</span>
+                                <span style="margin-right:2rem;">:</span>
+                                <span>Pengendali Teknis</span>
                                 <br><br>
 
-                                <span style="margin-right:20px;">3.</span>
-                                <span style="margin-right:50px;">Nama</span>
-                                <span style="margin-right:30px;">:</span>
-                                <span style="margin-right:20px;">{!! $dinasboptim->tim['ketuatim']['nama'] !!}</span>
+                                <span style="margin-right:1rem;">3.</span>
+                                <span style="margin-right:3rem;">Nama</span>
+                                <span style="margin-right:2rem;">:</span>
+                                <span>{!! $dinasboptim->tim['ketuatim']['nama'] !!}</span>
                                 <br>
-                                <span style="margin-right:35px;"></span>
-                                <span style="margin-right:63px;">NIP</span>
-                                <span style="margin-right:30px;">:</span>
-                                <span style="margin-right:20px;">{!! $dinasboptim->tim['ketuatim']['nip'] !!}</span>
+                                <span style="margin-right:2.3rem;"></span>
+                                <span style="margin-right:4.1rem;">NIP</span>
+                                <span style="margin-right:2rem;">:</span>
+                                <span>{!! $dinasboptim->tim['ketuatim']['nip'] !!}</span>
                                 <br>
-                                <span style="margin-right:35px;"></span>
-                                <span style="margin-right:40px;">Jabatan</span>
-                                <span style="margin-right:30px;">:</span>
-                                <span style="margin-right:20px;">Ketua Tim</span>
+                                <span style="margin-right:2.3rem;"></span>
+                                <span style="margin-right:1.8rem;">Jabatan</span>
+                                <span style="margin-right:2rem;">:</span>
+                                <span>Ketua Tim</span>
                                 <br><br>
 
                                 <?php $i = 4; ?>
                                 @foreach($dinasboptim->tim['anggota'] as $anggota)
-                                    <span style="margin-right:20px;">{!! $i !!}.</span>
-                                    <span style="margin-right:50px;">Nama</span>
-                                    <span style="margin-right:30px;">:</span>
-                                    <span style="margin-right:20px;">{!! $anggota['nama'] !!}</span>
+                                    <span style="margin-right:1rem;">{!! $i !!}.</span>
+                                    <span style="margin-right:3rem;">Nama</span>
+                                    <span style="margin-right:2rem;">:</span>
+                                    <span>{!! $anggota['nama'] !!}</span>
                                     <br>
-                                    <span style="margin-right:35px;"></span>
-                                    <span style="margin-right:63px;">NIP</span>
-                                    <span style="margin-right:30px;">:</span>
-                                    <span style="margin-right:20px;">{!! $anggota['nip'] !!}</span>
+                                    <span style="margin-right:2.3rem;"></span>
+                                    <span style="margin-right:4.1rem;">NIP</span>
+                                    <span style="margin-right:2rem;">:</span>
+                                    <span>{!! $anggota['nip'] !!}</span>
                                     <br>
-                                    <span style="margin-right:35px;"></span>
-                                    <span style="margin-right:40px;">Jabatan</span>
-                                    <span style="margin-right:30px;">:</span>
-                                    <span style="margin-right:20px;">Anggota</span>
+                                    <span style="margin-right:2.3rem;"></span>
+                                    <span style="margin-right:1.8rem;">Jabatan</span>
+                                    <span style="margin-right:2rem;">:</span>
+                                    <span>Anggota</span>
                                     <br><br>
                                     <?php $i++; ?>
                                 @endforeach

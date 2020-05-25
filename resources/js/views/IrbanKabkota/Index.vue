@@ -54,22 +54,16 @@
                                         <td>{{ v.irban.nama_irban }}</td>
                                         <td>{{ v.kabkota.nama_kabkota }}</td>
                                         <td>
-                                            <div style="text-align: center;" v-if="(access.update === 1) & (access.delete === 1)">
-                                                <a :href="route + '/edit?id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
+                                            <div style="text-align: center;">
+                                                <a v-if="(access.update === 1)" :href="route + '/edit?id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
                                                     <i class="fa fa-wrench"></i> Ubah
                                                 </a>
-                                                <a href="#" @click="toggleModal(v.id)"
+                                                <button v-else class="btn btn-sm btn-warning disabled mr-sm-1"><i class="fa fa-wrench"></i> Ubah</button>
+                                                <a v-if="(access.delete === 1)" href="#" @click="toggleModal(v.id)"
                                                     class="btn btn-sm btn-danger">
                                                     <i class="fa fa-trash-o"></i> Hapus
                                                 </a>
-                                            </div>
-                                            <div style="text-align: center;" v-else>
-                                                <button class="btn btn-sm btn-warning disabled mr-sm-1">
-                                                    <i class="fa fa-wrench"></i> Ubah
-                                                </button>
-                                                <button class="btn btn-sm btn-danger disabled">
-                                                    <i class="fa fa-trash-o"></i> Hapus
-                                                </button>
+                                                <button v-else class="btn btn-sm btn-danger disabled"><i class="fa fa-trash-o"></i> Hapus</button>
                                             </div>
                                         </td>
                                     </tr>

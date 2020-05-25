@@ -13,7 +13,7 @@ class Access
                     $access = ['write' => 1, 'update' => 1, 'delete' => 1, 'approval' => 1];
                     break;
                 case '2':
-                    $access = ['write' => 1, 'update' => 0, 'delete' => 0, 'approval' => 0];
+                    $access = ['write' => 1, 'update' => 1, 'delete' => 0, 'approval' => 0];
                     break;
                 case '3':
                 case '4':
