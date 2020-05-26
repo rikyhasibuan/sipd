@@ -94,6 +94,7 @@
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label>Lampirkan Bukti Pendukung (PDF / DOC / JPG / RAR / ZIP)</label>
+                                    <br>
                                     <input type="file" ref="file" @change="handleFileUpload()">
                                 </div>
                             </div>
@@ -124,7 +125,12 @@
                 options: {
                     format: 'YYYY-MM-DD',
                     useCurrent: false,
-                    locale: 'id'
+                    locale: 'id',
+                    minDate: moment(this.dinasbop_data.dari),
+                    maxDate: moment(this.dinasbop_data.sampai).add(1, 'day'),
+                    disabledDates: [
+                        moment(this.dinasbop_data.sampai).add(1, 'day')
+                    ]
                 },
                 personil_data:[],
                 anggota_data:[],
@@ -147,6 +153,7 @@
             'auditan_data',
             'irban_data',
             'dinasbop',
+            'dinasbop_data',
             'dinasboptim',
             'api',
             'route'
@@ -268,7 +275,6 @@
         },
         mounted() {
             this.isLoading = false;
-            console.log(this.tim.anggota);
         }
     };
 </script>

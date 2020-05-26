@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Models\DinasRegularApproval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\View;
@@ -49,7 +50,7 @@ class DinasRegularController extends Controller
         $program = Program::all();
         $kegiatan = [];
         $belanja = [];
-        
+
         $data = [];
         $data['breadcrumb'] = $breadcrumb;
         $data['title']  = $this->title;
@@ -65,7 +66,7 @@ class DinasRegularController extends Controller
 
     public function create()
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-database"></i> ' . $this->title . '</a>';
         $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data';
@@ -100,7 +101,7 @@ class DinasRegularController extends Controller
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
 
         $dinasregular = DinasRegular::find($request['id']);
-        
+
         $program = Program::all();
         $auditan = Kabkota::all();
         $anggota = Pegawai::all();
@@ -132,7 +133,7 @@ class DinasRegularController extends Controller
         $breadcrumb[2] = '<i class="fa fa-search"></i> Detail';
 
         $dinasregular = DinasRegular::with('program', 'kegiatan', 'belanja')->find($request['id']);
-        
+
         $jenistransportasi = ['BBM','Travel','Tiket'];
         $kabkota = Kabkota::where('nama_kabkota', $dinasregular->auditan)->first();
 
@@ -144,13 +145,17 @@ class DinasRegularController extends Controller
             $takaranliter[$i] = $i;
         }
 
-        $data = array();
+        $dinasregularapproval = DinasRegularApproval::where('dinasregular_id', $request['id'])->first();
+
+        $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['dinasregular'] = $dinasregular;
+        $data['dinasregularapproval'] = $dinasregularapproval;
         $data['jenistransportasi'] = $jenistransportasi;
         $data['takaranliter'] = $takaranliter;
         $data['breadcrumb'] = $breadcrumb;
+        $data['access'] = $this->access;
         $data['api'] = url($this->api);
         $data['route'] = url($this->route);
         return View::make('dinasregular.detail', $data);
@@ -158,7 +163,7 @@ class DinasRegularController extends Controller
 
     public function transportasi(Request $request)
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasregular'].'"><i class="fa fa-database"></i> '.$this->title.'</a>';
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';

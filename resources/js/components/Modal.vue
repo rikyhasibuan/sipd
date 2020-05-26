@@ -1,6 +1,5 @@
 <template>
     <div>
-        <!-- Delete Modal -->
         <div class="modal" id="deletemodal" tabindex="-1" role="dialog" @close="close">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

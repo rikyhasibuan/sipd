@@ -196,6 +196,7 @@ class DinasBopController extends Controller
         $auditan = [];
 
         $driver = Pegawai::where('jabatan', 'Pengemudi')->get();
+        $dinasbop_data = DinasBop::find($request['dinasbop']);
 
         $data = [];
         $data['title']  = $this->title;
@@ -208,6 +209,7 @@ class DinasBopController extends Controller
         $data['driver'] = $driver;
         $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
         $data['dinasbop'] = $request['dinasbop'];
+        $data['dinasbop_data'] = $dinasbop_data;
         return View::make('dinasbop.form_tim', $data);
     }
 
@@ -225,6 +227,8 @@ class DinasBopController extends Controller
 
         $driver = Pegawai::where('jabatan', 'Pengemudi')->get();
 
+        $dinasbop_data = DinasBop::find($request['dinasbop']);
+
         $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
@@ -236,6 +240,7 @@ class DinasBopController extends Controller
         $data['auditan'] = $auditan;
         $data['driver'] = $driver;
         $data['dinasbop'] = $request['dinasbop'];
+        $data['dinasbop_data'] = $dinasbop_data;
         $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
         return View::make('dinasbop.form_tim', $data);
     }
@@ -701,7 +706,7 @@ class DinasBopController extends Controller
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
 
         $dinasboptimpengumpuldata = DinasBopPengumpulDataTim::find($request['id']);
-        
+
         $jabatan_anggota = [
             'Analis Perencanaan, Evaluasi dan Pelaporan',
             'Pengelola Evaluasi Tindak Lanjut Laporan Hasil Pemeriksaan',
@@ -873,7 +878,7 @@ class DinasBopController extends Controller
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
 
         $dinasboptimadministrasi = DinasBopAdministrasiTim::find($request['id']);
-        
+
         $jabatan_anggota = [
             'Analis Perencanaan, Evaluasi dan Pelaporan',
             'Pengelola Evaluasi Tindak Lanjut Laporan Hasil Pemeriksaan',
@@ -902,7 +907,7 @@ class DinasBopController extends Controller
 
         $anggota = Pegawai::whereIn('jabatan', $jabatan_anggota)->get();
         $ketua = Pegawai::whereIn('jabatan', $jabatan_ketua)->get();
-        
+
         $auditan = [];
         $kabkota = IrbanKabkota::with('kabkota')->get();
         $skpd = IrbanSkpd::with('skpd')->get();

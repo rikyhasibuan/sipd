@@ -1,7 +1,11 @@
 <template>
     <transition name="fade">
         <div class="row">
-            <div class="col-lg-4"><span class="pagination">Menampilkan {{ pagination.from }} sampai {{ pagination.to }} dari {{ pagination.total }} data</span></div>
+            <div class="col-lg-4">
+                <span class="pagination">
+                    Menampilkan {{ pagination.from }} sampai {{ pagination.to }} dari {{ pagination.total }} data
+                </span>
+            </div>
             <div class="col-lg-8">
                 <ul class="pagination float-right">
                     <li v-if="pagination.page === 1" class="page-item disabled"><a class="page-link">&laquo; Halaman Sebelumnya</a></li>

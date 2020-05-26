@@ -181,3 +181,5 @@ Route::get('dinasregular/print/spd/{id}', 'Api\DinasRegularController@get_print_
 Route::get('dinasregular/print/rbpd/{id}', 'Api\DinasRegularController@get_print_rbpd');
 Route::get('dinasregular/print/personil/{id}', 'Api\DinasRegularController@get_print_personil');
 Route::get('dinasregular/print/dpbo/{id}', 'Api\DinasRegularController@get_print_dpbo');
+
+Route::put('dinasregular/approval', 'Api\DinasRegularController@put_approval_data');

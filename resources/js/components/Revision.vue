@@ -1,6 +1,5 @@
 <template>
     <div>
-        <!-- Approval Modal -->
         <div class="modal" id="revision_modal" tabindex="-1" role="dialog" @close="close">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -20,8 +19,8 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-12">
-                                    <button type="button" class="btn btn-flat btn-success" @click.prevent="createRevision()"><i class="fa fa-check"></i> Simpan</button>
-                                    <button type="button" class="btn btn-flat btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
+                                    <button type="button" class="btn btn-success" @click.prevent="createRevision()"><i class="fa fa-check"></i> Simpan</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
                                 </div>
                             </div>
                         </form>
@@ -47,7 +46,7 @@
                 this.$emit('close');
             },
             createRevision() {
-                this.$emit('revision', {catatan:this.catatan, role:this.role});
+                this.$emit('revision', { catatan:this.catatan, role:this.role });
             }
         }
     };

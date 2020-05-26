@@ -6,10 +6,10 @@
                     <div class="card-body">
                         <v-alert :alert=alert></v-alert>
                         <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
-                        <form method="POST" v-on:submit.prevent="onSubmit">
+                        <form method="POST" v-on:submit.prevent="onSubmit" autocomplete="off">
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label for="bidang">Program *</label>
+                                    <label>Program *</label>
                                     <select v-model="dinasregular.program_id" @change="onChangeProgram($event)" class="form-control" required="required">
                                         <option value="">Pilih Program</option>
                                         <option v-for="v in this.program" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_program }}</option>
@@ -17,7 +17,7 @@
                                 </div>
 
                                 <div class="form-group col-md-4">
-                                    <label for="bidang">Kegiatan *</label>
+                                    <label>Kegiatan *</label>
                                     <select v-model="dinasregular.kegiatan_id" @change="onChangeKegiatan($event)" class="form-control" required="required">
                                         <option value="">Pilih Kegiatan</option>
                                         <option v-for="v in this.kegiatan" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_kegiatan }}</option>
@@ -25,7 +25,7 @@
                                 </div>
 
                                 <div class="form-group col-md-4">
-                                    <label for="bidang">Belanja *</label>
+                                    <label>Belanja *</label>
                                     <select v-model="dinasregular.belanja_id" class="form-control" required="required">
                                         <option value="">Pilih Belanja</option>
                                         <option v-for="v in this.belanja" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_belanja }}</option>
@@ -34,23 +34,23 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="username">Nomor Surat Perintah </label>
+                                    <label>Nomor Surat Perintah </label>
                                     <input type="text" class="form-control" v-model="dinasregular.nomor_sp" placeholder="Isi Nomor Surat Perintah" required="required">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="username">Tanggal Surat Perintah </label>
+                                    <label>Tanggal Surat Perintah </label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                         </div>
-                                        <date-picker 
+                                        <date-picker
                                             id="tgl_sp"
                                             name="tgl_sp"
                                             v-model="dinasregular.tgl_sp"
                                             :config="options"
                                             class="form-control"
-                                            placeholder="Tanggal Surat Perintah" 
-                                            autocomplete="false">
+                                            placeholder="Tanggal Surat Perintah"
+                                            autocomplete="off">
                                         </date-picker>
                                     </div>
                                 </div>
@@ -68,7 +68,7 @@
 
                             <div class="row">
                                 <div class="form-group col-md-12">
-                                    <label for="nama">Tujuan (wajib diisi minimal 1 kolom)*</label>
+                                    <label>Tujuan (wajib diisi minimal 1 kolom)*</label>
                                     <input type="text" class="form-control" placeholder="Tujuan 1" v-model="dinasregular.untuk[0]" required="required">
                                     <br>
                                     <input type="text" class="form-control" placeholder="Tujuan 2" v-model="dinasregular.untuk[1]">
@@ -79,44 +79,44 @@
 
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label for="nama">Tanggal Mulai *</label>
+                                    <label>Tanggal Mulai *</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                         </div>
-                                        <date-picker 
+                                        <date-picker
                                             id="dari"
                                             name="dari"
                                             v-model="dinasregular.dari"
                                             :config="options"
                                             class="form-control"
-                                            placeholder="Tanggal Selesai" 
-                                            autocomplete="false" 
+                                            placeholder="Tanggal Selesai"
+                                            autocomplete="off"
                                             required="required">
                                         </date-picker>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label for="nama">Tanggal Selesai *</label>
+                                    <label>Tanggal Selesai *</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                         </div>
-                                        <date-picker 
+                                        <date-picker
                                             id="sampai"
                                             name="sampai"
                                             v-model="dinasregular.sampai"
                                             :config="options"
                                             class="form-control"
-                                            placeholder="Tanggal Selesai" 
-                                            autocomplete="false" 
+                                            placeholder="Tanggal Selesai"
+                                            autocomplete="off"
                                             required="required">
                                         </date-picker>
                                     </div>
                                 </div>
 
                                 <div class="form-group col-md-4">
-                                    <label for="bidang">Tempat Tujuan *</label>
+                                    <label>Tempat Tujuan *</label>
                                     <select v-model="dinasregular.auditan" class="form-control" required="required">
                                         <option value="">Pilih Tempat Tujuan</option>
                                         <option v-for="v in this.auditan_data" :key="v.id" :value="v.nama_kabkota">{{ v.nama_kabkota }}</option>
@@ -124,10 +124,10 @@
                                 </div>
                             </div>
 
-                            <div class="row">                                
+                            <div class="row">
                                 <div class="form-group col-md-12">
-                                    <label for="bidang">Personil *</label>
-                                    <multiselect 
+                                    <label>Personil *</label>
+                                    <multiselect
                                         :multiple="true"
                                         :taggable="true"
                                         placeholder="Pilih Anggota"
@@ -157,7 +157,7 @@
 
 <script>
     import service from './../../services.js';
-    
+
     export default {
         data() {
             return {
@@ -276,6 +276,7 @@
                 this.dinasregular.untuk = [];
                 this.dinasregular.dari = '';
                 this.dinasregular.sampai = '';
+                this.dinasregular.tim = [];
             }
         },
         created() {

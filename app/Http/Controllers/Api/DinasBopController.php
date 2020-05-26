@@ -1296,17 +1296,19 @@ class DinasBopController extends Controller
         if ($act == 'revision') {
             $approvalbop = DinasBopApproval::where('dinasbop_id', $dinasbop_id)->where('tab', $tab)->first();
             $column = $approvalbop[$type];
-            array_push($column['catatan'], $request->input('catatan'));
+            array_push($column['catatan'], ['text'=>$request->input('catatan'), 'date' => date('Y-m-d H:i:s')]);
             $primary_id = $approvalbop['id'];
 
             $dinasboprevision = DinasBopApproval::find($primary_id);
             $dinasboprevision->{$type} = $column;
             $dinasboprevision->updated_at = date('Y-m-d H:i:s');
+
             if ($dinasboprevision->save()) {
                 return response()->json(['status'=>'ok'], 200);
             } else {
                 return response()->json(['status'=>'failed'], 500);
             }
+
         } else if ($act == 'approve') {
             $approvalbop = DinasBopApproval::where('dinasbop_id', $dinasbop_id)->where('tab', $tab)->first();
             $column = $approvalbop[$type];
@@ -1331,15 +1333,21 @@ class DinasBopController extends Controller
 
                 if ($i == 3) {
                     $dinasboplock->lock = 1;
-                    $dinasboplock->save();
+                    if ($dinasboplock->save()) {
+                        $x = 0;
+                        $dinasboplockall = DinasBopApproval::where('dinasbop_id', $dinasbop_id)->get();
+                        foreach ($dinasboplockall as $y) {
+                            if ($y->lock == 1) {
+                                $x++;
+                            }
+                        }
+
+                        if ($x == 8) {
+                            DinasBop::where('id', $dinasbop_id)->update(['status' => 1]);
+                        }
+                    }
                 }
-                return response()->json(['status'=>'ok'], 200);
-            } else {
-                return response()->json(['status'=>'failed'], 500);
-            }
-        } else if ($act == 'lock') {
-            $dinasboplock = DinasBopApproval::where('dinasbop_id', $dinasbop_id)->where('tab', $tab)->update('lock', 1);
-            if ($dinasboplock) {
+
                 return response()->json(['status'=>'ok'], 200);
             } else {
                 return response()->json(['status'=>'failed'], 500);

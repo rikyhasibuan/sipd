@@ -95,6 +95,7 @@
                                 <div class="row">
                                     <div class="form-group col-md-12">
                                         <label>Lampirkan Bukti Pendukung (PDF / DOC / JPG / RAR / ZIP) *</label>
+                                        <br>
                                         <input type="file" ref="file" @change="handleFileUpload()" required>
                                     </div>
                                 </div>
@@ -123,7 +124,12 @@
                 options: {
                     format: 'YYYY-MM-DD',
                     useCurrent: false,
-                    locale: 'id'
+                    locale: 'id',
+                    minDate: moment(this.dinasbop_data.dari),
+                    maxDate: moment(this.dinasbop_data.sampai).add(1, 'day'),
+                    disabledDates: [
+                        moment(this.dinasbop_data.sampai).add(1, 'day')
+                    ]
                 },
                 dinasboptim: {
                     'nomor_sp': '',
@@ -153,6 +159,7 @@
             'driver_data',
             'irban_data',
             'dinasbop',
+            'dinasbop_data',
             'api',
             'route'
         ],
@@ -232,7 +239,7 @@
                 }
             },
             reset() {
-                Object.keys(this.form).forEach(function(key,index) { self.data.form[key] = ''; });
+                this.$refs.file.value = '';
                 this.dinasboptim.irban_id = '';
                 this.dinasboptim.auditan = '';
                 this.dinasboptim.nomor_sp = '';

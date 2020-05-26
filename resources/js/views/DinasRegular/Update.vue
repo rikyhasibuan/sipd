@@ -5,7 +5,7 @@
                 <div class="card-body">
                     <v-alert :alert=alert></v-alert>
                     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
-                    <form method="POST" v-on:submit.prevent="onSubmit">
+                    <form method="POST" v-on:submit.prevent="onSubmit" autocomplete="off">
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="username">Nomor Surat Perintah </label>
@@ -17,14 +17,14 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                     </div>
-                                    <date-picker 
+                                    <date-picker
                                         id="tgl_sp"
                                         name="tgl_sp"
                                         v-model="dinasregular.tgl_sp"
                                         :config="options"
                                         class="form-control"
-                                        placeholder="Tanggal Surat SP" 
-                                        autocomplete="false">
+                                        placeholder="Tanggal Surat Perintah"
+                                        autocomplete="off">
                                     </date-picker>
                                 </div>
                             </div>
@@ -85,14 +85,14 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                     </div>
-                                    <date-picker 
+                                    <date-picker
                                         id="dari"
                                         name="dari"
                                         v-model="dinasregular.dari"
                                         :config="options"
                                         class="form-control"
-                                        placeholder="Tanggal Mulai Pemeriksaan" 
-                                        autocomplete="false" 
+                                        placeholder="Tanggal Mulai Pemeriksaan"
+                                        autocomplete="off"
                                         required="required">
                                     </date-picker>
                                 </div>
@@ -103,14 +103,14 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                     </div>
-                                    <date-picker 
+                                    <date-picker
                                         id="sampai"
                                         name="sampai"
                                         v-model="dinasregular.sampai"
                                         :config="options"
                                         class="form-control"
-                                        placeholder="Tanggal Selesai Pemeriksaan" 
-                                        autocomplete="false" 
+                                        placeholder="Tanggal Selesai Pemeriksaan"
+                                        autocomplete="off"
                                         required="required">
                                     </date-picker>
                                 </div>
@@ -125,10 +125,10 @@
                             </div>
                         </div>
 
-                        <div class="row">                                
+                        <div class="row">
                             <div class="form-group col-md-12">
                                 <label for="bidang">Personil *</label>
-                                <multiselect 
+                                <multiselect
                                     :multiple="true"
                                     :taggable="true"
                                     placeholder="Pilih Anggota"
@@ -136,8 +136,7 @@
                                     :options="personil_data"
                                     track-by="key"
                                     label="label"
-                                    :allow-empty="true"
-                                >
+                                    :allow-empty="true">
                                 </multiselect>
                             </div>
                         </div>

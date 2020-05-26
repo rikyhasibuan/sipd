@@ -65,11 +65,11 @@
                                         <td style="text-align:right;">Rp.{{ v.total_anggaran | rupiah }}</td>
                                         <td>
                                             <div style="text-align: center;">
-                                                <a v-if="(access.update === 1)" :href="route + '/edit?id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
+                                                <a v-if="(v.status == 0 && access.update === 1)" :href="route + '/edit?id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
                                                     <i class="fa fa-wrench"></i> Ubah
                                                 </a>
                                                 <button v-else class="btn btn-sm btn-warning disabled mr-sm-1"><i class="fa fa-wrench"></i> Ubah</button>
-                                                <a v-if="(access.delete === 1)" href="#" @click="toggleModal(v.id)"
+                                                <a v-if="(v.status == 0 && access.delete === 1)" href="#" @click="toggleModal(v.id)"
                                                     class="btn btn-sm btn-danger">
                                                     <i class="fa fa-trash-o"></i> Hapus
                                                 </a>

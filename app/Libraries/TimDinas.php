@@ -21,6 +21,7 @@ use App\Models\DinasBopReviu;
 use App\Models\DinasBopSupervisi;
 use App\Models\DinasRegular;
 use App\Models\DinasBopApproval;
+use App\Models\DinasRegularApproval;
 use App\Models\Harian;
 use App\Models\Kabkota;
 use App\Models\Pegawai;
@@ -992,5 +993,16 @@ class TimDinas
             $approval->created_at = date('Y-m-d H:i:s');
             $approval->save();
         }
+    }
+
+    public function generate_approval_regular($id) {
+        $approval = new DinasRegularApproval;
+        $approval->dinasregular_id = $id;
+        $approval->inspektur = ['catatan'=>[], 'approval'=>0];
+        $approval->sekretaris = ['catatan'=>[], 'approval'=>0];
+        $approval->kassubag = ['catatan'=>[], 'approval'=>0];
+        $approval->lock = 0;
+        $approval->created_at = date('Y-m-d H:i:s');
+        $approval->save();
     }
 }

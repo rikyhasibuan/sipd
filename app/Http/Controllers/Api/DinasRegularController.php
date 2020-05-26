@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Libraries\TimDinas;
 use App\Models\DinasRegular;
+use App\Models\DinasRegularApproval;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -77,7 +78,6 @@ class DinasRegularController extends Controller
             $dinasregular->tgl_sp = $request->input('tgl_sp');
             $dinasregular->dasar = $dasar;
             $dinasregular->untuk = $untuk;
-
             $dinasregular->auditan = $request->input('auditan');
             $dinasregular->dari = $request->input('dari');
             $dinasregular->sampai = $request->input('sampai');
@@ -87,6 +87,7 @@ class DinasRegularController extends Controller
             $dinasregular->total_akomodasi = $timdinasregular['total_akomodasi'];
             $dinasregular->created_at = date('Y-m-d H:i:s');
             if ($dinasregular->save()) {
+                $timdinas->generate_approval_regular($dinasregular->id);
                 return response()->json(['status'=>'ok'], 200);
             } else {
                 return response()->json(['status'=>'failed'], 500);
@@ -240,6 +241,64 @@ class DinasRegularController extends Controller
             return View::make('dinasregular.dpbo', ['dinasregular'=>$dinasregular]);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function put_approval_data(Request $request)
+    {
+        $act = $request['act'];
+        $type = $request['type'];
+        $dinasregular_id = $request['id'];
+
+        if ($act == 'revision') {
+            $approvalregular = DinasRegularApproval::where('dinasregular_id', $dinasregular_id)->first();
+            $column = $approvalregular[$type];
+            array_push($column['catatan'], ['text'=>$request->input('catatan'), 'date' => date('Y-m-d H:i:s')]);
+            $primary_id = $approvalregular['id'];
+
+            $dinasregularrevision = DinasRegularApproval::find($primary_id);
+            $dinasregularrevision->{$type} = $column;
+            $dinasregularrevision->updated_at = date('Y-m-d H:i:s');
+
+            if ($dinasregularrevision->save()) {
+                return response()->json(['status'=>'ok'], 200);
+            } else {
+                return response()->json(['status'=>'failed'], 500);
+            }
+
+        } else if ($act == 'approve') {
+            $approvalregular = DinasRegularApproval::where('dinasregular_id', $dinasregular_id)->first();
+            $column = $approvalregular[$type];
+            $column['approval'] = 1;
+            $primary_id = $approvalregular['id'];
+
+            $dinasregularapproval = DinasRegularApproval::find($primary_id);
+            $dinasregularapproval->{$type} = $column;
+            $dinasregularapproval->updated_at = date('Y-m-d H:i:s');
+            if ($dinasregularapproval->save()) {
+                $dinasregularlock = DinasRegularApproval::find($primary_id);
+                $i = 0;
+                if ($dinasregularlock->inspektur['approval'] == 1) {
+                    $i++;
+                }
+                if ($dinasregularlock->sekretaris['approval'] == 1) {
+                    $i++;
+                }
+                if ($dinasregularlock->kassubag['approval'] == 1) {
+                    $i++;
+                }
+
+                if ($i == 3) {
+                    $dinasregularlock->lock = 1;
+                    if ($dinasregularlock->save()) {
+                        DinasRegular::where('id', $dinasregular_id)->update(['status' => 1]);
+                    }
+                }
+
+                return response()->json(['status'=>'ok'], 200);
+            } else {
+                return response()->json(['status'=>'failed'], 500);
+            }
         }
     }
 }
