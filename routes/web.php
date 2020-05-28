@@ -21,6 +21,8 @@ Route::get('dashboard', 'Web\DashboardController@index');
 
 Route::get('profile', 'Web\ProfileController@index');
 
+Route::get('logaktifitas', 'Web\LogActivityController@index');
+
 // irban
 Route::get('irban', 'Web\IrbanController@index');
 Route::get('irban/create', 'Web\IrbanController@create');

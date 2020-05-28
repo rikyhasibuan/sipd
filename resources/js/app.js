@@ -264,6 +264,7 @@ Vue.component('dinasregular-detail', require('./views/DinasRegular/Detail.vue'))
 Vue.component('dinasregular-transportasi', require('./views/DinasRegular/Transportasi.vue'));
 
 Vue.component('report', require('./views/Report.vue'));
+Vue.component('log-index', require('./views/Log.vue'));
 
 Vue.config.productionTip = false;
 new Vue().$mount('#app');

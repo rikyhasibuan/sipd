@@ -44,7 +44,8 @@
                     'user',
                     'irban',
                     'irbanskpd',
-                    'irbankabkota'
+                    'irbankabkota',
+                    'logaktifitas'
                 ];
 
                 $routes_keuangan = [
@@ -62,6 +63,12 @@
                             <p>Data Master <i class="fa fa-angle-left right"></i></p>
                         </a>
                         <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{!! url('logaktifitas') !!}">
+                                    <i class="nav-icon fa fa-circle-o"></i>
+                                    <p>Log Aktifitas</p>
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{!! url('user') !!}">
                                     <i class="nav-icon fa fa-circle-o"></i>
