@@ -92,6 +92,11 @@
                     format: 'YYYY-MM-DD',
                     useCurrent: false,
                     locale: 'id',
+                    minDate: moment(this.dinasboppengumpuldata.dari),
+                    maxDate: moment(this.dinasboppengumpuldata.sampai).add(1, 'day'),
+                    disabledDates: [
+                        moment(this.dinasboppengumpuldata.sampai).add(1, 'day')
+                    ]
                 },
                 dinasboptimpengumpuldata: {
                     'nomor_sp': '',
@@ -113,6 +118,7 @@
         },
         props: [
             'auditan_data',
+            'dinasboppengumpuldata',
             'anggota',
             'ketua',
             'dinasbop',

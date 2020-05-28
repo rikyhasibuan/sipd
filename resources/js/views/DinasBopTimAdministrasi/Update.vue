@@ -93,7 +93,12 @@
                 options: {
                     format: 'YYYY-MM-DD',
                     useCurrent: false,
-                    locale: 'id'
+                    locale: 'id',
+                    minDate: moment(this.administrasi.dari),
+                    maxDate: moment(this.administrasi.sampai).add(1, 'day'),
+                    disabledDates: [
+                        moment(this.administrasi.sampai).add(1, 'day')
+                    ]
                 },
                 anggota_data:[],
                 audit_data:[],
@@ -114,7 +119,8 @@
             'dinasbop',
             'dinasboptimadministrasi',
             'api',
-            'route'
+            'route',
+            'administrasi'
         ],
         methods: {
             formReady() {

@@ -3,7 +3,7 @@
     <div id="app">
         @if ($act == 'create')
             <dinasboptimpengumpuldata-create
-                :pengumpuldata='{!! json_encode($pengumpuldata) !!}'
+                :dinasboppengumpuldata='{!! json_encode($dinasboppengumpuldata) !!}'
                 :dinasbop='{!! json_encode($dinasbop) !!}'
                 :auditan_data='{!! json_encode($auditan) !!}'
                 :anggota='{!! json_encode($anggota) !!}'
@@ -14,7 +14,7 @@
         @else
             <dinasboptimpengumpuldata-update
                 :dinasboptimpengumpuldata='{!! json_encode($dinasboptimpengumpuldata) !!}'
-                :pengumpuldata='{!! json_encode($pengumpuldata) !!}'
+                :dinasboppengumpuldata='{!! json_encode($pengumpuldata) !!}'
                 :dinasbop='{!! json_encode($dinasbop) !!}'
                 :anggota='{!! json_encode($anggota) !!}'
                 :ketua='{!! json_encode($ketua) !!}'

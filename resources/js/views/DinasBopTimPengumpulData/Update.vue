@@ -94,7 +94,12 @@
                 options: {
                     format: 'YYYY-MM-DD',
                     useCurrent: false,
-                    locale: 'id'
+                    locale: 'id',
+                    minDate: moment(this.dinasboppengumpuldata.dari),
+                    maxDate: moment(this.dinasboppengumpuldata.sampai).add(1, 'day'),
+                    disabledDates: [
+                        moment(this.dinasboppengumpuldata.sampai).add(1, 'day')
+                    ]
                 },
                 anggota_data:[],
                 audit_data:[],
@@ -114,6 +119,7 @@
             'ketua',
             'dinasbop',
             'dinasboptimpengumpuldata',
+            'dinasboppengumpuldata',
             'api',
             'route'
         ],

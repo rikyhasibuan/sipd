@@ -677,7 +677,8 @@ class DinasBopController extends Controller
         $jabatan_ketua = [
             'Kepala Sub Bagian Perencanaan dan Pelaporan',
             'Kepala Sub Bagian Keuangan dan Aset',
-            'Kepala Sub Bagian Kepegawaian dan Umum'
+            'Kepala Sub Bagian Kepegawaian dan Umum',
+            'Sekretaris'
         ];
 
         $anggota = Pegawai::whereIn('jabatan', $jabatan_anggota)->get();
@@ -694,7 +695,7 @@ class DinasBopController extends Controller
         $data['ketua'] = $ketua;
         $data['route'] = url($this->route.'/detail?id='. $request['dinasbop']);
         $data['dinasbop'] = $request['dinasbop'];
-        $data['pengumpuldata'] = $request['pengumpuldata'];
+        $data['dinasboppengumpuldata'] = DinasBopPengumpulData::find($request['pengumpuldata']);
         return View::make('dinasbop.form_timpengumpuldata', $data);
     }
 
@@ -730,7 +731,8 @@ class DinasBopController extends Controller
         $jabatan_ketua = [
             'Kepala Sub Bagian Perencanaan dan Pelaporan',
             'Kepala Sub Bagian Keuangan dan Aset',
-            'Kepala Sub Bagian Kepegawaian dan Umum'
+            'Kepala Sub Bagian Kepegawaian dan Umum',
+            'Sekretaris'
         ];
 
         $anggota = Pegawai::whereIn('jabatan', $jabatan_anggota)->get();
@@ -759,7 +761,7 @@ class DinasBopController extends Controller
         $data['anggota'] = $anggota;
         $data['ketua'] = $ketua;
         $data['dinasbop'] = $request['dinasbop'];
-        $data['pengumpuldata'] = $request['pengumpuldata'];
+        $data['pengumpuldata'] = DinasBopPengumpulData::find($request['pengumpuldata']);
         $data['route'] = url($this->route.'/detail?id='.$dinasboptimpengumpuldata->dinasbop_id);
         return View::make('dinasbop.form_timpengumpuldata', $data);
     }
@@ -849,7 +851,8 @@ class DinasBopController extends Controller
         $jabatan_ketua = [
             'Kepala Sub Bagian Perencanaan dan Pelaporan',
             'Kepala Sub Bagian Keuangan dan Aset',
-            'Kepala Sub Bagian Kepegawaian dan Umum'
+            'Kepala Sub Bagian Kepegawaian dan Umum',
+            'Sekretaris'
         ];
 
         $anggota = Pegawai::whereIn('jabatan', $jabatan_anggota)->get();
@@ -866,7 +869,7 @@ class DinasBopController extends Controller
         $data['ketua'] = $ketua;
         $data['route'] = url($this->route.'/detail?id='. $request['dinasbop']);
         $data['dinasbop'] = $request['dinasbop'];
-        $data['administrasi'] = $request['administrasi'];
+        $data['administrasi'] = DinasBopAdministrasi::find($request['administrasi']);
         return View::make('dinasbop.form_timadministrasi', $data);
     }
 
@@ -902,7 +905,8 @@ class DinasBopController extends Controller
         $jabatan_ketua = [
             'Kepala Sub Bagian Perencanaan dan Pelaporan',
             'Kepala Sub Bagian Keuangan dan Aset',
-            'Kepala Sub Bagian Kepegawaian dan Umum'
+            'Kepala Sub Bagian Kepegawaian dan Umum',
+            'Sekretaris'
         ];
 
         $anggota = Pegawai::whereIn('jabatan', $jabatan_anggota)->get();
@@ -931,7 +935,7 @@ class DinasBopController extends Controller
         $data['anggota'] = $anggota;
         $data['ketua'] = $ketua;
         $data['dinasbop'] = $request['dinasbop'];
-        $data['administrasi'] = $request['administrasi'];
+        $data['administrasi'] = DinasBopAdministrasi::find($request['administrasi']);
         $data['route'] = url($this->route.'/detail?id='.$dinasboptimadministrasi->dinasbop_id);
         return View::make('dinasbop.form_timadministrasi', $data);
     }

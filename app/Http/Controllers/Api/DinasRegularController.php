@@ -174,13 +174,13 @@ class DinasRegularController extends Controller
 
         switch ($_jenis) {
             case 'BBM':
-                $transportasi = ['total' => $_total, 'liter' => $_liter, 'jenis' => 'BBM'];
+                $transportasi = ['total' => intval($_total), 'liter' => $_liter, 'jenis' => 'BBM'];
                 break;
-            case 'Travel':
-                $transportasi = ['total' => $_total, 'liter' => 0, 'jenis' => 'Travel'];
+            case 'Sewa Kendaraan':
+                $transportasi = ['total' => intval($_total), 'liter' => 0, 'jenis' => 'Sewa Kendaraan'];
                 break;
             case 'Tiket':
-                $transportasi = ['total' => $_total, 'liter' => 0, 'jenis' => 'Tiket'];
+                $transportasi = ['total' => intval($_total), 'liter' => 0, 'jenis' => 'Tiket'];
                 break;
             default:
                 $transportasi = ['total' => 0, 'liter' => 0, 'jenis' => ''];

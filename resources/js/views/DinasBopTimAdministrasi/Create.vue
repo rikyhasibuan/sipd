@@ -92,6 +92,11 @@
                     format: 'YYYY-MM-DD',
                     useCurrent: false,
                     locale: 'id',
+                    minDate: moment(this.administrasi.dari),
+                    maxDate: moment(this.administrasi.sampai).add(1, 'day'),
+                    disabledDates: [
+                        moment(this.administrasi.sampai).add(1, 'day')
+                    ]
                 },
                 dinasboptimadministrasi: {
                     'nomor_sp': '',
@@ -117,7 +122,8 @@
             'ketua',
             'dinasbop',
             'api',
-            'route'
+            'route',
+            'administrasi'
         ],
         methods: {
             formReady() {
