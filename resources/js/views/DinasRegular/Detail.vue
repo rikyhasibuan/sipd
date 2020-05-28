@@ -243,8 +243,8 @@
 
                     <hr>
                     <transition name="fade"><v-revision-log :revision=dinasregularapproval></v-revision-log></transition>
-                    <transition name="fade"><v-revision :role="approval_role" @revision="createRevision"></v-revision></transition>
-                    <transition name="fade"><v-approval :role="approval_role" @approve="createApproval"></v-approval></transition>
+                    <transition name="fade"><v-revision :element="'reguler_revision_modal'" :role="approval_role" @revision="createRevision"></v-revision></transition>
+                    <transition name="fade"><v-approval :element="'reguler_approval_modal'" :role="approval_role" @approve="createApproval"></v-approval></transition>
 
                     <a href="#" v-if="access.update == 1 && dinasregularapproval.lock == 0" @click="transportasiModal(dinasregular.id)" data-toggle="modal" data-target="#transportasimodal" class="btn btn-warning mb-2 mr-2"><i class="fa fa-car"></i> Transportasi & Akomodasi</a>
                     <div class="btn-group mb-2 mr-2" v-if="dinasregularapproval.lock == 1">
@@ -362,24 +362,24 @@ export default {
         },
         toggleRevisiModal(role) {
             this.approval_role = role;
-            $("#revision_modal").modal('show');
+            $("#reguler_revision_modal").modal('show');
         },
         toggleApprovalModal(role) {
             this.approval_role = role;
-            $("#approval_modal").modal('show');
+            $("#reguler_approval_modal").modal('show');
         },
         createRevision(callback) {
             service.putData(this.api + '/approval?act=revision&type='+callback.role+'&id=' + this.dinasregular.id, { catatan: callback.catatan})
                 .then(response => {
                     if(response.status === 'ok') {
-                        $('#revision_modal').modal('hide');
+                        $('#reguler_revision_modal').modal('hide');
                         window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                         alert('CATATAN REVISI BERHASIL DIBUAT');
                         location.reload();
                     }
                 }).catch(error => {
                     this.alert.error = true;
-                    $('#revision_modal').modal('hide');
+                    $('#reguler_revision_modal').modal('hide');
                     alert('TERJADI KESALAHAN PADA SISTEM!');
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     console.log(error);
@@ -389,13 +389,13 @@ export default {
             service.putData(this.api + '/approval?act=approve&type='+role+'&id=' + this.dinasregular.id)
             .then(response => {
                 if(response.status === 'ok') {
-                    $('#approval_modal').modal('hide');
+                    $('#reguler_approval_modal').modal('hide');
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     alert('PROSES APPROVAL BERHASIL');
                     location.reload();
                 }
             }).catch(error => {
-                $('#approval_modal').modal('hide');
+                $('#reguler_approval_modal').modal('hide');
                 window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 alert('TERJADI KESALAHAN PADA SISTEM!');
                 console.log(error);
