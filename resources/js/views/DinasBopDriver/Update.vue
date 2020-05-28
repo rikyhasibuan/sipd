@@ -5,7 +5,7 @@
                 <div class="card-body">
                     <v-alert :alert=alert></v-alert>
                     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
-                    <form method="POST" v-on:submit.prevent="onSubmit" enctype="multipart/form-data">
+                    <form method="POST" v-on:submit.prevent="onSubmit" enctype="multipart/form-data" autocomplete="off">
                         <div class="col-md-12 col-sm-12">
                             <div class="row">
                                 <div class="form-group col-md-6">
@@ -14,39 +14,54 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Tanggal Surat Perintah *</label>
-                                    <date-picker
-                                        id="tgl_sp"
-                                        name="tgl_sp"
-                                        v-model="dinasbopdriver.tgl_sp"
-                                        :config="options"
-                                        class="form-control"
-                                        placeholder="Tanggal Surat Perintah" autocomplete="off">
-                                    </date-picker>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                        <date-picker
+                                            id="tgl_sp"
+                                            name="tgl_sp"
+                                            v-model="dinasbopdriver.tgl_sp"
+                                            :config="options"
+                                            class="form-control"
+                                            placeholder="Tanggal Surat Perintah" autocomplete="off">
+                                        </date-picker>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label>Tanggal Mulai *</label>
-                                    <date-picker
-                                        id="dari"
-                                        name="dari"
-                                        v-model="dinasbopdriver.dari"
-                                        :config="options"
-                                        class="form-control"
-                                        placeholder="Tanggal Mulai" autocomplete="off">
-                                    </date-picker>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                        <date-picker
+                                            id="dari"
+                                            name="dari"
+                                            v-model="dinasbopdriver.dari"
+                                            :config="options"
+                                            class="form-control"
+                                            placeholder="Tanggal Mulai" autocomplete="off">
+                                        </date-picker>
+                                    </div>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Tanggal Selesai *</label>
-                                    <date-picker
-                                        id="sampai"
-                                        name="sampai"
-                                        v-model="dinasbopdriver.sampai"
-                                        :config="options"
-                                        class="form-control"
-                                        placeholder="Tanggal Selesai" autocomplete="off">
-                                    </date-picker>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                        <date-picker
+                                            id="sampai"
+                                            name="sampai"
+                                            v-model="dinasbopdriver.sampai"
+                                            :config="options"
+                                            class="form-control"
+                                            placeholder="Tanggal Selesai" autocomplete="off">
+                                        </date-picker>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">

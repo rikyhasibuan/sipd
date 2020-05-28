@@ -30,29 +30,39 @@
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label>Tanggal Mulai *</label>
-                                    <date-picker
-                                        id="dari"
-                                        name="dari"
-                                        v-model="dinasbopadministrasi.dari"
-                                        :config="options"
-                                        class="form-control"
-                                        placeholder="Tanggal Mulai"
-                                        required="required"
-                                        autocomplete="off">
-                                    </date-picker>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                        <date-picker
+                                            id="dari"
+                                            name="dari"
+                                            v-model="dinasbopadministrasi.dari"
+                                            :config="options"
+                                            class="form-control"
+                                            placeholder="Tanggal Mulai"
+                                            required="required"
+                                            autocomplete="off">
+                                        </date-picker>
+                                    </div>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Tanggal Selesai *</label>
-                                    <date-picker
-                                        id="sampai"
-                                        name="sampai"
-                                        v-model="dinasbopadministrasi.sampai"
-                                        :config="options"
-                                        class="form-control"
-                                        placeholder="Tanggal Selesai"
-                                        required="required"
-                                        autocomplete="off">
-                                    </date-picker>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                        <date-picker
+                                            id="sampai"
+                                            name="sampai"
+                                            v-model="dinasbopadministrasi.sampai"
+                                            :config="options"
+                                            class="form-control"
+                                            placeholder="Tanggal Selesai"
+                                            required="required"
+                                            autocomplete="off">
+                                        </date-picker>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">

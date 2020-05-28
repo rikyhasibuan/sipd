@@ -5,7 +5,7 @@
                 <div class="card-body">
                     <v-alert :alert=alert></v-alert>
                     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
-                    <form method="POST" v-on:submit.prevent="onSubmit">
+                    <form method="POST" v-on:submit.prevent="onSubmit" autocomplete="off">
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label>Dasar Surat Perintah *</label>
@@ -29,25 +29,35 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label>Tanggal Mulai Pemeriksaaan *</label>
-                                <date-picker
-                                    id="dari"
-                                    name="dari"
-                                    v-model="dinasboppengumpuldata.dari"
-                                    :config="options"
-                                    class="form-control"
-                                    placeholder="Tanggal Mulai Pemeriksaan" autocomplete="off">
-                                </date-picker>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                    <date-picker
+                                        id="dari"
+                                        name="dari"
+                                        v-model="dinasboppengumpuldata.dari"
+                                        :config="options"
+                                        class="form-control"
+                                        placeholder="Tanggal Mulai Pemeriksaan" autocomplete="off">
+                                    </date-picker>
+                                </div>
                             </div>
                             <div class="form-group col-md-6">
                                 <label>Tanggal Selesai Pemeriksaan *</label>
-                                <date-picker
-                                    id="sampai"
-                                    name="sampai"
-                                    v-model="dinasboppengumpuldata.sampai"
-                                    :config="options"
-                                    class="form-control"
-                                    placeholder="Tanggal Akhir Pemeriksaan" autocomplete="off">
-                                </date-picker>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                    <date-picker
+                                        id="sampai"
+                                        name="sampai"
+                                        v-model="dinasboppengumpuldata.sampai"
+                                        :config="options"
+                                        class="form-control"
+                                        placeholder="Tanggal Akhir Pemeriksaan" autocomplete="off">
+                                    </date-picker>
+                                </div>
                             </div>
                         </div>
                         <div class="row">

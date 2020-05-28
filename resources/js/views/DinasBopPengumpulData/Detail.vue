@@ -216,8 +216,8 @@
             <div class="col-md-12 col-xs-12" v-if="dinasboptimpengumpuldata.length !== 0">
                 <hr>
                 <transition name="fade"><v-revision-log :revision=approval_tab></v-revision-log></transition>
-                <transition name="fade"><v-revision :role="approval_role" @revision="createRevision"></v-revision></transition>
-                <transition name="fade"><v-approval :role="approval_role" @approve="createApproval"></v-approval></transition>
+                <transition name="fade"><v-revision :role="approval_role" :element="'pengumpuldata_revision_modal'" @revision="createRevision"></v-revision></transition>
+                <transition name="fade"><v-approval :role="approval_role" :element="'pengumpuldata_approval_modal'" @approve="createApproval"></v-approval></transition>
             </div>
         </div>
     </div>
@@ -244,7 +244,21 @@
                 showTable: false,
                 emptyData:false,
                 pengumpuldataid:'',
-                approval_tab:{},
+                approval_tab: {
+                    kassubag:{
+                        catatan:[],
+                        approval:0
+                    },
+                    sekretaris:{
+                        catatan:[],
+                        approval:0
+                    },
+                    inspektur:{
+                        catatan:[],
+                        approval:0
+                    },
+                    lock:0
+                },
                 approval_role:''
             }
         },
@@ -300,18 +314,18 @@
             },
             toggleRevisiModal(role) {
                 this.approval_role = role;
-                $("#revision_modal").modal('show');
+                $("#pengumpuldata_revision_modal").modal('show');
             },
             toggleApprovalModal(role) {
                 this.approval_role = role;
-                $("#approval_modal").modal('show');
+                $("#pengumpuldata_approval_modal").modal('show');
             },
             createRevision(callback) {
                 service.putData(this.api + '/approval?act=revision&type='+callback.role+'&tab=pengumpuldata&id=' + this.dinasbop.id, {catatan: callback.catatan})
                     .then(response => {
                         if(response.status === 'ok') {
                             this.alert.delete = true;
-                            $('#revision_modal').modal('hide');
+                            $('#pengumpuldata_revision_modal').modal('hide');
                             window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                             alert('CATATAN REVISI BERHASIL DIBUAT');
                             location.reload();
@@ -319,7 +333,7 @@
                     }).catch(error => {
                     this.alert.delete = false;
                     this.alert.error = true;
-                    $('#revision_modal').modal('hide');
+                    $('#pengumpuldata_revision_modal').modal('hide');
                     alert('TERJADI KESALAHAN PADA SISTEM!');
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     console.log(error);
@@ -329,13 +343,13 @@
                 service.putData(this.api + '/approval?act=approve&type='+role+'&tab=pengumpuldata&id=' + this.dinasbop.id)
                     .then(response => {
                         if(response.status === 'ok') {
-                            $('#approval_modal').modal('hide');
+                            $('#pengumpuldata_approval_modal').modal('hide');
                             window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                             alert('PROSES APPROVAL BERHASIL');
                             location.reload();
                         }
                     }).catch(error => {
-                    $('#approval_modal').modal('hide');
+                    $('#pengumpuldata_approval_modal').modal('hide');
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     alert('TERJADI KESALAHAN PADA SISTEM!');
                     console.log(error);
@@ -344,7 +358,6 @@
         },
         created() {
             this.isLoading = true;
-
         },
         mounted() {
             this.isLoading = false;

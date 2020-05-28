@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="modal" id="revision_modal" tabindex="-1" role="dialog" @close="close">
+        <div class="modal" :id="element" tabindex="-1" role="dialog" @close="close">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -40,7 +40,7 @@
                 catatan: ''
             }
         },
-        props: ['role'],
+        props: ['role','element'],
         methods: {
             close() {
                 this.$emit('close');

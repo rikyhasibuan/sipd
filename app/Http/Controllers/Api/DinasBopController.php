@@ -63,6 +63,7 @@ class DinasBopController extends Controller
             $dinasbop->untuk = $untuk;
             $dinasbop->dari = $request->input('dari');
             $dinasbop->sampai = $request->input('sampai');
+            $dinasbop->status = 0;
             $dinasbop->created_at = date('Y-m-d H:i:s');
 
             if ($dinasbop->save()) {

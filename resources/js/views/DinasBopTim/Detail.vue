@@ -216,8 +216,8 @@
         <div class="col-md-12 col-xs-12" v-if="dinasboptim.length !== 0">
             <hr>
             <transition name="fade"><v-revision-log :revision=approval_tab></v-revision-log></transition>
-            <transition name="fade"><v-revision :role="approval_role" @revision="createRevision"></v-revision></transition>
-            <transition name="fade"><v-approval :role="approval_role" @approve="createApproval"></v-approval></transition>
+            <transition name="fade"><v-revision :role="approval_role" :element="'tim_revision_modal'" @revision="createRevision"></v-revision></transition>
+            <transition name="fade"><v-approval :role="approval_role" :element="'tim_approval_modal'" @approve="createApproval"></v-approval></transition>
         </div>
     </div>
     </div>
@@ -238,7 +238,21 @@ export default {
             total_biaya_tim:0,
             showTable: false,
             id:'',
-            approval_tab:[],
+            approval_tab: {
+                kassubag:{
+                    catatan:[],
+                    approval:0
+                },
+                sekretaris:{
+                    catatan:[],
+                    approval:0
+                },
+                inspektur:{
+                    catatan:[],
+                    approval:0
+                },
+                lock:0
+            },
             approval_role:''
         }
     },
@@ -274,11 +288,11 @@ export default {
         },
         toggleRevisiModal(role) {
             this.approval_role = role;
-            $("#revision_modal").modal('show');
+            $("#tim_revision_modal").modal('show');
         },
         toggleApprovalModal(role) {
             this.approval_role = role;
-            $("#approval_modal").modal('show');
+            $("#tim_approval_modal").modal('show');
         },
         deleteData(id) {
             service.deleteData(this.api + '/tim/' + this.dinasbop.id + '/' + id)
@@ -305,7 +319,7 @@ export default {
             .then(response => {
                 if(response.status === 'ok') {
                     this.alert.delete = true;
-                    $('#revision_modal').modal('hide');
+                    $('#tim_revision_modal').modal('hide');
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     alert('CATATAN REVISI BERHASIL DIBUAT');
                     location.reload();
@@ -313,7 +327,7 @@ export default {
             }).catch(error => {
                 this.alert.delete = false;
                 this.alert.error = true;
-                $('#revision_modal').modal('hide');
+                $('#tim_revision_modal').modal('hide');
                 alert('TERJADI KESALAHAN PADA SISTEM!');
                 window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 console.log(error);
@@ -323,13 +337,13 @@ export default {
             service.putData(this.api + '/approval?act=approve&type='+role+'&tab=tim&id=' + this.dinasbop.id)
             .then(response => {
                 if(response.status === 'ok') {
-                    $('#approval_modal').modal('hide');
+                    $('#tim_approval_modal').modal('hide');
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     alert('PROSES APPROVAL BERHASIL');
                     location.reload();
                 }
             }).catch(error => {
-                $('#approval_modal').modal('hide');
+                $('#tim_approval_modal').modal('hide');
                 window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 alert('TERJADI KESALAHAN PADA SISTEM!');
                 console.log(error);
@@ -353,7 +367,6 @@ export default {
     mounted() {
         this.isLoading = false;
         this.approval_tab = this.dinasbopapproval.find(dinasbopapproval => dinasbopapproval.tab === 'tim');
-        console.log(this.approval_tab.inspektur.approval);
     }
 };
 </script>

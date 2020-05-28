@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="modal" id="approval_modal" tabindex="-1" role="dialog" @close="close">
+        <div class="modal" :id="element" tabindex="-1" role="dialog" @close="close">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -26,7 +26,7 @@
 
 <script>
     export default {
-        props: ['role'],
+        props: ['role','element'],
         methods: {
             close() {
                 this.$emit('close');

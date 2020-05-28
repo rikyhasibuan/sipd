@@ -53,25 +53,35 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label>Tanggal Mulai Pemeriksaaan *</label>
-                                <date-picker
-                                    id="dari"
-                                    name="dari"
-                                    v-model="dinasbop.dari"
-                                    :config="options"
-                                    class="form-control"
-                                    placeholder="Tanggal Mulai Pemeriksaan" autocomplete="off">
-                                </date-picker>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                    <date-picker
+                                        id="dari"
+                                        name="dari"
+                                        v-model="dinasbop.dari"
+                                        :config="options"
+                                        class="form-control"
+                                        placeholder="Tanggal Mulai Pemeriksaan" autocomplete="off">
+                                    </date-picker>
+                                </div>
                             </div>
                             <div class="form-group col-md-6">
                                 <label>Tanggal Selesai Pemeriksaan *</label>
-                                <date-picker
-                                    id="sampai"
-                                    name="sampai"
-                                    v-model="dinasbop.sampai"
-                                    :config="options"
-                                    class="form-control"
-                                    placeholder="Tanggal Akhir Pemeriksaan" autocomplete="off">
-                                </date-picker>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                    <date-picker
+                                        id="sampai"
+                                        name="sampai"
+                                        v-model="dinasbop.sampai"
+                                        :config="options"
+                                        class="form-control"
+                                        placeholder="Tanggal Akhir Pemeriksaan" autocomplete="off">
+                                    </date-picker>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
