@@ -8,10 +8,10 @@
                     <form method="POST" v-on:submit.prevent="onSubmit">
                         <div class="row">
                             <div class="form-group col-md-6 col-xs-12">
-                                <label for="bidang">Jenis Transportasi *</label>
-                                <select v-model="transportasi.jenis" class="form-control" @change="onChangeJenisTransportasi" required="required">
+                                <label>Jenis Transportasi *</label>
+                                <select v-model="dinasregular.transportasi.jenis" class="form-control" @change="onChangeJenisTransportasi" required="required">
                                     <option value="">Pilih Jenis Transportasi</option>
-                                    <option v-for="(k,v) in this.jenis_transportasi" v-bind:value="k" v-bind:key="v">{{ v }}</option>
+                                    <option v-for="(k,v) in this.jenis_transportasi" :value="k" :key="v">{{ v }}</option>
                                 </select>
                             </div>
                         </div>
@@ -19,17 +19,17 @@
                         <div class="row" v-if="show_liter === true">
                             <div class="form-group col-md-6 col-xs-12">
                                 <label>Liter *</label>
-                                <select v-model="transportasi.liter" class="form-control" @change="onChangeLiter">
+                                <select v-model="dinasregular.transportasi.liter" class="form-control" @change="onChangeLiter">
                                     <option value="">Pilih Jumlah Liter</option>
-                                    <option v-for="(k,v) in this.liter" v-bind:value="k" v-bind:key="v">{{ v }}</option>
+                                    <option v-for="(k,v) in this.liter" :value="k" :key="v">{{ v }}</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label for="nama">Total Biaya *</label>
-                                <input type="text" v-model="transportasi.total" class="form-control" required="required">
+                                <label>Total Biaya *</label>
+                                <input type="text" v-model="dinasregular.transportasi.total" class="form-control" required="required">
                             </div>
                         </div>
 
@@ -55,11 +55,6 @@
                     error: false,
                     update: false
                 },
-                transportasi: {
-                    jenis:'',
-                    liter:'',
-                    total:''
-                },
                 liter: [],
                 show_liter: false,
                 isLoading: false,
@@ -83,7 +78,7 @@
                 }
             },
             onSubmit(evt) {
-                this.isLoading = false;
+                this.isLoading = true;
                 service.putData(this.api + '/transportasi', this.dinasregular)
                     .then(result => {
                         this.response(result);

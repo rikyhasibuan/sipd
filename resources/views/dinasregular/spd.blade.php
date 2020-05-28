@@ -16,6 +16,7 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Surat Perjalanan Dinas</title>
 <link rel="stylesheet" href="{!! asset('css/bootstrap.min.css') !!}">
+    <link rel="stylesheet" href="{!! asset('css/print.css') !!}">
 <style type="text/css" media="print">
     @page {
         size: auto;
@@ -36,12 +37,16 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
     }
 
     * {
-        font-family: 'Times New Roman', Times, serif;
-        font-size: 7pt;
+        font-family: 'Bookman Old Style', Times, serif;
+        font-size: 6pt;
     }
 
     h4 {
-        font-size: 10pt;
+        font-size: 9pt;
+    }
+
+    .table-bordered td, .table-bordered th {
+        border: 1px solid #333 !important;
     }
 
     .table td, .table th {
@@ -52,13 +57,15 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
         border: none !important;
         padding: 5px;
     }
+
+
 </style>
 </head>
 
 <body onload="window.print()">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-lg-12" style="border: solid 0.5px;">
+			<div class="col-lg-12">
 				<div class="row">
 					<div class="col-md-6">
 						<div style="text-align: center;margin-top:5px;">
@@ -88,12 +95,12 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
 							<table class="table table-bordered" style="width: 100%;">
 								<tr>
 									<td width="3%" style="text-align: center;">1</td>
-									<td width="30%">Kuasa Pengguna Anggaran</td>
+									<td width="35%">Kuasa Pengguna Anggaran</td>
 									<td width="60%" colspan="2">{!! $kpa['nama'] !!}</td>
 								</tr>
 								<tr>
 									<td width="3%" style="text-align: center;">2</td>
-									<td width="30%">Nama / NIP Pegawai yang melaksanakan perjalanan</td>
+									<td width="35%">Nama / NIP Pegawai yang melaksanakan perjalanan</td>
 									<td width="60%" colspan="2">
 										{!! $dinasregular->tim[0]['nama'] !!}<br>
 										{!! $dinasregular->tim[0]['nip'] !!}
@@ -101,7 +108,7 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
 								</tr>
 								<tr>
 									<td width="3%" style="text-align: center;">3</td>
-									<td width="30%">a. Pangkat dan Golongan<br> b. Jabatan<br> c.
+									<td width="35%">a. Pangkat dan Golongan<br> b. Jabatan<br> c.
 										Tingkat Biaya Perjalanan Dinas
 									</td>
 									<td width="60%" colspan="2">
@@ -111,24 +118,24 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
 								</tr>
 								<tr>
 									<td width="3%" style="text-align: center;">4</td>
-									<td width="30%">Maksud Perjalanan Dinas</td>
+									<td width="35%">Maksud Perjalanan Dinas</td>
 									<td width="60%" colspan="2">{!! $dinasregular->untuk[0] !!}</td>
 								</tr>
 								<tr>
 									<td width="3%" style="text-align: center;">5</td>
-									<td width="30%">Alat Angkutan / transportasi yang digunakan</td>
+									<td width="35%">Alat Angkutan / transportasi yang digunakan</td>
 									<td width="60%" colspan="2"></td>
 								</tr>
 								<tr>
 									<td width="3%" style="text-align: center;">6</td>
-									<td width="30%">a. Tempat berangkat<br> b. Tempat tujuan
+									<td width="35%">a. Tempat berangkat<br> b. Tempat tujuan
 									</td>
 									<td width="60%" colspan="2">Kota Bandung<br> {!! $dinasregular->auditan !!}
 									</td>
 								</tr>
 								<tr>
 									<td width="3%" style="text-align: center;">7</td>
-									<td width="30%">a. Lamanya Perjalanan Dinas<br> b. Tanggal
+									<td width="35%">a. Lamanya Perjalanan Dinas<br> b. Tanggal
 										berangkat<br> c. Tanggal harus kembali / tiba di tempat baru *)
 									</td>
 									<td width="60%" colspan="2">
@@ -146,7 +153,7 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
 								<tr>
 									<td width="3%" style="text-align: center;"></td>
 									<td width="30%">
-										<ol style="margin-left: -16%;">
+										<ol style="margin-left: -15%;">
 											@for($i = 1; $i < count($dinasregular->tim); $i++)
 												<li>{!! $dinasregular->tim[$i]['nama'] !!}</li>
 											@endfor
@@ -158,7 +165,7 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
 								<tr>
 									<td width="3%" style="text-align: center;">9</td>
 									<td width="30%">Pembebanan anggaran<br>
-										<ol type="a" style="margin-left: -16%;">
+										<ol type="a" style="margin-left: -15%;">
 											<li>Instansi</li>
 											<li>Akun</li>
 										</ol>
@@ -171,8 +178,10 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
 									<td width="30%">Keterangan lain-lain</td>
 									<td width="60%" colspan="2"></td>
 								</tr>
+                            </table>
+                            <table style="width: 100%;">
                                 <tr>
-                                    <td colspan="2" style="border:0px !important;">
+                                    <td style="width:70%;border:0px !important;vertical-align: top;">
                                         *) coret yang tidak perlu
                                     </td>
                                     <td style="border:0px !important;"></td>

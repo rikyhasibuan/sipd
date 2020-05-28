@@ -67,10 +67,10 @@ class AjaxController extends Controller
     {
         $common = new Common();
         $tahun = $common->generate_year_from_date($request->input('tahun'));
-        $belanja = $request->input('belanja');
+        $kegiatan = $request->input('kegiatan');
 
         $kas = new KasAnggaran();
-        $sisa_anggaran = $kas->show_sisa_anggaran($tahun, '', $belanja);
+        $sisa_anggaran = $kas->show_sisa_anggaran($tahun, '', $kegiatan);
 
         return response()->json(['sisa_anggaran' => $sisa_anggaran], 200);
     }

@@ -134,7 +134,7 @@ class DinasRegularController extends Controller
 
         $dinasregular = DinasRegular::with('program', 'kegiatan', 'belanja')->find($request['id']);
 
-        $jenistransportasi = ['BBM','Travel','Tiket'];
+        $jenistransportasi = ['BBM','Sewa Kendaraan','Tiket'];
         $kabkota = Kabkota::where('nama_kabkota', $dinasregular->auditan)->first();
 
         $takaran = Bbm::where('kabkota_id', $kabkota['id'])->first();
@@ -169,7 +169,7 @@ class DinasRegularController extends Controller
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
 
         $dinasregular = DinasRegular::find($request['id']);
-        $jenistransportasi = ['BBM','Travel','Tiket'];
+        $jenistransportasi = ['BBM','Sewa Kendaraan','Tiket'];
         $kabkota = Kabkota::where('nama_kabkota', $dinasregular->auditan)->first();
 
         $takaran = Bbm::where('kabkota_id', $kabkota['id'])->first();

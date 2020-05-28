@@ -15,21 +15,21 @@
                                     <form v-on:submit.prevent="fetchData()">
                                         <div class="row">
                                             <div class="form-group col-md-4">
-                                                <select v-model="search.program" class="form-control">
+                                                <select v-model="search.program" @change="onChangeProgram($event)" class="form-control">
                                                     <option value="">Pilih Program</option>
                                                     <option v-for="val in this.program_data" :value="val.id" :key="val.id">{{ val.nama_program }}</option>
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-4">
-                                                <select v-model="search.kegiatan" class="form-control">
+                                                <select v-model="search.kegiatan" @change="onChangeKegiatan($event)" class="form-control">
                                                     <option value="">Pilih Kegiatan</option>
-                                                    <option v-for="val in this.kegiatan_data" :value="val.id" :key="val.id">{{ val.nama_kegiatan }}</option>
+                                                    <option v-for="val in this.kegiatan" :value="val.id" :key="val.id">{{ val.nama_kegiatan }}</option>
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <select v-model="search.belanja" class="form-control">
                                                     <option value="">Pilih Kode Belanja</option>
-                                                    <option v-for="val in this.belanja_data" :value="val.id" :key="val.id">{{ val.nama_belanja }}</option>
+                                                    <option v-for="val in this.belanja" :value="val.id" :key="val.id">{{ val.nama_belanja }}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -50,21 +50,26 @@
                             <table class="table table-hover table-striped table-bordered table-responsive" v-if="showTable == true">
                                 <thead>
                                     <tr>
-                                        <th style="width:12%;text-align:center;">Kegiatan</th>
-                                        <th style="width:12%;text-align:center;">Belanja</th>
-                                        <th style="width:8%;text-align:center;">Waktu</th>
-                                        <th style="width:8%;text-align:center;">Penyerapan Anggaran</th>
+                                        <th style="width:15%;text-align:center;">Kegiatan</th>
+                                        <th style="width:10%;text-align:center;">Belanja</th>
+                                        <th style="width:10%;text-align:center;">Waktu</th>
+                                        <th style="width:5%;text-align:center;">Penyerapan Anggaran</th>
+                                        <th style="width:2%;text-align:center;">Status</th>
                                         <th style="width:8%;text-align:center;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="v in dinasbop" :key="v.id">
-                                        <td><a :href="route + '/detail?id=' + v.id">{{ v.kegiatan.nama_kegiatan }}</a></td>
-                                        <td>{{ v.belanja.nama_belanja }}</td>
-                                        <td style="text-align:center;">{{ v.dari | short_moment }} - {{ v.sampai | short_moment }}</td>
-                                        <td style="text-align:right;">Rp.{{ v.total_anggaran | rupiah }}</td>
-                                        <td>
-                                            <div style="text-align: center;">
+                                        <td style="vertical-align: middle;"><a :href="route + '/detail?id=' + v.id">{{ v.kegiatan.nama_kegiatan }}</a></td>
+                                        <td style="vertical-align: middle;">{{ v.belanja.nama_belanja }}</td>
+                                        <td style="text-align:center;vertical-align: middle;">{{ v.dari | short_moment }} <b>s.d</b> {{ v.sampai | short_moment }}</td>
+                                        <td style="text-align:right;vertical-align: middle;">Rp.{{ v.total_anggaran | rupiah }}</td>
+                                        <td style="text-align:center;vertical-align: middle;">
+                                            <span v-if="v.status == 0" class="badge badge-warning" style="padding: 0.7em 0.7em; font-size:90%;">Belum Disetujui</span>
+                                            <span v-else class="badge badge-success" style="padding: 0.7em 0.7em; font-size:90%;">Disetujui</span>
+                                        </td>
+                                        <td style="text-align: center;vertical-align: middle;">
+                                            <div>
                                                 <a v-if="(v.status == 0 && access.update === 1)" :href="route + '/edit?id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
                                                     <i class="fa fa-wrench"></i> Ubah
                                                 </a>
@@ -80,7 +85,6 @@
                                 </tbody>
                             </table>
                         </transition>
-
                         <transition name="fade"><v-modal :id="id" @delete="deleteData"></v-modal></transition>
                         <transition name="fade">
                             <div class="card-footer clearfix">
@@ -112,6 +116,8 @@ export default {
                 program:'',
                 belanja:''
             },
+            kegiatan:[],
+            belanja:[],
             alert: {
                 error:false,
                 empty:false,
@@ -213,10 +219,47 @@ export default {
                 this.fetchData();
                 console.log(error);
             });
-        }
+        },
+        onChangeProgram(evt) {
+            const program = evt.target.value;
+            if (program !== '') {
+                service.fetchData('./api/ajax/kegiatan/'+ program)
+                    .then(response => {
+                        this.search.kegiatan = '';
+                        this.search.belanja = '';
+                        this.kegiatan = response;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            } else {
+                this.search.kegiatan = '';
+                this.search.belanja = '';
+                this.kegiatan = [];
+                this.belanja = [];
+            }
+        },
+        onChangeKegiatan(evt) {
+            const kegiatan = evt.target.value;
+            if (kegiatan !== '') {
+                service.fetchData('./api/ajax/belanja/'+ kegiatan)
+                    .then(response => {
+                        this.search.belanja = '';
+                        this.belanja = response;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            } else {
+                this.search.belanja = '';
+                this.belanja = [];
+            }
+        },
     },
     created() {
         this.isLoading = true;
+        this.kegiatan = this.kegiatan_data;
+        this.belanja = this.belanja_data;
         this.fetchData();
     }
 };

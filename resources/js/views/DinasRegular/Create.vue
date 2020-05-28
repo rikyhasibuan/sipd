@@ -68,18 +68,18 @@
 
                             <div class="row">
                                 <div class="form-group col-md-12">
-                                    <label>Tujuan (wajib diisi minimal 1 kolom)*</label>
-                                    <input type="text" class="form-control" placeholder="Tujuan 1" v-model="dinasregular.untuk[0]" required="required">
+                                    <label for="untuk">Tujuan (wajib diisi minimal 1 kolom)*</label>
+                                    <input type="text" id="untuk" class="form-control" placeholder="Tujuan 1" v-model="dinasregular.untuk[0]" required="required">
                                     <br>
-                                    <input type="text" class="form-control" placeholder="Tujuan 2" v-model="dinasregular.untuk[1]">
+                                    <input type="text" id="untuk2" class="form-control" placeholder="Tujuan 2" v-model="dinasregular.untuk[1]">
                                     <br>
-                                    <input type="text" class="form-control" placeholder="Tujuan 3" v-model="dinasregular.untuk[2]">
+                                    <input type="text" id="untuk3" class="form-control" placeholder="Tujuan 3" v-model="dinasregular.untuk[2]">
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label>Tanggal Mulai *</label>
+                                    <label for="dari">Tanggal Mulai *</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -97,7 +97,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label>Tanggal Selesai *</label>
+                                    <label for="sampai">Tanggal Selesai *</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -116,8 +116,8 @@
                                 </div>
 
                                 <div class="form-group col-md-4">
-                                    <label>Tempat Tujuan *</label>
-                                    <select v-model="dinasregular.auditan" class="form-control" required="required">
+                                    <label for="auditan">Tempat Tujuan *</label>
+                                    <select v-model="dinasregular.auditan" id="auditan" class="form-control" required="required">
                                         <option value="">Pilih Tempat Tujuan</option>
                                         <option v-for="v in this.auditan_data" :key="v.id" :value="v.nama_kabkota">{{ v.nama_kabkota }}</option>
                                     </select>
@@ -203,15 +203,17 @@
             'route'
         ],
         methods: {
-            onSubmit(evt) {
+            onSubmit() {
+                this.isLoading = true;
                 service.postData(this.api, this.dinasregular)
                     .then(result => {
+                        this.isLoading = false;
                         this.response(result);
                     }).catch(error => {
-                        this.$Progress.finish();
-                        this.errorAlert = true;
-                        this.saveAlert = false;
-                        this.duplicateAlert = false;
+                        this.isLoading = false;
+                        this.alert.error = true;
+                        this.alert.duplicate = false;
+                        this.alert.save = false;
                         window.scroll({
                             top: 0,
                             left: 0,
@@ -254,7 +256,7 @@
                         top: 0,
                         left: 0,
                         behavior: 'smooth'
-                    })
+                    });
                     this.reset();
                     setTimeout(() => this.alert.save = false, 2000);
                 } else if (result.status === 'duplicate') {
@@ -269,6 +271,8 @@
                 }
             },
             reset() {
+                this.dinasregular.tgl_sp = '';
+                this.dinasregular.nomor_sp = '';
                 this.dinasregular.program_id = '';
                 this.dinasregular.kegiatan_id = '';
                 this.dinasregular.belanja_id = '';

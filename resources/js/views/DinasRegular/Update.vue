@@ -8,11 +8,11 @@
                     <form method="POST" v-on:submit.prevent="onSubmit" autocomplete="off">
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="username">Nomor Surat Perintah </label>
+                                <label>Nomor Surat Perintah </label>
                                 <input type="text" class="form-control" v-model="dinasregular.nomor_sp" placeholder="Isi Nomor Surat Perintah" required="required">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="username">Tanggal Surat Perintah </label>
+                                <label>Tanggal Surat Perintah </label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -32,7 +32,7 @@
 
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label for="bidang">Program *</label>
+                                <label>Program *</label>
                                 <select v-model="dinasregular.program_id" @change="onChangeProgram($event)" class="form-control" required="required">
                                     <option value="">Pilih Program</option>
                                     <option v-for="v in this.program" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_program }}</option>
@@ -40,7 +40,7 @@
                             </div>
 
                             <div class="form-group col-md-4">
-                                <label for="bidang">Kegiatan *</label>
+                                <label>Kegiatan *</label>
                                 <select v-model="dinasregular.kegiatan_id" @change="onChangeKegiatan($event)" class="form-control" required="required">
                                     <option value="">Pilih Kegiatan</option>
                                     <option v-for="v in this.kegiatan" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_kegiatan }}</option>
@@ -48,7 +48,7 @@
                             </div>
 
                             <div class="form-group col-md-4">
-                                <label for="bidang">Belanja *</label>
+                                <label>Belanja *</label>
                                 <select v-model="dinasregular.belanja_id" class="form-control" required="required">
                                     <option value="">Pilih Belanja</option>
                                     <option v-for="v in this.belanja" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_belanja }}</option>
@@ -58,7 +58,7 @@
 
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label for="nama">Dasar *</label>
+                                <label>Dasar *</label>
                                 <input type="text" class="form-control" v-model="dinasregular.dasar[0]" required="required">
                                 <br>
                                 <input type="text" class="form-control" v-model="dinasregular.dasar[1]">
@@ -69,7 +69,7 @@
 
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label for="nama">Tujuan Pemeriksaan *</label>
+                                <label>Tujuan Pemeriksaan *</label>
                                 <input type="text" class="form-control" v-model="dinasregular.untuk[0]" required="required">
                                 <br>
                                 <input type="text" class="form-control" v-model="dinasregular.untuk[1]">
@@ -80,7 +80,7 @@
 
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label for="nama">Tanggal Mulai *</label>
+                                <label>Tanggal Mulai *</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -98,7 +98,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="nama">Tanggal Selesai *</label>
+                                <label>Tanggal Selesai *</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -117,7 +117,7 @@
                             </div>
 
                             <div class="form-group col-md-4">
-                                <label for="bidang">Tujuan *</label>
+                                <label>Tujuan *</label>
                                 <select v-model="dinasregular.auditan" class="form-control" required="required">
                                     <option value="">Pilih Tujuan</option>
                                     <option v-for="v in this.auditan_data" :key="v.id" :value="v.nama_kabkota">{{ v.nama_kabkota }}</option>
@@ -127,7 +127,7 @@
 
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label for="bidang">Personil *</label>
+                                <label>Personil *</label>
                                 <multiselect
                                     :multiple="true"
                                     :taggable="true"
@@ -265,7 +265,6 @@
             .catch(error => {
                 console.log(error);
             });
-
 
             this.anggota_data.forEach(item => {
                 this.personil_data.push({'label':item.nama,'key':item.nip})

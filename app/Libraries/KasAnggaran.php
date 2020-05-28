@@ -22,10 +22,10 @@ class KasAnggaran
      * @param string $belanja
      * @return int
      */
-    function show_sisa_anggaran($tahun, $bulan, $belanja)
+    function show_sisa_anggaran($tahun, $bulan, $kegiatan)
     {
-        $anggaran = self::show_total_anggaran($tahun, $bulan, $belanja);
-        $resapan_anggaran = self::show_resapan_anggaran($tahun, $bulan, $belanja);
+        $anggaran = self::show_total_anggaran($tahun, $bulan, $kegiatan);
+        $resapan_anggaran = self::show_resapan_anggaran($tahun, $bulan, $kegiatan);
 
         return ($anggaran - $resapan_anggaran);
     }
@@ -37,13 +37,13 @@ class KasAnggaran
      * @param string $belanja
      * @return int $anggaran
      */
-    function show_total_anggaran($tahun, $bulan, $belanja)
+    function show_total_anggaran($tahun, $bulan, $kegiatan)
     {
         if ($bulan != '') {
-            $anggaran = Anggaran::searchBelanja($belanja)->searchTahun($tahun)->searchBulan($bulan)->first();
+            $anggaran = Anggaran::searchKegiatan($kegiatan)->searchTahun($tahun)->searchBulan($bulan)->first();
             return $anggaran['jumlah'];
         } else {
-            $anggaran = Anggaran::searchBelanja($belanja)->searchTahun($tahun)->searchBulan($bulan)->sum('jumlah');
+            $anggaran = Anggaran::searchKegiatan($kegiatan)->searchTahun($tahun)->searchBulan($bulan)->sum('jumlah');
             return $anggaran;
         }
     }
@@ -55,10 +55,10 @@ class KasAnggaran
      * @param string $belanja
      * @return integer $resapan_anggaran
      */
-    function show_resapan_anggaran($tahun, $bulan, $belanja)
+    function show_resapan_anggaran($tahun, $bulan, $kegiatan)
     {
-        $dinasbop = DinasBop::searchBelanja($belanja)->searchBulan($bulan)->searchTahun($tahun)->get();
-        $dinasregular = DinasRegular::searchBelanja($belanja)->searchBulan($bulan)->searchTahun($tahun)->get();
+        $dinasbop = DinasBop::searchKegiatan($kegiatan)->searchBulan($bulan)->searchTahun($tahun)->get();
+        $dinasregular = DinasRegular::searchKegiatan($kegiatan)->searchBulan($bulan)->searchTahun($tahun)->get();
 
         $anggaran_bop = 0;
         if (count($dinasbop) > 0) {
@@ -83,10 +83,10 @@ class KasAnggaran
      * @param string $belanja
      * @return boolean
      */
-    public function show_ketersediaan_anggaran($tahun, $bulan, $belanja)
+    public function show_ketersediaan_anggaran($tahun, $bulan, $kegiatan)
     {
-        $anggaran = self::show_total_anggaran($tahun, $bulan, $belanja);
-        $resapan_anggaran = self::show_resapan_anggaran($tahun, $bulan, $belanja);
+        $anggaran = self::show_total_anggaran($tahun, $bulan, $kegiatan);
+        $resapan_anggaran = self::show_resapan_anggaran($tahun, $bulan, $kegiatan);
 
         $sisa_anggaran = $anggaran - $resapan_anggaran;
         if ($sisa_anggaran <= 0) {
@@ -113,9 +113,9 @@ class KasAnggaran
      * @param string $belanja
      * @return boolean
      */
-    public function calculate_available_fee($tahun, $bulan, $belanja, $total_biaya)
+    public function calculate_available_fee($tahun, $bulan, $kegiatan, $total_biaya)
     {
-        $anggaran = self::show_sisa_anggaran($tahun, $bulan, $belanja);
+        $anggaran = self::show_sisa_anggaran($tahun, $bulan, $kegiatan);
         $sisa_anggaran = $anggaran - $total_biaya;
         if ($sisa_anggaran <= 0) {
             return false;

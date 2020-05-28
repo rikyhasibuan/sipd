@@ -124,7 +124,7 @@
                             </tr>
                             <tr>
                                 <th style="width:3%;text-align:center;vertical-align:middle;">BBM</th>
-                                <th style="width:3%;text-align:center;vertical-align:middle;">Travel</th>
+                                <th style="width:3%;text-align:center;vertical-align:middle;">Sewa Kendaraan</th>
                                 <th style="width:3%;text-align:center;vertical-align:middle;">Tiket</th>
                             </tr>
                             </thead>
@@ -145,7 +145,7 @@
                                     </div>
                                 </td>
                                 <td style="vertical-align:middle;" v-if="k === 0" :rowspan="dinasregular.tim.length">
-                                    <div v-if="(dinasregular.total_transportasi.total > 0) && (dinasregular.total_transportasi.jenis === 'Travel')" >
+                                    <div v-if="(dinasregular.total_transportasi.total > 0) && (dinasregular.total_transportasi.jenis === 'Sewa Kendaraan')" >
                                         <div style="text-align: center;">{{ dinasregular.total_transportasi.total | rupiah }}</div>
                                     </div>
                                 </td>
@@ -161,7 +161,7 @@
                                 <td style="text-align:right;">Rp.{{ dinasregular.total_akomodasi | rupiah }}</td>
                                 <td style="text-align:right;" v-if="(dinasregular.total_transportasi.total > 0) && (dinasregular.total_transportasi.jenis === 'BBM')" >Rp.{{ dinasregular.total_transportasi.total | rupiah }}</td>
                                 <td v-else></td>
-                                <td style="text-align:right;" v-if="(dinasregular.total_transportasi.total > 0) && (dinasregular.total_transportasi.jenis === 'Travel')" >Rp.{{ dinasregular.total_transportasi.total | rupiah }}</td>
+                                <td style="text-align:right;" v-if="(dinasregular.total_transportasi.total > 0) && (dinasregular.total_transportasi.jenis === 'Sewa Kendaraan')" >Rp.{{ dinasregular.total_transportasi.total | rupiah }}</td>
                                 <td v-else></td>
                                 <td style="text-align:right;" v-if="(dinasregular.total_transportasi.total > 0) && (dinasregular.total_transportasi.jenis === 'Tiket')" >Rp.{{ dinasregular.total_transportasi.total | rupiah }}</td>
                                 <td v-else></td>
@@ -353,9 +353,8 @@ export default {
                 });
         },
         getAnggaranTersedia() {
-            service.postData('../api/ajax/sisa_anggaran', { 'tahun': this.dinasregular.created_at, 'belanja': this.dinasregular.belanja_id })
+            service.postData('../api/ajax/sisa_anggaran', { 'tahun': this.dinasregular.created_at, 'kegiatan': this.dinasregular.kegiatan_id })
                 .then(result => {
-                    //this.anggaran_tersedia = parseInt(result.sisa_anggaran) + parseInt(this.total_biaya);
                     this.anggaran_tersedia = parseInt(result.sisa_anggaran);
                 }).catch(error => {
                     console.log(error);

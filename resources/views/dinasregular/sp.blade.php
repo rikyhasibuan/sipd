@@ -13,21 +13,34 @@ $kpa = $timdinas->get_sekretaris();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Surat Perintah</title>
     <link rel="stylesheet" href="{!! asset('css/bootstrap.min.css') !!}">
+    <link rel="stylesheet" href="{!! asset('css/print.css') !!}">
     <style>
-        @page  {
-            size: auto;
-        }
-        body {
-            margin: 0px;
-        }
 
         * {
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 12pt;
+            font-family: "Bookman Old Style";
+            font-size: 11pt;
         }
 
-        h4 {
-            font-size: 14pt;
+        @media print {
+            @page {
+                size:auto;
+            }
+            body {
+                margin: 0px;
+            }
+
+            * {
+                font-family: "Bookman Old Style";
+                font-size: 11pt;
+            }
+
+            h4 {
+                font-size: 13pt;
+            }
+
+            .table td {
+                padding: 1.5px !important;
+            }
         }
     </style>
 </head>
@@ -68,25 +81,25 @@ $kpa = $timdinas->get_sekretaris();
                         <td width="80%" style="text-align: justify;">
                             <?php $i = 1; ?>
                             @foreach($dinasregular->tim as $anggota)
-                                <span style="margin-right:20px;">{!! $i !!}.</span>
-                                <span style="margin-right:85px;">Nama</span>
-                                <span style="margin-right:10px;">:</span>
-                                <span style="margin-right:20px;">{!! $anggota['nama'] !!}</span>
+                                <span style="margin-right:1em;">{!! $i !!}.</span>
+                                <span style="margin-right:6.9em;">Nama</span>
+                                <span style="margin-right:0.5em;">:</span>
+                                <span>{!! $anggota['nama'] !!}</span>
                                 <br>
-                                <span style="margin-right:35px;"></span>
-                                <span style="margin-right:5px;">Pangkat/Golongan</span>
-                                <span style="margin-right:10px;">:</span>
-                                <span style="margin-right:20px;">{!! $anggota['pangkat'] !!} {!! $anggota['golongan'] !!}</span>
+                                <span style="margin-right:2.3em;"></span>
+                                <span style="margin-right:0.5em;">Pangkat/Golongan</span>
+                                <span style="margin-right:0.5em;">:</span>
+                                <span>{!! $anggota['pangkat'] !!} {!! $anggota['golongan'] !!}</span>
                                 <br>
-                                <span style="margin-right:35px;"></span>
-                                <span style="margin-right:98px;">NIP</span>
-                                <span style="margin-right:10px;">:</span>
-                                <span style="margin-right:20px;">{!! $anggota['nip'] !!}</span>
+                                <span style="margin-right:2.3em;"></span>
+                                <span style="margin-right:8em;">NIP</span>
+                                <span style="margin-right:0.5em;">:</span>
+                                <span>{!! $anggota['nip'] !!}</span>
                                 <br>
-                                <span style="margin-right:35px;"></span>
-                                <span style="margin-right:76px;">Jabatan</span>
-                                <span style="margin-right:10px;">:</span>
-                                <span style="margin-right:20px;">{!! $anggota['jabatan'] !!}</span>
+                                <span style="margin-right:2.3em;"></span>
+                                <span style="margin-right:5.7em;">Jabatan</span>
+                                <span style="margin-right:0.5em;">:</span>
+                                <span>{!! $anggota['jabatan'] !!}</span>
                                 <br><br>
                                 <?php $i++; ?>
                             @endforeach
