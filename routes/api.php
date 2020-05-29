@@ -16,6 +16,8 @@ Route::put('profile', 'Api\ProfileController@putUpdatePassword');
 
 Route::get('logaktifitas', 'Api\LogActivityController@get_data');
 
+Route::get('report', 'Api\ReportController@print_data');
+
 // AJAX request
 Route::get('ajax/kegiatan/{program}', 'Api\AjaxController@show_kegiatan_by_program');
 Route::get('ajax/belanja/{kegiatan}', 'Api\AjaxController@show_belanja_by_kegiatan');

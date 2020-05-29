@@ -265,15 +265,14 @@ export default {
         },
         createRevision(callback) {
             service.putData(this.api + '/approval?act=revision&type='+callback.role+'&tab=sekretaris&id=' + this.dinasbop.id, {catatan: callback.catatan})
-                .then(response => {
-                    if(response.status === 'ok') {
-                        this.alert.delete = true;
-                        $('#sekretaris_revision_modal').modal('hide');
-                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-                        alert('CATATAN REVISI BERHASIL DIBUAT');
-                        location.reload();
-                    }
-                }).catch(error => {
+            .then(response => {
+                if(response.status === 'ok') {
+                    $('#sekretaris_revision_modal').modal('hide');
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                    alert('CATATAN REVISI BERHASIL DIBUAT');
+                    location.reload();
+                }
+            }).catch(error => {
                 this.alert.delete = false;
                 this.alert.error = true;
                 $('#sekretaris_revision_modal').modal('hide');

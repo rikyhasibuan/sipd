@@ -36,6 +36,7 @@
                     <i class="fa fa-exclamation-triangle"></i> TIDAK ADA CATATAN REVISI
                 </div>
             </div>
+
             <div role="tabpanel" class="tab-pane fade" id="revlogsekretaris">
                 <div style="margin-top:10px;"></div>
                 <div class="direct-chat-messages" style="height:auto !important;" v-if="revision.sekretaris.catatan.length > 0">
@@ -53,6 +54,7 @@
                     <i class="fa fa-exclamation-triangle"></i> TIDAK ADA CATATAN REVISI
                 </div>
             </div>
+
             <div role="tabpanel" class="tab-pane fade show active" id="revlogkassubag">
                 <div style="margin-top:10px;"></div>
                 <div class="direct-chat-messages" style="height:auto !important;" v-if="revision.kassubag.catatan.length > 0">

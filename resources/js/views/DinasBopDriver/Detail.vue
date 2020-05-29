@@ -265,15 +265,14 @@ export default {
         },
         createRevision(callback) {
             service.putData(this.api + '/approval?act=revision&type='+callback.role+'&tab=driver&id=' + this.dinasbop.id, {catatan: callback.catatan})
-                .then(response => {
-                    if(response.status === 'ok') {
-                        this.alert.delete = true;
-                        $('#driver_revision_modal').modal('hide');
-                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-                        alert('CATATAN REVISI BERHASIL DIBUAT');
-                        location.reload();
-                    }
-                }).catch(error => {
+            .then(response => {
+                if(response.status === 'ok') {
+                    $('#driver_revision_modal').modal('hide');
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                    alert('CATATAN REVISI BERHASIL DIBUAT');
+                    location.reload();
+                }
+            }).catch(error => {
                 this.alert.delete = false;
                 this.alert.error = true;
                 $('#driver_revision_modal').modal('hide');
@@ -284,14 +283,14 @@ export default {
         },
         createApproval(role) {
             service.putData(this.api + '/approval?act=approve&type='+role+'&tab=driver&id=' + this.dinasbop.id)
-                .then(response => {
-                    if(response.status === 'ok') {
-                        $('#driver_approval_modal').modal('hide');
-                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-                        alert('PROSES APPROVAL BERHASIL');
-                        location.reload();
-                    }
-                }).catch(error => {
+            .then(response => {
+                if(response.status === 'ok') {
+                    $('#driver_approval_modal').modal('hide');
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                    alert('PROSES APPROVAL BERHASIL');
+                    location.reload();
+                }
+            }).catch(error => {
                 $('#driver_approval_modal').modal('hide');
                 window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 alert('TERJADI KESALAHAN PADA SISTEM!');

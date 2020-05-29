@@ -71,7 +71,7 @@
                     </span>
                     <span v-else>
                         <a v-if="approval_tab.lock === 0 && access.update === 1" :href="route + '/reviu/edit?id='+dinasbopreviu.id+'&dinasbop=' + dinasbop.id" class="btn btn-warning mb-2 mr-2"><i class="fa fa-wrench"></i> Ubah Tim Reviu & Monitoring</a>
-                        <div class="btn-group" v-if="approval_tab.lock === 0">
+                        <div class="btn-group" v-if="approval_tab.lock === 1">
                             <button type="button" class="btn btn-default mb-2"><i class="fa fa-print"></i> Print</button>
                             <button type="button" class="btn btn-default mb-2 dropdown-toggle dropdown-icon" data-toggle="dropdown">
                                 <span class="sr-only">Toggle Dropdown</span>
@@ -233,15 +233,14 @@ export default {
         },
         createRevision(callback) {
             service.putData(this.api + '/approval?act=revision&type='+callback.role+'&tab=reviu&id=' + this.dinasbop.id, {catatan: callback.catatan})
-                .then(response => {
-                    if(response.status === 'ok') {
-                        this.alert.delete = true;
-                        $('#reviu_revision_modal').modal('hide');
-                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-                        alert('CATATAN REVISI BERHASIL DIBUAT');
-                        location.reload();
-                    }
-                }).catch(error => {
+            .then(response => {
+                if(response.status === 'ok') {
+                    $('#reviu_revision_modal').modal('hide');
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                    alert('CATATAN REVISI BERHASIL DIBUAT');
+                    location.reload();
+                }
+            }).catch(error => {
                 this.alert.delete = false;
                 this.alert.error = true;
                 $('#reviu_revision_modal').modal('hide');

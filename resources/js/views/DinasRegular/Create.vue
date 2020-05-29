@@ -90,7 +90,7 @@
                                             v-model="dinasregular.dari"
                                             :config="options"
                                             class="form-control"
-                                            placeholder="Tanggal Selesai"
+                                            placeholder="Tanggal Mulai Pemeriksaaan"
                                             autocomplete="off"
                                             required="required">
                                         </date-picker>
@@ -108,7 +108,7 @@
                                             v-model="dinasregular.sampai"
                                             :config="options"
                                             class="form-control"
-                                            placeholder="Tanggal Selesai"
+                                            placeholder="Tanggal Selesai Pemeriksaaan"
                                             autocomplete="off"
                                             required="required">
                                         </date-picker>

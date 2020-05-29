@@ -321,16 +321,14 @@
             },
             createRevision(callback) {
                 service.putData(this.api + '/approval?act=revision&type='+callback.role+'&tab=pengumpuldata&id=' + this.dinasbop.id, {catatan: callback.catatan})
-                    .then(response => {
-                        if(response.status === 'ok') {
-                            this.alert.delete = true;
-                            $('#pengumpuldata_revision_modal').modal('hide');
-                            window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-                            alert('CATATAN REVISI BERHASIL DIBUAT');
-                            location.reload();
-                        }
-                    }).catch(error => {
-                    this.alert.delete = false;
+                .then(response => {
+                    if(response.status === 'ok') {
+                        $('#pengumpuldata_revision_modal').modal('hide');
+                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                        alert('CATATAN REVISI BERHASIL DIBUAT');
+                        location.reload();
+                    }
+                }).catch(error => {
                     this.alert.error = true;
                     $('#pengumpuldata_revision_modal').modal('hide');
                     alert('TERJADI KESALAHAN PADA SISTEM!');
@@ -340,14 +338,14 @@
             },
             createApproval(role) {
                 service.putData(this.api + '/approval?act=approve&type='+role+'&tab=pengumpuldata&id=' + this.dinasbop.id)
-                    .then(response => {
-                        if(response.status === 'ok') {
-                            $('#pengumpuldata_approval_modal').modal('hide');
-                            window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-                            alert('PROSES APPROVAL BERHASIL');
-                            location.reload();
-                        }
-                    }).catch(error => {
+                .then(response => {
+                    if(response.status === 'ok') {
+                        $('#pengumpuldata_approval_modal').modal('hide');
+                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                        alert('PROSES APPROVAL BERHASIL');
+                        location.reload();
+                    }
+                }).catch(error => {
                     $('#pengumpuldata_approval_modal').modal('hide');
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     alert('TERJADI KESALAHAN PADA SISTEM!');

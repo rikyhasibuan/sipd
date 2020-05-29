@@ -7,27 +7,47 @@
                     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
                     <form method="POST" v-on:submit.prevent="onSubmit">
                         <div class="row">
-                            <div class="form-group col-md-4">
-                                <label>JENIS REPORT *</label>
-                                <select v-model="report.jenis" class="form-control" required="required">
-                                    <option value="pemagangan">DATA MAGANG</option>
-                                    <option value="penempatan">DATA PENEMPATAN</option>
-                                </select>
+                            <div class="form-group col-md-6">
+                                <label>Dari *</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                    <date-picker
+                                        id="dari"
+                                        name="dari"
+                                        v-model="report.dari"
+                                        :config="options"
+                                        class="form-control"
+                                        placeholder="Dari"
+                                        required="required"
+                                        autocomplete="off">
+                                    </date-picker>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label>PERUSAHAAN *</label>
-                                <select v-model="report.perusahaan" class="form-control" required="required">
-                                    <option value="">PILIH PERUSAHAAN</option>
-                                    <option v-for="v in perusahaan_data" :value="v.id" :key="v.id">{{ v.nama_perusahaan.toUpperCase() }}</option>
-                                </select>
+                            <div class="form-group col-md-6">
+                                <label>Sampai *</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                    <date-picker
+                                        id="sampai"
+                                        name="sampai"
+                                        v-model="report.sampai"
+                                        :config="options"
+                                        class="form-control"
+                                        placeholder="Sampai"
+                                        required="required"
+                                        autocomplete="off">
+                                    </date-picker>
+                                </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <button type="submit" class="btn btn-success"><i class="fa fa-file-excel"></i> EXPORT</button>
+                                <button type="submit" class="btn btn-success"><i class="fa fa-file-excel"></i> Cetak Laporan</button>
                             </div>
                         </div>
                     </form>
@@ -46,22 +66,23 @@
           update:false
         },
         report: {
-          jenis:'pemagangan',
-          perusahaan:''
+          dari:'',
+          sampai:''
         },
         isLoading:false,
         options: {
-          format: 'YYYY-MM-DD',
+          format: 'YYYY-MM',
+            viewMode:'years',
           useCurrent: false,
           locale: 'id'
         }
       }
     },
-    props: ['api','route','perusahaan_data'],
+    props: ['api','route'],
     methods: {
       onSubmit (evt) {
         let newWindow = window.open();
-        newWindow.location = this.api + '?perusahaan='+ this.report.perusahaan +'&jenis='+this.report.jenis;
+        newWindow.location = this.api + '?dari='+ this.report.dari +'&sampai='+this.report.sampai;
       }
     },
     created() {

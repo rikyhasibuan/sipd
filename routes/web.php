@@ -23,6 +23,7 @@ Route::get('profile', 'Web\ProfileController@index');
 
 Route::get('logaktifitas', 'Web\LogActivityController@index');
 
+Route::get('report', 'Web\ReportController@index');
 // irban
 Route::get('irban', 'Web\IrbanController@index');
 Route::get('irban/create', 'Web\IrbanController@create');

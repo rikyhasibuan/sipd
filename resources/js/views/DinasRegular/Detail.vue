@@ -51,7 +51,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td style="width:15%;"><b>Waktu</b></td>
+                                <td style="width:15%;"><b>Waktu Pemeriksaan</b></td>
                                 <td>{{ dinasregular.dari | moment }} s.d {{ dinasregular.sampai | moment }}</td>
                             </tr>
                             <tr>

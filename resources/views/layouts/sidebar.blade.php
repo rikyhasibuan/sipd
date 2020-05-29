@@ -181,6 +181,13 @@
                     </li>
                 @endif
                 <li class="nav-item">
+                    <a @if($link=='report' ) class="nav-link active" @else class="nav-link" @endif
+                    href="{!! url('report') !!}">
+                        <i class="nav-icon fa fa-file-excel-o"></i>
+                        <p>Cetak Laporan</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a @if($link=='profile' ) class="nav-link active" @else class="nav-link" @endif
                     href="{!! url('profile') !!}">
                         <i class="nav-icon fa fa-lock"></i>

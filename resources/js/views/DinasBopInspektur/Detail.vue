@@ -172,7 +172,7 @@
             </div>
         </transition>
         <transition name="fade"><v-revision :role="approval_role" :element="'inspektur_revision_modal'" @revision="createRevision"></v-revision></transition>
-        <transition name="fade"><v-approval :role="approval_role" @approve="createApproval"></v-approval></transition>
+        <transition name="fade"><v-approval :role="approval_role" :element="'inspektur_approval_modal'" @approve="createApproval"></v-approval></transition>
     </div>
 </template>
 
@@ -194,19 +194,20 @@ export default {
             inspekturmodal:false,
             total_anggaran_inspektur : 0,
             approval_tab: {
-                kassubag:{
+                kassubag: {
                     catatan:[],
                     approval:0
                 },
-                sekretaris:{
+                sekretaris: {
                     catatan:[],
                     approval:0
                 },
-                inspektur:{
+                inspektur: {
                     catatan:[],
                     approval:0
                 },
-                lock:0
+                lock:0,
+                tab:''
             },
             approval_role:''
         }
@@ -243,7 +244,7 @@ export default {
         },
         toggleApprovalModal(role) {
             this.approval_role = role;
-            $("#approval_modal").modal('show');
+            $("#inspektur_approval_modal").modal('show');
         },
         deleteData(id) {
             service.deleteData(this.api + '/inspektur/' + this.dinasbop.id + '/' + id)
@@ -265,17 +266,15 @@ export default {
             });
         },
         createRevision(callback) {
-            service.putData(this.api + '/approval?act=revision&type='+callback.role+'&tab=inspektur&id=' + this.dinasbop.id, {catatan: callback.catatan})
-                .then(response => {
-                    if(response.status === 'ok') {
-                        this.alert.delete = true;
-                        $('#inspektur_revision_modal').modal('hide');
-                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-                        alert('CATATAN REVISI BERHASIL DIBUAT');
-                        location.reload();
-                    }
-                }).catch(error => {
-                this.alert.delete = false;
+            service.putData(this.api + '/approval?act=revision&type='+callback.role+'&tab=inspektur&id=' + this.dinasbop.id, { catatan: callback.catatan})
+            .then(response => {
+                if(response.status === 'ok') {
+                    $('#inspektur_revision_modal').modal('hide');
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                    alert('CATATAN REVISI BERHASIL DIBUAT');
+                    location.reload();
+                }
+            }).catch(error => {
                 this.alert.error = true;
                 $('#inspektur_revision_modal').modal('hide');
                 alert('TERJADI KESALAHAN PADA SISTEM!');
@@ -285,15 +284,15 @@ export default {
         },
         createApproval(role) {
             service.putData(this.api + '/approval?act=approve&type='+role+'&tab=inspektur&id=' + this.dinasbop.id)
-                .then(response => {
-                    if(response.status === 'ok') {
-                        $('#approval_modal').modal('hide');
-                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-                        alert('PROSES APPROVAL BERHASIL');
-                        location.reload();
-                    }
-                }).catch(error => {
-                $('#approval_modal').modal('hide');
+            .then(response => {
+                if(response.status === 'ok') {
+                    $('#inspektur_approval_modal').modal('hide');
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                    alert('PROSES APPROVAL BERHASIL');
+                    location.reload();
+                }
+            }).catch(error => {
+                $('#inspektur_approval_modal').modal('hide');
                 window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 alert('TERJADI KESALAHAN PADA SISTEM!');
                 console.log(error);
@@ -316,7 +315,7 @@ export default {
     mounted() {
         this.isLoading = false;
         this.approval_tab = this.dinasbopapproval.find(dinasbopapproval => dinasbopapproval.tab === 'inspektur');
-        console.log(this.approval_tab.kassubag.approval);
+        console.log(this.approval_tab);
     }
 };
 </script>

@@ -71,7 +71,7 @@
                     </span>
                     <span v-else>
                         <a v-if="approval_tab.lock === 0 && access.update === 1" :href="route + '/supervisi/edit?id='+dinasbopsupervisi.id+'&dinasbop=' + dinasbop.id" class="btn btn-warning mb-2 mr-2"><i class="fa fa-wrench"></i> Ubah Tim Supervisi</a>
-                        <div class="btn-group" v-if="approval_tab.lock === 0">
+                        <div class="btn-group" v-if="approval_tab.lock === 1">
                             <button type="button" class="btn btn-default mb-2"><i class="fa fa-print"></i> Print</button>
                             <button type="button" class="btn btn-default mb-2 dropdown-toggle dropdown-icon" data-toggle="dropdown">
                                 <span class="sr-only">Toggle Dropdown</span>
@@ -235,15 +235,14 @@ export default {
         },
         createRevision(callback) {
             service.putData(this.api + '/approval?act=revision&type='+callback.role+'&tab=supervisi&id=' + this.dinasbop.id, {catatan: callback.catatan})
-                .then(response => {
-                    if(response.status === 'ok') {
-                        this.alert.delete = true;
-                        $('#supervisi_revision_modal').modal('hide');
-                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-                        alert('CATATAN REVISI BERHASIL DIBUAT');
-                        location.reload();
-                    }
-                }).catch(error => {
+            .then(response => {
+                if(response.status === 'ok') {
+                    $('#supervisi_revision_modal').modal('hide');
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                    alert('CATATAN REVISI BERHASIL DIBUAT');
+                    location.reload();
+                }
+            }).catch(error => {
                 this.alert.delete = false;
                 this.alert.error = true;
                 $('#supervisi_revision_modal').modal('hide');
@@ -254,14 +253,14 @@ export default {
         },
         createApproval(role) {
             service.putData(this.api + '/approval?act=approve&type='+role+'&tab=supervisi&id=' + this.dinasbop.id)
-                .then(response => {
-                    if(response.status === 'ok') {
-                        $('#supervisi_approval_modal').modal('hide');
-                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-                        alert('PROSES APPROVAL BERHASIL');
-                        location.reload();
-                    }
-                }).catch(error => {
+            .then(response => {
+                if(response.status === 'ok') {
+                    $('#supervisi_approval_modal').modal('hide');
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                    alert('PROSES APPROVAL BERHASIL');
+                    location.reload();
+                }
+            }).catch(error => {
                 $('#supervisi_approval_modal').modal('hide');
                 window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 alert('TERJADI KESALAHAN PADA SISTEM!');
