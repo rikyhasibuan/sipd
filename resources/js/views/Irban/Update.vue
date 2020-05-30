@@ -15,8 +15,8 @@
                                 </div>
 
                                 <div class="form-group col-md-12">
-                                    <button type="submit" class="btn btn-flat btn-success"><i class="fa fa-save"></i> Simpan Data</button>
-                                    <a :href="route" class="btn btn-flat btn-danger"><i class="fa fa-arrow-left"></i> Kembali</a>
+                                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Simpan Data</button>
+                                    <a :href="route" class="btn btn-danger"><i class="fa fa-arrow-left"></i> Kembali</a>
                                 </div>
                             </div>
                         </form>

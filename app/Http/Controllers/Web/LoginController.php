@@ -10,7 +10,7 @@ class LoginController extends Controller
 {
     public function login()
     {
-        $data = array();
+        $data = [];
         $data['redirect'] = url('dashboard');
         $data['api'] = url('api/login');
         return View::make('login', $data);
@@ -19,9 +19,10 @@ class LoginController extends Controller
     public function logout()
     {
         return redirect('login')->withCookie(Cookie::forget('login'))
-                                ->withCookie(Cookie::forget('id'))
-                                ->withCookie(Cookie::forget('nip'))
-                                ->withCookie(Cookie::forget('password'))
-                                ->withCookie(Cookie::forget('level'));
+            ->withCookie(Cookie::forget('id'))
+            ->withCookie(Cookie::forget('nip'))
+            ->withCookie(Cookie::forget('password'))
+            ->withCookie(Cookie::forget('jabatan'))
+            ->withCookie(Cookie::forget('level'));
     }
 }

@@ -156,7 +156,7 @@
             </div>
             <div class="col-md-12 col-xs-12" v-if="dinasbopsupervisi !== null">
                 <hr>
-                <transition name="fade"><v-revision-log :revision=approval_tab></v-revision-log></transition>
+                <transition name="fade"><v-revision-log :element=element :revision=approval_tab></v-revision-log></transition>
                 <transition name="fade"><v-revision :role="approval_role" :element="'supervisi_revision_modal'" @revision="createRevision"></v-revision></transition>
                 <transition name="fade"><v-approval :role="approval_role" :element="'supervisi_approval_modal'" @approve="createApproval"></v-approval></transition>
             </div>
@@ -181,6 +181,14 @@ export default {
             total_biaya_tim:0,
             showTable: false,
             id:'',
+            element: {
+                kassubag_href: '#supervisirevlogkassubag',
+                kassubag_id: 'supervisirevlogkassubag',
+                sekretaris_href: '#supervisirevlogsekretaris',
+                sekretaris_id: 'supervisirevlogsekretaris',
+                inspektur_href: '#supervisirevloginspektur',
+                inspektur_id: 'supervisirevloginspektur'
+            },
             approval_tab: {
                 kassubag:{
                     catatan:[],

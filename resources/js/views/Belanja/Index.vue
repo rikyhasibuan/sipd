@@ -44,7 +44,7 @@
                     <div class="card-body table-responsive">
                         <v-alert :alert="alert"></v-alert>
                         <transition name="fade">
-                            <table class="table table-hover table-striped table-bordered" v-if="showTable == true">
+                            <table class="table table-hover table-striped table-bordered" v-if="showTable === true">
                                 <thead>
                                     <tr>
                                         <th style="width:20%; text-align:center;">Program</th>
@@ -78,7 +78,9 @@
                             </table>
                         </transition>
 
-                        <transition name="fade"><v-modal :id="id" @delete="deleteData"></v-modal></transition>
+                        <transition name="fade">
+                            <v-delete :element="'belanja_delete_modal'" :id="id" @delete="deleteData"></v-delete>
+                        </transition>
                         <transition name="fade">
                             <div class="card-footer clearfix">
                                 <v-pagination
@@ -151,7 +153,7 @@ export default {
             this.fetchData();
         },
         toggleModal(id) {
-            $("#deletemodal").modal('show');
+            $("#belanja_delete_modal").modal('show');
             this.id = id;
         },
         fetchData() {
@@ -194,7 +196,7 @@ export default {
                 if(response.status === 'ok') {
                     this.isLoading = false;
                     this.alert.delete = true;
-                    $('#deletemodal').modal('hide');
+                    $('#belanja_delete_modal').modal('hide');
                     this.fetchData();
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(() => this.alert.delete=false, 5000);
@@ -203,7 +205,7 @@ export default {
                 this.isLoading = false;
                 this.alert.delete = false;
                 this.alert.error = true;
-                $('#deletemodal').modal('hide');
+                $('#belanja_delete_modal').modal('hide');
                 window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 this.fetchData();
                 console.log(error);

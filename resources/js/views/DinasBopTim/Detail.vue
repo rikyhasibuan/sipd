@@ -209,13 +209,13 @@
                     </tbody>
                 </table>
             </transition>
-            <transition name="fade"><v-modal :id="id" @delete="deleteData"></v-modal></transition>
+            <transition name="fade"><v-delete :element="'tim_delete_modal'" :id="id" @delete="deleteData"></v-delete></transition>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12 col-xs-12" v-if="dinasboptim.length !== 0">
             <hr>
-            <transition name="fade"><v-revision-log :revision=approval_tab></v-revision-log></transition>
+            <transition name="fade"><v-revision-log :element=element :revision=approval_tab></v-revision-log></transition>
             <transition name="fade"><v-revision :role="approval_role" :element="'tim_revision_modal'" @revision="createRevision"></v-revision></transition>
             <transition name="fade"><v-approval :role="approval_role" :element="'tim_approval_modal'" @approve="createApproval"></v-approval></transition>
         </div>
@@ -238,6 +238,14 @@ export default {
             total_biaya_tim:0,
             showTable: false,
             id:'',
+            element: {
+                kassubag_href: '#timrevlogkassubag',
+                kassubag_id: 'timrevlogkassubag',
+                sekretaris_href: '#timrevlogsekretaris',
+                sekretaris_id: 'timrevlogsekretaris',
+                inspektur_href: '#timrevloginspektur',
+                inspektur_id: 'timrevloginspektur'
+            },
             approval_tab: {
                 kassubag:{
                     catatan:[],
@@ -283,7 +291,7 @@ export default {
             new_window.location = this.api + '/print/dpbo/'+ id +'/tim';
         },
         toggleModal(id) {
-            $("#deletemodal").modal('show');
+            $("#tim_delete_modal").modal('show');
             this.id = id;
         },
         toggleRevisiModal(role) {
@@ -299,7 +307,7 @@ export default {
             .then(response => {
                 if(response.status === 'ok') {
                     this.alert.delete = true;
-                    $('#deletemodal').modal('hide');
+                    $('#tim_delete_modal').modal('hide');
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(function() {
                         this.alert.delete=false;
@@ -309,7 +317,7 @@ export default {
             }).catch(error => {
                 this.alert.delete = false;
                 this.alert.error = true;
-                $('#deletemodal').modal('hide');
+                $('#tim_delete_modal').modal('hide');
                 window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 console.log(error);
             });

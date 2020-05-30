@@ -191,8 +191,8 @@
                                         <form method="POST">
                                             <div class="row">
                                                 <div class="form-group col-md-12 col-xs-12">
-                                                    <label>Akomodasi  *</label>
-                                                    <select v-model="transportasi.durasi" class="form-control">
+                                                    <label for="akomodasi">Akomodasi  *</label>
+                                                    <select id="akomodasi" v-model="transportasi.durasi" class="form-control">
                                                         <option value="">Pilih Jumlah Hari</option>
                                                         <option v-for="(v,k) in this.durasi_inap" :value="v" :key="k">{{ v }} Hari</option>
                                                     </select>
@@ -201,8 +201,8 @@
 
                                             <div class="row">
                                                 <div class="form-group col-md-12 col-xs-12">
-                                                    <label>Jenis Transportasi *</label>
-                                                    <select v-model="transportasi.jenis" class="form-control" @change="onChangeJenisTransportasi" required="required">
+                                                    <label for="jenis">Jenis Transportasi *</label>
+                                                    <select id="jenis" v-model="transportasi.jenis" class="form-control" @change="onChangeJenisTransportasi" required="required">
                                                         <option value="">Pilih Jenis Transportasi</option>
                                                         <option v-for="(v,k) in this.jenis_transportasi" :value="v" :key="k">{{ v }}</option>
                                                     </select>
@@ -211,8 +211,8 @@
 
                                             <div class="row" v-if="show_liter === true">
                                                 <div class="form-group col-md-12 col-xs-12">
-                                                    <label>Liter *</label>
-                                                    <select v-model="transportasi.liter" class="form-control" @change="onChangeLiter($event)">
+                                                    <label for="liter">Liter *</label>
+                                                    <select id="liter" v-model="transportasi.liter" class="form-control" @change="onChangeLiter($event)">
                                                         <option value="">Pilih Jumlah Liter</option>
                                                         <option v-for="(v,k) in this.takaran_liter" :value="v" :key="k">{{ v }} Liter</option>
                                                     </select>
@@ -221,8 +221,8 @@
 
                                             <div class="row">
                                                 <div class="form-group col-md-12 col-xs-12">
-                                                    <label>Total Transportasi *</label>
-                                                    <input type="text" v-model="transportasi.total" class="form-control" required="required">
+                                                    <label for="total">Total Transportasi *</label>
+                                                    <input id="total" type="text" v-model="transportasi.total" class="form-control" required="required">
                                                 </div>
                                             </div>
 
@@ -242,12 +242,12 @@
                     </transition>
 
                     <hr>
-                    <transition name="fade"><v-revision-log :revision=dinasregularapproval></v-revision-log></transition>
+                    <transition name="fade"><v-revision-log :element="element" :revision="dinasregularapproval"></v-revision-log></transition>
                     <transition name="fade"><v-revision :element="'reguler_revision_modal'" :role="approval_role" @revision="createRevision"></v-revision></transition>
                     <transition name="fade"><v-approval :element="'reguler_approval_modal'" :role="approval_role" @approve="createApproval"></v-approval></transition>
 
-                    <a href="#" v-if="access.update == 1 && dinasregularapproval.lock == 0" @click="transportasiModal(dinasregular.id)" data-toggle="modal" data-target="#transportasimodal" class="btn btn-warning mb-2 mr-2"><i class="fa fa-car"></i> Transportasi & Akomodasi</a>
-                    <div class="btn-group mb-2 mr-2" v-if="dinasregularapproval.lock == 1">
+                    <a href="#" v-if="access.update === 1 && dinasregularapproval.lock === 0" @click="transportasiModal(dinasregular.id)" data-toggle="modal" data-target="#transportasimodal" class="btn btn-warning mb-2 mr-2"><i class="fa fa-car"></i> Transportasi & Akomodasi</a>
+                    <div class="btn-group mb-2 mr-2" v-if="dinasregularapproval.lock === 1">
                         <button type="button" class="btn btn-default"><i class="fa fa-print"></i> Print</button>
                         <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
                             <span class="sr-only">Toggle Dropdown</span>
@@ -259,9 +259,7 @@
                             </div>
                         </button>
                     </div>
-
                     <a :href="route" class="btn btn-danger mb-2 mr-2"><i class="fa fa-arrow-left"></i> Kembali</a>
-
                 </div>
             </div>
         </div>
@@ -296,7 +294,15 @@ export default {
             showTransportasiModal: false,
             counter:0,
             approval_type: '',
-            approval_role:''
+            approval_role:'',
+            element: {
+                kassubag_href: '#regularrevlogkassubag',
+                kassubag_id: 'regularrevlogkassubag',
+                sekretaris_href: '#regularrevlogsekretaris',
+                sekretaris_id: 'regularrevlogsekretaris',
+                inspektur_href: '#regularrevloginspektur',
+                inspektur_id: 'regularrevloginspektur'
+            },
         }
     },
     props: ['dinasregular', 'dinasregularapproval', 'jenis_transportasi', 'takaran_liter', 'route', 'api', 'access'],
@@ -340,15 +346,21 @@ export default {
             this.showTransportasiModal = true;
             this.id = id;
         },
-        simpanTransportasi(evt) {
+        simpanTransportasi() {
             service.putData(this.api + '/transportasi?id=' + this.dinasregular.id, this.transportasi)
                 .then(result => {
-                    $('#transportasimodal').modal('hide');
-                    alert('PROSES SIMPAN DATA BERHASIL!');
-                    location.reload();
+                    if (result.status === 'ok') {
+                        $('#transportasimodal').modal('hide');
+                        alert('PROSES SIMPAN DATA BERHASIL!');
+                        location.reload();
+                    } else {
+                        $('#transportasimodal').modal('hide');
+                        alert('TERJADI KESALAHAN! SILAHKAN ULANGI KEMBALI!.');
+                        console.log(error);
+                    }
                 }).catch(error => {
                     $('#transportasimodal').modal('hide');
-                    alert('TERJADI KESALAHAN! SILAHKAN ULANGI KEMBALI!.')
+                    alert('TERJADI KESALAHAN! SILAHKAN ULANGI KEMBALI!.');
                     console.log(error);
                 });
         },
@@ -426,19 +438,19 @@ export default {
         let level = this.$cookies.get('level');
         if (level === '1') {
             this.approval_type = 'administrator';
-        } else if (level == '3') {
-            if (this.$cookies.get('jabatan') == 'Inspektur') {
+        } else if (level === '3') {
+            if (this.$cookies.get('jabatan') === 'Inspektur') {
                 this.approval_type = 'inspektur';
-            } else if (this.$cookies.get('jabatan') == 'Sekretaris') {
+            } else if (this.$cookies.get('jabatan') === 'Sekretaris') {
                 this.approval_type = 'sekretaris';
-            } else if (this.$cookies.get('jabatan') == 'Kepala Sub Bagian Kepegawaian dan Umum') {
+            } else if (this.$cookies.get('jabatan') === 'Kepala Sub Bagian Kepegawaian dan Umum') {
                 this.approval_type = 'kassubag';
-            } else if (this.$cookies.get('jabatan') == 'Kepala Sub Bagian Keuangan dan Aset') {
+            } else if (this.$cookies.get('jabatan') === 'Kepala Sub Bagian Keuangan dan Aset') {
                 this.approval_type = 'kassubag';
-            } else if (this.$cookies.get('jabatan') == 'Kepala Sub Bagian Perencanaan dan Pelaporan') {
+            } else if (this.$cookies.get('jabatan') === 'Kepala Sub Bagian Perencanaan dan Pelaporan') {
                 this.approval_type = 'kassubag';
             }
-        } else if (level == '2') {
+        } else if (level === '2') {
             this.approval_type = 'operator';
         }
     }

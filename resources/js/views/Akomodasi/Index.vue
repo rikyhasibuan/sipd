@@ -34,7 +34,7 @@
                     <div class="card-body table-responsive">
                         <v-alert :alert="alert"></v-alert>
                         <transition name="fade">
-                            <table class="table table-hover table-striped table-bordered" v-if="showTable == true">
+                            <table class="table table-hover table-striped table-bordered" v-if="showTable === true">
                                 <thead>
                                     <tr>
                                         <th style="width:20%; text-align:center;">Kabupaten / Kota</th>
@@ -69,7 +69,6 @@
                             </table>
                         </transition>
 
-                        <transition name="fade"><v-modal :id="id" @delete="deleteData"></v-modal></transition>
                         <transition name="fade">
                             <div class="card-footer clearfix">
                                 <v-pagination
@@ -131,10 +130,6 @@ export default {
         prevPage() {
             this.pagination.page--;
             this.fetchData();
-        },
-        toggleModal(id) {
-            $("#deletemodal").modal('show');
-            this.id = id;
         },
         fetchData() {
             this.isLoading = true;

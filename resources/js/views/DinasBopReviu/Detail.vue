@@ -155,7 +155,7 @@
             </div>
             <div class="col-md-12 col-xs-12" v-if="dinasbopreviu !== null">
                 <hr>
-                <transition name="fade"><v-revision-log :revision=approval_tab></v-revision-log></transition>
+                <transition name="fade"><v-revision-log :element="element" :revision="approval_tab"></v-revision-log></transition>
                 <transition name="fade"><v-revision :role="approval_role" :element="'reviu_revision_modal'" @revision="createRevision"></v-revision></transition>
                 <transition name="fade"><v-approval :role="approval_role" :element="'reviu_approval_modal'" @approve="createApproval"></v-approval></transition>
             </div>
@@ -193,6 +193,14 @@ export default {
                     approval:0
                 },
                 lock:0
+            },
+            element: {
+                kassubag_href: '#reviurevlogkassubag',
+                kassubag_id: 'reviurevlogkassubag',
+                sekretaris_href: '#reviurevlogsekretaris',
+                sekretaris_id: 'reviurevlogsekretaris',
+                inspektur_href: '#reviurevloginspektur',
+                inspektur_id: 'reviurevloginspektur'
             },
             approval_role:''
         }

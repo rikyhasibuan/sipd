@@ -10,9 +10,9 @@ use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
-    public $title = 'Dashboard';
-    public $link = 'dashboard';
-    protected $api = 'api/dashboard';
+    public $title   = 'Dashboard';
+    public $link    = 'dashboard';
+    protected $api  = 'api/dashboard';
 
     public function __construct()
     {
@@ -33,10 +33,10 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<i class="fa fa-home"></i> Dashboard';
 
-        $data = array();
+        $data = [];
         $data['breadcrumb'] = $breadcrumb;
         $data['title']  = $this->title;
         $data['link'] = $this->link;

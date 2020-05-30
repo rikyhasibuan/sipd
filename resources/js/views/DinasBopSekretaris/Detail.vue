@@ -144,34 +144,13 @@
             </div>
             <div class="col-md-12 col-xs-12" v-if="dinasbopsekretaris.length !== 0">
                 <hr>
-                <transition name="fade"><v-revision-log :revision=approval_tab></v-revision-log></transition>
+                <transition name="fade"><v-revision-log :element="element" :revision=approval_tab></v-revision-log></transition>
                 <transition name="fade"><v-revision :role="approval_role" :element="'sekretaris_revision_modal'" @revision="createRevision"></v-revision></transition>
                 <transition name="fade"><v-approval :role="approval_role" :element="'sekretaris_approval_modal'" @approve="createApproval"></v-approval></transition>
             </div>
         </div>
-        <transition>
-            <div class="modal" id="delete_sekretaris_modal" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Konfirmasi</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body"><p>Anda Akan Menghapus Data Ini, Teruskan?</p></div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-flat btn-success" @click="deleteData(sekretarisid)">
-                                <i class="fa fa-check-circle-o"></i> Ya
-                            </button>
-                            <button type="button" class="btn btn-flat btn-danger" data-dismiss="modal">
-                                <i class="fa fa-times-circle-o"></i> Batal
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </transition>
+
+        <transition name="fade"><v-delete :element="'sekretaris_delete_modal'" :id="sekretarisid" @delete="deleteData"></v-delete></transition>
     </div>
 </template>
 
@@ -190,7 +169,6 @@ export default {
             },
             showTable: false,
             sekretarisid:'',
-            sekretarismodal:false,
             total_anggaran_sekretaris : 0,
             approval_tab: {
                 kassubag:{
@@ -206,6 +184,14 @@ export default {
                     approval:0
                 },
                 lock:0
+            },
+            element: {
+                kassubag_href: '#sekretarisrevlogkassubag',
+                kassubag_id: 'sekretarisrevlogkassubag',
+                sekretaris_href: '#sekretarisrevlogsekretaris',
+                sekretaris_id: 'sekretarisrevlogsekretaris',
+                inspektur_href: '#sekretarisrevloginspektur',
+                inspektur_id: 'sekretarisrevloginspektur'
             },
             approval_role:''
         }
@@ -232,8 +218,8 @@ export default {
             let new_window = window.open();
             new_window.location = this.api + '/print/dpbo/'+ id +'/sekretaris';
         },
-        toggle_modal(id) {
-            $('#delete_sekretaris_modal').modal('show');
+        toggleModal(id) {
+            $('#sekretaris_delete_modal').modal('show');
             this.sekretarisid = id;
         },
         toggleRevisiModal(role) {

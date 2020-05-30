@@ -19,6 +19,7 @@ class IrbanSkpdController extends Controller
     protected $api   = 'api/irbanskpd';
     protected $route = 'irbanskpd';
     protected $user_cookies;
+    protected $access;
     protected $_nip;
 
     public function __construct() {
@@ -38,14 +39,14 @@ class IrbanSkpdController extends Controller
     }
 
     public function index() {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('admin/dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<i class="fa fa-user"></i> '. $this->title;
 
         $irban = Irban::all();
         $skpd = Skpd::all();
 
-        $data = array();
+        $data = [];
         $data['breadcrumb'] = $breadcrumb;
         $data['title']  = $this->title;
         $data['link'] = $this->link;
@@ -59,7 +60,7 @@ class IrbanSkpdController extends Controller
     }
 
     public function create() {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('admin/dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-user"></i> '.$this->title.'</a>';
         $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data';
@@ -68,7 +69,7 @@ class IrbanSkpdController extends Controller
         $irban = Irban::all();
         $skpd = Skpd::whereNotIn('id', $irbanskpd)->get();
 
-        $data = array();
+        $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
@@ -82,7 +83,7 @@ class IrbanSkpdController extends Controller
     }
 
     public function edit(Request $request) {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('admin/dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-user"></i> '.$this->title.'</a>';
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
@@ -91,7 +92,7 @@ class IrbanSkpdController extends Controller
         $irban = Irban::all();
         $skpd = Skpd::all();
 
-        $data = array();
+        $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['irbanskpd'] = $irbanskpd;

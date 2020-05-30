@@ -51,7 +51,7 @@ class DinasBopController extends Controller
 
     public function index()
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<i class="fa fa-database"></i> ' . $this->title;
 
@@ -74,7 +74,7 @@ class DinasBopController extends Controller
 
     public function create()
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-database"></i> ' . $this->title . '</a>';
         $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data';
@@ -98,7 +98,7 @@ class DinasBopController extends Controller
 
     public function edit(Request $request)
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-database"></i> ' . $this->title . '</a>';
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
@@ -109,7 +109,7 @@ class DinasBopController extends Controller
         $kegiatan = [];
         $belanja = [];
 
-        $data = array();
+        $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['dinasbop'] = $dinasbop;
@@ -125,10 +125,10 @@ class DinasBopController extends Controller
 
     public function detail(Request $request)
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-database"></i> ' . $this->title . '</a>';
-        $breadcrumb[2] = '<i class="fa fa-search"></i> Detail';
+        $breadcrumb[2] = '<i class="fa fa-search"></i> Detail Dinas BOP';
 
         $dinasbop = DinasBop::with('program', 'kegiatan', 'belanja')->find($request['id']);
         $dinasboptim = DinasBopTim::where('dinasbop_id', $dinasbop->id)->get();
@@ -141,9 +141,6 @@ class DinasBopController extends Controller
         $dinasboppengumpuldata_count = DinasBopPengumpulData::where('dinasbop_id', $dinasbop->id)->count();
         $dinasbopadministrasi_count = DinasBopAdministrasi::where('dinasbop_id', $dinasbop->id)->count();
 
-        $dinasboppengumpuldata = [];
-        $dinasboptimpengumpuldata = [];
-
         if ($dinasboppengumpuldata_count > 0) {
             $dinasboppengumpuldata = DinasBopPengumpulData::with('dinasbop')->where('dinasbop_id', $dinasbop->id)->first();
             $dinasboptimpengumpuldata = DinasBopPengumpulDataTim::where('dinasbop_pengumpuldata_id', $dinasboppengumpuldata->id)->get();
@@ -151,9 +148,6 @@ class DinasBopController extends Controller
             $dinasboppengumpuldata = [];
             $dinasboptimpengumpuldata = [];
         }
-
-        $dinasbopadministrasi = [];
-        $dinasboptimadministrasi = [];
 
         if ($dinasbopadministrasi_count > 0) {
             $dinasbopadministrasi = DinasBopAdministrasi::with('dinasbop')->where('dinasbop_id', $dinasbop->id)->first();
@@ -218,7 +212,7 @@ class DinasBopController extends Controller
         $breadcrumb = [];
         $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> '.$this->title.'</a>';
-        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
+        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data Tim';
 
         $dinasboptim = DinasBopTim::find($request['id']);
 
@@ -250,7 +244,7 @@ class DinasBopController extends Controller
         $breadcrumb = [];
         $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> ' . $this->title . '</a>';
-        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data Pengemudi';
+        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data Driver';
 
         $driver = Pegawai::where('jabatan', 'Pengemudi')->get();
         $dinasbop_data = DinasBop::find($request['dinasbop']);
@@ -273,7 +267,7 @@ class DinasBopController extends Controller
         $breadcrumb = [];
         $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> '.$this->title.'</a>';
-        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data Pengemudi';
+        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data Driver';
 
         $dinasbopdriver = DinasBopDriver::find($request['id']);
         $driver = Pegawai::where('jabatan', 'Pengemudi')->get();
@@ -298,7 +292,7 @@ class DinasBopController extends Controller
         $breadcrumb = [];
         $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> ' . $this->title . '</a>';
-        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data';
+        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data Inspektur';
 
         $dinasbop_data = DinasBop::find($request['dinasbop']);
 
@@ -319,7 +313,7 @@ class DinasBopController extends Controller
         $breadcrumb = [];
         $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> '.$this->title.'</a>';
-        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
+        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data Inspektur';
 
         $dinasbopinspektur = DinasBopInspektur::find($request['id']);
         $dinasbop_data = DinasBop::find($request['dinasbop']);
@@ -342,7 +336,7 @@ class DinasBopController extends Controller
         $breadcrumb = [];
         $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> ' . $this->title . '</a>';
-        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data';
+        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data Sekretaris';
 
         $dinasbop_data = DinasBop::find($request['dinasbop']);
 
@@ -363,7 +357,7 @@ class DinasBopController extends Controller
         $breadcrumb = [];
         $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> '.$this->title.'</a>';
-        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
+        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data Sekretaris';
 
         $dinasbopsekretaris = DinasBopSekretaris::find($request['id']);
         $dinasbop_data = DinasBop::find($request['dinasbop']);
@@ -386,7 +380,7 @@ class DinasBopController extends Controller
         $breadcrumb = [];
         $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> ' . $this->title . '</a>';
-        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data Tim';
+        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data Reviu & Monitoring';
 
         $dinasbop_data = DinasBop::find($request['dinasbop']);
 
@@ -438,7 +432,7 @@ class DinasBopController extends Controller
         $breadcrumb = [];
         $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> '.$this->title.'</a>';
-        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
+        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data Reviu & Monitoring';
 
         $dinasbopreviu = DinasBopReviu::find($request['id']);
         $dinasbop_data = DinasBop::find($request['dinasbop']);
@@ -595,10 +589,10 @@ class DinasBopController extends Controller
 
     public function create_pengumpuldata(Request $request)
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-database"></i> ' . $this->title . '</a>';
-        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data';
+        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Pengumpul Data';
 
         $dinasbop = DinasBop::find($request['dinasbop']);
         $data = [];
@@ -614,15 +608,15 @@ class DinasBopController extends Controller
 
     public function edit_pengumpuldata(Request $request)
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-database"></i> ' . $this->title . '</a>';
-        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
+        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Pengumpul Data';
 
         $dinasboppengumpuldata = DinasBopPengumpuldata::find($request['id']);
         $dinasbop = DinasBop::find($request['dinasbop']);
 
-        $data = array();
+        $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['dinasboppengumpuldata'] = $dinasboppengumpuldata;
@@ -640,7 +634,7 @@ class DinasBopController extends Controller
         $breadcrumb = [];
         $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> ' . $this->title . '</a>';
-        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data Tim';
+        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Tim Pengumpul Data';
 
         $auditan = [];
         $kabkota = IrbanKabkota::with('kabkota')->get();
@@ -704,7 +698,7 @@ class DinasBopController extends Controller
         $breadcrumb = [];
         $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> '.$this->title.'</a>';
-        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
+        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Pengumpul Data';
 
         $dinasboptimpengumpuldata = DinasBopPengumpulDataTim::find($request['id']);
 
@@ -768,10 +762,10 @@ class DinasBopController extends Controller
 
     public function create_administrasi(Request $request)
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-database"></i> ' . $this->title . '</a>';
-        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data';
+        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data Pengadministrasi';
 
         $dinasbop = DinasBop::find($request['dinasbop']);
 
@@ -788,15 +782,15 @@ class DinasBopController extends Controller
 
     public function edit_administrasi(Request $request)
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-database"></i> ' . $this->title . '</a>';
-        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
+        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data Pengadministrasi';
 
         $dinasbopadministrasi = DinasBopAdministrasi::find($request['id']);
         $dinasbop = DinasBop::find($request['dinasbop']);
 
-        $data = array();
+        $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['dinasbopadministrasi'] = $dinasbopadministrasi;
@@ -814,7 +808,7 @@ class DinasBopController extends Controller
         $breadcrumb = [];
         $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> ' . $this->title . '</a>';
-        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data Tim';
+        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Tim Pengadministrasi';
 
         $auditan = [];
         $kabkota = IrbanKabkota::with('kabkota')->get();
@@ -878,7 +872,7 @@ class DinasBopController extends Controller
         $breadcrumb = [];
         $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> '.$this->title.'</a>';
-        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
+        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Pengadministrasi';
 
         $dinasboptimadministrasi = DinasBopAdministrasiTim::find($request['id']);
 

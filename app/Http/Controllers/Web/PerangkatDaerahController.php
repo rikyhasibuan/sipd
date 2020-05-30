@@ -37,11 +37,11 @@ class PerangkatDaerahController extends Controller
 
     public function index()
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<i class="fa fa-user"></i> '.$this->title;
 
-        $data = array();
+        $data = [];
         $data['breadcrumb'] = $breadcrumb;
         $data['title'] = $this->title;
         $data['link'] = $this->link;
@@ -54,14 +54,14 @@ class PerangkatDaerahController extends Controller
 
     public function create()
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-user"></i> '.$this->title.'</a>';
         $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data';
 
         $kabkota = Kabkota::all();
 
-        $data = array();
+        $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
@@ -74,7 +74,7 @@ class PerangkatDaerahController extends Controller
 
     public function edit(Request $request)
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-user"></i> '.$this->title.'</a>';
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
@@ -82,7 +82,7 @@ class PerangkatDaerahController extends Controller
         $perangkatdaerah = Skpd::find($request['id']);
         $kabkota = Kabkota::all();
 
-        $data = array();
+        $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['perangkatdaerah'] = $perangkatdaerah;

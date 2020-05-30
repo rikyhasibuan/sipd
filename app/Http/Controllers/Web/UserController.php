@@ -41,7 +41,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<i class="fa fa-user"></i> ' . $this->title;
 
@@ -60,7 +60,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-user"></i> ' . $this->title . '</a>';
         $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data';
@@ -68,7 +68,7 @@ class UserController extends Controller
         $pegawai = Pegawai::all();
         $level = Level::all();
 
-        $data = array();
+        $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
@@ -82,7 +82,7 @@ class UserController extends Controller
 
     public function edit(Request $request)
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-user"></i> ' . $this->title . '</a>';
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
@@ -92,7 +92,7 @@ class UserController extends Controller
         $pegawai = Pegawai::all();
         $level = Level::all();
 
-        $data = array();
+        $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['user'] = $user;

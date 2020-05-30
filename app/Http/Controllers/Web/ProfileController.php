@@ -37,13 +37,13 @@ class ProfileController extends Controller
      * @return \Illuminate\Contracts\View\View
      */
     public function index(Request $request) {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('admin/dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<i class="fa fa-user"></i> '. $this->title;
 
         $user  = User::find(Cookie::get('id'));
 
-        $data = array();
+        $data = [];
         $data['breadcrumb'] = $breadcrumb;
         $data['title']  = $this->title;
         $data['link'] = $this->link;

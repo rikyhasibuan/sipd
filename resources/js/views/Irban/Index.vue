@@ -39,7 +39,7 @@
                                 </tbody>
                             </table>
                         </transition>
-                        <transition name="fade"><v-modal :id="id" @delete="deleteData"></v-modal></transition>
+                        <transition name="fade"><v-delete :element="'irban_delete_modal'" :id="id" @delete="deleteData"></v-delete></transition>
                     </div>
                 </div>
             </div>
@@ -68,7 +68,7 @@ export default {
     props: ['api','route','access'],
     methods: {
         toggleModal(id) {
-            $("#deletemodal").modal('show');
+            $("#irban_delete_modal").modal('show');
             this.id = id;
         },
         fetchData() {
@@ -100,7 +100,7 @@ export default {
             .then(response => {
                 if(response.status === 'ok') {
                     this.alert.delete = true;
-                    $('#deletemodal').modal('hide');
+                    $('#irban_delete_modal').modal('hide');
                     this.fetchData();
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(() => this.alert.delete=false, 5000);
@@ -109,7 +109,7 @@ export default {
                 this.isLoading = false;
                 this.alert.delete = false;
                 this.alert.error = true;
-                $('#deletemodal').modal('hide');
+                $('#irban_delete_modal').modal('hide');
                 window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 this.fetchData();
                 console.log(error);

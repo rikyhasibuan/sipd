@@ -38,14 +38,14 @@ class IrbanKabkotaController extends Controller
     }
 
     public function index() {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('admin/dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<i class="fa fa-user"></i> '. $this->title;
 
         $irban = Irban::all();
         $kabkota = Kabkota::all();
 
-        $data = array();
+        $data = [];
         $data['breadcrumb'] = $breadcrumb;
         $data['title']  = $this->title;
         $data['link'] = $this->link;
@@ -59,7 +59,7 @@ class IrbanKabkotaController extends Controller
     }
 
     public function create() {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('admin/dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-user"></i> '.$this->title.'</a>';
         $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data';
@@ -68,7 +68,7 @@ class IrbanKabkotaController extends Controller
         $irban = Irban::all();
         $kabkota = Kabkota::whereNotIn('id', $irbankabkota)->get();
 
-        $data = array();
+        $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
@@ -82,7 +82,7 @@ class IrbanKabkotaController extends Controller
     }
 
     public function edit(Request $request) {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('admin/dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-user"></i> '.$this->title.'</a>';
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
@@ -91,7 +91,7 @@ class IrbanKabkotaController extends Controller
         $irban = Irban::all();
         $kabkota = Kabkota::all();
 
-        $data = array();
+        $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['irbankabkota'] = $irbankabkota;

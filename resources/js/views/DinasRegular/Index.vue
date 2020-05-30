@@ -47,7 +47,7 @@
                     <div class="card-body table-responsive">
                         <v-alert :alert="alert"></v-alert>
                         <transition name="fade">
-                            <table class="table table-hover table-striped table-bordered" v-if="showTable == true">
+                            <table class="table table-hover table-striped table-bordered" v-if="showTable === true">
                                 <thead>
                                     <tr>
                                         <th style="width:15%;text-align:center;">Kegiatan</th>
@@ -55,7 +55,7 @@
                                         <th style="width:10%;text-align:center;">Waktu</th>
                                         <th style="width:7%;text-align:center;">Penyerapan Anggaran</th>
                                         <th style="width:2%;text-align:center;">Status</th>
-                                        <th style="width:8%;text-align:center;">Action</th>
+                                        <th style="width:10%;text-align:center;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -65,16 +65,16 @@
                                         <td style="text-align:center;vertical-align: middle;">{{ v.dari | moment }} s.d {{ v.sampai | moment }}</td>
                                         <td style="text-align:right;vertical-align: middle;">Rp. {{ (parseInt(v.total_harian) + parseInt(v.total_akomodasi) + parseInt(v.total_transportasi.total)) | rupiah }}</td>
                                         <td style="text-align:center;vertical-align: middle;">
-                                            <span v-if="v.status == 0" class="badge badge-warning" style="padding: 0.7em 0.7em; font-size:90%;">Belum Disetujui</span>
+                                            <span v-if="v.status === 0" class="badge badge-warning" style="padding: 0.7em 0.7em; font-size:90%;">Belum Disetujui</span>
                                             <span v-else class="badge badge-success" style="padding: 0.7em 0.7em; font-size:90%;">Disetujui</span>
                                         </td>
                                         <td style="text-align: center;vertical-align: middle;">
                                             <div>
-                                                <a v-if="(v.status == 0 && access.update === 1)" :href="route + '/edit?id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
+                                                <a v-if="(v.status === 0 && access.update === 1)" :href="route + '/edit?id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
                                                     <i class="fa fa-wrench"></i> Ubah
                                                 </a>
                                                 <button v-else class="btn btn-sm btn-warning disabled mr-sm-1"><i class="fa fa-wrench"></i> Ubah</button>
-                                                <a v-if="(v.status == 0 && access.delete === 1)" href="#" @click="toggleModal(v.id)"
+                                                <a v-if="(v.status === 0 && access.delete === 1)" href="#" @click="toggleModal(v.id)"
                                                    class="btn btn-sm btn-danger">
                                                     <i class="fa fa-trash-o"></i> Hapus
                                                 </a>
@@ -86,7 +86,9 @@
                             </table>
                         </transition>
 
-                        <transition name="fade"><v-modal :id="id" @delete="deleteData"></v-modal></transition>
+                        <transition name="fade">
+                            <v-delete :element="'dinasreguler_delete_modal'" :id="id" @delete="deleteData"></v-delete>
+                        </transition>
                         <transition name="fade">
                             <div class="card-footer clearfix">
                                 <v-pagination
@@ -105,9 +107,9 @@
 </template>
 
 <script>
-import service from './../../services.js';
+    import service from './../../services.js';
 
-export default {
+    export default {
     data: function() {
         return {
             dinasregular: {},
@@ -156,7 +158,7 @@ export default {
             this.fetchData();
         },
         toggleModal(id) {
-            $("#deletemodal").modal('show');
+            $("#dinasreguler_delete_modal").modal('show');
             this.id = id;
         },
         fetchData() {
@@ -182,7 +184,7 @@ export default {
                 this.alert.empty = false;
                 this.alert.error = false;
                 this.dinasregular = response.data;
-                this.pagination.last = response.last_page;
+                this.pagination.last = response.last;
                 this.pagination.from = response.from;
                 this.pagination.to = response.to;
                 this.pagination.total = response.total;
@@ -190,15 +192,14 @@ export default {
             this.isLoading = false;
         },
         generateParams() {
-            let queryString = Object.keys(this.search).map(key => key + '=' + this.search[key]).join('&');
-            return queryString;
+            return Object.keys(this.search).map(key => key + '=' + this.search[key]).join('&');
         },
         deleteData(id) {
             service.deleteData(this.api + '?id=' + id)
             .then(response => {
                 if(response.status === 'ok') {
                     this.alert.delete = true;
-                    $('#deletemodal').modal('hide');
+                    $('#dinasreguler_delete_modal').modal('hide');
                     this.fetchData();
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(() => this.alert.delete=false, 5000);
@@ -206,7 +207,7 @@ export default {
             }).catch(error => {
                 this.alert.delete = false;
                 this.alert.error = true;
-                $('#deletemodal').modal('hide');
+                $('#dinasreguler_delete_modal').modal('hide');
                 window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 this.fetchData();
                 console.log(error);
@@ -268,7 +269,6 @@ export default {
         this.kegiatan = this.kegiatan_data;
         this.belanja = this.belanja_data;
         this.fetchData();
-
     }
 };
 </script>

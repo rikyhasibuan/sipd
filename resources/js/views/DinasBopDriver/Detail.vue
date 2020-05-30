@@ -142,34 +142,12 @@
             </div>
             <div class="col-md-12 col-xs-12" v-if="dinasbopdriver.length !== 0">
                 <hr>
-                <transition name="fade"><v-revision-log :revision=approval_tab></v-revision-log></transition>
+                <transition name="fade"><v-revision-log :element="element" :revision="approval_tab"></v-revision-log></transition>
                 <transition name="fade"><v-revision :role="approval_role" :element="'driver_revision_modal'" @revision="createRevision"></v-revision></transition>
                 <transition name="fade"><v-approval :role="approval_role" :element="'driver_approval_modal'" @approve="createApproval"></v-approval></transition>
             </div>
         </div>
-        <transition>
-            <div class="modal" id="drivermodal" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Konfirmasi</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body"><p>Anda Akan Menghapus Data Ini, Teruskan?</p></div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-flat btn-success" @click="deleteData(driverid)">
-                                <i class="fa fa-check-circle-o"></i> Ya
-                            </button>
-                            <button type="button" class="btn btn-flat btn-danger" data-dismiss="modal">
-                                <i class="fa fa-times-circle-o"></i> Batal
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </transition>
+        <transition name="fade"><v-delete :element="'driver_delete_modal'" :id="driverid" @delete="deleteData"></v-delete></transition>
     </div>
 </template>
 
@@ -204,6 +182,14 @@ export default {
                 },
                 lock:0
             },
+            element: {
+                kassubag_href: '#driverrevlogkassubag',
+                kassubag_id: 'driverrevlogkassubag',
+                sekretaris_href: '#driverrevlogsekretaris',
+                sekretaris_id: 'driverrevlogsekretaris',
+                inspektur_href: '#driverrevloginspektur',
+                inspektur_id: 'driverrevloginspektur'
+            },
             approval_role:''
         }
     },
@@ -229,8 +215,8 @@ export default {
             let new_window = window.open();
             new_window.location = this.api + '/print/dpbo/'+ id +'/driver';
         },
-        toggle_modal(id) {
-            $("#drivermodal").modal('show');
+        toggleModal(id) {
+            $("#driver_delete_modal").modal('show');
             this.driverid = id;
         },
         toggleRevisiModal(role) {
@@ -249,7 +235,7 @@ export default {
                     this.isLoading = false;
                     this.alert.delete = true;
                     this.drivermodal = false;
-                    $('#drivermodal').modal('hide');
+                    $('#driver_delete_modal').modal('hide');
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(function() { this.alert.delete=false; location.reload(); }, 1000);
                 }
@@ -258,7 +244,7 @@ export default {
                 this.alert.delete = false;
                 this.alert.error = true;
                 this.drivermodal = false;
-                $('#drivermodal').modal('hide');
+                $('#driver_delete_modal').modal('hide');
                 window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 console.log(error);
             });

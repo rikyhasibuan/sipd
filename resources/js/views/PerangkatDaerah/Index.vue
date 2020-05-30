@@ -3,32 +3,32 @@
         <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
         <div class="row">
             <div class="col-lg-12">
-                <div class="box">
-                    <div class="box-header with-border">
+                <div class="card">
+                    <div class="card-header with-border">
                         <form class="form" v-on:submit.prevent="fetchData()">
                             <div class="row">
                                 <div class="form-group col-md-4 col-xs-12">
                                     <input type="text" class="form-control mb-2" v-model="search.query" placeholder="Nama Perangkat Daerah" id="query">
                                 </div>
                                 <div class="form-group col-md-4 col-xs-6">
-                                    <button type="submit" class="btn btn-flat btn-success mb-2">
+                                    <button type="submit" class="btn btn-success mb-2">
                                         <i class="fa fa-search"></i> <span class="hidden-xs hidden-sm">Cari Data</span>
                                     </button>
-                                    <button type="button" v-on:click.prevent="clear" class="btn btn-flat btn-info mb-2">
+                                    <button type="button" v-on:click.prevent="clear" class="btn btn-info mb-2">
                                         <i class="fa fa-refresh"></i> <span class="hidden-xs hidden-sm">Reset</span>
                                     </button>
                                 </div>
                                 <div class="form-group col-md-4 col-xs-6">
-                                    <a v-if="access.write === 1" :href="route + '/create'" class=" btn btn-flat btn-primary pull-right">
+                                    <a v-if="access.write === 1" :href="route + '/create'" class=" btn btn-success pull-right">
                                     <i class="fa fa-plus"></i> <span class="hidden-xs hidden-sm">Tambah Data</span></a>
                                 </div>
                             </div>
                         </form>
                     </div>
-                    <div class="box-body table-responsive">
+                    <div class="card-body table-responsive">
                         <v-alert :alert="alert"></v-alert>
                         <transition name="fade">
-                            <table class="table table-hover table-striped table-bordered" v-if="showTable == true">
+                            <table class="table table-hover table-striped table-bordered" v-if="showTable === true">
                                 <thead>
                                     <tr>
                                         <th style="text-align: center;">Nama Perangkat Daerah</th>
@@ -39,11 +39,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="skpd in skpds" :key="skpd.id">
-                                        <td style="width:30%;">{{ skpd.nama_skpd }}</td>
-                                        <td style="width:20%;">{{ skpd.alamat }}</td>
-                                        <td style="width:10%;">{{ skpd.kontak }}</td>
-                                        <td style="width:10%;">{{ skpd.kota }}</td>
+                                    <tr v-for="v in skpd" :key="v.id">
+                                        <td style="width:30%;">{{ v.nama_skpd }}</td>
+                                        <td style="width:20%;">{{ v.alamat }}</td>
+                                        <td style="width:10%;">{{ v.kontak }}</td>
+                                        <td style="width:10%;">{{ v.kota }}</td>
                                         <td style="width:15%;">
                                             <div style="text-align: center;">
                                                 <a v-if="(access.update === 1)" :href="route + '/edit?id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
@@ -62,7 +62,7 @@
                             </table>
                         </transition>
 
-                        <transition name="fade"><v-modal :id="id" @delete="deleteData"></v-modal></transition>
+                        <transition name="fade"><v-delete :element="'skpd_delete_modal'" :id="id" @delete="deleteData"></v-delete></transition>
                         <transition name="fade">
                             <div class="card-footer clearfix">
                                 <v-pagination
@@ -85,7 +85,7 @@ import service from './../../services.js';
 export default {
     data: function() {
         return {
-            skpds: {},
+            skpd: {},
             search: {
                 query:''
             },
@@ -122,7 +122,7 @@ export default {
             this.fetchData();
         },
         toggleModal(id) {
-            $("#deletemodal").modal('show');
+            $("#skpd_delete_modal").modal('show');
             this.id = id;
         },
         fetchData() {
@@ -147,7 +147,7 @@ export default {
                 this.showTable = true;
                 this.alert.empty = false;
                 this.alert.error = false;
-                this.skpds = response.data;
+                this.skpd = response.data;
                 this.pagination.last = response.last_page;
                 this.pagination.from = response.from;
                 this.pagination.to = response.to;
@@ -163,7 +163,7 @@ export default {
             .then(response => {
                 if(response.status === 'ok') {
                     this.alert.delete = true;
-                    $('#deletemodal').modal('hide');
+                    $('#skpd_delete_modal').modal('hide');
                     this.fetchData();
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(() => this.alert.delete=false, 5000);
@@ -171,7 +171,7 @@ export default {
             }).catch(error => {
                 this.alert.delete = false;
                 this.alert.error = true;
-                $('#deletemodal').modal('hide');
+                $('#skpd_delete_modal').modal('hide');
                 window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 this.fetchData();
                 console.log(error);

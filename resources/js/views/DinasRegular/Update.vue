@@ -8,11 +8,11 @@
                     <form method="POST" v-on:submit.prevent="onSubmit" autocomplete="off">
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label>Nomor Surat Perintah </label>
-                                <input type="text" class="form-control" v-model="dinasregular.nomor_sp" placeholder="Isi Nomor Surat Perintah" required="required">
+                                <label for="nomor_sp">Nomor Surat Perintah </label>
+                                <input id="nomor_sp" type="text" class="form-control" v-model="dinasregular.nomor_sp" placeholder="Isi Nomor Surat Perintah" required="required">
                             </div>
                             <div class="form-group col-md-6">
-                                <label>Tanggal Surat Perintah </label>
+                                <label for="tgl_sp">Tanggal Surat Perintah </label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -32,24 +32,24 @@
 
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label>Program *</label>
-                                <select v-model="dinasregular.program_id" @change="onChangeProgram($event)" class="form-control" required="required">
+                                <label for="program">Program *</label>
+                                <select id="program" v-model="dinasregular.program_id" @change="onChangeProgram($event)" class="form-control" required="required">
                                     <option value="">Pilih Program</option>
                                     <option v-for="v in this.program" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_program }}</option>
                                 </select>
                             </div>
 
                             <div class="form-group col-md-4">
-                                <label>Kegiatan *</label>
-                                <select v-model="dinasregular.kegiatan_id" @change="onChangeKegiatan($event)" class="form-control" required="required">
+                                <label for="kegiatan">Kegiatan *</label>
+                                <select id="kegiatan" v-model="dinasregular.kegiatan_id" @change="onChangeKegiatan($event)" class="form-control" required="required">
                                     <option value="">Pilih Kegiatan</option>
                                     <option v-for="v in this.kegiatan" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_kegiatan }}</option>
                                 </select>
                             </div>
 
                             <div class="form-group col-md-4">
-                                <label>Belanja *</label>
-                                <select v-model="dinasregular.belanja_id" class="form-control" required="required">
+                                <label for="belanja">Belanja *</label>
+                                <select id="belanja" v-model="dinasregular.belanja_id" class="form-control" required="required">
                                     <option value="">Pilih Belanja</option>
                                     <option v-for="v in this.belanja" v-bind:value="v.id" v-bind:key="v.id">{{ v.nama_belanja }}</option>
                                 </select>
@@ -58,29 +58,29 @@
 
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label>Dasar *</label>
-                                <input type="text" class="form-control" v-model="dinasregular.dasar[0]" required="required">
+                                <label for="dasar">Dasar *</label>
+                                <input id="dasar" type="text" class="form-control" v-model="dinasregular.dasar[0]" required="required">
                                 <br>
-                                <input type="text" class="form-control" v-model="dinasregular.dasar[1]">
+                                <input id="dasar1" type="text" class="form-control" v-model="dinasregular.dasar[1]">
                                 <br>
-                                <input type="text" class="form-control" v-model="dinasregular.dasar[2]">
+                                <input id="dasar2" type="text" class="form-control" v-model="dinasregular.dasar[2]">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label>Tujuan Pemeriksaan *</label>
-                                <input type="text" class="form-control" v-model="dinasregular.untuk[0]" required="required">
+                                <label for="tujuan">Tujuan Pemeriksaan *</label>
+                                <input id="tujuan" type="text" class="form-control" v-model="dinasregular.untuk[0]" required="required">
                                 <br>
-                                <input type="text" class="form-control" v-model="dinasregular.untuk[1]">
+                                <input id="tujuan1" type="text" class="form-control" v-model="dinasregular.untuk[1]">
                                 <br>
-                                <input type="text" class="form-control" v-model="dinasregular.untuk[2]">
+                                <input id="tujuan2" type="text" class="form-control" v-model="dinasregular.untuk[2]">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label>Tanggal Mulai *</label>
+                                <label for="dari">Tanggal Mulai *</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -98,7 +98,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
-                                <label>Tanggal Selesai *</label>
+                                <label for="sampai">Tanggal Selesai *</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -117,8 +117,8 @@
                             </div>
 
                             <div class="form-group col-md-4">
-                                <label>Tujuan *</label>
-                                <select v-model="dinasregular.auditan" class="form-control" required="required">
+                                <label for="auditan">Tujuan *</label>
+                                <select id="auditan" v-model="dinasregular.auditan" class="form-control" required="required">
                                     <option value="">Pilih Tujuan</option>
                                     <option v-for="v in this.auditan_data" :key="v.id" :value="v.nama_kabkota">{{ v.nama_kabkota }}</option>
                                 </select>
@@ -127,8 +127,9 @@
 
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label>Personil *</label>
+                                <label for="personil">Personil *</label>
                                 <multiselect
+                                    id="personil"
                                     :multiple="true"
                                     :taggable="true"
                                     placeholder="Pilih Anggota"
@@ -189,7 +190,7 @@
             'route'
         ],
         methods: {
-            onSubmit(evt) {
+            onSubmit() {
                 this.isLoading = false;
                 this.dinasregular.tim = this.tim_data;
                 service.putData(this.api, this.dinasregular)

@@ -2,24 +2,24 @@
     <div style="margin-bottom:35px;">
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" href="#revlogkassubag" role="tab" data-toggle="tab">
+                <a class="nav-link active" :href="element.kassubag_href" role="tab" data-toggle="tab">
                     <span v-if="revision.kassubag.approval === 1"><i class="fa fa-check"></i>&nbsp;</span>Catatan Revisi Kassubag
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#revlogsekretaris" role="tab" data-toggle="tab">
+                <a class="nav-link" :href="element.sekretaris_href" role="tab" data-toggle="tab">
                     <span v-if="revision.sekretaris.approval === 1"><i class="fa fa-check"></i>&nbsp;</span>Catatan Revisi Sekretaris
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#revloginspektur" role="tab" data-toggle="tab">
+                <a class="nav-link" :href="element.inspektur_href" role="tab" data-toggle="tab">
                     <span v-if="revision.inspektur.approval === 1"><i class="fa fa-check"></i>&nbsp;</span>Catatan Revisi Inspektur
                 </a>
             </li>
         </ul>
 
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane fade in" id="revloginspektur">
+            <div role="tabpanel" class="tab-pane fade in" :id="element.inspektur_id">
                 <div style="margin-top:10px;"></div>
                 <div class="direct-chat-messages" style="height:auto !important;" v-if="revision.inspektur.catatan.length > 0">
                     <div class="direct-chat-msg" v-for="(v,k) in revision.inspektur.catatan" :key="k">
@@ -37,7 +37,7 @@
                 </div>
             </div>
 
-            <div role="tabpanel" class="tab-pane fade" id="revlogsekretaris">
+            <div role="tabpanel" class="tab-pane fade" :id="element.sekretaris_id">
                 <div style="margin-top:10px;"></div>
                 <div class="direct-chat-messages" style="height:auto !important;" v-if="revision.sekretaris.catatan.length > 0">
                     <div class="direct-chat-msg" v-for="(v,k) in revision.sekretaris.catatan" :key="k">
@@ -55,7 +55,7 @@
                 </div>
             </div>
 
-            <div role="tabpanel" class="tab-pane fade show active" id="revlogkassubag">
+            <div role="tabpanel" class="tab-pane fade show active" :id="element.kassubag_id">
                 <div style="margin-top:10px;"></div>
                 <div class="direct-chat-messages" style="height:auto !important;" v-if="revision.kassubag.catatan.length > 0">
                     <div class="direct-chat-msg" v-for="(v,k) in revision.kassubag.catatan" :key="k">
@@ -78,6 +78,6 @@
 
 <script>
 export default {
-  props: ['revision']
+    props: ['revision', 'element']
 }
 </script>

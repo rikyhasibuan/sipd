@@ -39,7 +39,7 @@ class KegiatanController extends Controller
 
     public function index()
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<i class="fa fa-database"></i> ' . $this->title;
 
@@ -60,7 +60,7 @@ class KegiatanController extends Controller
 
     public function create()
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-database"></i> ' . $this->title . '</a>';
         $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data';
@@ -68,7 +68,7 @@ class KegiatanController extends Controller
         $program = Program::all();
         $bendahara = Pegawai::where('jabatan', 'Pengelola Keuangan')->get();
 
-        $data = array();
+        $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
@@ -82,7 +82,7 @@ class KegiatanController extends Controller
 
     public function edit(Request $request)
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-database"></i> ' . $this->title . '</a>';
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
@@ -91,7 +91,7 @@ class KegiatanController extends Controller
         $program = Program::all();
         $bendahara = Pegawai::where('jabatan', 'Pengelola Keuangan')->get();
 
-        $data = array();
+        $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['kegiatan'] = $kegiatan;

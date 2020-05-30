@@ -96,7 +96,7 @@ class AjaxController extends Controller
 
                     $kabkota = IrbanKabkota::with(['kabkota' => function ($query) use ($auditan) {
                             $query->whereNotIn('kabkota.nama_kabkota', $auditan);
-                        }])->where('irban_id', $request['irban'])->get();
+                    }])->where('irban_id', $request['irban'])->get();
 
                     $skpd = IrbanSkpd::where('irban_id', $request['irban'])
                         ->with(['skpd' => function ($query) use ($auditan) {
@@ -114,7 +114,6 @@ class AjaxController extends Controller
                             $response['Perangkat Daerah'][$v->skpd->nama_skpd] = $v->skpd->nama_skpd;
                         }
                     }
-
                 } else {
                     $kabkota = IrbanKabkota::where('irban_id', $request['irban'])->with('kabkota')->get();
                     $skpd = IrbanSkpd::where('irban_id', $request['irban'])->with('skpd')->get();
@@ -169,7 +168,6 @@ class AjaxController extends Controller
                         $response['Perangkat Daerah'][$v->skpd->nama_skpd] = $v->skpd->nama_skpd;
                     }
                 }
-
             } else {
                 $kabkota = IrbanKabkota::where('irban_id', $request['irban'])->with('kabkota')->get();
                 $skpd = IrbanSkpd::where('irban_id', $request['irban'])->with('skpd')->get();
@@ -212,7 +210,6 @@ class AjaxController extends Controller
                         $response['Perangkat Daerah'][$v->skpd->nama_skpd] = $v->skpd->nama_skpd;
                     }
                 }
-
             } else {
                 $kabkota = IrbanKabkota::where('irban_id', $request['irban'])->with('kabkota')->get();
                 $skpd = IrbanSkpd::where('irban_id', $request['irban'])->with('skpd')->get();
@@ -299,7 +296,7 @@ class AjaxController extends Controller
     }
 
     /**
-     * menampilkan pokja berdasarkan irban tertentu pada dinas regular
+     * menampilkan personil berdasarkan irban tertentu pada dinas regular
      * @param Request $request
      * @return JsonResponse
      */

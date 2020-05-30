@@ -145,32 +145,11 @@
             </div>
             <div class="col-md-12 col-xs-12" v-if="dinasbopinspektur.length !== 0">
                 <hr>
-                <transition name="fade"><v-revision-log :revision=approval_tab></v-revision-log></transition>
+                <transition name="fade"><v-revision-log :element="element" :revision="approval_tab"></v-revision-log></transition>
             </div>
         </div>
-        <transition>
-            <div class="modal" id="delete_inspektur_modal" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Konfirmasi</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body"><p>Anda Akan Menghapus Data Ini, Teruskan?</p></div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-flat btn-success" @click="deleteData(inspekturid)">
-                                <i class="fa fa-check-circle-o"></i> Ya
-                            </button>
-                            <button type="button" class="btn btn-flat btn-danger" data-dismiss="modal">
-                                <i class="fa fa-times-circle-o"></i> Batal
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </transition>
+
+        <transition name="fade"><v-delete :element="'inspektur_delete_modal'" :id="inspekturid" @delete="deleteData"></v-delete></transition>
         <transition name="fade"><v-revision :role="approval_role" :element="'inspektur_revision_modal'" @revision="createRevision"></v-revision></transition>
         <transition name="fade"><v-approval :role="approval_role" :element="'inspektur_approval_modal'" @approve="createApproval"></v-approval></transition>
     </div>
@@ -191,7 +170,6 @@ export default {
             },
             showTable: false,
             inspekturid:'',
-            inspekturmodal:false,
             total_anggaran_inspektur : 0,
             approval_tab: {
                 kassubag: {
@@ -208,6 +186,14 @@ export default {
                 },
                 lock:0,
                 tab:''
+            },
+            element: {
+                kassubag_href: '#inspekturrevlogkassubag',
+                kassubag_id: 'inspekturrevlogkassubag',
+                sekretaris_href: '#inspekturrevlogsekretaris',
+                sekretaris_id: 'inspekturrevlogsekretaris',
+                inspektur_href: '#inspekturrevloginspektur',
+                inspektur_id: 'inspekturrevloginspektur'
             },
             approval_role:''
         }
@@ -234,8 +220,8 @@ export default {
             let new_window = window.open();
             new_window.location = this.api + '/print/dpbo/'+ id +'/inspektur';
         },
-        toggle_modal(id) {
-            $('#delete_inspektur_modal').modal('show');
+        toggleModal(id) {
+            $('#inspektur_delete_modal').modal('show');
             this.inspekturid = id;
         },
         toggleRevisiModal(role) {
@@ -252,7 +238,7 @@ export default {
                 if(response.status === 'ok') {
                     this.alert.delete = true;
                     this.inspekturmodal = false;
-                    $('#delete_inspektur_modal').modal('hide');
+                    $('#inspektur_delete_modal').modal('hide');
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(function() { this.alert.delete=false; location.reload(); }, 1000);
                 }
@@ -260,7 +246,7 @@ export default {
                 this.alert.delete = false;
                 this.alert.error = true;
                 this.inspekturmodal = false;
-                $('#delete_inspektur_modal').modal('hide');
+                $('#inspektur_delete_modal').modal('hide');
                 window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 console.log(error);
             });
@@ -315,7 +301,6 @@ export default {
     mounted() {
         this.isLoading = false;
         this.approval_tab = this.dinasbopapproval.find(dinasbopapproval => dinasbopapproval.tab === 'inspektur');
-        console.log(this.approval_tab);
     }
 };
 </script>

@@ -149,7 +149,7 @@ Vue.filter('rupiah', function (amount) {
  */
 Vue.component('v-alert', require('./components/Alert.vue'));
 Vue.component('v-pagination', require('./components/Pagination.vue'));
-Vue.component('v-modal', require('./components/Modal.vue'));
+Vue.component('v-delete', require('./components/Delete.vue'));
 Vue.component('v-revision', require('./components/Revision.vue'));
 Vue.component('v-approval', require('./components/Approval.vue'));
 Vue.component('v-revision-log', require('./components/RevisionLog.vue'));

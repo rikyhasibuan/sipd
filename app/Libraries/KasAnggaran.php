@@ -34,7 +34,7 @@ class KasAnggaran
      * menampilkan total anggaran untuk tahun dan kode belanja tertentu
      * @param string $tahun
      * @param int $bulan
-     * @param string $belanja
+     * @param $kegiatan
      * @return int $anggaran
      */
     function show_total_anggaran($tahun, $bulan, $kegiatan)

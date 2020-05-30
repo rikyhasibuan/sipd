@@ -33,18 +33,19 @@ class LogActivityController extends Controller
         );
     }
 
-  public function index() {
-    $breadcrumb = array();
-    $breadcrumb[0] = '<a href="' . url('admin/dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
-    $breadcrumb[1] = '<i class="fa fa-file-text"></i> ' . $this->title;
+    public function index()
+    {
+        $breadcrumb = [];
+        $breadcrumb[0] = '<a href="' . url('admin/dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
+        $breadcrumb[1] = '<i class="fa fa-file-text"></i> ' . $this->title;
 
-    $data = array();
-    $data['breadcrumb'] = $breadcrumb;
-    $data['title']  = $this->title;
-    $data['link'] = $this->link;
-    $data['api'] = url($this->api);
-    $data['route'] = url($this->route);
-    $data['access'] = $this->access;
-    return View::make('log', $data);
-  }
+        $data = [];
+        $data['breadcrumb'] = $breadcrumb;
+        $data['title']  = $this->title;
+        $data['link'] = $this->link;
+        $data['api'] = url($this->api);
+        $data['route'] = url($this->route);
+        $data['access'] = $this->access;
+        return View::make('log', $data);
+    }
 }

@@ -7,9 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\View;
 use App\Http\Controllers\Controller;
-use App\Models\Kegiatan;
 use App\Models\Program;
-use App\Models\Belanja;
 use App\Models\DinasRegular;
 use App\Models\DinasRegularTim;
 use App\Models\Pegawai;
@@ -43,7 +41,7 @@ class DinasRegularController extends Controller
 
     public function index()
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<i class="fa fa-database"></i> ' . $this->title;
 
@@ -78,7 +76,7 @@ class DinasRegularController extends Controller
         $auditan = Kabkota::all();
         $anggota = Pegawai::all();
 
-        $data = array();
+        $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
@@ -95,7 +93,7 @@ class DinasRegularController extends Controller
 
     public function edit(Request $request)
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-database"></i> ' . $this->title . '</a>';
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
@@ -109,7 +107,7 @@ class DinasRegularController extends Controller
         $kegiatan = [];
         $belanja = [];
 
-        $data = array();
+        $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['dinasregular'] = $dinasregular;
@@ -127,14 +125,14 @@ class DinasRegularController extends Controller
 
     public function detail(Request $request)
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-database"></i> ' . $this->title . '</a>';
         $breadcrumb[2] = '<i class="fa fa-search"></i> Detail';
 
         $dinasregular = DinasRegular::with('program', 'kegiatan', 'belanja')->find($request['id']);
 
-        $jenistransportasi = ['BBM','Sewa Kendaraan','Tiket'];
+        $jenistransportasi = ['BBM', 'Sewa Kendaraan', 'Tiket'];
         $kabkota = Kabkota::where('nama_kabkota', $dinasregular->auditan)->first();
 
         $takaran = Bbm::where('kabkota_id', $kabkota['id'])->first();
@@ -169,7 +167,7 @@ class DinasRegularController extends Controller
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
 
         $dinasregular = DinasRegular::find($request['id']);
-        $jenistransportasi = ['BBM','Sewa Kendaraan','Tiket'];
+        $jenistransportasi = ['BBM', 'Sewa Kendaraan', 'Tiket'];
         $kabkota = Kabkota::where('nama_kabkota', $dinasregular->auditan)->first();
 
         $takaran = Bbm::where('kabkota_id', $kabkota['id'])->first();
@@ -180,7 +178,7 @@ class DinasRegularController extends Controller
             $takaranliter[$i] = $i;
         }
 
-        $data = array();
+        $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;

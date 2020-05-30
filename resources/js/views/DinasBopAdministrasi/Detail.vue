@@ -189,34 +189,11 @@
                         </tbody>
                     </table>
                 </transition>
-                <!-- tampil modal untuk konfirmasi delete -->
-                <transition name="fade">
-                    <div class="modal" id="administrasimodal" tabindex="-1" role="dialog">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Konfirmasi</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body"><p>Anda Akan Menghapus Data Ini, Teruskan?</p></div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-flat btn-success" @click="deleteData(administrasiid)">
-                                        <i class="fa fa-check-circle-o"></i> Ya
-                                    </button>
-                                    <button type="button" class="btn btn-flat btn-danger" data-dismiss="modal">
-                                        <i class="fa fa-times-circle-o"></i> Batal
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </transition>
+                <transition name="fade"><v-delete :element="'administrasi_delete_modal'" :id="administrasiid" @delete="deleteData"></v-delete></transition>
             </div>
             <div class="col-md-12 col-xs-12" v-if="dinasboptimadministrasi.length !== 0">
                 <hr>
-                <transition name="fade"><v-revision-log :revision=approval_tab></v-revision-log></transition>
+                <transition name="fade"><v-revision-log :element="element" :revision="approval_tab"></v-revision-log></transition>
                 <transition name="fade"><v-revision :role="approval_role" :element="'administrasi_revision_modal'" @revision="createRevision"></v-revision></transition>
                 <transition name="fade"><v-approval :role="approval_role" :element="'administrasi_approval_modal'" @approve="createApproval"></v-approval></transition>
             </div>
@@ -260,6 +237,14 @@
                     },
                     lock:0
                 },
+                element: {
+                    kassubag_href: '#administrasirevlogkassubag',
+                    kassubag_id: 'administrasirevlogkassubag',
+                    sekretaris_href: '#administrasirevlogsekretaris',
+                    sekretaris_id: 'administrasirevlogsekretaris',
+                    inspektur_href: '#administrasirevloginspektur',
+                    inspektur_id: 'administrasirevloginspektur'
+                },
                 approval_role:''
             }
         },
@@ -290,7 +275,7 @@
                 new_window.location = this.api + '/print/dpbo/'+ id +'/administrasi';
             },
             toggleModal(id) {
-                $("#administrasimodal").modal('show');
+                $("#administrasi_delete_modal").modal('show');
                 this.administrasiid = id;
             },
             deleteData(id) {
@@ -298,7 +283,7 @@
                     .then(response => {
                         if(response.status === 'ok') {
                             this.alert.delete = true;
-                            $('#administrasimodal').modal('hide');
+                            $('#administrasi_delete_modal').modal('hide');
                             window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                             setTimeout(function() {
                                 this.alert.delete=false;
@@ -308,7 +293,7 @@
                     }).catch(error => {
                     this.alert.delete = false;
                     this.alert.error = true;
-                    $('#administrasimodal').modal('hide');
+                    $('#administrasi_delete_modal').modal('hide');
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     console.log(error);
                 });

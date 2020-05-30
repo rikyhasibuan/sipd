@@ -34,14 +34,14 @@ class ReportController extends Controller
     }
 
     public function index() {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<i class="fa fa-file-excel-o"></i> ' . $this->title;
 
         $kegiatan = Kegiatan::all();
         $belanja  = [];
 
-        $data = array();
+        $data = [];
         $data['breadcrumb'] = $breadcrumb;
         $data['title']  = $this->title;
         $data['link'] = $this->link;

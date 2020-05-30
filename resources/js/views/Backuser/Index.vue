@@ -74,43 +74,18 @@
                                 </tbody>
                             </table>
                         </transition>
-                        <transition name="fade">
-                            <div class="modal" id="modal" tabindex="-1" role="dialog" v-if="showModal" @close="showModal = false">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Konfirmasi</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>Anda Akan Menghapus Data Ini, Teruskan?</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-flat btn-success" @click.prevent="deleteData(id)">Ya</button>
-                                            <button type="button" class="btn btn-flat btn-danger" data-dismiss="modal">Batal</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </transition>
-
                     </div>
-                    <div class="card-footer">
-                        <transition name="fade">
+                    <transition name="fade"><v-delete :element="'backuser_delete_modal'" :id="id" @delete="deleteData"></v-delete></transition>
+                    <transition name="fade">
+                        <div class="card-footer clearfix">
                             <v-pagination
-                                :pageNumber=pageNumber
-                                :lastPage=lastPage
-                                :to=to
-                                :from=from
-                                :totalData=totalData
+                                :pagination="pagination"
                                 v-on:next="nextPage"
                                 v-on:previous="prevPage"
                                 v-if="showTable === true">
                             </v-pagination>
-                        </transition>
-                    </div>
+                        </div>
+                    </transition>
                 </div>
             </div>
         </div>

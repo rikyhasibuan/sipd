@@ -10,8 +10,8 @@
                                 <thead>
                                     <tr>
                                         <th style="text-align: center;">Kegiatan</th>
-                                        <th style="text-align: center;">Jumlah Anggaran</th>
-                                        <th style="text-align: center;">Serapan Anggaran</th>
+                                        <th style="text-align: center;">Pagu Anggaran</th>
+                                        <th style="text-align: center;">Realisasi Anggaran</th>
                                         <th style="text-align: center;">Sisa Anggaran</th>
                                     </tr>
                                 </thead>
@@ -97,12 +97,12 @@ export default {
                                 height: '50%'
                             },
                             title: {
-                                text: 'Anggaran Tahun '+ this.tahun+''
+                                text: 'Pagu Anggaran Tahun '+ this.tahun+''
                             },
                             yAxis: {
                                 min: 0,
                                 title: {
-                                    text: 'Total Anggaran'
+                                    text: 'Total Pagu'
                                 },
                                 labels: {
                                     formatter: function() {
@@ -146,12 +146,12 @@ export default {
                                 height: '50%'
                             },
                             title: {
-                                text: 'Serapan Anggaran Tahun '+ this.tahun+''
+                                text: 'Realisasi Anggaran Tahun '+ this.tahun+''
                             },
                             yAxis: {
                                 min: 0,
                                 title: {
-                                    text: 'Total Serapan Anggaran'
+                                    text: 'Total Realisasi Anggaran'
                                 },
                                 labels: {
                                     formatter: function() {
