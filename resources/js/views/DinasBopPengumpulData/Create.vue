@@ -115,7 +115,7 @@
             'route'
         ],
         methods: {
-            onSubmit(evt) {
+            onSubmit() {
                 service.postData(this.api, this.dinasboppengumpuldata)
                 .then(result => {
                     this.response(result);

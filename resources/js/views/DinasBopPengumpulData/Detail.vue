@@ -243,7 +243,8 @@
                     inspektur_href: '#pengumpuldatarevloginspektur',
                     inspektur_id: 'pengumpuldatarevloginspektur'
                 },
-                approval_role:''
+                approval_role:'',
+                usernip:''
             }
         },
         props: ['dinasbop', 'dinasbopapproval','dinasboppengumpuldata','dinasboptimpengumpuldata', 'route', 'print_action', 'api', 'access', 'approval_type'],
@@ -277,7 +278,7 @@
                 this.pengumpuldataid = id;
             },
             deleteData(id) {
-                service.deleteData(this.api + '/timpengumpuldata?id=' + id)
+                service.deleteData(this.api + '/timpengumpuldata?nip='+this.usernip+'&id=' + id)
                     .then(response => {
                         if(response.status === 'ok') {
                             this.alert.delete = true;
@@ -305,7 +306,7 @@
                 $("#pengumpuldata_approval_modal").modal('show');
             },
             createRevision(callback) {
-                service.putData(this.api + '/approval?act=revision&type='+callback.role+'&tab=pengumpuldata&id=' + this.dinasbop.id, {catatan: callback.catatan})
+                service.putData(this.api + '/approval?nip='+this.usernip+'&act=revision&type='+callback.role+'&tab=pengumpuldata&id=' + this.dinasbop.id, {catatan: callback.catatan})
                 .then(response => {
                     if(response.status === 'ok') {
                         $('#pengumpuldata_revision_modal').modal('hide');
@@ -322,7 +323,7 @@
                 });
             },
             createApproval(role) {
-                service.putData(this.api + '/approval?act=approve&type='+role+'&tab=pengumpuldata&id=' + this.dinasbop.id)
+                service.putData(this.api + '/approval?nip='+this.usernip+'&act=approve&type='+role+'&tab=pengumpuldata&id=' + this.dinasbop.id)
                 .then(response => {
                     if(response.status === 'ok') {
                         $('#pengumpuldata_approval_modal').modal('hide');
@@ -362,6 +363,7 @@
             }
 
             this.approval_tab = this.dinasbopapproval.find(dinasbopapproval => dinasbopapproval.tab === 'pengumpuldata');
+            this.usernip = this.$cookies.get('nip');
         }
     };
 </script>

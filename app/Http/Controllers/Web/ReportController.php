@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Models\Pegawai;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\View;
 use App\Http\Controllers\Controller;
@@ -38,8 +39,7 @@ class ReportController extends Controller
         $breadcrumb[0] = '<a href="' . url('dashboard') . '"><i class="fa fa-dashboard"></i> Dashboard</a>';
         $breadcrumb[1] = '<i class="fa fa-file-excel-o"></i> ' . $this->title;
 
-        $kegiatan = Kegiatan::all();
-        $belanja  = [];
+        $bendahara = Pegawai::where('jabatan', 'Pengelola Keuangan')->get();
 
         $data = [];
         $data['breadcrumb'] = $breadcrumb;
@@ -48,8 +48,7 @@ class ReportController extends Controller
         $data['api'] = url($this->api);
         $data['route'] = url($this->route);
         $data['access'] = $this->access;
-        $data['kegiatan'] = $kegiatan;
-        $data['belanja'] = $belanja;
+        $data['bendahara'] = $bendahara;
         return View::make('report', $data);
     }
 

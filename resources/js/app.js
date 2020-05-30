@@ -11,6 +11,8 @@ import accounting from 'accounting';
 import datePicker from 'vue-bootstrap-datetimepicker';
 import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 import Multiselect from 'vue-multiselect';
+import VCalendar from 'v-calendar';
+
 
 Vue.use(money, {
     decimal: ',',
@@ -24,6 +26,7 @@ Vue.use(money, {
 Vue.use(datePicker);
 Vue.use(accounting);
 Vue.use(VueCookies);
+Vue.use(VCalendar);
 
 // Component Config
 $.extend(true, $.fn.datetimepicker.defaults, {

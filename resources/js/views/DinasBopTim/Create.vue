@@ -156,7 +156,8 @@
                     save: false,
                     duplicate: false
                 },
-                isLoading: false
+                isLoading: false,
+                usernip:''
             }
         },
         props: [
@@ -190,7 +191,7 @@
             },
             onSubmit(evt) {
                 this.form = this.formReady();
-                service.postUploadData(this.api + '/tim/' + this.dinasbop, this.form)
+                service.postUploadData(this.api + '/tim?nip='+this.usernip+'&dinasbop=' + this.dinasbop, this.form)
                 .then(result => {
                     this.response(result);
                 }).catch(error => {
@@ -264,6 +265,7 @@
         },
         mounted() {
             this.isLoading = false;
+            this.usernip = this.$cookies.get('nip');
         }
     };
 </script>

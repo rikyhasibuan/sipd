@@ -160,7 +160,8 @@
                     save: false,
                     duplicate: false
                 },
-                isLoading: false
+                isLoading: false,
+                usernip:''
             }
         },
         props: [
@@ -173,7 +174,7 @@
         ],
         methods: {
             onSubmit(evt) {
-                service.postData(this.api + '/supervisi/' + this.dinasbop, this.dinasbopsupervisi)
+                service.postData(this.api + '/supervisi?nip='+this.usernip+'&dinasbop='+this.dinasbop, this.dinasbopsupervisi)
                     .then(result => {
                         this.response(result);
                     }).catch(error => {
@@ -220,6 +221,7 @@
         },
         mounted() {
             this.isLoading = false;
+            this.usernip = this.$cookies.get('nip');
         }
     };
 </script>

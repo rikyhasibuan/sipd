@@ -185,7 +185,7 @@
                 this.isLoading = false;
 
                 this.form = this.formReady();
-                service.postUploadData(this.api + '/tim/' + this.dinasbop + '/' + this.dinasboptim.id, this.form)
+                service.postUploadData(this.api + '/tim/edit?nip='+this.usernip+'&dinasbop='+this.dinasbop+'&id='+this.dinasboptim.id, this.form)
                 .then(result => {
                     this.response(result);
                 }).catch(error => {
@@ -279,6 +279,7 @@
         },
         mounted() {
             this.isLoading = false;
+            this.usernip = this.$cookies.get('nip');
         }
     };
 </script>

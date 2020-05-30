@@ -261,7 +261,8 @@ export default {
                 },
                 lock:0
             },
-            approval_role:''
+            approval_role:'',
+            usernip:''
         }
     },
     props: ['dinasbop', 'dinasbopapproval', 'dinasboptim', 'route', 'print_action', 'api', 'access', 'approval_type'],
@@ -303,7 +304,7 @@ export default {
             $("#tim_approval_modal").modal('show');
         },
         deleteData(id) {
-            service.deleteData(this.api + '/tim/' + this.dinasbop.id + '/' + id)
+            service.deleteData(this.api + '/tim?nip='+this.usernip+'&dinasbop='+this.dinasbop.id+'&id='+id)
             .then(response => {
                 if(response.status === 'ok') {
                     this.alert.delete = true;
@@ -323,7 +324,7 @@ export default {
             });
         },
         createRevision(callback) {
-            service.putData(this.api + '/approval?act=revision&type='+callback.role+'&tab=tim&id=' + this.dinasbop.id, {catatan: callback.catatan})
+            service.putData(this.api + '/approval?nip='+this.usernip+'&act=revision&type='+callback.role+'&tab=tim&id='+this.dinasbop.id, {catatan: callback.catatan})
             .then(response => {
                 if(response.status === 'ok') {
                     $('#tim_revision_modal').modal('hide');
@@ -341,7 +342,7 @@ export default {
             });
         },
         createApproval(role) {
-            service.putData(this.api + '/approval?act=approve&type='+role+'&tab=tim&id=' + this.dinasbop.id)
+            service.putData(this.api + '/approval?nip='+this.usernip+'&act=approve&type='+role+'&tab=tim&id='+this.dinasbop.id)
             .then(response => {
                 if(response.status === 'ok') {
                     $('#tim_approval_modal').modal('hide');
@@ -374,6 +375,7 @@ export default {
     mounted() {
         this.isLoading = false;
         this.approval_tab = this.dinasbopapproval.find(dinasbopapproval => dinasbopapproval.tab === 'tim');
+        this.usernip = this.$cookies.get('nip');
     }
 };
 </script>

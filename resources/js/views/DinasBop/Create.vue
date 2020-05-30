@@ -144,7 +144,7 @@
             'route'
         ],
         methods: {
-            onSubmit(evt) {
+            onSubmit() {
                 service.postData(this.api, this.dinasbop)
                 .then(result => {
                     this.response(result);

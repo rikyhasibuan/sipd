@@ -137,6 +137,7 @@
                     'anggota':[],
                     'lampiran':''
                 },
+                usernip:''
             }
         },
         props: [
@@ -148,9 +149,9 @@
             'route'
         ],
         methods: {
-            onSubmit(evt) {
+            onSubmit() {
                 this.isLoading = false;
-                service.putData(this.api + '/driver/' + this.dinasbop + '/' + this.dinasbopdriver.id, this.dinasbopdriver)
+                service.putData(this.api + '/driver?nip='+this.usernip+'&dinasbop='+this.dinasbop+'&id='+this.dinasbopdriver.id, this.dinasbopdriver)
                 .then(result => {
                     this.response(result);
                 }).catch(error => {

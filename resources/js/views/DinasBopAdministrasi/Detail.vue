@@ -245,7 +245,8 @@
                     inspektur_href: '#administrasirevloginspektur',
                     inspektur_id: 'administrasirevloginspektur'
                 },
-                approval_role:''
+                approval_role:'',
+                usernip:''
             }
         },
         props: ['dinasbop', 'dinasbopapproval', 'dinasbopadministrasi','dinasboptimadministrasi', 'route', 'print_action', 'api', 'access', 'approval_type'],
@@ -279,7 +280,7 @@
                 this.administrasiid = id;
             },
             deleteData(id) {
-                service.deleteData(this.api + '/timadministrasi?id=' + id)
+                service.deleteData(this.api + '/timadministrasi?nip='+this.usernip+'&nip='+this.usernip+'&id=' + id)
                     .then(response => {
                         if(response.status === 'ok') {
                             this.alert.delete = true;
@@ -307,7 +308,7 @@
                 $("#administrasi_approval_modal").modal('show');
             },
             createRevision(callback) {
-                service.putData(this.api + '/approval?act=revision&type='+callback.role+'&tab=administrasi&id=' + this.dinasbop.id, {catatan: callback.catatan})
+                service.putData(this.api + '/approval?nip='+this.usernip+'&act=revision&type='+callback.role+'&tab=administrasi&id=' + this.dinasbop.id, {catatan: callback.catatan})
                     .then(response => {
                         if(response.status === 'ok') {
                             this.alert.delete = true;
@@ -326,7 +327,7 @@
                 });
             },
             createApproval(role) {
-                service.putData(this.api + '/approval?act=approve&type='+role+'&tab=administrasi&id=' + this.dinasbop.id)
+                service.putData(this.api + '/approval?nip='+this.usernip+'&act=approve&type='+role+'&tab=administrasi&id=' + this.dinasbop.id)
                     .then(response => {
                         if(response.status === 'ok') {
                             $('#administrasi_approval_modal').modal('hide');
@@ -366,6 +367,7 @@
                 }
             }
             this.approval_tab = this.dinasbopapproval.find(dinasbopapproval => dinasbopapproval.tab === 'administrasi');
+            this.usernip = this.$cookies.get('nip');
         }
     };
 </script>

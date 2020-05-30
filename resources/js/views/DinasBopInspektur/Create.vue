@@ -129,7 +129,8 @@
                     save: false,
                     duplicate: false
                 },
-                isLoading: false
+                isLoading: false,
+                usernip:''
             }
         },
         props: [
@@ -141,7 +142,7 @@
         methods: {
             onSubmit(evt) {
                 this.isLoading = true;
-                service.postData(this.api + '/inspektur/' + this.dinasbop, this.dinasbopinspektur)
+                service.postData(this.api + '/inspektur?nip='+this.usernip+'&dinasbop='+this.dinasbop, this.dinasbopinspektur)
                 .then(result => {
                     this.response(result);
                 }).catch(error => {
@@ -184,6 +185,7 @@
         },
         mounted() {
             this.isLoading = false;
+            this.usernip = this.$cookies.get('nip');
         }
     };
 </script>

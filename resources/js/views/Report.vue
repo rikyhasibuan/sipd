@@ -7,7 +7,17 @@
                     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
                     <form method="POST" v-on:submit.prevent="onSubmit">
                         <div class="row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
+                                <label>Bendahara</label>
+                                <select v-model="report.bendahara" class="form-control">
+                                    <option value="">Pilih Bendahara</option>
+                                    <option v-for="v in this.bendahara_data" :value="v.id" :key="v.id">{{ v.nama }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-4">
                                 <label>Dari *</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -25,7 +35,9 @@
                                     </date-picker>
                                 </div>
                             </div>
-                            <div class="form-group col-md-6">
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-4">
                                 <label>Sampai *</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -58,38 +70,39 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        alert: {
-          error:false,
-          update:false
+    export default {
+        data() {
+            return {
+                alert: {
+                    error:false,
+                    update:false
+                },
+                report: {
+                    dari:'',
+                    sampai:'',
+                    bendahara:''
+                },
+                isLoading:false,
+                options: {
+                    format: 'YYYY-MM',
+                    viewMode:'years',
+                    useCurrent: false,
+                    locale: 'id'
+                }
+            }
         },
-        report: {
-          dari:'',
-          sampai:''
+        props: ['api','route', 'bendahara_data'],
+        methods: {
+            onSubmit (evt) {
+                let newWindow = window.open();
+                newWindow.location = this.api + '?bendahara='+this.report.bendahara+'&dari='+ this.report.dari +'&sampai='+this.report.sampai;
+            }
         },
-        isLoading:false,
-        options: {
-          format: 'YYYY-MM',
-            viewMode:'years',
-          useCurrent: false,
-          locale: 'id'
+        created() {
+            this.isLoading = true;
+        },
+        mounted() {
+            this.isLoading = false;
         }
-      }
-    },
-    props: ['api','route'],
-    methods: {
-      onSubmit (evt) {
-        let newWindow = window.open();
-        newWindow.location = this.api + '?dari='+ this.report.dari +'&sampai='+this.report.sampai;
-      }
-    },
-    created() {
-      this.isLoading = true;
-    },
-    mounted() {
-      this.isLoading = false;
-    }
-  };
+    };
 </script>

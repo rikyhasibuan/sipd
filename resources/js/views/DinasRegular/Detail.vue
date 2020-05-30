@@ -303,6 +303,7 @@ export default {
                 inspektur_href: '#regularrevloginspektur',
                 inspektur_id: 'regularrevloginspektur'
             },
+            usernip:''
         }
     },
     props: ['dinasregular', 'dinasregularapproval', 'jenis_transportasi', 'takaran_liter', 'route', 'api', 'access'],
@@ -347,7 +348,7 @@ export default {
             this.id = id;
         },
         simpanTransportasi() {
-            service.putData(this.api + '/transportasi?id=' + this.dinasregular.id, this.transportasi)
+            service.putData(this.api + '/transportasi?nip='+this.usernip+'&id=' + this.dinasregular.id, this.transportasi)
                 .then(result => {
                     if (result.status === 'ok') {
                         $('#transportasimodal').modal('hide');
@@ -381,24 +382,24 @@ export default {
             $("#reguler_approval_modal").modal('show');
         },
         createRevision(callback) {
-            service.putData(this.api + '/approval?act=revision&type='+callback.role+'&id=' + this.dinasregular.id, { catatan: callback.catatan})
-                .then(response => {
-                    if(response.status === 'ok') {
-                        $('#reguler_revision_modal').modal('hide');
-                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-                        alert('CATATAN REVISI BERHASIL DIBUAT');
-                        location.reload();
-                    }
-                }).catch(error => {
-                    this.alert.error = true;
+            service.putData(this.api + '/approval?nip='+this.usernip+'&act=revision&type='+callback.role+'&id=' + this.dinasregular.id, { catatan: callback.catatan})
+            .then(response => {
+                if(response.status === 'ok') {
                     $('#reguler_revision_modal').modal('hide');
-                    alert('TERJADI KESALAHAN PADA SISTEM!');
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-                    console.log(error);
-                });
+                    alert('CATATAN REVISI BERHASIL DIBUAT');
+                    location.reload();
+                }
+            }).catch(error => {
+                this.alert.error = true;
+                $('#reguler_revision_modal').modal('hide');
+                alert('TERJADI KESALAHAN PADA SISTEM!');
+                window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                console.log(error);
+            });
         },
         createApproval(role) {
-            service.putData(this.api + '/approval?act=approve&type='+role+'&id=' + this.dinasregular.id)
+            service.putData(this.api + '/approval?nip='+this.usernip+'&act=approve&type='+role+'&id=' + this.dinasregular.id)
             .then(response => {
                 if(response.status === 'ok') {
                     $('#reguler_approval_modal').modal('hide');
@@ -453,6 +454,8 @@ export default {
         } else if (level === '2') {
             this.approval_type = 'operator';
         }
+
+        this.usernip = this.$cookies.get('nip');
     }
 };
 </script>

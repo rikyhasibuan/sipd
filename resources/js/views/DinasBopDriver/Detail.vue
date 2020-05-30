@@ -190,7 +190,8 @@ export default {
                 inspektur_href: '#driverrevloginspektur',
                 inspektur_id: 'driverrevloginspektur'
             },
-            approval_role:''
+            approval_role:'',
+            usernip:''
         }
     },
     props: ['dinasbop', 'dinasbopapproval','dinasbopdriver', 'route','print_action','api','access', 'approval_type'],
@@ -229,7 +230,7 @@ export default {
         },
         deleteData(id) {
             this.isLoading = true;
-            service.deleteData(this.api + '/driver/' + this.dinasbop.id + '/' + id)
+            service.deleteData(this.api + '/driver?nip='+this.usernip+'&dinasbop='+this.dinasbop.id+'&id='+id)
             .then(response => {
                 if(response.status === 'ok') {
                     this.isLoading = false;
@@ -250,7 +251,7 @@ export default {
             });
         },
         createRevision(callback) {
-            service.putData(this.api + '/approval?act=revision&type='+callback.role+'&tab=driver&id=' + this.dinasbop.id, {catatan: callback.catatan})
+            service.putData(this.api + '/approval?nip='+this.usernip+'&act=revision&type='+callback.role+'&tab=driver&id=' + this.dinasbop.id, {catatan: callback.catatan})
             .then(response => {
                 if(response.status === 'ok') {
                     $('#driver_revision_modal').modal('hide');
@@ -268,7 +269,7 @@ export default {
             });
         },
         createApproval(role) {
-            service.putData(this.api + '/approval?act=approve&type='+role+'&tab=driver&id=' + this.dinasbop.id)
+            service.putData(this.api + '/approval?nip='+this.usernip+'&act=approve&type='+role+'&tab=driver&id=' + this.dinasbop.id)
             .then(response => {
                 if(response.status === 'ok') {
                     $('#driver_approval_modal').modal('hide');
@@ -300,6 +301,7 @@ export default {
     mounted() {
         this.isLoading = false;
         this.approval_tab = this.dinasbopapproval.find(dinasbopapproval => dinasbopapproval.tab === 'driver');
+        this.usernip = this.$cookies.get('nip');
     }
 };
 </script>

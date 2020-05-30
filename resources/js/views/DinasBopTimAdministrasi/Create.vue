@@ -113,7 +113,8 @@
                     save: false,
                     duplicate: false
                 },
-                isLoading: false
+                isLoading: false,
+                usernip:''
             }
         },
         props: [

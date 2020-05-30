@@ -157,6 +157,7 @@
                     'anggota' : []
                 },
                 anggota_data:[],
+                usernip:''
             }
         },
         props: [
@@ -171,7 +172,7 @@
         methods: {
             onSubmit(evt) {
                 this.isLoading = false;
-                service.putData(this.api + '/supervisi/' + this.dinasbop + '/' + this.dinasbopsupervisi.id, this.supervisi)
+                service.putData(this.api + '/supervisi?nip='+this.usernip+'&dinasbop='+this.dinasbop+'&id='+this.dinasbopsupervisi.id, this.supervisi)
                     .then(result => {
                         this.response(result);
                     }).catch(error => {
@@ -217,6 +218,7 @@
         },
         mounted() {
             this.isLoading = false;
+            this.usernip = this.$cookies.get('nip');
         }
     };
 </script>

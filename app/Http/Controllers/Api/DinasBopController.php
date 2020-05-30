@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Libraries\Common;
 use App\Libraries\TimDinas;
 use App\Libraries\KasAnggaran;
 use App\Models\DinasBop;
@@ -24,6 +25,13 @@ use Exception;
 
 class DinasBopController extends Controller
 {
+    protected $_common;
+
+    public function __construct()
+    {
+        $this->_common = new Common();
+    }
+
     public function get_data(Request $request)
     {
         try {
@@ -69,6 +77,13 @@ class DinasBopController extends Controller
             if ($dinasbop->save()) {
                 $timdinas = new TimDinas();
                 $timdinas->generate_approval_bop($dinasbop->id);
+
+                $payload = [
+                    'page' => 'Dinas BOP',
+                    'message' => 'User dengan NIP '.$request['nip'].' menambahkan data Dinas BOP baru'
+                ];
+                $this->_common->generate_log($payload);
+
                 return response()->json(['status'=>'ok'], 200);
             } else {
                 return response()->json(['status'=>'failed'], 500);
@@ -95,6 +110,11 @@ class DinasBopController extends Controller
         $dinasbop->updated_at = date('Y-m-d H:i:s');
 
         if ($dinasbop->save()) {
+            $payload = [
+                'page' => 'Dinas BOP',
+                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan pada data Dinas BOP'
+            ];
+            $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);
@@ -108,6 +128,13 @@ class DinasBopController extends Controller
             $parent = $anggaran->id;
             if ($anggaran->delete()) {
                 DinasBopTim::where('dinasbop_id', $parent)->delete();
+
+                $payload = [
+                    'page' => 'Dinas BOP',
+                    'message' => 'User dengan NIP '.$request['nip'].' melakukan hapus data pada Dinas BOP'
+                ];
+                $this->_common->generate_log($payload);
+
                 return response()->json(['status' => 'ok'], 200);
             } else {
                 return response()->json(['status' => 'failed'], 500);
@@ -145,6 +172,12 @@ class DinasBopController extends Controller
         $dinasboptim->lampiran = $path;
         $dinasboptim->created_at = date('Y-m-d H:i:s');
         if ($dinasboptim->save()) {
+            $payload = [
+                'page' => 'Dinas BOP - Tim',
+                'message' => 'User dengan NIP '.$request['nip'].' menambahkan tim baru pada Dinas BOP'
+            ];
+            $this->_common->generate_log($payload);
+
             $dinasbop = DinasBop::find($request['dinasbop']);
             $biaya_bop_lama = $dinasbop->total_anggaran;
             $dinasbop->total_anggaran = $biaya_bop_lama + $timdinasbop['total_anggaran'];
@@ -193,6 +226,12 @@ class DinasBopController extends Controller
         $dinasboptim->updated_at = date('Y-m-d H:i:s');
 
         if ($dinasboptim->save()) {
+            $payload = [
+                'page' => 'Dinas BOP - Tim',
+                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan tim pada Dinas BOP'
+            ];
+            $this->_common->generate_log($payload);
+
             $dinasbop = DinasBop::find($request['dinasbop']);
             $anggaran_bop_lama = $dinasbop->total_anggaran;
             $dinasbop->total_anggaran = $anggaran_bop_lama - $biaya_bop_lama + $timdinasbop['total_anggaran'];
@@ -213,6 +252,12 @@ class DinasBopController extends Controller
             $dinasbop_id = $dinasboptim->dinasbop_id;
             $anggaran_tim = $dinasboptim->total_anggaran;
             if ($dinasboptim->delete()) {
+                $payload = [
+                    'page' => 'Dinas BOP - Tim',
+                    'message' => 'User dengan NIP '.$request['nip'].' melakukan hapus tim pada Dinas BOP'
+                ];
+                $this->_common->generate_log($payload);
+
                 $dinasbop = DinasBop::find($dinasbop_id);
                 $total_anggaran = $dinasbop->total_anggaran;
                 $dinasbop->total_anggaran = intval($total_anggaran) - intval($anggaran_tim);
@@ -253,6 +298,12 @@ class DinasBopController extends Controller
             $dinasbopdriver->created_at = date('Y-m-d H:i:s');
 
             if ($dinasbopdriver->save()) {
+                $payload = [
+                    'page' => 'Dinas BOP - Pengemudi',
+                    'message' => 'User dengan NIP '.$request['nip'].' menambahkan pengemudi baru pada Dinas BOP'
+                ];
+                $this->_common->generate_log($payload);
+
                 $dinasbop = DinasBop::find($request['dinasbop']);
                 $total_anggaran = $dinasbop->total_anggaran;
                 $dinasbop->total_anggaran = intval($total_anggaran) + intval($timdinasbop['total_anggaran']);
@@ -299,6 +350,12 @@ class DinasBopController extends Controller
         $dinasbopdriver->updated_at = date('Y-m-d H:i:s');
 
         if ($dinasbopdriver->save()) {
+            $payload = [
+                'page' => 'Dinas BOP - Pengemudi',
+                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan data pengemudi pada Dinas BOP'
+            ];
+            $this->_common->generate_log($payload);
+
             $dinasbop = DinasBop::find($request['dinasbop']);
             $biaya_bop = $dinasbop->total_anggaran;
             $dinasbop->total_anggaran = $biaya_bop - $biaya_bop_lama + $timdinasbop['total_anggaran'];
@@ -315,6 +372,12 @@ class DinasBopController extends Controller
             $dinasbop_id = $dinasbopdriver->dinasbop_id;
             $anggaran = $dinasbopdriver->total;
             if ($dinasbopdriver->delete()) {
+                $payload = [
+                    'page' => 'Dinas BOP - Pengemudi',
+                    'message' => 'User dengan NIP '.$request['nip'].' melakukan hapus data pengemudi pada Dinas BOP'
+                ];
+                $this->_common->generate_log($payload);
+
                 $dinasbop = DinasBop::find($dinasbop_id);
                 $total_anggaran = $dinasbop->total_anggaran;
                 $dinasbop->total_anggaran = $total_anggaran - $anggaran;

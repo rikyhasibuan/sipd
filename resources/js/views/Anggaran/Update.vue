@@ -91,7 +91,7 @@
                 isLoading: false,
             }
         },
-        props: ['program_data','kegiatan_data','belanja_data','bulan_data','tahun_data','anggaran', 'api', 'route'],
+        props: ['program_data', 'kegiatan_data', 'belanja_data', 'bulan_data', 'tahun_data', 'anggaran', 'api', 'route'],
         methods: {
             onChangeProgram(evt) {
                 const program = evt.target.value;
@@ -119,7 +119,7 @@
             },
             onSubmit(evt) {
                 this.isLoading = false;
-                service.putData(this.api, this.kegiatan)
+                service.putData(this.api, this.anggaran)
                     .then(result => {
                         this.response(result);
                     }).catch(error => {
@@ -141,6 +141,7 @@
         },
         created() {
             this.isLoading = true;
+            this.program = this.program_data;
             this.kegiatan = this.kegiatan_data;
             this.belanja = this.belanja_data;
 

@@ -116,7 +116,8 @@
                         moment(this.dinasbop_data.sampai).add(1, 'day')
                     ]
                 },
-                isLoading: false
+                isLoading: false,
+                usernip:''
             }
         },
         props: [
@@ -130,7 +131,7 @@
         methods: {
             onSubmit(evt) {
                 this.isLoading = false;
-                service.putData(this.api + '/sekretaris/' + this.dinasbop + '/' + this.dinasbopsekretaris.id, this.dinasbopsekretaris)
+                service.putData(this.api + '/sekretaris?nip='+this.usernip+'&dinasbop='+this.dinasbop+'&id='+this.dinasbopsekretaris.id, this.dinasbopsekretaris)
                 .then(result => {
                     this.response(result);
                 }).catch(error => {
@@ -156,7 +157,8 @@
         },
         mounted() {
             this.isLoading = false;
-            this.dinasbopsekretaris.sekretaris = this.dinasbopsekretaris.sekretaris.nip
+            this.dinasbopsekretaris.sekretaris = this.dinasbopsekretaris.sekretaris.nip;
+            this.usernip = this.$cookies.get('nip');
         }
     };
 </script>

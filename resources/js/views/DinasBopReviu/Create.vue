@@ -161,7 +161,8 @@
                     save: false,
                     duplicate: false
                 },
-                isLoading: false
+                isLoading: false,
+                usernip:''
             }
         },
         props: [
@@ -174,7 +175,7 @@
         ],
         methods: {
             onSubmit(evt) {
-                service.postData(this.api + '/reviu/' + this.dinasbop, this.dinasbopreviu)
+                service.postData(this.api + '/reviu?nip='+this.usernip+'&dinasbop='+this.dinasbop, this.dinasbopreviu)
                     .then(result => {
                         this.response(result);
                     }).catch(error => {
@@ -221,6 +222,7 @@
         },
         mounted() {
             this.isLoading = false;
+            this.usernip = this.$cookies.get('nip');
         }
     };
 </script>

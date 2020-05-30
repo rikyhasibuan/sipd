@@ -1,6 +1,16 @@
 <template>
     <div>
         <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
+        <!--<div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body table-responsive">
+                        <v-calendar locale="id" is-expanded :attributes='attrs' />
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -66,7 +76,14 @@ export default {
             output_table:{},
 
             isLoading: false,
-            options:null
+            options:null,
+            attrs: [
+                {
+                    key: 'today',
+                    highlight: true,
+                    dates: new Date(),
+                },
+            ]
         }
     },
     props:['api', 'tahun_data'],

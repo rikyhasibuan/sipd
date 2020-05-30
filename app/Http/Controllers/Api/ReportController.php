@@ -18,8 +18,9 @@ class ReportController extends Controller
         try {
             $_dari = isset($request['dari']) ? $request['dari'] : '';
             $_sampai = isset($request['sampai']) ? $request['sampai'] : '';
+            $_bendahara = isset($request['bendahara']) ? $request['bendahara'] : '';
 
-            return Excel::download(new AnggaranExport($_dari, $_sampai), 'Laporan Penyerapan Anggaran Perjalanan Dinas.xlsx');
+            return Excel::download(new AnggaranExport($_dari, $_sampai, $_bendahara), 'Laporan Penyerapan Anggaran Perjalanan Dinas.xlsx');
         } catch (Exception $e) {
 
         }

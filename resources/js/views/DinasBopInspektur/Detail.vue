@@ -195,7 +195,8 @@ export default {
                 inspektur_href: '#inspekturrevloginspektur',
                 inspektur_id: 'inspekturrevloginspektur'
             },
-            approval_role:''
+            approval_role:'',
+            usernip:''
         }
     },
     props: ['dinasbop','dinasbopinspektur', 'dinasbopapproval', 'route', 'print_action', 'api', 'access', 'approval_type'],
@@ -233,7 +234,7 @@ export default {
             $("#inspektur_approval_modal").modal('show');
         },
         deleteData(id) {
-            service.deleteData(this.api + '/inspektur/' + this.dinasbop.id + '/' + id)
+            service.deleteData(this.api + '/inspektur?nip='+this.usernip+'&dinasbop='+this.dinasbop.id+'&id='+id)
             .then(response => {
                 if(response.status === 'ok') {
                     this.alert.delete = true;
@@ -252,7 +253,7 @@ export default {
             });
         },
         createRevision(callback) {
-            service.putData(this.api + '/approval?act=revision&type='+callback.role+'&tab=inspektur&id=' + this.dinasbop.id, { catatan: callback.catatan})
+            service.putData(this.api + '/approval?nip='+this.usernip+'&act=revision&type='+callback.role+'&tab=inspektur&id=' + this.dinasbop.id, { catatan: callback.catatan})
             .then(response => {
                 if(response.status === 'ok') {
                     $('#inspektur_revision_modal').modal('hide');
@@ -269,7 +270,7 @@ export default {
             });
         },
         createApproval(role) {
-            service.putData(this.api + '/approval?act=approve&type='+role+'&tab=inspektur&id=' + this.dinasbop.id)
+            service.putData(this.api + '/approval?nip='+this.usernip+'&act=approve&type='+role+'&tab=inspektur&id=' + this.dinasbop.id)
             .then(response => {
                 if(response.status === 'ok') {
                     $('#inspektur_approval_modal').modal('hide');
@@ -301,6 +302,7 @@ export default {
     mounted() {
         this.isLoading = false;
         this.approval_tab = this.dinasbopapproval.find(dinasbopapproval => dinasbopapproval.tab === 'inspektur');
+        this.usernip = this.$cookies.get('nip');
     }
 };
 </script>

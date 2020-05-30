@@ -116,7 +116,8 @@
                         moment(this.dinasbop_data.sampai).add(1, 'day')
                     ]
                 },
-                isLoading: false
+                isLoading: false,
+                usernip:''
             }
         },
         props: [
@@ -130,7 +131,7 @@
         methods: {
             onSubmit(evt) {
                 this.isLoading = false;
-                service.putData(this.api + '/inspektur/' + this.dinasbop + '/' + this.dinasbopinspektur.id, this.dinasbopinspektur)
+                service.putData(this.api + '/inspektur?nip='+this.usernip+'&dinasbop='+this.dinasbop+'&id='+this.dinasbopinspektur.id, this.dinasbopinspektur)
                 .then(result => {
                     this.response(result);
                 }).catch(error => {
@@ -156,7 +157,8 @@
         },
         mounted() {
             this.isLoading = false;
-            this.dinasbopinspektur.inspektur = this.dinasbopinspektur.inspektur.nip
+            this.dinasbopinspektur.inspektur = this.dinasbopinspektur.inspektur.nip;
+            this.usernip = this.$cookies.get('nip');
         }
     };
 </script>

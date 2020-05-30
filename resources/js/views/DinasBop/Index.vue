@@ -133,7 +133,8 @@ export default {
             isLoading: false,
             showForm: false,
             showTable: false,
-            id:''
+            id:'',
+            usernip:''
         }
     },
     props: ['program_data', 'kegiatan_data', 'belanja_data', 'api', 'route', 'access'],
@@ -202,7 +203,7 @@ export default {
             return Object.keys(this.search).map(key => key + '=' + this.search[key]).join('&');
         },
         deleteData(id) {
-            service.deleteData(this.api + '?id=' + id)
+            service.deleteData(this.api + '?nip='+this.usernip+'&id=' + id)
             .then(response => {
                 if(response.status === 'ok') {
                     this.alert.delete = true;
@@ -261,6 +262,7 @@ export default {
         this.kegiatan = this.kegiatan_data;
         this.belanja = this.belanja_data;
         this.fetchData();
+        this.usernip = this.$cookies.get('nip');
     }
 };
 </script>

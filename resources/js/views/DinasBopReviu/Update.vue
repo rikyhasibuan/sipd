@@ -157,6 +157,7 @@
                     'anggota' : []
                 },
                 anggota_data:[],
+                usernip:''
             }
         },
         props: [
@@ -171,7 +172,7 @@
         methods: {
             onSubmit(evt) {
                 this.isLoading = false;
-                service.putData(this.api + '/reviu/' + this.dinasbop + '/' + this.dinasbopreviu.id, this.reviu)
+                service.putData(this.api + '/reviu?nip='+this.usernip+'&dinasbop='+this.dinasbop+'&id='+this.dinasbopreviu.id, this.reviu)
                     .then(result => {
                         this.response(result);
                     }).catch(error => {
@@ -218,6 +219,7 @@
         },
         mounted() {
             this.isLoading = false;
+            this.usernip = this.$cookies.get('nip');
         }
     };
 </script>
