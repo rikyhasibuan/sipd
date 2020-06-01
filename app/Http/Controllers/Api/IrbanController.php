@@ -34,29 +34,29 @@ class IrbanController extends Controller
 
     public function post_data(Request $request)
     {
-      try {
-          $check_data = Irban::where('nama_irban', $request->input('nama_irban'))->count();
-          if ($check_data == 0) {
-              $irban = new Irban();
-              $irban->nama_irban = $request->input('nama_irban');
-              $irban->created_at = date('Y-m-d H:i:s');
-              if ($irban->save()) {
-                  $payload = [
-                      'page' => 'Irban',
-                      'message' => 'User dengan NIP '.$request['nip'].' menambahkan data irban baru'
-                  ];
-                  $this->_common->generate_log($payload);
+        try {
+            $check_data = Irban::where('nama_irban', $request->input('nama_irban'))->count();
+            if ($check_data == 0) {
+                $irban = new Irban();
+                $irban->nama_irban = $request->input('nama_irban');
+                $irban->created_at = date('Y-m-d H:i:s');
+                if ($irban->save()) {
+                    $payload = [
+                        'page' => 'Irban',
+                        'message' => 'User dengan NIP '.$request['nip'].' menambahkan data irban baru'
+                    ];
+                    $this->_common->generate_log($payload);
 
-                  return response()->json(['status' => 'ok'], 200);
-              } else {
-                  return response()->json(['status' => 'failed'], 500);
-              }
-          } else {
-              return response()->json(['status' => 'duplicate'], 200);
-          }
-      } catch (Exception $e) {
-          return response()->json(['error' => $e->getMessage()], 500);
-      }
+                    return response()->json(['status' => 'ok'], 200);
+                } else {
+                    return response()->json(['status' => 'failed'], 500);
+                }
+            } else {
+                return response()->json(['status' => 'duplicate'], 200);
+            }
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     public function put_data(Request $request)

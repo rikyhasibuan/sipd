@@ -581,9 +581,10 @@ class TimDinas
     {
         $dinasbop = DinasBopDriver::where('dinasbop_id', $param['dinasbop'])
                                     ->where('driver->nip', $param['driver'])
-                                    ->where('dari', $param['dari'])
-                                    ->where('sampai', $param['sampai'])
-                                    ->count();
+                                    ->where(function($query) use ($param) {
+                                        $query->whereBetween('dari', [$param['dari'],$param['sampai']])
+                                        ->whereBetween('sampai', [$param['dari'], $param['sampai']]);
+                                    })->count();
         if ($dinasbop > 0) {
             return false;
         } else {
@@ -601,7 +602,8 @@ class TimDinas
     {
         $dinasbop = DinasBopInspektur::where('dinasbop_id', $param['dinasbop'])
                                     ->where(function($query) use ($param) {
-                                        $query->where('dari', $param['dari'])->orWhere('sampai', $param['sampai']);
+                                        $query->whereBetween('dari', [$param['dari'],$param['sampai']])
+                                                ->whereBetween('sampai', [$param['dari'], $param['sampai']]);
                                     })->count();
         if ($dinasbop > 0) {
             return false;
@@ -620,7 +622,8 @@ class TimDinas
     {
         $dinasbop = DinasBopSekretaris::where('dinasbop_id', $param['dinasbop'])
                                         ->where(function($query) use ($param) {
-                                            $query->where('dari', $param['dari'])->orWhere('sampai', $param['sampai']);
+                                            $query->whereBetween('dari', [$param['dari'],$param['sampai']])
+                                                ->whereBetween('sampai', [$param['dari'], $param['sampai']]);
                                         })->count();
         if ($dinasbop > 0) {
             return false;
@@ -818,20 +821,29 @@ class TimDinas
 
     public function check_bop_query_create($id, $dari, $sampai)
     {
-        $dinasbopreviu = DinasBopReviu::where('dinasbop_id',$id)->where('dari', $dari)->where('sampai', $sampai)->get();
-        $dinasbopsupervisi = DinasBopSupervisi::where('dinasbop_id',$id)->where('dari', $dari)->where('sampai', $sampai)->get();
+        //$dinasbop = DinasBop::find($id);
+
+        $dinasbopreviu = DinasBopReviu::where('dinasbop_id',$id)
+                                        ->whereBetween('dari', [$dari, $sampai])
+                                        ->whereBetween('sampai', [$dari,$sampai])
+                                        ->get();
+
+        $dinasbopsupervisi = DinasBopSupervisi::where('dinasbop_id',$id)
+                                ->whereBetween('dari', [$dari, $sampai])
+                                ->whereBetween('sampai', [$dari,$sampai])->get();
+
         $dinasboptim = DinasBopTim::where('dinasbop_id',$id)
             ->with(['dinasbop' => function ($query) use ($dari, $sampai) {
-                $query->where('dari', $dari)->where('sampai', $sampai);
+                $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
             }])->get();
         $dinasboppengumpuldata = DinasBopPengumpulDataTim::where('dinasbop_id', $id)
             ->with(['dinasboppengumpuldata' => function ($query) use ($dari, $sampai) {
-                $query->where('dari', $dari)->where('sampai', $sampai);
+                $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
             }])->get();
         $dinasbopadministrasi = DinasBopAdministrasiTim::where('dinasbop_id', $id)
-        ->with(['dinasbopadministrasi' => function ($query) use ($dari, $sampai) {
-            $query->where('dari', $dari)->where('sampai', $sampai);
-        }])->get();
+            ->with(['dinasbopadministrasi' => function ($query) use ($dari, $sampai) {
+                $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
+            }])->get();
 
         $response = [
             'dinasbopreviu' => $dinasbopreviu,
@@ -854,7 +866,7 @@ class TimDinas
 
         switch ($tipe) {
             case 'tim':
-                $dinasboptim = DinasBopTim::where('dinasbop_id',$id)->where('id','!=', $idtim)->get();
+                $dinasboptim = DinasBopTim::where('dinasbop_id', $id)->where('id','!=', $idtim)->get();
                 $dinasbopreviu = DinasBopReviu::where('dinasbop_id',$id)->get();
                 $dinasbopsupervisi = DinasBopSupervisi::where('dinasbop_id',$id)->get();
                 $dinasboppengumpuldata = DinasBopPengumpulDataTim::where('dinasbop_id', $id)->get();
@@ -910,7 +922,7 @@ class TimDinas
     public function check_personil_regular($act, $id, $dari, $sampai, $nip)
     {
         if ($act == 'create') {
-            $dinasregular = DinasRegular::where('dari', $dari)->where('sampai', $sampai)->get();
+            $dinasregular = DinasRegular::whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai])->get();
             if (count($dinasregular) > 0) {
                 $i = 0;
                 foreach ($dinasregular->tim as $v) {
@@ -929,7 +941,9 @@ class TimDinas
                 return true;
             }
         } elseif ($act == 'put') {
-            $dinasregular = DinasRegular::where('dari', $dari)->where('sampai', $sampai)->where('id', '!=', $id)->get();
+            $dinasregular = DinasRegular::whereBetween('dari', [$dari, $sampai])
+                                        ->whereBetween('sampai', [$dari,$sampai])
+                                        ->where('id', '!=', $id)->get();
             if (count($dinasregular) > 0) {
                 $i = 0;
                 foreach ($dinasregular->tim as $v) {

@@ -51,7 +51,7 @@ class AkomodasiController extends Controller
         if ($akomodasi->save()) {
             $payload = [
                 'page' => 'Akomodasi',
-                'message' => 'User dengan NIP '.$request->input('nip').' melakukan perubahan data pada akomodasi'
+                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan data pada akomodasi'
             ];
             $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);

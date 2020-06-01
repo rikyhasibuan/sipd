@@ -198,7 +198,7 @@ class DinasBopController extends Controller
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api.'?nip=' . $this->_nip);
+        $data['api'] = url($this->api);
         $data['act'] = 'create';
         $data['irban'] = $irban;
         $data['auditan'] = $auditan;
@@ -255,7 +255,7 @@ class DinasBopController extends Controller
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api.'?nip=' . $this->_nip);
+        $data['api'] = url($this->api);
         $data['act'] = 'create';
         $data['driver'] = $driver;
         $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
@@ -302,7 +302,7 @@ class DinasBopController extends Controller
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api.'?nip=' . $this->_nip);
+        $data['api'] = url($this->api);
         $data['act'] = 'create';
         $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
         $data['dinasbop'] = $request['dinasbop'];
@@ -346,7 +346,7 @@ class DinasBopController extends Controller
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api.'?nip=' . $this->_nip);
+        $data['api'] = url($this->api);
         $data['act'] = 'create';
         $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
         $data['dinasbop'] = $request['dinasbop'];
@@ -419,7 +419,7 @@ class DinasBopController extends Controller
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api.'?nip=' . $this->_nip);
+        $data['api'] = url($this->api);
         $data['act'] = 'create';
         $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
         $data['dinasbop'] = $request['dinasbop'];
@@ -525,7 +525,7 @@ class DinasBopController extends Controller
         $data['title']  = $this->title;
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api.'?nip=' . $this->_nip);
+        $data['api'] = url($this->api);
         $data['act'] = 'create';
         $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
         $data['dinasbop'] = $request['dinasbop'];

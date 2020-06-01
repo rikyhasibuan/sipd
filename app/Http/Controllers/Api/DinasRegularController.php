@@ -10,9 +10,17 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use App\Libraries\Common;
 
 class DinasRegularController extends Controller
 {
+    protected $_common;
+
+    public function __construct()
+    {
+        $this->_common = new Common();
+    }
+
     /**
      * menampilkan semua data dinas regular
      * @param Request $request
@@ -87,6 +95,11 @@ class DinasRegularController extends Controller
             $dinasregular->total_akomodasi = $timdinasregular['total_akomodasi'];
             $dinasregular->created_at = date('Y-m-d H:i:s');
             if ($dinasregular->save()) {
+                $payload = [
+                    'page' => 'Dinas Reguler',
+                    'message' => 'User dengan NIP '.$request['nip'].' menambahkan data baru pada Dinas Reguler'
+                ];
+                $this->_common->generate_log($payload);
                 $timdinas->generate_approval_regular($dinasregular->id);
                 return response()->json(['status'=>'ok'], 200);
             } else {
@@ -137,6 +150,11 @@ class DinasRegularController extends Controller
         $dinasregular->total_akomodasi = $timdinasregular['total_akomodasi'];
         $dinasregular->updated_at = date('Y-m-d H:i:s');
         if ($dinasregular->save()) {
+            $payload = [
+                'page' => 'Dinas Reguler',
+                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan data pada Dinas Reguler'
+            ];
+            $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);
@@ -153,6 +171,11 @@ class DinasRegularController extends Controller
     {
         $dinasregular = DinasRegular::find($request['id']);
         if ($dinasregular->delete()) {
+            $payload = [
+                'page' => 'Dinas Reguler',
+                'message' => 'User dengan NIP '.$request['nip'].' melakukan hapus data pada Dinas Reguler'
+            ];
+            $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);
@@ -194,6 +217,11 @@ class DinasRegularController extends Controller
         $dinasregular->lama_inap = $_durasi;
         $dinasregular->total_transportasi = $transportasi;
         if ($dinasregular->save()) {
+            $payload = [
+                'page' => 'Dinas Reguler',
+                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan transportasi pada Dinas Reguler'
+            ];
+            $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
         } else {
             return response()->json(['status' => 'failed'], 500);

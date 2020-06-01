@@ -64,12 +64,6 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a class="nav-link" href="{!! url('logaktifitas') !!}">
-                                    <i class="nav-icon fa fa-circle-o"></i>
-                                    <p>Log Aktifitas</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link" href="{!! url('user') !!}">
                                     <i class="nav-icon fa fa-circle-o"></i>
                                     <p>User</p>
@@ -180,6 +174,14 @@
                         </ul>
                     </li>
                 @endif
+
+                <li class="nav-item">
+                    <a @if($link=='logaktifitas' ) class="nav-link active" @else class="nav-link" @endif href="{!! url('logaktifitas') !!}">
+                        <i class="nav-icon fa fa-file-text-o"></i>
+                        <p>Log Aktifitas</p>
+                    </a>
+                </li>
+                
                 <li class="nav-item">
                     <a @if($link=='report' ) class="nav-link active" @else class="nav-link" @endif
                     href="{!! url('report') !!}">

@@ -36,12 +36,10 @@ class ProgramController extends Controller
 
     public function post_data(Request $request)
     {
-        $check = Program::where(
-                                [
-                                    'kode_program'=> $request->input('kode_program'),
-                                    'nama_program'=>$request->input('nama_program')
-                                ]
-                                )->count();
+        $check = Program::where([
+                    'kode_program'=> $request->input('kode_program'),
+                    'nama_program'=>$request->input('nama_program')
+                ])->count();
         if ($check == 0) {
             $program = new Program();
             $program->kode_program = $request->input('kode_program');
