@@ -13,7 +13,6 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {
-
     public function print_data(Request $request) {
         try {
             $_dari = isset($request['dari']) ? $request['dari'] : '';

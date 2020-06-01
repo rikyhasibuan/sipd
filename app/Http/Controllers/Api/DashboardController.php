@@ -9,14 +9,24 @@ use App\Models\DinasRegular;
 use App\Models\Kegiatan;
 use Exception;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Libraries\Common;
 
 class DashboardController extends Controller
 {
-    public function getData()
+    public function getData(Request $request)
     {
         try {
+            $common = new Common();
             $kas = new KasAnggaran();
-            $year = date('Y');
+            $tahun = ($request['tahun'] != '') ? $request['tahun'] : date('Y');
+            $bulan = ($request['bulan'] != '') ? $request['bulan'] : '';
+
+            if ($bulan != '' || $bulan != null) {
+                $message = ' ' .$common->generate_indonesia_month($bulan).' ';
+            } else {
+                $message = '';
+            }
             $sql_kegiatan = Kegiatan::all();
             $kegiatan = [];
             $output_table = [];
@@ -24,8 +34,8 @@ class DashboardController extends Controller
             $serapan = [];
             $sql_anggaran = '';
             $i = 0;
-            $anggaran['anggaran'][$i]['name'] ='Total Anggaran Kegiatan';
-            $serapan['serapan'][$i]['name'] ='Total Serapan Anggaran Kegiatan';
+            $anggaran['anggaran'][$i]['name'] ='Total Pagu Anggaran Kegiatan '.$message.'Tahun '.$tahun.'';
+            $serapan['serapan'][$i]['name'] ='Total Realisasi Anggaran Kegiatan '.$message.'Tahun '.$tahun.'';
 
             foreach ($sql_kegiatan as $v) {
                 $anggaran_int = 0;
@@ -34,10 +44,9 @@ class DashboardController extends Controller
 
                 $total_regular = 0;
                 array_push($kegiatan, $v->nama_kegiatan);
-                $sql_anggaran = Anggaran::where('tahun', $year)->where('kegiatan_id', $v->id)->sum('jumlah');
-
-                $sql_serapan_bop = DinasBop::whereYear('created_at', $year)->where('kegiatan_id', $v->id)->sum('total_anggaran');
-                $sql_serapan_regular = DinasRegular::whereYear('created_at', $year)->where('kegiatan_id', $v->id)->get();
+                $sql_anggaran = Anggaran::searchTahun($tahun)->searchBulan($bulan)->searchKegiatan($v->id)->sum('jumlah');
+                $sql_serapan_bop = DinasBop::searchTahun($tahun)->searchBulan($bulan)->searchKegiatan($v->id)->sum('total_anggaran');
+                $sql_serapan_regular = DinasRegular::searchTahun($tahun)->searchBulan($bulan)->searchKegiatan($v->id)->get();
 
                 if (count($sql_serapan_regular) > 0) {
                     foreach ($sql_serapan_regular as $o) {

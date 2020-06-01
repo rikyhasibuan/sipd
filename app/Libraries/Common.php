@@ -260,6 +260,17 @@ class Common
         return $indonesia_date;
     }
 
+    /**
+     * convert mysql month to indonesia month format
+     * @param string $date
+     * @return string
+     */
+    public function generate_indonesia_month($date)
+    {
+        $bulan = self::generate_integer_month();
+        return $bulan[$date];
+    }
+
     public function generate_log($payload)
     {
         try {
