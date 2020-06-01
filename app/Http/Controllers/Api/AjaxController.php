@@ -263,17 +263,13 @@ class AjaxController extends Controller
         foreach ($pokja as $v) {
             if (in_array($v->pegawai->jabatan, $jabatan_wp)) {
                 array_push($irbanpokja['wakilpenanggungjawab'], $v->pegawai);
-            }
-
-            if (in_array($v->pegawai->jabatan, $jabatan_dalnis)) {
+            } elseif (in_array($v->pegawai->jabatan, $jabatan_dalnis)) {
                 array_push($irbanpokja['pengendaliteknis'], $v->pegawai);
-            }
-
-            if (in_array($v->pegawai->jabatan, $jabatan_ketua)) {
+            } elseif (in_array($v->pegawai->jabatan, $jabatan_ketua)) {
                 array_push($irbanpokja['ketuatim'], $v->pegawai);
+            } else {
+                array_push($irbanpokja['anggota'], $v->pegawai);
             }
-
-            array_push($irbanpokja['anggota'], $v->pegawai);
         }
 
         return response()->json($irbanpokja, 200);

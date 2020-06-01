@@ -53,7 +53,7 @@
                                         <th style="width:15%;text-align:center;">Kegiatan</th>
                                         <th style="width:10%;text-align:center;">Belanja</th>
                                         <th style="width:10%;text-align:center;">Waktu</th>
-                                        <th style="width:5%;text-align:center;">Penyerapan Anggaran</th>
+                                        <th style="width:7%;text-align:center;">Penyerapan Anggaran</th>
                                         <th style="width:2%;text-align:center;">Status</th>
                                         <th style="width:10%;text-align:center;">Action</th>
                                     </tr>

@@ -227,6 +227,7 @@
                     this.tim.ketuatim = '';
                     this.tim.anggota = [];
                     this.personil_data = response;
+                    this.anggota_data = [];
                     this.personil_data.anggota.forEach(item => {
                         this.anggota_data.push({'label': item.nama +' - '+ item.jabatan,'key':item.nip})
                     });
