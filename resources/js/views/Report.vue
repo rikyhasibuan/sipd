@@ -87,7 +87,8 @@
                     format: 'YYYY-MM',
                     viewMode:'years',
                     useCurrent: false,
-                    locale: 'id'
+                    locale: 'id',
+                    minDate:'2020/01/01'
                 }
             }
         },
