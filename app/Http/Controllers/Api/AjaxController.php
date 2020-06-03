@@ -251,11 +251,12 @@ class AjaxController extends Controller
 
         $jabatan_dalnis = [
             'Auditor Madya',
-            'Pengawas Pemerintahan Madya'
+            'Pengawas Pemerintahan Madya',
         ];
 
         $jabatan_ketua = [
             'Auditor Madya',
+            'Auditor Muda',
             'Pengawas Pemerintahan Madya',
             'Pengawas Pemerintahan Muda'
         ];
@@ -263,11 +264,17 @@ class AjaxController extends Controller
         foreach ($pokja as $v) {
             if (in_array($v->pegawai->jabatan, $jabatan_wp)) {
                 array_push($irbanpokja['wakilpenanggungjawab'], $v->pegawai);
-            } elseif (in_array($v->pegawai->jabatan, $jabatan_dalnis)) {
+            }
+
+            if (in_array($v->pegawai->jabatan, $jabatan_dalnis)) {
                 array_push($irbanpokja['pengendaliteknis'], $v->pegawai);
-            } elseif (in_array($v->pegawai->jabatan, $jabatan_ketua)) {
+            }
+
+            if (in_array($v->pegawai->jabatan, $jabatan_ketua)) {
                 array_push($irbanpokja['ketuatim'], $v->pegawai);
-            } else {
+            }
+
+            if (!in_array($v->pegawai->jabatan, $jabatan_wp)) {
                 array_push($irbanpokja['anggota'], $v->pegawai);
             }
         }
