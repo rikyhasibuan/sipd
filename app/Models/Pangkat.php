@@ -20,6 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Pangkat whereNamaPangkat($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Pangkat whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $golongan
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Pangkat whereGolongan($value)
  */
 class Pangkat extends Model
 {

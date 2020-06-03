@@ -88,7 +88,7 @@ class BelanjaController extends Controller
             if ($belanja->save()) {
                 $payload = [
                     'page' => 'Belanja',
-                    'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan pada data belanja'
+                    'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data belanja'
                 ];
                 $this->_common->generate_log($payload);
                 return response()->json(['status' => 'ok'], 200);

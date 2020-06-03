@@ -43,7 +43,7 @@ class IrbanController extends Controller
                 if ($irban->save()) {
                     $payload = [
                         'page' => 'Irban',
-                        'message' => 'User dengan NIP '.$request['nip'].' menambahkan data irban baru'
+                        'message' => 'User dengan NIP '.$request->query('nip').' menambahkan data irban baru'
                     ];
                     $this->_common->generate_log($payload);
 
@@ -68,7 +68,7 @@ class IrbanController extends Controller
             if ($irban->save()) {
                 $payload = [
                     'page' => 'Irban',
-                    'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan pada data irban'
+                    'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data irban'
                 ];
                 $this->_common->generate_log($payload);
                 return response()->json(['status' => 'ok'], 200);
@@ -87,7 +87,7 @@ class IrbanController extends Controller
             if ($irban->delete()) {
                 $payload = [
                     'page' => 'Irban',
-                    'message' => 'User dengan NIP '.$request['nip'].' melakukan hapus data pada irban'
+                    'message' => 'User dengan NIP '.$request->query('nip').' melakukan hapus data pada irban'
                 ];
                 $this->_common->generate_log($payload);
                 return response()->json(['status' => 'ok'], 200);

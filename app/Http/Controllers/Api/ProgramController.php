@@ -48,7 +48,7 @@ class ProgramController extends Controller
             if ($program->save()) {
                 $payload = [
                     'page' => 'Program',
-                    'message' => 'User dengan NIP '.$request['nip'].' menambahkan data program baru'
+                    'message' => 'User dengan NIP '.$request->query('nip').' menambahkan data program baru'
                 ];
                 $this->_common->generate_log($payload);
                 return response()->json(['status'=>'ok'], 200);
@@ -69,7 +69,7 @@ class ProgramController extends Controller
         if ($program->save()) {
             $payload = [
                 'page' => 'Program',
-                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan pada data program'
+                'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data program'
             ];
             $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
@@ -85,7 +85,7 @@ class ProgramController extends Controller
             if ($program->delete()) {
                 $payload = [
                     'page' => 'Program',
-                    'message' => 'User dengan NIP '.$request['nip'].' melakukan hapus data pada program'
+                    'message' => 'User dengan NIP '.$request->query('nip').' melakukan hapus data pada program'
                 ];
                 $this->_common->generate_log($payload);
                 return response()->json(['status' => 'ok'], 200);

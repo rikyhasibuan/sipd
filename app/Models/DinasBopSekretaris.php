@@ -35,6 +35,18 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasBopTim whereTotalAnggaran($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasBopTim whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property array $dasar
+ * @property array|null $tujuan
+ * @property string|null $dari
+ * @property string|null $sampai
+ * @property array $sekretaris
+ * @property int|null $total
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasBopSekretaris whereDari($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasBopSekretaris whereDasar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasBopSekretaris whereSampai($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasBopSekretaris whereSekretaris($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasBopSekretaris whereTotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DinasBopSekretaris whereTujuan($value)
  */
 class DinasBopSekretaris extends Model
 {

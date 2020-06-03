@@ -9,8 +9,9 @@ use App\Models\DinasRegular;
 use App\Models\Kegiatan;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class AnggaranExport implements FromView
+class AnggaranExport implements FromView, ShouldAutoSize
 {
     protected $dari;
     protected $sampai;
@@ -34,7 +35,6 @@ class AnggaranExport implements FromView
                 foreach ($belanja as $obj) {
                     $sql_anggaran = Anggaran::where('bulan','>=', $this->dari[1])
                         ->where('tahun','>=', $this->dari[0])
-                        ->where('bulan','<=', $this->sampai[1])
                         ->where('tahun','<=', $this->sampai[0])
                         ->where('kegiatan_id', $v->id)
                         ->where('belanja_id', $obj->id)
@@ -42,6 +42,7 @@ class AnggaranExport implements FromView
 
                     $sql_serapan_bop = DinasBop::whereMonth('created_at','>=', $this->dari[1])
                         ->whereYear('created_at','>=', $this->dari[0])
+                        ->whereMonth('created_at','>=', $this->dari[1])
                         ->whereMonth('created_at','<=', $this->sampai[1])
                         ->whereYear('created_at','<=', $this->sampai[0])
                         ->where('kegiatan_id', $v->id)
@@ -50,6 +51,7 @@ class AnggaranExport implements FromView
 
                     $sql_serapan_regular = DinasRegular::whereMonth('created_at','>=', $this->dari[1])
                         ->whereYear('created_at','>=', $this->dari[0])
+                        ->whereMonth('created_at','>=', $this->dari[1])
                         ->whereMonth('created_at','<=', $this->sampai[1])
                         ->whereYear('created_at','<=', $this->sampai[0])
                         ->where('kegiatan_id', $v->id)
@@ -78,7 +80,7 @@ class AnggaranExport implements FromView
                     array_push($output, $result);
                 }
             }
-            return view('excel', ['data' => $output]);
+            return view('excel', ['data' => $output, 'dari'=>$this->dari[1], 'sampai' => $this->sampai[1], 'tahun' => $this->sampai[0]]);
         } else {
             return false;
         }

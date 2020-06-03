@@ -35,7 +35,7 @@ class HargaBbmController extends Controller
             if ($hargabbm->save()) {
                 $payload = [
                     'page' => 'Harga BBM',
-                    'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan pada data Harga BBM'
+                    'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data Harga BBM'
                 ];
                 $this->_common->generate_log($payload);
                 return response()->json(['status' => 'ok'], 200);

@@ -23,6 +23,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\IrbanSkpd whereSkpdId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\IrbanSkpd whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\IrbanSkpd searchIrban($irban)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\IrbanSkpd searchSkpd($skpd)
  */
 class IrbanSkpd extends Model
 {

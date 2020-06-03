@@ -97,7 +97,7 @@ class DinasRegularController extends Controller
             if ($dinasregular->save()) {
                 $payload = [
                     'page' => 'Dinas Reguler',
-                    'message' => 'User dengan NIP '.$request['nip'].' menambahkan data baru pada Dinas Reguler'
+                    'message' => 'User dengan NIP '.$request->query('nip').' menambahkan data baru pada Dinas Reguler'
                 ];
                 $this->_common->generate_log($payload);
                 $timdinas->generate_approval_regular($dinasregular->id);
@@ -152,7 +152,7 @@ class DinasRegularController extends Controller
         if ($dinasregular->save()) {
             $payload = [
                 'page' => 'Dinas Reguler',
-                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan data pada Dinas Reguler'
+                'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan data pada Dinas Reguler'
             ];
             $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
@@ -173,7 +173,7 @@ class DinasRegularController extends Controller
         if ($dinasregular->delete()) {
             $payload = [
                 'page' => 'Dinas Reguler',
-                'message' => 'User dengan NIP '.$request['nip'].' melakukan hapus data pada Dinas Reguler'
+                'message' => 'User dengan NIP '.$request->query('nip').' melakukan hapus data pada Dinas Reguler'
             ];
             $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
@@ -219,7 +219,7 @@ class DinasRegularController extends Controller
         if ($dinasregular->save()) {
             $payload = [
                 'page' => 'Dinas Reguler',
-                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan transportasi pada Dinas Reguler'
+                'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan transportasi pada Dinas Reguler'
             ];
             $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);

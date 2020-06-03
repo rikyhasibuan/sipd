@@ -66,7 +66,7 @@ class AnggaranController extends Controller
             if ($anggaran->save()) {
                 $payload = [
                     'page' => 'Anggaran',
-                    'message' => 'User dengan NIP '.$request['nip'].' menambahkan data anggaran baru'
+                    'message' => 'User dengan NIP '.$request->query('nip').' menambahkan data anggaran baru'
                 ];
                 $this->_common->generate_log($payload);
                 return response()->json(['status'=>'ok'], 200);
@@ -91,7 +91,7 @@ class AnggaranController extends Controller
         if ($anggaran->save()) {
             $payload = [
                 'page' => 'Anggaran',
-                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan pada data anggaran'
+                'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data anggaran'
             ];
             $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
@@ -107,7 +107,7 @@ class AnggaranController extends Controller
             if ($anggaran->delete()) {
                 $payload = [
                     'page' => 'Anggaran',
-                    'message' => 'User dengan NIP '.$request['nip'].' melakukan hapus data pada anggaran'
+                    'message' => 'User dengan NIP '.$request->query('nip').' melakukan hapus data pada anggaran'
                 ];
                 $this->_common->generate_log($payload);
                 return response()->json(['status' => 'ok'], 200);

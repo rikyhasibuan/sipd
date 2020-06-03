@@ -27,6 +27,7 @@ class DashboardController extends Controller
             } else {
                 $message = '';
             }
+
             $sql_kegiatan = Kegiatan::all();
             $kegiatan = [];
             $output_table = [];
@@ -34,7 +35,7 @@ class DashboardController extends Controller
             $serapan = [];
             $sql_anggaran = '';
             $i = 0;
-            $anggaran['anggaran'][$i]['name'] ='Total Pagu Anggaran Kegiatan '.$message.'Tahun '.$tahun.'';
+            $anggaran['anggaran'][$i]['name'] ='Total Pagu Anggaran Kegiatan Tahun '.$tahun.'';
             $serapan['serapan'][$i]['name'] ='Total Realisasi Anggaran Kegiatan '.$message.'Tahun '.$tahun.'';
 
             foreach ($sql_kegiatan as $v) {
@@ -44,9 +45,9 @@ class DashboardController extends Controller
 
                 $total_regular = 0;
                 array_push($kegiatan, $v->nama_kegiatan);
-                $sql_anggaran = Anggaran::searchTahun($tahun)->searchBulan($bulan)->searchKegiatan($v->id)->sum('jumlah');
-                $sql_serapan_bop = DinasBop::searchTahun($tahun)->searchBulan($bulan)->searchKegiatan($v->id)->sum('total_anggaran');
-                $sql_serapan_regular = DinasRegular::searchTahun($tahun)->searchBulan($bulan)->searchKegiatan($v->id)->get();
+                $sql_anggaran = Anggaran::searchTahun($tahun)->searchKegiatan($v->id)->sum('jumlah');
+                $sql_serapan_bop = DinasBop::searchTahun($tahun)->searchToBulan($bulan)->searchKegiatan($v->id)->sum('total_anggaran');
+                $sql_serapan_regular = DinasRegular::searchTahun($tahun)->searchToBulan($bulan)->searchKegiatan($v->id)->get();
 
                 if (count($sql_serapan_regular) > 0) {
                     foreach ($sql_serapan_regular as $o) {

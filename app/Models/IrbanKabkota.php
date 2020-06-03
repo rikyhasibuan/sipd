@@ -23,6 +23,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\IrbanKabkota whereKabkotaId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\IrbanKabkota whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\IrbanKabkota searchIrban($irban)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\IrbanKabkota searchKabkota($kabkota)
  */
 class IrbanKabkota extends Model
 {

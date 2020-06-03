@@ -45,7 +45,7 @@ class BbmController extends Controller
         if ($bbm->save()) {
             $payload = [
                 'page' => 'BBM',
-                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan pada data BBM'
+                'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data BBM'
             ];
             $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);

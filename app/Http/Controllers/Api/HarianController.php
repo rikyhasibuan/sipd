@@ -45,7 +45,7 @@ class HarianController extends Controller
         if ($harian->save()) {
             $payload = [
                 'page' => 'Uang Harian',
-                'message' => 'User dengan NIP '.$request['nip'].' menambahkan data uang harian baru'
+                'message' => 'User dengan NIP '.$request->query('nip').' menambahkan data uang harian baru'
             ];
             $this->_common->generate_log($payload);
             return response()->json(['status'=>'ok'], 200);
@@ -66,7 +66,7 @@ class HarianController extends Controller
         if ($harian->save()) {
             $payload = [
                 'page' => 'Uang Harian',
-                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan pada data uang harian'
+                'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data uang harian'
             ];
             $this->_common->generate_log($payload);
 
@@ -82,7 +82,7 @@ class HarianController extends Controller
         if ($harian->delete()) {
             $payload = [
                 'page' => 'Uang Harian',
-                'message' => 'User dengan NIP '.$request['nip'].' melakukan hapus data pada uang harian'
+                'message' => 'User dengan NIP '.$request->query('nip').' melakukan hapus data pada uang harian'
             ];
             $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);

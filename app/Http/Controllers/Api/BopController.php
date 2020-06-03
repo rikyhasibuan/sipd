@@ -42,7 +42,7 @@ class BopController extends Controller
             if ($bop->save()) {
                 $payload = [
                     'page' => 'BOP',
-                    'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan pada data Besaran BOP'
+                    'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data Besaran BOP'
                 ];
                 $this->_common->generate_log($payload);
                 return response()->json(['status' => 'ok'], 200);

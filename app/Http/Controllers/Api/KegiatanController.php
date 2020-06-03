@@ -68,7 +68,7 @@ class KegiatanController extends Controller
             if ($kegiatan->save()) {
                 $payload = [
                     'page' => 'Kegiatan',
-                    'message' => 'User dengan NIP '.$request['nip'].' menambahkan data kegiatan baru'
+                    'message' => 'User dengan NIP '.$request->query('nip').' menambahkan data kegiatan baru'
                 ];
                 $this->_common->generate_log($payload);
                 return response()->json(['status'=>'ok'], 200);
@@ -91,7 +91,7 @@ class KegiatanController extends Controller
         if ($kegiatan->save()) {
             $payload = [
                 'page' => 'Kegiatan',
-                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan pada data kegiatan'
+                'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data kegiatan'
             ];
             $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
@@ -107,7 +107,7 @@ class KegiatanController extends Controller
             if ($kegiatan->delete()) {
                 $payload = [
                     'page' => 'Kegiatan',
-                    'message' => 'User dengan NIP '.$request['nip'].' melakukan hapus data pada kegiatan'
+                    'message' => 'User dengan NIP '.$request->query('nip').' melakukan hapus data pada kegiatan'
                 ];
                 $this->_common->generate_log($payload);
                 return response()->json(['status' => 'ok'], 200);

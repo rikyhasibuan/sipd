@@ -80,7 +80,7 @@ class DinasBopController extends Controller
 
                 $payload = [
                     'page' => 'Dinas BOP',
-                    'message' => 'User dengan NIP '.$request['nip'].' menambahkan data Dinas BOP baru'
+                    'message' => 'User dengan NIP '.$request->query('nip').' menambahkan data Dinas BOP baru'
                 ];
                 $this->_common->generate_log($payload);
 
@@ -112,7 +112,7 @@ class DinasBopController extends Controller
         if ($dinasbop->save()) {
             $payload = [
                 'page' => 'Dinas BOP',
-                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan pada data Dinas BOP'
+                'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data Dinas BOP'
             ];
             $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
@@ -131,7 +131,7 @@ class DinasBopController extends Controller
 
                 $payload = [
                     'page' => 'Dinas BOP',
-                    'message' => 'User dengan NIP '.$request['nip'].' melakukan hapus data pada Dinas BOP'
+                    'message' => 'User dengan NIP '.$request->query('nip').' melakukan hapus data pada Dinas BOP'
                 ];
                 $this->_common->generate_log($payload);
 
@@ -174,7 +174,7 @@ class DinasBopController extends Controller
         if ($dinasboptim->save()) {
             $payload = [
                 'page' => 'Dinas BOP - Tim',
-                'message' => 'User dengan NIP '.$request['nip'].' menambahkan tim baru pada Dinas BOP'
+                'message' => 'User dengan NIP '.$request->query('nip').' menambahkan tim baru pada Dinas BOP'
             ];
             $this->_common->generate_log($payload);
 
@@ -228,7 +228,7 @@ class DinasBopController extends Controller
         if ($dinasboptim->save()) {
             $payload = [
                 'page' => 'Dinas BOP - Tim',
-                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan tim pada Dinas BOP'
+                'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan tim pada Dinas BOP'
             ];
             $this->_common->generate_log($payload);
 
@@ -254,7 +254,7 @@ class DinasBopController extends Controller
             if ($dinasboptim->delete()) {
                 $payload = [
                     'page' => 'Dinas BOP - Tim',
-                    'message' => 'User dengan NIP '.$request['nip'].' melakukan hapus tim pada Dinas BOP'
+                    'message' => 'User dengan NIP '.$request->query('nip').' melakukan hapus tim pada Dinas BOP'
                 ];
                 $this->_common->generate_log($payload);
 
@@ -300,7 +300,7 @@ class DinasBopController extends Controller
             if ($dinasbopdriver->save()) {
                 $payload = [
                     'page' => 'Dinas BOP - Pengemudi',
-                    'message' => 'User dengan NIP '.$request['nip'].' menambahkan pengemudi baru pada Dinas BOP'
+                    'message' => 'User dengan NIP '.$request->query('nip').' menambahkan pengemudi baru pada Dinas BOP'
                 ];
                 $this->_common->generate_log($payload);
 
@@ -352,7 +352,7 @@ class DinasBopController extends Controller
         if ($dinasbopdriver->save()) {
             $payload = [
                 'page' => 'Dinas BOP - Pengemudi',
-                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan data pengemudi pada Dinas BOP'
+                'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan data pengemudi pada Dinas BOP'
             ];
             $this->_common->generate_log($payload);
 
@@ -374,7 +374,7 @@ class DinasBopController extends Controller
             if ($dinasbopdriver->delete()) {
                 $payload = [
                     'page' => 'Dinas BOP - Pengemudi',
-                    'message' => 'User dengan NIP '.$request['nip'].' melakukan hapus data pengemudi pada Dinas BOP'
+                    'message' => 'User dengan NIP '.$request->query('nip').' melakukan hapus data pengemudi pada Dinas BOP'
                 ];
                 $this->_common->generate_log($payload);
 

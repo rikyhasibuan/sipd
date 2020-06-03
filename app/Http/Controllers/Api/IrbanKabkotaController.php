@@ -39,7 +39,7 @@ class IrbanKabkotaController extends Controller
                 if ($irbankabkota->save()) {
                     $payload = [
                         'page' => 'Pembagian Wilayah Irban Menurut Kab/Kota',
-                        'message' => 'User dengan NIP '.$request['nip'].' menambahkan data pembagian wilayah irban baru'
+                        'message' => 'User dengan NIP '.$request->query('nip').' menambahkan data pembagian wilayah irban baru'
                     ];
                     $this->_common->generate_log($payload);
                     return response()->json(['status' => 'ok'], 200);
@@ -64,7 +64,7 @@ class IrbanKabkotaController extends Controller
             if ($irbankabkota->save()) {
                 $payload = [
                     'page' => 'Pembagian Wilayah Irban Menurut Kab/Kota',
-                    'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan pada data pembagian wilayah irban'
+                    'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data pembagian wilayah irban'
                 ];
                 $this->_common->generate_log($payload);
                 return response()->json(['status' => 'ok', 'irbankabkota' => $irbankabkota], 200);
@@ -82,7 +82,7 @@ class IrbanKabkotaController extends Controller
             if ($irbankabkota->delete()) {
                 $payload = [
                     'page' => 'Pembagian Wilayah Irban Menurut Kab/Kota',
-                    'message' => 'User dengan NIP '.$request['nip'].' melakukan hapus data pada pembagian wilayah irban'
+                    'message' => 'User dengan NIP '.$request->query('nip').' melakukan hapus data pada pembagian wilayah irban'
                 ];
                 $this->_common->generate_log($payload);
                 return response()->json(['status' => 'ok'], 200);

@@ -49,7 +49,7 @@ class UserController extends Controller
             if ($user->save()) {
                 $payload = [
                     'page' => 'User',
-                    'message' => 'User dengan NIP ' . $request['nip'] . ' menambahkan data user baru'
+                    'message' => 'User dengan NIP ' . $request->query('nip') . ' menambahkan data user baru'
                 ];
                 $this->_common->generate_log($payload);
 
@@ -77,7 +77,7 @@ class UserController extends Controller
         if ($user->save()) {
             $payload = [
                 'page' => 'Program',
-                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan pada data user'
+                'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data user'
             ];
             $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
@@ -92,7 +92,7 @@ class UserController extends Controller
         if ($user->delete()) {
             $payload = [
                 'page' => 'User',
-                'message' => 'User dengan NIP '.$request['nip'].' melakukan hapus data pada user'
+                'message' => 'User dengan NIP '.$request->query('nip').' melakukan hapus data pada user'
             ];
             $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);

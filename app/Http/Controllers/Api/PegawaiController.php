@@ -60,7 +60,7 @@ class PegawaiController extends Controller
             if ($pegawai->save()) {
                 $payload = [
                     'page' => 'Pegawai',
-                    'message' => 'User dengan NIP '.$request['nip'].' menambahkan data pegawai baru'
+                    'message' => 'User dengan NIP '.$request->query('nip').' menambahkan data pegawai baru'
                 ];
                 $this->_common->generate_log($payload);
                 return response()->json(['status'=>'ok'], 200);
@@ -85,7 +85,7 @@ class PegawaiController extends Controller
         if ($pegawai->save()) {
             $payload = [
                 'page' => 'Pegawai',
-                'message' => 'User dengan NIP '.$request['nip'].' melakukan perubahan pada data pegawai'
+                'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data pegawai'
             ];
             $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
@@ -100,7 +100,7 @@ class PegawaiController extends Controller
         if ($pegawai->delete()) {
             $payload = [
                 'page' => 'Pegawai',
-                'message' => 'User dengan NIP '.$request['nip'].' melakukan hapus data pada pegawai'
+                'message' => 'User dengan NIP '.$request->query('nip').' melakukan hapus data pada pegawai'
             ];
             $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
