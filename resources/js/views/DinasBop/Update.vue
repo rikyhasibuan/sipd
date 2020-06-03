@@ -3,6 +3,10 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
+                    <div class="alert alert-warning">
+                        <h4><i class="fa fa-exclamation-triangle"></i> Peringatan!</h4>
+                        Perubahan data pada Dinas BOP akan mengakibatkan semua data tim yang berkaitan akan terhapus.
+                    </div>
                     <v-alert :alert=alert></v-alert>
                     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
                     <form method="POST" v-on:submit.prevent="onSubmit">
@@ -201,7 +205,6 @@
         },
         mounted() {
             this.isLoading = false;
-            console.log(this.dinasbop);
         }
     };
 </script>

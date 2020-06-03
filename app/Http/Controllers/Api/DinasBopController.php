@@ -105,11 +105,23 @@ class DinasBopController extends Controller
         $dinasbop->belanja_id = $request->input('belanja_id');
         $dinasbop->dasar = $dasar;
         $dinasbop->untuk = $untuk;
+        $dinasbop->total_anggaran = 0;
         $dinasbop->dari = $request->input('dari');
         $dinasbop->sampai = $request->input('sampai');
         $dinasbop->updated_at = date('Y-m-d H:i:s');
 
         if ($dinasbop->save()) {
+            DinasBopTim::where('dinasbop_id',  $request['id'])->delete();
+            DinasBopDriver::where('dinasbop_id',  $request['id'])->delete();
+            DinasBopInspektur::where('dinasbop_id',  $request['id'])->delete();
+            DinasBopSekretaris::where('dinasbop_id',  $request['id'])->delete();
+            DinasBopReviu::where('dinasbop_id',  $request['id'])->delete();
+            DinasBopSupervisi::where('dinasbop_id',  $request['id'])->delete();
+            DinasBopPengumpulData::where('dinasbop_id',  $request['id'])->delete();
+            DinasBopPengumpulDataTim::where('dinasbop_id',  $request['id'])->delete();
+            DinasBopAdministrasi::where('dinasbop_id',  $request['id'])->delete();
+            DinasBopAdministrasiTim::where('dinasbop_id',  $request['id'])->delete();
+
             $payload = [
                 'page' => 'Dinas BOP',
                 'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data Dinas BOP'

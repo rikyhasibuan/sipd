@@ -39,7 +39,12 @@ $common = new Common();
         </tr>
     </thead>
     <tbody>
-        <?php $i = 0; ?>
+        <?php
+        $i = 0;
+        $total_anggaran = 0;
+        $total_serapan = 0;
+        $total_sisa = 0;
+        ?>
         @foreach($data as $row)
             <tr>
                 <td>{{ ++$i }}</td>
@@ -50,7 +55,18 @@ $common = new Common();
                 <td>{{ $row['serapan'] }}</td>
                 <td>{{ $row['sisa'] }}</td>
             </tr>
+            <?php
+            $total_anggaran += $row['anggaran'];
+            $total_serapan += $row['serapan'];
+            $total_sisa += $row['sisa'];
+            ?>
         @endforeach
+        <tr>
+            <td colspan="4"><b>Total</b></td>
+            <td><b>{{ $total_anggaran }}</b></td>
+            <td><b>{{ $total_serapan }}</b></td>
+            <td><b>{{ $total_sisa }}</b></td>
+        </tr>
     </tbody>
 </table>
 </body>

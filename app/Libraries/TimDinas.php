@@ -642,11 +642,20 @@ class TimDinas
     public function check_dinas_bop($id, $idtim, $nip, $dari, $sampai, $act, $tipe)
     {
         if ($act == 'create') {
-            $query = self::check_bop_query_create($id, $dari, $sampai);
+            $query_bop = self::check_bop_query_create($dari, $sampai);
+            $query_reguler = DinasRegular::whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai])->get();
+
             $i = 0;
+            if (count($query_reguler) > 0) {
+                foreach ($query_reguler->tim as $v) {
+                    if ($v['nip'] == $nip) {
+                        $i++;
+                    }
+                }
+            }
 
-            if (count($query['dinasbopreviu']) > 0) {
-                foreach ($query['dinasbopreviu'] as $v) {
+            if (count($query_bop['dinasbopreviu']) > 0) {
+                foreach ($query_bop['dinasbopreviu'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         $i++;
                     }
@@ -659,8 +668,8 @@ class TimDinas
                 }
             }
 
-            if (count($query['dinasbopsupervisi']) > 0) {
-                foreach ($query['dinasbopsupervisi'] as $v) {
+            if (count($query_bop['dinasbopsupervisi']) > 0) {
+                foreach ($query_bop['dinasbopsupervisi'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         $i++;
                     }
@@ -673,8 +682,8 @@ class TimDinas
                 }
             }
 
-            if (count($query['dinasboptim']) > 0) {
-                foreach ($query['dinasboptim'] as $v) {
+            if (count($query_bop['dinasboptim']) > 0) {
+                foreach ($query_bop['dinasboptim'] as $v) {
                     if ($v['tim']['wakilpenanggungjawab']['nip'] == $nip) {
                         $i++;
                     }
@@ -695,8 +704,8 @@ class TimDinas
                 }
             }
 
-            if (count($query['dinasboppengumpuldata']) > 0) {
-                foreach ($query['dinasboppengumpuldata'] as $v) {
+            if (count($query_bop['dinasboppengumpuldata']) > 0) {
+                foreach ($query_bop['dinasboppengumpuldata'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         $i++;
                     }
@@ -709,8 +718,8 @@ class TimDinas
                 }
             }
 
-            if (count($query['dinasbopadministrasi']) > 0) {
-                foreach ($query['dinasbopadministrasi'] as $v) {
+            if (count($query_bop['dinasbopadministrasi']) > 0) {
+                foreach ($query_bop['dinasbopadministrasi'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         $i++;
                     }
@@ -730,11 +739,20 @@ class TimDinas
             }
 
         } elseif ($act == 'put') {
-            $query = self::check_bop_query_put($id, $idtim, $tipe);
+            $query_bop = self::check_bop_query_put($id, $idtim, $tipe, $dari, $sampai);
+            $query_reguler = DinasRegular::whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai])->get();
 
             $i = 0;
-            if (count($query['dinasbopreviu']) > 0) {
-                foreach ($query['dinasbopreviu'] as $v) {
+            if (count($query_reguler) > 0) {
+                foreach ($query_reguler->tim as $v) {
+                    if ($v['nip'] == $nip) {
+                        $i++;
+                    }
+                }
+            }
+
+            if (count($query_bop['dinasbopreviu']) > 0) {
+                foreach ($query_bop['dinasbopreviu'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         $i++;
                     }
@@ -747,8 +765,8 @@ class TimDinas
                 }
             }
 
-            if (count($query['dinasbopsupervisi']) > 0) {
-                foreach ($query['dinasbopsupervisi'] as $v) {
+            if (count($query_bop['dinasbopsupervisi']) > 0) {
+                foreach ($query_bop['dinasbopsupervisi'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         $i++;
                     }
@@ -761,8 +779,8 @@ class TimDinas
                 }
             }
 
-            if (count($query['dinasboptim']) > 0) {
-                foreach ($query['dinasboptim'] as $v) {
+            if (count($query_bop['dinasboptim']) > 0) {
+                foreach ($query_bop['dinasboptim'] as $v) {
                     if ($v['tim']['wakilpenanggungjawab']['nip'] == $nip) {
                         $i++;
                     }
@@ -783,8 +801,8 @@ class TimDinas
                 }
             }
 
-            if (count($query['dinasboppengumpuldata']) > 0) {
-                foreach ($query['dinasboppengumpuldata'] as $v) {
+            if (count($query_bop['dinasboppengumpuldata']) > 0) {
+                foreach ($query_bop['dinasboppengumpuldata'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         $i++;
                     }
@@ -797,8 +815,8 @@ class TimDinas
                 }
             }
 
-            if (count($query['dinasbopadministrasi']) > 0) {
-                foreach ($query['dinasbopadministrasi'] as $v) {
+            if (count($query_bop['dinasbopadministrasi']) > 0) {
+                foreach ($query_bop['dinasbopadministrasi'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         $i++;
                     }
@@ -819,29 +837,26 @@ class TimDinas
         }
     }
 
-    public function check_bop_query_create($id, $dari, $sampai)
+    public function check_bop_query_create($dari, $sampai)
     {
         //$dinasbop = DinasBop::find($id);
 
-        $dinasbopreviu = DinasBopReviu::where('dinasbop_id',$id)
-                                        ->whereBetween('dari', [$dari, $sampai])
-                                        ->whereBetween('sampai', [$dari,$sampai])
+        $dinasbopreviu = DinasBopReviu::whereBetween('dari', [$dari, $sampai])
+            ->whereBetween('sampai', [$dari,$sampai])
                                         ->get();
 
-        $dinasbopsupervisi = DinasBopSupervisi::where('dinasbop_id',$id)
-                                ->whereBetween('dari', [$dari, $sampai])
-                                ->whereBetween('sampai', [$dari,$sampai])->get();
+        $dinasbopsupervisi = DinasBopSupervisi::whereBetween('dari', [$dari, $sampai])
+            ->whereBetween('sampai', [$dari,$sampai])->get();
 
-        $dinasboptim = DinasBopTim::where('dinasbop_id',$id)
-            ->with(['dinasbop' => function ($query) use ($dari, $sampai) {
+        $dinasboptim = DinasBopTim::with(['dinasbop' => function ($query) use ($dari, $sampai) {
                 $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
             }])->get();
-        $dinasboppengumpuldata = DinasBopPengumpulDataTim::where('dinasbop_id', $id)
-            ->with(['dinasboppengumpuldata' => function ($query) use ($dari, $sampai) {
+
+        $dinasboppengumpuldata = DinasBopPengumpulDataTim::with(['dinasboppengumpuldata' => function ($query) use ($dari, $sampai) {
                 $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
             }])->get();
-        $dinasbopadministrasi = DinasBopAdministrasiTim::where('dinasbop_id', $id)
-            ->with(['dinasbopadministrasi' => function ($query) use ($dari, $sampai) {
+
+        $dinasbopadministrasi = DinasBopAdministrasiTim::with(['dinasbopadministrasi' => function ($query) use ($dari, $sampai) {
                 $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
             }])->get();
 
@@ -856,7 +871,7 @@ class TimDinas
         return $response;
     }
 
-    public function check_bop_query_put($id, $idtim, $tipe)
+    public function check_bop_query_put($id, $idtim, $tipe, $dari, $sampai)
     {
         $dinasboptim = [];
         $dinasbopreviu = [];
@@ -866,39 +881,100 @@ class TimDinas
 
         switch ($tipe) {
             case 'tim':
-                $dinasboptim = DinasBopTim::where('dinasbop_id', $id)->where('id','!=', $idtim)->get();
-                $dinasbopreviu = DinasBopReviu::where('dinasbop_id',$id)->get();
-                $dinasbopsupervisi = DinasBopSupervisi::where('dinasbop_id',$id)->get();
-                $dinasboppengumpuldata = DinasBopPengumpulDataTim::where('dinasbop_id', $id)->get();
-                $dinasbopadministrasi = DinasBopAdministrasiTim::where('dinasbop_id', $id)->get();
+                $dinasboptim = DinasBopTim::with(['dinasbop' => function ($query) use ($dari, $sampai) {
+                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
+                }])->where('id','!=', $idtim)->get();
+
+                $dinasbopreviu = DinasBopReviu::whereBetween('dari', [$dari, $sampai])
+                    ->whereBetween('sampai', [$dari,$sampai])->get();
+
+                $dinasbopsupervisi = DinasBopSupervisi::whereBetween('dari', [$dari, $sampai])
+                    ->whereBetween('sampai', [$dari,$sampai])->get();
+
+                $dinasboppengumpuldata = DinasBopPengumpulDataTim::with(['dinasboppengumpuldata' => function ($query) use ($dari, $sampai) {
+                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
+                }])->get();
+
+                $dinasbopadministrasi = DinasBopAdministrasiTim::with(['dinasbopadministrasi' => function ($query) use ($dari, $sampai) {
+                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
+                }])->get();
+
                 break;
             case 'reviu':
-                $dinasboptim = DinasBopTim::where('dinasbop_id',$id)->get();
-                $dinasbopreviu = DinasBopReviu::where('dinasbop_id',$id)->where('id','!=', $idtim)->get();
-                $dinasbopsupervisi = DinasBopSupervisi::where('dinasbop_id',$id)->get();
-                $dinasboppengumpuldata = DinasBopPengumpulDataTim::where('dinasbop_id', $id)->get();
-                $dinasbopadministrasi = DinasBopAdministrasiTim::where('dinasbop_id', $id)->get();
+                $dinasboptim = DinasBopTim::with(['dinasbop' => function ($query) use ($dari, $sampai) {
+                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
+                }])->get();
+
+                $dinasbopreviu = DinasBopReviu::whereBetween('dari', [$dari, $sampai])
+                    ->whereBetween('sampai', [$dari,$sampai])->where('id','!=', $idtim)->get();
+
+                $dinasbopsupervisi = DinasBopSupervisi::whereBetween('dari', [$dari, $sampai])
+                    ->whereBetween('sampai', [$dari,$sampai])->get();
+
+                $dinasboppengumpuldata = DinasBopPengumpulDataTim::with(['dinasboppengumpuldata' => function ($query) use ($dari, $sampai) {
+                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
+                }])->get();
+
+                $dinasbopadministrasi = DinasBopAdministrasiTim::with(['dinasbopadministrasi' => function ($query) use ($dari, $sampai) {
+                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
+                }])->get();
                 break;
             case 'supervisi':
-                $dinasboptim = DinasBopTim::where('dinasbop_id',$id)->get();
-                $dinasbopreviu = DinasBopReviu::where('dinasbop_id',$id)->get();
-                $dinasbopsupervisi = DinasBopSupervisi::where('dinasbop_id',$id)->where('id','!=', $idtim)->get();
-                $dinasboppengumpuldata = DinasBopPengumpulDataTim::where('dinasbop_id', $id)->get();
-                $dinasbopadministrasi = DinasBopAdministrasiTim::where('dinasbop_id', $id)->get();
+                $dinasboptim = DinasBopTim::with(['dinasbop' => function ($query) use ($dari, $sampai) {
+                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
+                }])->get();
+
+                $dinasbopreviu = DinasBopReviu::whereBetween('dari', [$dari, $sampai])
+                    ->whereBetween('sampai', [$dari,$sampai])->get();
+
+                $dinasbopsupervisi = DinasBopSupervisi::whereBetween('dari', [$dari, $sampai])
+                    ->whereBetween('sampai', [$dari,$sampai])->where('id','!=', $idtim)->get();
+
+                $dinasboppengumpuldata = DinasBopPengumpulDataTim::with(['dinasboppengumpuldata' => function ($query) use ($dari, $sampai) {
+                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
+                }])->get();
+
+                $dinasbopadministrasi = DinasBopAdministrasiTim::with(['dinasbopadministrasi' => function ($query) use ($dari, $sampai) {
+                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
+                }])->get();
                 break;
             case 'pengumpuldata':
-                $dinasboptim = DinasBopTim::where('dinasbop_id', $id)->get();
-                $dinasbopreviu = DinasBopReviu::where('dinasbop_id', $id)->get();
-                $dinasbopsupervisi = DinasBopSupervisi::where('dinasbop_id', $id)->get();
-                $dinasboppengumpuldata = DinasBopPengumpulDataTim::where('dinasbop_id', $id)->where('id','!=',$idtim)->get();
-                $dinasbopadministrasi = DinasBopAdministrasiTim::where('dinasbop_id', $id)->get();
+                $dinasboptim = DinasBopTim::with(['dinasbop' => function ($query) use ($dari, $sampai) {
+                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
+                }])->get();
+
+                $dinasbopreviu = DinasBopReviu::whereBetween('dari', [$dari, $sampai])
+                    ->whereBetween('sampai', [$dari,$sampai])->get();
+
+                $dinasbopsupervisi = DinasBopSupervisi::whereBetween('dari', [$dari, $sampai])
+                    ->whereBetween('sampai', [$dari,$sampai])->get();
+
+                $dinasboppengumpuldata = DinasBopPengumpulDataTim::with(['dinasboppengumpuldata' => function ($query) use ($dari, $sampai) {
+                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
+                }])->where('id','!=', $idtim)->get();
+
+                $dinasbopadministrasi = DinasBopAdministrasiTim::with(['dinasbopadministrasi' => function ($query) use ($dari, $sampai) {
+                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
+                }])->get();
                 break;
             case 'administrasi':
-                $dinasboptim = DinasBopTim::where('dinasbop_id', $id)->get();
-                $dinasbopreviu = DinasBopReviu::where('dinasbop_id', $id)->get();
-                $dinasbopsupervisi = DinasBopSupervisi::where('dinasbop_id', $id)->get();
-                $dinasboppengumpuldata = DinasBopPengumpulDataTim::where('dinasbop_id', $id)->get();
-                $dinasbopadministrasi = DinasBopAdministrasiTim::where('dinasbop_id', $id)->where('id','!=',$idtim)->get();
+                $dinasboptim = DinasBopTim::with(['dinasbop' => function ($query) use ($dari, $sampai) {
+                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
+                }])->get();
+
+                $dinasbopreviu = DinasBopReviu::whereBetween('dari', [$dari, $sampai])
+                    ->whereBetween('sampai', [$dari,$sampai])->get();
+
+                $dinasbopsupervisi = DinasBopSupervisi::whereBetween('dari', [$dari, $sampai])
+                    ->whereBetween('sampai', [$dari,$sampai])->get();
+
+                $dinasboppengumpuldata = DinasBopPengumpulDataTim::with(['dinasboppengumpuldata' => function ($query) use ($dari, $sampai) {
+                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
+                }])->get();
+
+                $dinasbopadministrasi = DinasBopAdministrasiTim::with(['dinasbopadministrasi' => function ($query) use ($dari, $sampai) {
+                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
+                }])->where('id','!=', $idtim)->get();
                 break;
         }
 
@@ -922,44 +998,197 @@ class TimDinas
     public function check_personil_regular($act, $id, $dari, $sampai, $nip)
     {
         if ($act == 'create') {
-            $dinasregular = DinasRegular::whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai])->get();
-            if (count($dinasregular) > 0) {
-                $i = 0;
-                foreach ($dinasregular->tim as $v) {
+            $query_bop = self::check_bop_query_create($id, $dari, $sampai);
+            $query_reguler = DinasRegular::whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai])->get();
+
+            $i = 0;
+            if (count($query_reguler) > 0) {
+                foreach ($query_reguler->tim as $v) {
                     if ($v['nip'] == $nip) {
                         $i++;
                     }
                 }
+            }
 
-                if ($i == 0) {
-                    return true;
-                } else {
-                    return false;
+            if (count($query_bop['dinasbopreviu']) > 0) {
+                foreach ($query_bop['dinasbopreviu'] as $v) {
+                    if ($v['tim']['ketuatim']['nip'] == $nip) {
+                        $i++;
+                    }
+
+                    foreach ($v['tim']['anggota'] as $y) {
+                        if ($y['nip'] == $nip) {
+                            $i++;
+                        }
+                    }
                 }
+            }
 
-            } else {
+            if (count($query_bop['dinasbopsupervisi']) > 0) {
+                foreach ($query_bop['dinasbopsupervisi'] as $v) {
+                    if ($v['tim']['ketuatim']['nip'] == $nip) {
+                        $i++;
+                    }
+
+                    foreach ($v['tim']['anggota'] as $y) {
+                        if ($y['nip'] == $nip) {
+                            $i++;
+                        }
+                    }
+                }
+            }
+
+            if (count($query_bop['dinasboptim']) > 0) {
+                foreach ($query_bop['dinasboptim'] as $v) {
+                    if ($v['tim']['wakilpenanggungjawab']['nip'] == $nip) {
+                        $i++;
+                    }
+
+                    if ($v['tim']['pengendaliteknis']['nip'] == $nip) {
+                        $i++;
+                    }
+
+                    if ($v['tim']['ketuatim']['nip'] == $nip) {
+                        $i++;
+                    }
+
+                    foreach ($v['tim']['anggota'] as $y) {
+                        if ($y['nip'] == $nip) {
+                            $i++;
+                        }
+                    }
+                }
+            }
+
+            if (count($query_bop['dinasboppengumpuldata']) > 0) {
+                foreach ($query_bop['dinasboppengumpuldata'] as $v) {
+                    if ($v['tim']['ketuatim']['nip'] == $nip) {
+                        $i++;
+                    }
+
+                    foreach ($v['tim']['anggota'] as $y) {
+                        if ($y['nip'] == $nip) {
+                            $i++;
+                        }
+                    }
+                }
+            }
+
+            if (count($query_bop['dinasbopadministrasi']) > 0) {
+                foreach ($query_bop['dinasbopadministrasi'] as $v) {
+                    if ($v['tim']['ketuatim']['nip'] == $nip) {
+                        $i++;
+                    }
+
+                    foreach ($v['tim']['anggota'] as $y) {
+                        if ($y['nip'] == $nip) {
+                            $i++;
+                        }
+                    }
+                }
+            }
+
+            if ($i == 0) {
                 return true;
+            } else {
+                return false;
             }
         } elseif ($act == 'put') {
-            $dinasregular = DinasRegular::whereBetween('dari', [$dari, $sampai])
-                                        ->whereBetween('sampai', [$dari,$sampai])
-                                        ->where('id', '!=', $id)->get();
-            if (count($dinasregular) > 0) {
-                $i = 0;
-                foreach ($dinasregular->tim as $v) {
+            $query_bop = self::check_bop_query_create($id, $dari, $sampai);
+            $query_reguler = DinasRegular::whereBetween('dari', [$dari, $sampai])
+                ->whereBetween('sampai', [$dari,$sampai])->where('id', '!=', $id)->get();
+
+            $i = 0;
+            if (count($query_reguler) > 0) {
+                foreach ($query_reguler->tim as $v) {
                     if ($v['nip'] == $nip) {
                         $i++;
                     }
                 }
+            }
 
-                if ($i == 0) {
-                    return true;
-                } else {
-                    return false;
+            if (count($query_bop['dinasbopreviu']) > 0) {
+                foreach ($query_bop['dinasbopreviu'] as $v) {
+                    if ($v['tim']['ketuatim']['nip'] == $nip) {
+                        $i++;
+                    }
+
+                    foreach ($v['tim']['anggota'] as $y) {
+                        if ($y['nip'] == $nip) {
+                            $i++;
+                        }
+                    }
                 }
+            }
 
-            } else {
+            if (count($query_bop['dinasbopsupervisi']) > 0) {
+                foreach ($query_bop['dinasbopsupervisi'] as $v) {
+                    if ($v['tim']['ketuatim']['nip'] == $nip) {
+                        $i++;
+                    }
+
+                    foreach ($v['tim']['anggota'] as $y) {
+                        if ($y['nip'] == $nip) {
+                            $i++;
+                        }
+                    }
+                }
+            }
+
+            if (count($query_bop['dinasboptim']) > 0) {
+                foreach ($query_bop['dinasboptim'] as $v) {
+                    if ($v['tim']['wakilpenanggungjawab']['nip'] == $nip) {
+                        $i++;
+                    }
+
+                    if ($v['tim']['pengendaliteknis']['nip'] == $nip) {
+                        $i++;
+                    }
+
+                    if ($v['tim']['ketuatim']['nip'] == $nip) {
+                        $i++;
+                    }
+
+                    foreach ($v['tim']['anggota'] as $y) {
+                        if ($y['nip'] == $nip) {
+                            $i++;
+                        }
+                    }
+                }
+            }
+
+            if (count($query_bop['dinasboppengumpuldata']) > 0) {
+                foreach ($query_bop['dinasboppengumpuldata'] as $v) {
+                    if ($v['tim']['ketuatim']['nip'] == $nip) {
+                        $i++;
+                    }
+
+                    foreach ($v['tim']['anggota'] as $y) {
+                        if ($y['nip'] == $nip) {
+                            $i++;
+                        }
+                    }
+                }
+            }
+
+            if (count($query_bop['dinasbopadministrasi']) > 0) {
+                foreach ($query_bop['dinasbopadministrasi'] as $v) {
+                    if ($v['tim']['ketuatim']['nip'] == $nip) {
+                        $i++;
+                    }
+
+                    foreach ($v['tim']['anggota'] as $y) {
+                        if ($y['nip'] == $nip) {
+                            $i++;
+                        }
+                    }
+                }
+            }
+
+            if ($i == 0) {
                 return true;
+            } else {
+                return false;
             }
         }
     }

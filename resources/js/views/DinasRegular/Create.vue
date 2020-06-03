@@ -289,7 +289,7 @@
             this.kegiatan = this.kegiatan_data;
             this.belanja = this.belanja_data;
             this.anggota_data.forEach(item => {
-                this.personil_data.push({'label':item.nama,'key':item.nip})
+                this.personil_data.push({'label': item.nama +' - '+ item.jabatan , 'key':item.nip});
             });
         },
         mounted() {
