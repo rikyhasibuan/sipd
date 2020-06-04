@@ -38,8 +38,8 @@
                                         name="dari"
                                         v-model="dinasboppengumpuldata.dari"
                                         :config="options"
-                                        class="form-control"
-                                        placeholder="Tanggal Mulai Pemeriksaan" autocomplete="off">
+                                        class="form-control disabled"
+                                        placeholder="Tanggal Mulai Pemeriksaan" autocomplete="off" disabled>
                                     </date-picker>
                                 </div>
                             </div>
@@ -54,8 +54,8 @@
                                         name="sampai"
                                         v-model="dinasboppengumpuldata.sampai"
                                         :config="options"
-                                        class="form-control"
-                                        placeholder="Tanggal Akhir Pemeriksaan" autocomplete="off">
+                                        class="form-control disabled"
+                                        placeholder="Tanggal Akhir Pemeriksaan" autocomplete="off" disabled>
                                     </date-picker>
                                 </div>
                             </div>

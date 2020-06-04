@@ -3,10 +3,10 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="alert alert-warning">
+                    <!-- <div class="alert alert-warning">
                         <h4><i class="fa fa-exclamation-triangle"></i> Peringatan!</h4>
                         Perubahan data pada Dinas BOP akan mengakibatkan semua data tim yang berkaitan akan terhapus.
-                    </div>
+                    </div> -->
                     <v-alert :alert=alert></v-alert>
                     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
                     <form method="POST" v-on:submit.prevent="onSubmit">
@@ -66,8 +66,8 @@
                                         name="dari"
                                         v-model="dinasbop.dari"
                                         :config="options"
-                                        class="form-control"
-                                        placeholder="Tanggal Mulai Pemeriksaan" autocomplete="off">
+                                        class="form-control disabled"
+                                        placeholder="Tanggal Mulai Pemeriksaan" autocomplete="off" disabled>
                                     </date-picker>
                                 </div>
                             </div>
@@ -82,8 +82,8 @@
                                         name="sampai"
                                         v-model="dinasbop.sampai"
                                         :config="options"
-                                        class="form-control"
-                                        placeholder="Tanggal Akhir Pemeriksaan" autocomplete="off">
+                                        class="form-control disabled"
+                                        placeholder="Tanggal Akhir Pemeriksaan" autocomplete="off" disabled>
                                     </date-picker>
                                 </div>
                             </div>

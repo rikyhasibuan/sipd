@@ -62,7 +62,7 @@
                                     <tr v-for="v in dinasbop" :key="v.id">
                                         <td style="vertical-align: middle;"><a :href="route + '/detail?id=' + v.id">{{ v.kegiatan.nama_kegiatan }}</a></td>
                                         <td style="vertical-align: middle;">{{ v.belanja.nama_belanja }}</td>
-                                        <td style="text-align:center;vertical-align: middle;">{{ v.dari | short_moment }} <b>s.d</b> {{ v.sampai | short_moment }}</td>
+                                        <td style="text-align:center;vertical-align: middle;">{{ v.dari | moment }} s.d {{ v.sampai | moment }}</td>
                                         <td style="text-align:right;vertical-align: middle;">Rp.{{ v.total_anggaran | rupiah }}</td>
                                         <td style="text-align:center;vertical-align: middle;">
                                             <span v-if="v.status == 0" class="badge badge-warning" style="padding: 0.7em 0.7em; font-size:90%;">Belum Disetujui</span>

@@ -106,11 +106,12 @@ class DinasBopController extends Controller
         $dinasbop->dasar = $dasar;
         $dinasbop->untuk = $untuk;
         $dinasbop->total_anggaran = 0;
-        $dinasbop->dari = $request->input('dari');
-        $dinasbop->sampai = $request->input('sampai');
+        /* $dinasbop->dari = $request->input('dari');
+        $dinasbop->sampai = $request->input('sampai'); */
         $dinasbop->updated_at = date('Y-m-d H:i:s');
 
         if ($dinasbop->save()) {
+            /*  
             DinasBopTim::where('dinasbop_id',  $request['id'])->delete();
             DinasBopDriver::where('dinasbop_id',  $request['id'])->delete();
             DinasBopInspektur::where('dinasbop_id',  $request['id'])->delete();
@@ -120,7 +121,8 @@ class DinasBopController extends Controller
             DinasBopPengumpulData::where('dinasbop_id',  $request['id'])->delete();
             DinasBopPengumpulDataTim::where('dinasbop_id',  $request['id'])->delete();
             DinasBopAdministrasi::where('dinasbop_id',  $request['id'])->delete();
-            DinasBopAdministrasiTim::where('dinasbop_id',  $request['id'])->delete();
+            DinasBopAdministrasiTim::where('dinasbop_id',  $request['id'])->delete(); 
+            */
 
             $payload = [
                 'page' => 'Dinas BOP',
@@ -865,8 +867,8 @@ class DinasBopController extends Controller
         $dinasbop->dinasbop_id = $request['dinasbop'];
         $dinasbop->dasar = $dasar;
         $dinasbop->untuk = $untuk;
-        $dinasbop->dari = $request->input('dari');
-        $dinasbop->sampai = $request->input('sampai');
+        /* $dinasbop->dari = $request->input('dari');
+        $dinasbop->sampai = $request->input('sampai'); */
         $dinasbop->updated_at = date('Y-m-d H:i:s');
 
         if ($dinasbop->save()) {
@@ -1037,8 +1039,8 @@ class DinasBopController extends Controller
         $dinasbopadministrasi->dinasbop_id = $request['dinasbop'];
         $dinasbopadministrasi->dasar = $dasar;
         $dinasbopadministrasi->untuk = $untuk;
-        $dinasbopadministrasi->dari = $request->input('dari');
-        $dinasbopadministrasi->sampai = $request->input('sampai');
+        /* $dinasbopadministrasi->dari = $request->input('dari');
+        $dinasbopadministrasi->sampai = $request->input('sampai'); */
         $dinasbopadministrasi->updated_at = date('Y-m-d H:i:s');
 
         if ($dinasbopadministrasi->save()) {
