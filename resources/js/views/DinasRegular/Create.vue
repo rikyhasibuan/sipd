@@ -68,7 +68,7 @@
 
                             <div class="row">
                                 <div class="form-group col-md-12">
-                                    <label for="untuk">Tujuan (wajib diisi minimal 1 kolom)*</label>
+                                    <label for="untuk">Tujuan (wajib diisi minimal 1 kolom) *</label>
                                     <input type="text" id="untuk" class="form-control" placeholder="Tujuan 1" v-model="dinasregular.untuk[0]" required="required">
                                     <br>
                                     <input type="text" id="untuk2" class="form-control" placeholder="Tujuan 2" v-model="dinasregular.untuk[1]">
@@ -90,7 +90,7 @@
                                             v-model="dinasregular.dari"
                                             :config="options"
                                             class="form-control"
-                                            placeholder="Tanggal Mulai Pemeriksaaan"
+                                            placeholder="Tanggal Mulai"
                                             autocomplete="off"
                                             required="required">
                                         </date-picker>
@@ -108,7 +108,7 @@
                                             v-model="dinasregular.sampai"
                                             :config="options"
                                             class="form-control"
-                                            placeholder="Tanggal Selesai Pemeriksaaan"
+                                            placeholder="Tanggal Selesai"
                                             autocomplete="off"
                                             required="required">
                                         </date-picker>
@@ -130,7 +130,7 @@
                                     <multiselect
                                         :multiple="true"
                                         :taggable="true"
-                                        placeholder="Pilih Anggota"
+                                        placeholder="Pilih Personil"
                                         v-model="dinasregular.tim"
                                         :options="personil_data"
                                         track-by="key"

@@ -278,7 +278,7 @@ class TimDinas
 
         $query_pegawai = Pegawai::searchNip($parameter['driver'])->first();
         $golongan = $this->_common->split_golongan($query_pegawai['golongan']);
-        if ($golongan == 'I' OR $golongan == 'II') {
+        if ($golongan == 'I' or $golongan == 'II') {
             $jabatan_bop = 'Penunjang Administrasi Kesekretariatan (Gol. I/II)';
         } else {
             $jabatan_bop = 'Penunjang Administrasi Kesekretariatan (Gol. III)';
@@ -581,7 +581,7 @@ class TimDinas
     {
         $dinasbop = DinasBopDriver::where('dinasbop_id', $param['dinasbop'])
                                     ->where('driver->nip', $param['driver'])
-                                    ->where(function($query) use ($param) {
+                                    ->where(function ($query) use ($param) {
                                         $query->whereBetween('dari', [$param['dari'],$param['sampai']])
                                         ->whereBetween('sampai', [$param['dari'], $param['sampai']]);
                                     })->count();
@@ -601,7 +601,7 @@ class TimDinas
     public function check_inspektur_bop($param)
     {
         $dinasbop = DinasBopInspektur::where('dinasbop_id', $param['dinasbop'])
-                                    ->where(function($query) use ($param) {
+                                    ->where(function ($query) use ($param) {
                                         $query->whereBetween('dari', [$param['dari'],$param['sampai']])
                                                 ->whereBetween('sampai', [$param['dari'], $param['sampai']]);
                                     })->count();
@@ -621,7 +621,7 @@ class TimDinas
     public function check_sekretaris_bop($param)
     {
         $dinasbop = DinasBopSekretaris::where('dinasbop_id', $param['dinasbop'])
-                                        ->where(function($query) use ($param) {
+                                        ->where(function ($query) use ($param) {
                                             $query->whereBetween('dari', [$param['dari'],$param['sampai']])
                                                 ->whereBetween('sampai', [$param['dari'], $param['sampai']]);
                                         })->count();
@@ -647,9 +647,11 @@ class TimDinas
 
             $i = 0;
             if (count($query_reguler) > 0) {
-                foreach ($query_reguler->tim as $v) {
-                    if ($v['nip'] == $nip) {
-                        $i++;
+                foreach ($query_reguler as $y) {
+                    foreach ($y->tim as $v) {
+                        if ($v['nip'] == $nip) {
+                            $i++;
+                        }
                     }
                 }
             }
@@ -737,16 +739,19 @@ class TimDinas
             } else {
                 return false;
             }
-
         } elseif ($act == 'put') {
             $query_bop = self::check_bop_query_put($id, $idtim, $tipe, $dari, $sampai);
             $query_reguler = DinasRegular::whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai])->get();
 
             $i = 0;
             if (count($query_reguler) > 0) {
-                foreach ($query_reguler->tim as $v) {
-                    if ($v['nip'] == $nip) {
-                        $i++;
+                foreach ($query_reguler as $y) {
+                    foreach ($y->tim as $v) {
+                        if ($v['nip'] == $nip) {
+                            if ($v['total_harian'] != 0) {
+                                $i++;
+                            }
+                        }
                     }
                 }
             }
@@ -754,12 +759,16 @@ class TimDinas
             if (count($query_bop['dinasbopreviu']) > 0) {
                 foreach ($query_bop['dinasbopreviu'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
-                        $i++;
+                        if ($v['tim']['ketuatim']['total'] != 0) {
+                            $i++;
+                        }
                     }
 
                     foreach ($v['tim']['anggota'] as $y) {
                         if ($y['nip'] == $nip) {
-                            $i++;
+                            if ($v['total'] != 0) {
+                                $i++;
+                            }
                         }
                     }
                 }
@@ -768,12 +777,16 @@ class TimDinas
             if (count($query_bop['dinasbopsupervisi']) > 0) {
                 foreach ($query_bop['dinasbopsupervisi'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
-                        $i++;
+                        if ($v['tim']['ketuatim']['total'] != 0) {
+                            $i++;
+                        }
                     }
 
                     foreach ($v['tim']['anggota'] as $y) {
                         if ($y['nip'] == $nip) {
-                            $i++;
+                            if ($v['total'] != 0) {
+                                $i++;
+                            }
                         }
                     }
                 }
@@ -782,20 +795,28 @@ class TimDinas
             if (count($query_bop['dinasboptim']) > 0) {
                 foreach ($query_bop['dinasboptim'] as $v) {
                     if ($v['tim']['wakilpenanggungjawab']['nip'] == $nip) {
-                        $i++;
+                        if ($v['tim']['wakilpenanggungjawab']['total'] != 0) {
+                            $i++;
+                        }
                     }
 
                     if ($v['tim']['pengendaliteknis']['nip'] == $nip) {
-                        $i++;
+                        if ($v['tim']['pengendaliteknis']['total'] != 0) {
+                            $i++;
+                        }
                     }
 
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
-                        $i++;
+                        if ($v['tim']['ketuatim']['total'] != 0) {
+                            $i++;
+                        }
                     }
 
                     foreach ($v['tim']['anggota'] as $y) {
                         if ($y['nip'] == $nip) {
-                            $i++;
+                            if ($y['total'] != 0) {
+                                $i++;
+                            }
                         }
                     }
                 }
@@ -804,12 +825,16 @@ class TimDinas
             if (count($query_bop['dinasboppengumpuldata']) > 0) {
                 foreach ($query_bop['dinasboppengumpuldata'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
-                        $i++;
+                        if ($v['tim']['ketuatim']['total'] != 0) {
+                            $i++;
+                        }
                     }
 
                     foreach ($v['tim']['anggota'] as $y) {
                         if ($y['nip'] == $nip) {
-                            $i++;
+                            if ($y['total'] != 0) {
+                                $i++;
+                            }
                         }
                     }
                 }
@@ -818,12 +843,16 @@ class TimDinas
             if (count($query_bop['dinasbopadministrasi']) > 0) {
                 foreach ($query_bop['dinasbopadministrasi'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
-                        $i++;
+                        if ($v['tim']['ketuatim']['total'] != 0) {
+                            $i++;
+                        }
                     }
 
                     foreach ($v['tim']['anggota'] as $y) {
                         if ($y['nip'] == $nip) {
-                            $i++;
+                            if ($y['total'] != 0) {
+                                $i++;
+                            }
                         }
                     }
                 }
@@ -850,15 +879,15 @@ class TimDinas
 
         $dinasboptim = DinasBopTim::with(['dinasbop' => function ($query) use ($dari, $sampai) {
                 $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-            }])->get();
+        }])->get();
 
         $dinasboppengumpuldata = DinasBopPengumpulDataTim::with(['dinasboppengumpuldata' => function ($query) use ($dari, $sampai) {
                 $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-            }])->get();
+        }])->get();
 
         $dinasbopadministrasi = DinasBopAdministrasiTim::with(['dinasbopadministrasi' => function ($query) use ($dari, $sampai) {
                 $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-            }])->get();
+        }])->get();
 
         $response = [
             'dinasbopreviu' => $dinasbopreviu,
@@ -883,7 +912,7 @@ class TimDinas
             case 'tim':
                 $dinasboptim = DinasBopTim::with(['dinasbop' => function ($query) use ($dari, $sampai) {
                     $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->where('id','!=', $idtim)->get();
+                }])->where('id', '!=', $idtim)->get();
 
                 $dinasbopreviu = DinasBopReviu::whereBetween('dari', [$dari, $sampai])
                     ->whereBetween('sampai', [$dari,$sampai])->get();
@@ -906,7 +935,7 @@ class TimDinas
                 }])->get();
 
                 $dinasbopreviu = DinasBopReviu::whereBetween('dari', [$dari, $sampai])
-                    ->whereBetween('sampai', [$dari,$sampai])->where('id','!=', $idtim)->get();
+                    ->whereBetween('sampai', [$dari,$sampai])->where('id', '!=', $idtim)->get();
 
                 $dinasbopsupervisi = DinasBopSupervisi::whereBetween('dari', [$dari, $sampai])
                     ->whereBetween('sampai', [$dari,$sampai])->get();
@@ -928,7 +957,7 @@ class TimDinas
                     ->whereBetween('sampai', [$dari,$sampai])->get();
 
                 $dinasbopsupervisi = DinasBopSupervisi::whereBetween('dari', [$dari, $sampai])
-                    ->whereBetween('sampai', [$dari,$sampai])->where('id','!=', $idtim)->get();
+                    ->whereBetween('sampai', [$dari,$sampai])->where('id', '!=', $idtim)->get();
 
                 $dinasboppengumpuldata = DinasBopPengumpulDataTim::with(['dinasboppengumpuldata' => function ($query) use ($dari, $sampai) {
                     $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
@@ -951,7 +980,7 @@ class TimDinas
 
                 $dinasboppengumpuldata = DinasBopPengumpulDataTim::with(['dinasboppengumpuldata' => function ($query) use ($dari, $sampai) {
                     $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->where('id','!=', $idtim)->get();
+                }])->where('id', '!=', $idtim)->get();
 
                 $dinasbopadministrasi = DinasBopAdministrasiTim::with(['dinasbopadministrasi' => function ($query) use ($dari, $sampai) {
                     $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
@@ -974,7 +1003,7 @@ class TimDinas
 
                 $dinasbopadministrasi = DinasBopAdministrasiTim::with(['dinasbopadministrasi' => function ($query) use ($dari, $sampai) {
                     $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->where('id','!=', $idtim)->get();
+                }])->where('id', '!=', $idtim)->get();
                 break;
         }
 
@@ -1003,9 +1032,11 @@ class TimDinas
 
             $i = 0;
             if (count($query_reguler) > 0) {
-                foreach ($query_reguler->tim as $v) {
-                    if ($v['nip'] == $nip) {
-                        $i++;
+                foreach ($query_reguler as $y) {
+                    foreach ($y->tim as $v) {
+                        if ($v['nip'] == $nip) {
+                            $i++;
+                        }
                     }
                 }
             }
@@ -1100,9 +1131,15 @@ class TimDinas
 
             $i = 0;
             if (count($query_reguler) > 0) {
-                foreach ($query_reguler->tim as $v) {
-                    if ($v['nip'] == $nip) {
-                        $i++;
+                $x = 0;
+                foreach ($query_reguler as $y) {
+                    foreach ($y->tim as $v) {
+                        if ($v['nip'] == $nip) {
+                            $x++;
+                            if ($v['total_harian'] != 0 && $x == 1) {
+                                $i++;
+                            }
+                        }
                     }
                 }
             }
@@ -1110,12 +1147,16 @@ class TimDinas
             if (count($query_bop['dinasbopreviu']) > 0) {
                 foreach ($query_bop['dinasbopreviu'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
-                        $i++;
+                        if ($v['tim']['ketuatim']['total'] != 0) {
+                            $i++;
+                        }
                     }
 
                     foreach ($v['tim']['anggota'] as $y) {
                         if ($y['nip'] == $nip) {
-                            $i++;
+                            if ($v['total'] != 0) {
+                                $i++;
+                            }
                         }
                     }
                 }
@@ -1124,12 +1165,16 @@ class TimDinas
             if (count($query_bop['dinasbopsupervisi']) > 0) {
                 foreach ($query_bop['dinasbopsupervisi'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
-                        $i++;
+                        if ($v['tim']['ketuatim']['total'] != 0) {
+                            $i++;
+                        }
                     }
 
                     foreach ($v['tim']['anggota'] as $y) {
                         if ($y['nip'] == $nip) {
-                            $i++;
+                            if ($v['total'] != 0) {
+                                $i++;
+                            }
                         }
                     }
                 }
@@ -1138,20 +1183,28 @@ class TimDinas
             if (count($query_bop['dinasboptim']) > 0) {
                 foreach ($query_bop['dinasboptim'] as $v) {
                     if ($v['tim']['wakilpenanggungjawab']['nip'] == $nip) {
-                        $i++;
+                        if ($v['tim']['wakilpenanggungjawab']['total'] != 0) {
+                            $i++;
+                        }
                     }
 
                     if ($v['tim']['pengendaliteknis']['nip'] == $nip) {
-                        $i++;
+                        if ($v['tim']['pengendaliteknis']['total'] != 0) {
+                            $i++;
+                        }
                     }
 
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
-                        $i++;
+                        if ($v['tim']['ketuatim']['total'] != 0) {
+                            $i++;
+                        }
                     }
 
                     foreach ($v['tim']['anggota'] as $y) {
                         if ($y['nip'] == $nip) {
-                            $i++;
+                            if ($y['total'] != 0) {
+                                $i++;
+                            }
                         }
                     }
                 }
@@ -1160,12 +1213,16 @@ class TimDinas
             if (count($query_bop['dinasboppengumpuldata']) > 0) {
                 foreach ($query_bop['dinasboppengumpuldata'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
-                        $i++;
+                        if ($v['tim']['ketuatim']['total'] != 0) {
+                            $i++;
+                        }
                     }
 
                     foreach ($v['tim']['anggota'] as $y) {
                         if ($y['nip'] == $nip) {
-                            $i++;
+                            if ($y['total'] != 0) {
+                                $i++;
+                            }
                         }
                     }
                 }
@@ -1174,12 +1231,16 @@ class TimDinas
             if (count($query_bop['dinasbopadministrasi']) > 0) {
                 foreach ($query_bop['dinasbopadministrasi'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
-                        $i++;
+                        if ($v['tim']['ketuatim']['total'] != 0) {
+                            $i++;
+                        }
                     }
 
                     foreach ($v['tim']['anggota'] as $y) {
                         if ($y['nip'] == $nip) {
-                            $i++;
+                            if ($y['total'] != 0) {
+                                $i++;
+                            }
                         }
                     }
                 }
@@ -1213,7 +1274,8 @@ class TimDinas
         return Pegawai::where('jabatan', 'Sekretaris')->first();
     }
 
-    public function generate_approval_bop($id) {
+    public function generate_approval_bop($id)
+    {
         $tabs = [
             'tim',
             'driver',
@@ -1238,7 +1300,8 @@ class TimDinas
         }
     }
 
-    public function generate_approval_regular($id) {
+    public function generate_approval_regular($id)
+    {
         $approval = new DinasRegularApproval;
         $approval->dinasregular_id = $id;
         $approval->inspektur = ['catatan'=>[], 'approval'=>0];

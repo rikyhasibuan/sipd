@@ -6,22 +6,22 @@ $common = new Common();
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>LAPORAN PENYERAPAN ANGGARAN PERJALANAN DINAS</title>
+    <title>LAPORAN REALISASI ANGGARAN PERJALANAN DINAS</title>
 </head>
 <body>
 <table>
     <tr>
-        <td colspan="7"><h1><b>LAPORAN PENYERAPAN ANGGARAN PERJALANAN DINAS</b></h1></td>
+        <td colspan="7"><h1><b>LAPORAN REALISASI ANGGARAN PERJALANAN DINAS</b></h1></td>
     </tr>
     <tr>
-        <td colspan="7"><h1><b>PER TRANSAKSI KEGIATAN</b></h1></td>
+        <td colspan="7"><h1><b>PER BELANJA KEGIATAN</b></h1></td>
     </tr>
     <tr>
         <td colspan="7">
             @if ($dari == $sampai)
                 <h2><b>PERIODE {{ strtoupper($common->generate_indonesia_month(ltrim($dari, '0'))) }} {{ $tahun }}</b></h2>
             @else
-                <h2><b>PERIODE {{ strtoupper($common->generate_indonesia_month(ltrim($dari, '0'))) }}  S/D {{ strtoupper($common->generate_indonesia_month(ltrim($sampai,'0'))) }} {{ $tahun }}</b></h2>
+                <h2><b>PERIODE {{ strtoupper($common->generate_indonesia_month(ltrim($dari, '0'))) }} S/D {{ strtoupper($common->generate_indonesia_month(ltrim($sampai,'0'))) }} {{ $tahun }}</b></h2>
             @endif
         </td>
     </tr>

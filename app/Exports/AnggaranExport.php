@@ -24,7 +24,6 @@ class AnggaranExport implements FromView, ShouldAutoSize
     }
 
     public function view(): View{
-
         $sql_kegiatan = Kegiatan::searchBendahara($this->bendahara)->with('pegawai')->get();
         $output = [];
         $i = 0;

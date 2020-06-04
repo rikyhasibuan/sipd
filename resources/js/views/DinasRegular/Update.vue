@@ -58,7 +58,7 @@
 
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label for="dasar">Dasar *</label>
+                                <label for="dasar">Dasar Surat Perintah (wajib diisi minimal 1 kolom) *</label>
                                 <input id="dasar" type="text" class="form-control" v-model="dinasregular.dasar[0]" required="required">
                                 <br>
                                 <input id="dasar1" type="text" class="form-control" v-model="dinasregular.dasar[1]">
@@ -69,7 +69,7 @@
 
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label for="tujuan">Tujuan Pemeriksaan *</label>
+                                <label for="tujuan">Tujuan (wajib diisi minimal 1 kolom) *</label>
                                 <input id="tujuan" type="text" class="form-control" v-model="dinasregular.untuk[0]" required="required">
                                 <br>
                                 <input id="tujuan1" type="text" class="form-control" v-model="dinasregular.untuk[1]">
@@ -91,7 +91,7 @@
                                         v-model="dinasregular.dari"
                                         :config="options"
                                         class="form-control"
-                                        placeholder="Tanggal Mulai Pemeriksaan"
+                                        placeholder="Tanggal Mulai"
                                         autocomplete="off"
                                         required="required">
                                     </date-picker>
@@ -109,7 +109,7 @@
                                         v-model="dinasregular.sampai"
                                         :config="options"
                                         class="form-control"
-                                        placeholder="Tanggal Selesai Pemeriksaan"
+                                        placeholder="Tanggal Selesai"
                                         autocomplete="off"
                                         required="required">
                                     </date-picker>
@@ -117,9 +117,9 @@
                             </div>
 
                             <div class="form-group col-md-4">
-                                <label for="auditan">Tujuan *</label>
+                                <label for="auditan">Tempat Tujuan *</label>
                                 <select id="auditan" v-model="dinasregular.auditan" class="form-control" required="required">
-                                    <option value="">Pilih Tujuan</option>
+                                    <option value="">Pilih Tempat Tujuan</option>
                                     <option v-for="v in this.auditan_data" :key="v.id" :value="v.nama_kabkota">{{ v.nama_kabkota }}</option>
                                 </select>
                             </div>
@@ -132,7 +132,7 @@
                                     id="personil"
                                     :multiple="true"
                                     :taggable="true"
-                                    placeholder="Pilih Anggota"
+                                    placeholder="Pilih Personil"
                                     v-model="tim_data"
                                     :options="personil_data"
                                     track-by="key"
