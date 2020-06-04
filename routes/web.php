@@ -129,6 +129,9 @@ Route::get('dinasbop/administrasi/edit', 'Web\DinasBopController@edit_administra
 Route::get('dinasbop/timadministrasi/create', 'Web\DinasBopController@create_administrasi_tim');
 Route::get('dinasbop/timadministrasi/edit', 'Web\DinasBopController@edit_administrasi_tim');
 
+Route::get('dinasbop/custom/create', 'Web\DinasBopController@create_custom_tim');
+Route::get('dinasbop/custom/edit', 'Web\DinasBopController@edit_custom_tim');
+
 // dinas regular
 Route::get('dinasregular', 'Web\DinasRegularController@index');
 Route::get('dinasregular/create', 'Web\DinasRegularController@create');

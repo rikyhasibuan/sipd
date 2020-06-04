@@ -166,7 +166,9 @@ Route::delete('dinasbop/administrasi', 'Api\DinasBopController@delete_administra
 Route::post('dinasbop/timadministrasi', 'Api\DinasBopController@post_administrasi_tim_data');
 Route::put('dinasbop/timadministrasi', 'Api\DinasBopController@put_administrasi_tim_data');
 Route::delete('dinasbop/timadministrasi', 'Api\DinasBopController@delete_administrasi_tim_data');
-
+Route::post('dinasbop/custom', 'Api\DinasBopController@post_tim_custom_data');
+Route::post('dinasbop/custom/edit', 'Api\DinasBopController@put_tim_custom_data');
+Route::delete('dinasbop/custom', 'Api\DinasBopController@delete_tim_custom_data');
 Route::post('dinasbop/approval', 'Api\DinasBopController@post_approval_data');
 Route::put('dinasbop/approval', 'Api\DinasBopController@put_approval_data');
 

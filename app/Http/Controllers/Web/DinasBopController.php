@@ -10,6 +10,7 @@ use App\Models\Program;
 use App\Models\Pegawai;
 use App\Models\DinasBop;
 use App\Models\DinasBopTim;
+use App\Models\DinasBopCustomTim;
 use App\Models\DinasBopDriver;
 use App\Models\DinasBopInspektur;
 use App\Models\DinasBopSekretaris;
@@ -140,8 +141,16 @@ class DinasBopController extends Controller
         $dinasbopreviu = DinasBopReviu::where('dinasbop_id', $dinasbop->id)->first();
         $dinasbopsupervisi = DinasBopSupervisi::where('dinasbop_id', $dinasbop->id)->first();
         $dinasbopapproval = DinasBopApproval::where('dinasbop_id', $dinasbop->id)->get();
+        $dinasbopcustom = DinasBopCustomTim::where('dinasbop_id', $dinasbop->id)->get();
         $dinasboppengumpuldata_count = DinasBopPengumpulData::where('dinasbop_id', $dinasbop->id)->count();
         $dinasbopadministrasi_count = DinasBopAdministrasi::where('dinasbop_id', $dinasbop->id)->count();
+
+        $lock = 0;
+        foreach ($dinasbopapproval as $v) {
+            if ($v->lock == 1) {
+                $lock++;
+            }
+        }
 
         if ($dinasboppengumpuldata_count > 0) {
             $dinasboppengumpuldata = DinasBopPengumpulData::with('dinasbop')->where('dinasbop_id', $dinasbop->id)->first();
@@ -173,7 +182,9 @@ class DinasBopController extends Controller
         $data['dinasboptimpengumpuldata'] = $dinasboptimpengumpuldata;
         $data['dinasbopadministrasi'] = $dinasbopadministrasi;
         $data['dinasboptimadministrasi'] = $dinasboptimadministrasi;
+        $data['dinasbopcustom'] = $dinasbopcustom;
         $data['dinasbopapproval'] = $dinasbopapproval;
+        $data['lock'] = $lock;
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api);
         $data['route'] = url($this->route);
@@ -934,5 +945,214 @@ class DinasBopController extends Controller
         $data['administrasi'] = DinasBopAdministrasi::find($request['administrasi']);
         $data['route'] = url($this->route.'/detail?id='.$dinasboptimadministrasi->dinasbop_id);
         return View::make('dinasbop.form_timadministrasi', $data);
+    }
+
+    public function create_custom_tim(Request $request)
+    {
+        $breadcrumb = [];
+        $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
+        $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> ' . $this->title . '</a>';
+        $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Data Tim';
+
+        $dinasboptim = DinasBopCustomTim::where('dinasbop_id', $request['dinasbop'])->get();
+        $auditan = [];
+
+        if (count($dinasboptim) > 0) {
+            $tujuan = [];
+
+            foreach ($dinasboptim as $v) {
+                array_push($tujuan, $v->auditan);
+            }
+
+            $kabkota = IrbanKabkota::with(['kabkota' => function ($query) use ($tujuan) {
+                $query->whereNotIn('kabkota.nama_kabkota', $tujuan);
+            }])->get();
+
+            $skpd = IrbanSkpd::with(['skpd' => function ($query) use ($tujuan) {
+                $query->whereNotIn('nama_skpd', $tujuan);
+            }])->get();
+
+            foreach ($kabkota as $v) {
+                if ($v->kabkota != null) {
+                    $auditan['Kabupaten / Kota'][$v->kabkota->nama_kabkota] = $v->kabkota->nama_kabkota;
+                }
+            }
+
+            foreach ($skpd as $v) {
+                if ($v->skpd != null) {
+                    $auditan['Perangkat Daerah'][$v->skpd->nama_skpd] = $v->skpd->nama_skpd;
+                }
+            }
+        } else {
+            $kabkota = IrbanKabkota::with('kabkota')->get();
+            $skpd = IrbanSkpd::with('skpd')->get();
+
+            foreach ($kabkota as $v) {
+                $auditan['Kabupaten / Kota'][$v->kabkota->nama_kabkota] = $v->kabkota->nama_kabkota;
+            }
+
+            foreach ($skpd as $v) {
+                $auditan['Perangkat Daerah'][$v->skpd->nama_skpd] = $v->skpd->nama_skpd;
+            }
+        }
+    
+        $dinasbop_data = DinasBop::find($request['dinasbop']);
+        $pegawai = Pegawai::all();
+
+        $jabatan_pj = ['Inspektur', 'Sekretaris'];
+
+        $jabatan_wp = [
+            'Inspektur Pembantu Bidang Pemerintahan dan Kesejahteraan Masyarakat',
+            'Inspektur Pembantu Bidang Administrasi',
+            'Inspektur Pembantu Bidang Khusus',
+            'Inspektur Pembantu Bidang Perekonomian dan Pembangunan',
+            'Sekretaris'
+        ];
+
+        $jabatan_dalnis = [
+            'Auditor Madya',
+            'Pengawas Pemerintahan Madya',
+        ];
+
+        $jabatan_ketua = [
+            'Auditor Madya',
+            'Auditor Muda',
+            'Pengawas Pemerintahan Madya',
+            'Pengawas Pemerintahan Muda'
+        ];
+
+        $personil = [
+            'penanggungjawab'=>[],
+            'wakilpenanggungjawab'=>[],
+            'pengendaliteknis'=>[],
+            'ketuatim'=>[],
+            'anggota'=>[]
+        ];
+
+        foreach ($pegawai as $v) {
+            if (in_array($v->jabatan, $jabatan_pj)) {
+                array_push($personil['penanggungjawab'], $v);
+            }
+            
+            if (in_array($v->jabatan, $jabatan_wp)) {
+                array_push($personil['wakilpenanggungjawab'], $v);
+            }
+
+            if (in_array($v->jabatan, $jabatan_dalnis)) {
+                array_push($personil['pengendaliteknis'], $v);
+            }
+
+            if (in_array($v->jabatan, $jabatan_ketua)) {
+                array_push($personil['ketuatim'], $v);
+            }
+
+            if ((!in_array($v->jabatan, $jabatan_wp)) && (!in_array($v->jabatan, $jabatan_pj))) {
+                array_push($personil['anggota'], $v);
+            }
+        }
+    
+        $data = [];
+        $data['title']  = $this->title;
+        $data['link'] = $this->link;
+        $data['breadcrumb'] = $breadcrumb;
+        $data['api'] = url($this->api);
+        $data['act'] = 'create';
+        $data['auditan'] = $auditan;
+        $data['personil'] = $personil;
+        $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
+        $data['dinasbop'] = $request['dinasbop'];
+        $data['dinasbop_data'] = $dinasbop_data;
+        return View::make('dinasbop.form_custom', $data);
+    }
+
+    public function edit_custom_tim(Request $request)
+    {
+        $breadcrumb = [];
+        $breadcrumb[0] = '<a href="'.url('dashboard').'"><i class="fa fa-dashboard"></i> Dashboard</a>';
+        $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> '.$this->title.'</a>';
+        $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data Tim';
+
+        $dinasboptim = DinasBopCustomTim::find($request['id']);
+
+        $kabkota = IrbanKabkota::with('kabkota')->get();
+        $skpd = IrbanSkpd::with('skpd')->get();
+        $auditan = [];
+
+        foreach ($kabkota as $v) {
+            $auditan['Kabupaten / Kota'][$v->kabkota->nama_kabkota] = $v->kabkota->nama_kabkota;
+        }
+
+        foreach ($skpd as $v) {
+            $auditan['Perangkat Daerah'][$v->skpd->nama_skpd] = $v->skpd->nama_skpd;
+        }
+
+        $dinasbop_data = DinasBop::find($request['dinasbop']);
+        $pegawai = Pegawai::all();
+
+        $jabatan_pj = ['Inspektur'];
+
+        $jabatan_wp = [
+            'Inspektur Pembantu Bidang Pemerintahan dan Kesejahteraan Masyarakat',
+            'Inspektur Pembantu Bidang Administrasi',
+            'Inspektur Pembantu Bidang Khusus',
+            'Inspektur Pembantu Bidang Perekonomian dan Pembangunan'
+        ];
+
+        $jabatan_dalnis = [
+            'Auditor Madya',
+            'Pengawas Pemerintahan Madya',
+        ];
+
+        $jabatan_ketua = [
+            'Auditor Madya',
+            'Auditor Muda',
+            'Pengawas Pemerintahan Madya',
+            'Pengawas Pemerintahan Muda'
+        ];
+
+        $personil = [
+            'penanggungjawab'=>[],
+            'wakilpenanggungjawab'=>[],
+            'pengendaliteknis'=>[],
+            'ketuatim'=>[],
+            'anggota'=>[]
+        ];
+
+        foreach ($pegawai as $v) {
+            if (in_array($v->jabatan, $jabatan_pj)) {
+                array_push($personil['penanggungjawab'], $v);
+            }
+            
+            if (in_array($v->jabatan, $jabatan_wp)) {
+                array_push($personil['wakilpenanggungjawab'], $v);
+            }
+
+            if (in_array($v->jabatan, $jabatan_dalnis)) {
+                array_push($personil['pengendaliteknis'], $v);
+            }
+
+            if (in_array($v->jabatan, $jabatan_ketua)) {
+                array_push($personil['ketuatim'], $v);
+            }
+
+            if ((!in_array($v->jabatan, $jabatan_wp)) && (!in_array($v->jabatan, $jabatan_pj))) {
+                array_push($personil['anggota'], $v);
+            }
+        }
+
+        $data = [];
+        $data['title']  = $this->title;
+        $data['link'] = $this->link;
+        $data['dinasboptim'] = $dinasboptim;
+        $data['breadcrumb'] = $breadcrumb;
+        $data['api'] = url($this->api);
+        $data['act'] = 'edit';
+        $data['irban'] = $irban;
+        $data['auditan'] = $auditan;
+        $data['personil'] = $personil;
+        $data['dinasbop'] = $request['dinasbop'];
+        $data['dinasbop_data'] = $dinasbop_data;
+        $data['route'] = url($this->route.'/detail?id='.$request['dinasbop']);
+        return View::make('dinasbop.form_custom', $data);
     }
 }

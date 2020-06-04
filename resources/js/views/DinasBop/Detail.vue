@@ -6,43 +6,48 @@
                     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a data-toggle="tab" class="nav-link" href="#tim" :data-id="'tabtim'" @click="onChangeTabs($event)" :class="(last_tab == 'tim') ? 'active' : ''">
-                                <i class="fa fa-users"></i> Tim
+                            <a data-toggle="tab" :style="[dinasboptim.length === 0 ? {background:'#eee'} : '']" class="nav-link" href="#tim" :data-id="'tabtim'" @click="onChangeTabs($event)" :class="(last_tab == 'tim') ? 'active' : ''">
+                                <i class="fa fa-user"></i> Tim
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a data-toggle="tab" class="nav-link" href="#inspektur" :data-id="'tabinspektur'" @click="onChangeTabs($event)" :class="(last_tab == 'inspektur') ? 'active' : ''">
+                            <a data-toggle="tab" :style="[dinasbopinspektur.length === 0 ? {background:'#eee'} : '']" class="nav-link" href="#inspektur" :data-id="'tabinspektur'" @click="onChangeTabs($event)" :class="(last_tab == 'inspektur') ? 'active' : ''">
                                 <i class="fa fa-user"></i> Inspektur
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a data-toggle="tab" class="nav-link" href="#sekretaris" :data-id="'tabsekretaris'" @click="onChangeTabs($event)" :class="(last_tab == 'sekretaris') ? 'active' : ''">
+                            <a data-toggle="tab" :style="[dinasbopsekretaris.length === 0 ? {background:'#eee'} : '']" class="nav-link" href="#sekretaris" :data-id="'tabsekretaris'" @click="onChangeTabs($event)" :class="(last_tab == 'sekretaris') ? 'active' : ''">
                                 <i class="fa fa-user"></i> Sekretaris
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a data-toggle="tab" class="nav-link" href="#driver" :data-id="'tabdriver'" @click="onChangeTabs($event)" :class="(last_tab == 'driver') ? 'active' : ''">
+                            <a data-toggle="tab" :style="[dinasbopdriver.length === 0 ? {background:'#eee'} : '']" class="nav-link" href="#driver" :data-id="'tabdriver'" @click="onChangeTabs($event)" :class="(last_tab == 'driver') ? 'active' : ''">
                                 <i class="fa fa-user"></i> Pengemudi
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a data-toggle="tab" class="nav-link" href="#reviu" :data-id="'tabreviu'" @click="onChangeTabs($event)" :class="(last_tab == 'reviu') ? 'active' : ''">
+                            <a data-toggle="tab" :style="[dinasbopreviu === null ? {background:'#eee'} : '']" class="nav-link" href="#reviu" :data-id="'tabreviu'" @click="onChangeTabs($event)" :class="(last_tab == 'reviu') ? 'active' : ''">
                                 <i class="fa fa-user"></i> Reviu & Monitoring
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a data-toggle="tab" class="nav-link" href="#supervisi" :data-id="'tabsupervisi'" @click="onChangeTabs($event)" :class="(last_tab == 'supervisi') ? 'active' : ''">
+                            <a data-toggle="tab" :style="[dinasbopsupervisi === null ? {background:'#eee'} : '']" class="nav-link" href="#supervisi" :data-id="'tabsupervisi'" @click="onChangeTabs($event)" :class="(last_tab == 'supervisi') ? 'active' : ''">
                                 <i class="fa fa-user"></i> Supervisi
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a data-toggle="tab" class="nav-link" href="#pengumpuldata" :data-id="'tabpengumpuldata'" @click="onChangeTabs($event)" :class="(last_tab == 'pengumpuldata') ? 'active' : ''">
+                            <a data-toggle="tab" :style="[dinasboptimpengumpuldata.length === 0 ? {background:'#eee'} : '']" class="nav-link" href="#pengumpuldata" :data-id="'tabpengumpuldata'" @click="onChangeTabs($event)" :class="(last_tab == 'pengumpuldata') ? 'active' : ''">
                                 <i class="fa fa-user"></i> Pengumpul Data
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a data-toggle="tab" class="nav-link" href="#administrasi" :data-id="'tabadministrasi'" @click="onChangeTabs($event)" :class="(last_tab == 'administrasi') ? 'active' : ''">
+                            <a data-toggle="tab" :style="[dinasboptimadministrasi.length === 0 ? {background:'#eee'} : '']" class="nav-link" href="#administrasi" :data-id="'tabadministrasi'" @click="onChangeTabs($event)" :class="(last_tab == 'administrasi') ? 'active' : ''">
                                 <i class="fa fa-user"></i> Pengadministrasi
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-toggle="tab" :style="[dinasbopcustom.length === 0 ? {background:'#eee'} : '']" class="nav-link" href="#custom" :data-id="'tabcustom'" @click="onChangeTabs($event)" :class="(last_tab == 'custom') ? 'active' : ''">
+                                <i class="fa fa-user"></i> Kustomisasi
                             </a>
                         </li>
                     </ul>
@@ -145,8 +150,48 @@
                                 :api=api>
                             </dinasbopadministrasi-detail>
                         </div>
+                        <div id="custom" class="tab-pane fade" :class="{ 'active': (last_tab == 'custom'), 'show': (last_tab == 'custom') }">
+                            <dinasbopcustom-detail
+                                :dinasbop=dinasbop
+                                :dinasbopcustom=dinasbopcustom
+                                :dinasbopapproval=dinasbopapproval
+                                :route=route
+                                :print_action=print_action
+                                :approval_type = approval_type
+                                :access=access
+                                :api=api>
+                            </dinasbopcustom-detail>
+                        </div>
                     </div>
                     <a :href="route" class="btn btn-danger"><i class="fa fa-arrow-left"></i> Kembali</a>
+                    <a v-if="lock > 0 && dinasbop.status === 0" href="#" @click="toggleLockModal"
+                        class="btn btn-warning"><i class="fa fa-lock"></i> Selesai
+                    </a>
+                    <div class="modal fade" id="lock_modal" tabindex="-1" role="dialog" @close="'close'">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title"><i class="fa fa-exclamation-triangle"></i> Mohon Perhatian</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>
+                                        Tindakan ini bertujuan untuk mengunci perubahan dan menyelesaikan proses pada data dinas BOP yang bersangkutan. Mohon diperhatikan bahwa tindakan ini akan <b>menyebabkan data dinas tidak dapat diubah kembali</b>. Klik <b>Ya</b> jika anda setuju.
+                                    </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" @click="lockDinas">
+                                        <i class="fa fa-check-circle-o"></i> Ya
+                                    </button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                        <i class="fa fa-times-circle-o"></i> Batal
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -174,13 +219,21 @@
             'dinasboptimpengumpuldata',
             'dinasbopadministrasi',
             'dinasboptimadministrasi',
+            'dinasbopcustom',
             'dinasbopapproval',
+            'lock',
             'route',
             'print_action',
             'access',
             'api'
         ],
         methods: {
+            toggleLockModal() {
+                $("#lock_modal").modal('show');
+            },
+            lockDinas() {
+
+            },
             onChangeTabs(evt) {
                 const data_set = evt.target.dataset.id;
                 switch (data_set) {
@@ -207,6 +260,9 @@
                         break;
                     case 'tabadministrasi':
                         this.$cookies.set("last_tab", "administrasi");
+                        break;
+                    case 'tabcustom':
+                        this.$cookies.set("last_tab", "custom");
                         break;
                     default:
                         break;

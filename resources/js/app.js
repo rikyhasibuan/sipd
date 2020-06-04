@@ -226,6 +226,10 @@ Vue.component('dinasboptim-create', require('./views/DinasBopTim/Create.vue'));
 Vue.component('dinasboptim-update', require('./views/DinasBopTim/Update.vue'));
 Vue.component('dinasboptim-detail', require('./views/DinasBopTim/Detail.vue'));
 
+Vue.component('dinasbopcustom-create', require('./views/DinasBopCustom/Create.vue'));
+Vue.component('dinasbopcustom-update', require('./views/DinasBopCustom/Update.vue'));
+Vue.component('dinasbopcustom-detail', require('./views/DinasBopCustom/Detail.vue'));
+
 Vue.component('dinasbopreviu-create', require('./views/DinasBopReviu/Create.vue'));
 Vue.component('dinasbopreviu-update', require('./views/DinasBopReviu/Update.vue'));
 Vue.component('dinasbopreviu-detail', require('./views/DinasBopReviu/Detail.vue'));

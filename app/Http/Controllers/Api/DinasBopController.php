@@ -9,6 +9,7 @@ use App\Libraries\KasAnggaran;
 use App\Models\DinasBop;
 use App\Models\DinasBopSupervisi;
 use App\Models\DinasBopTim;
+use App\Models\DinasBopCustomTim;
 use App\Models\DinasBopDriver;
 use App\Models\DinasBopInspektur;
 use App\Models\DinasBopSekretaris;
@@ -128,6 +129,7 @@ class DinasBopController extends Controller
                 'page' => 'Dinas BOP',
                 'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data Dinas BOP'
             ];
+
             $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
         } else {
@@ -141,7 +143,18 @@ class DinasBopController extends Controller
             $anggaran = DinasBop::find($request['id']);
             $parent = $anggaran->id;
             if ($anggaran->delete()) {
-                DinasBopTim::where('dinasbop_id', $parent)->delete();
+
+                DinasBopTim::where('dinasbop_id',  $request['id'])->delete();
+                DinasBopDriver::where('dinasbop_id',  $request['id'])->delete();
+                DinasBopInspektur::where('dinasbop_id',  $request['id'])->delete();
+                DinasBopSekretaris::where('dinasbop_id',  $request['id'])->delete();
+                DinasBopReviu::where('dinasbop_id',  $request['id'])->delete();
+                DinasBopSupervisi::where('dinasbop_id',  $request['id'])->delete();
+                DinasBopPengumpulData::where('dinasbop_id',  $request['id'])->delete();
+                DinasBopPengumpulDataTim::where('dinasbop_id',  $request['id'])->delete();
+                DinasBopAdministrasi::where('dinasbop_id',  $request['id'])->delete();
+                DinasBopAdministrasiTim::where('dinasbop_id',  $request['id'])->delete(); 
+                DinasBopApproval::where('dinasbop_id',  $request['id'])->delete();
 
                 $payload = [
                     'page' => 'Dinas BOP',
@@ -1178,6 +1191,135 @@ class DinasBopController extends Controller
         }
     }
 
+    public function post_tim_custom_data(Request $request)
+    {
+        $path = $request->file('lampiran')->store('public/lampiran_dinas/bop');
+
+        $timdinas = new TimDinas();
+        $parameter = [
+                        'dinasbop' => $request['dinasbop'],
+                        'idtim' => '',
+                        'auditan'=> $request->input('auditan'),
+                        'penanggungjawab' => $request->input('penanggungjawab'),
+                        'wakilpenanggungjawab' => $request->input('wakilpenanggungjawab'),
+                        'pengendaliteknis' => $request->input('pengendaliteknis'),
+                        'ketuatim' => $request->input('ketuatim'),
+                        'anggota' => json_decode($request->input('anggota'), true),
+                        'act' => 'create'
+                    ];
+
+        $timdinasbop = $timdinas->generate_tim_custom_bop($parameter);
+        $dinasbopcustomtim = new DinasBopCustomTim();
+        $dinasbopcustomtim->dinasbop_id = $request['dinasbop'];
+        $dinasbopcustomtim->auditan = $request->input('auditan');
+        $dinasbopcustomtim->nomor_sp = $request->input('nomor_sp');
+        $dinasbopcustomtim->tgl_sp = $request->input('tgl_sp');
+        $dinasbopcustomtim->tim = $timdinasbop['tim'];
+        $dinasbopcustomtim->total_anggaran = $timdinasbop['total_anggaran'];
+        $dinasbopcustomtim->lampiran = $path;
+        $dinasbopcustomtim->created_at = date('Y-m-d H:i:s');
+        if ($dinasbopcustomtim->save()) {
+            $payload = [
+                'page' => 'Dinas BOP - Kustomisasi',
+                'message' => 'User dengan NIP '.$request->query('nip').' menambahkan tim baru pada Dinas BOP Kustomisasi'
+            ];
+            $this->_common->generate_log($payload);
+
+            $dinasbop = DinasBop::find($request['dinasbop']);
+            $biaya_bop_lama = $dinasbop->total_anggaran;
+            $dinasbop->total_anggaran = $biaya_bop_lama + $timdinasbop['total_anggaran'];
+            if ($dinasbop->save()) {
+                return response()->json(['status'=>'ok'], 200);
+            } else {
+                return response()->json(['status'=>'failed'], 500);
+            }
+        } else {
+            return response()->json(['status'=>'failed'], 500);
+        }
+    }
+
+    public function put_tim_custom_data(Request $request)
+    {
+        $timdinas = new TimDinas();
+        $parameter = [
+            'dinasbop' => $request['dinasbop'],
+            'idtim' => $request['id'],
+            'auditan' => $request->input('auditan'),
+            'penanggungjawab' => $request->input('penanggungjawab'),
+            'wakilpenanggungjawab' => $request->input('wakilpenanggungjawab'),
+            'pengendaliteknis' => $request->input('pengendaliteknis'),
+            'ketuatim' => $request->input('ketuatim'),
+            'anggota' => json_decode($request->input('anggota'), true),
+            'act' => 'put'
+        ];
+
+        $timdinasbop = $timdinas->generate_tim_custom_bop($parameter);
+
+        $dinasbopcustomtim = DinasBopCustomTim::find($request['id']);
+        $biaya_bop_lama = $dinasboptim->total_anggaran;
+
+        $dinasbopcustomtim->dinasbop_id = $request['dinasbop'];
+        $dinasbopcustomtim->auditan = $request->input('auditan');
+        $dinasbopcustomtim->nomor_sp = $request->input('nomor_sp');
+        $dinasbopcustomtim->tgl_sp = $request->input('tgl_sp');
+        $dinasbopcustomtim->tim = $timdinasbop['tim'];
+
+        if ($request->hasFile('lampiran')) {
+            $path = $request->file('lampiran')->store('public/lampiran_dinas/bop');
+            $dinasbopcustomtim->lampiran = $path;
+        }
+
+        $dinasbopcustomtim->total_anggaran = $timdinasbop['total_anggaran'];
+        $dinasbopcustomtim->updated_at = date('Y-m-d H:i:s');
+
+        if ($dinasbopcustomtim->save()) {
+            $dinasbop = DinasBop::find($request['dinasbop']);
+            $anggaran_bop_lama = $dinasbop->total_anggaran;
+            $dinasbop->total_anggaran = $anggaran_bop_lama - $biaya_bop_lama + $timdinasbop['total_anggaran'];
+
+            if ($dinasbop->save()) {
+                $payload = [
+                    'page' => 'Dinas BOP - Kustomisasi',
+                    'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan tim pada Dinas BOP Kustomisasi'
+                ];
+                $this->_common->generate_log($payload);
+
+                return response()->json(['status'=>'ok'], 200);
+            } else {
+                return response()->json(['status'=>'failed'], 500);
+            }
+        } else {
+            return response()->json(['status' => 'failed'], 500);
+        }
+    }
+
+    public function delete_tim_custom_data(Request $request)
+    {
+        try {
+            $dinasbopcustomtim = DinasBopCustomTim::find($request['id']);
+            $dinasbop_id = $dinasbopcustomtim->dinasbop_id;
+            $anggaran_tim = $dinasbopcustomtim->total_anggaran;
+            if ($dinasbopcustomtim->delete()) {
+                $dinasbop = DinasBop::find($dinasbop_id);
+                $total_anggaran = $dinasbop->total_anggaran;
+                $dinasbop->total_anggaran = intval($total_anggaran) - intval($anggaran_tim);
+                $dinasbop->save();
+
+                $payload = [
+                    'page' => 'Dinas BOP - Kustomisasi',
+                    'message' => 'User dengan NIP '.$request->query('nip').' melakukan hapus tim pada Dinas BOP Kustomisasi'
+                ];
+                $this->_common->generate_log($payload);
+
+                return response()->json(['status'=>'ok'], 200);
+            } else {
+                return response()->json(['status'=>'failed'], 500);
+            }
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
     public function get_print_sp(Request $request)
     {
         try {
@@ -1214,6 +1356,10 @@ class DinasBopController extends Controller
                 case 'administrasi':
                     $dinasbopadministrasi = DinasBopAdministrasiTim::with('dinasbopadministrasi')->find($_id);
                     return View::make('dinasbop.print_administrasi.sp', ['timadministrasi'=>$dinasbopadministrasi]);
+                    break;
+                case 'custom':
+                    $dinasbopcustom = DinasBopCustom::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_custom.sp', ['dinasbopcustom'=>$dinasbopcustom]);
                     break;
             }
         } catch (Exception $e) {
@@ -1259,6 +1405,10 @@ class DinasBopController extends Controller
                     $dinasbopadministrasi = DinasBopAdministrasiTim::with('dinasbopadministrasi')->find($_id);
                     return View::make('dinasbop.print_administrasi.spd', ['timadministrasi'=>$dinasbopadministrasi]);
                     break;
+                case 'custom':
+                    $dinasbopcustom = DinasBopCustom::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_custom.spd', ['dinasbopcustom'=>$dinasbopcustom]);
+                    break;
             }
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -1302,6 +1452,10 @@ class DinasBopController extends Controller
                 case 'administrasi':
                     $dinasbopadministrasi = DinasBopAdministrasiTim::with('dinasbopadministrasi')->find($_id);
                     return View::make('dinasbop.print_administrasi.rbpd', ['timadministrasi'=>$dinasbopadministrasi]);
+                    break;
+                case 'custom':
+                    $dinasbopcustom = DinasBopCustom::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_custom.rbpd', ['dinasbopcustom'=>$dinasbopcustom]);
                     break;
             }
         } catch (Exception $e) {
@@ -1357,6 +1511,10 @@ class DinasBopController extends Controller
                 case 'administrasi':
                     $dinasbopadministrasi = DinasBopAdministrasiTim::with('dinasbopadministrasi')->find($_id);
                     return View::make('dinasbop.print_administrasi.dpbo', ['timadministrasi'=>$dinasbopadministrasi]);
+                    break;
+                case 'custom':
+                    $dinasbopcustom = DinasBopCustom::with('dinasbop')->find($_id);
+                    return View::make('dinasbop.print_custom.dpbo', ['dinasbopcustom'=>$dinasbopcustom]);
                     break;
             }
         } catch (Exception $e) {
@@ -1420,7 +1578,7 @@ class DinasBopController extends Controller
                             }
                         }
 
-                        if ($x == 8) {
+                        if ($x >= 8) {
                             DinasBop::where('id', $dinasbop_id)->update(['status' => 1]);
                         }
                     }

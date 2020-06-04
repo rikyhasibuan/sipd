@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="modal" :id="element" tabindex="-1" role="dialog" @close="close">
+        <div class="modal fade" :id="element" tabindex="-1" role="dialog" @close="close">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">

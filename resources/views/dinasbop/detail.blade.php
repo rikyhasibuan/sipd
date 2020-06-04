@@ -13,8 +13,10 @@
             :dinasboptimpengumpuldata = '{{ json_encode($dinasboptimpengumpuldata) }}'
             :dinasbopadministrasi = '{{ json_encode($dinasbopadministrasi) }}'
             :dinasboptimadministrasi = '{{ json_encode($dinasboptimadministrasi) }}'
+            :dinasbopcustom = '{{ json_encode($dinasbopcustom) }}'
             :dinasbopapproval = '{{ json_encode($dinasbopapproval) }}'
             :route = '{{ json_encode($route) }}'
+            :lock = '{{ json_encode($lock) }}'
             :access = '{{ json_encode($access) }}'
             :api = '{{ json_encode($api) }}'>
         </dinasbop-detail>
