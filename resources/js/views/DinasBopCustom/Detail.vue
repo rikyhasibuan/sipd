@@ -16,6 +16,10 @@
                     <td style="width:85%;">{{ dinasbop.belanja.nama_belanja }}</td>
                 </tr>
                 <tr>
+                    <td style="width:15%;"><b>Anggaran Tersedia</b></td>
+                    <td>Rp.{{ anggaran_tersedia | rupiah }}</td>
+                </tr>
+                <tr>
                     <td style="width:15%;"><b>Dasar Surat Perintah</b></td>
                     <td>
                         <div v-if="dinasbop.dasar.length > 1">
@@ -269,7 +273,8 @@ export default {
                 lock:0
             },
             approval_role:'',
-            usernip:''
+            usernip:'',
+            anggaran_tersedia: 0
         }
     },
     props: ['dinasbop', 'dinasbopapproval', 'dinasbopcustom', 'route', 'print_action', 'api', 'access', 'approval_type'],
@@ -363,10 +368,19 @@ export default {
                 alert('TERJADI KESALAHAN PADA SISTEM!');
                 console.log(error);
             });
+        },
+        getAnggaranTersedia() {
+            service.postData('../api/ajax/sisa_anggaran', { 'tahun': this.dinasbop.created_at, 'kegiatan': this.dinasbop.kegiatan_id })
+                .then(result => {
+                    this.anggaran_tersedia = parseInt(result.sisa_anggaran);
+                }).catch(error => {
+                    console.log(error);
+                });
         }
     },
     created() {
         this.isLoading = true;
+        this.getAnggaranTersedia();
         if (this.dinasbopcustom.length === 0) {
             this.showTable = false;
             this.alert.empty = true;

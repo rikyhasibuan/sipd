@@ -22,6 +22,10 @@
                     </td>
                 </tr>
                 <tr>
+                    <td style="width:15%;"><b>Anggaran Tersedia</b></td>
+                    <td>Rp.{{ anggaran_tersedia | rupiah }}</td>
+                </tr>
+                <tr>
                     <td style="width:15%;"><b>Dasar Surat Perintah</b></td>
                     <td>
                         <div v-if="dinasboppengumpuldata.dasar !== undefined && dinasboppengumpuldata.dasar.length > 1">
@@ -198,7 +202,7 @@
         </div>
     </div>
     <div style="margin-top:25px;" v-else>
-        <a v-if="access.write == 1" :href="route + '/pengumpuldata/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Data</a>
+        <a v-if="(approval_tab.lock === 0 && access.write === 1) && (dinasbop.status === 0 && access.write === 1)" :href="route + '/pengumpuldata/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Data</a>
         <v-alert :alert="alert"></v-alert>
     </div>
 </template>
@@ -244,7 +248,8 @@
                     inspektur_id: 'pengumpuldatarevloginspektur'
                 },
                 approval_role:'',
-                usernip:''
+                usernip:'',
+                anggaran_tersedia: 0
             }
         },
         props: ['dinasbop', 'dinasbopapproval','dinasboppengumpuldata','dinasboptimpengumpuldata', 'route', 'print_action', 'api', 'access', 'approval_type'],
@@ -337,10 +342,19 @@
                     alert('TERJADI KESALAHAN PADA SISTEM!');
                     console.log(error);
                 });
+            },
+            getAnggaranTersedia() {
+                service.postData('../api/ajax/sisa_anggaran', { 'tahun': this.dinasbop.created_at, 'kegiatan': this.dinasbop.kegiatan_id })
+                    .then(result => {
+                        this.anggaran_tersedia = parseInt(result.sisa_anggaran);
+                    }).catch(error => {
+                        console.log(error);
+                    });
             }
         },
         created() {
             this.isLoading = true;
+            this.getAnggaranTersedia();
         },
         mounted() {
             this.isLoading = false;

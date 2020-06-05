@@ -16,6 +16,10 @@
                         <td style="width:85%;">{{ dinasbop.belanja.nama_belanja }}</td>
                     </tr>
                     <tr>
+                        <td style="width:15%;"><b>Anggaran Tersedia</b></td>
+                        <td>Rp.{{ anggaran_tersedia | rupiah }}</td>
+                    </tr>
+                    <tr>
                         <td style="width:15%;">
                             <b>Status Approval</b>
                         </td>
@@ -191,7 +195,8 @@ export default {
                 inspektur_id: 'driverrevloginspektur'
             },
             approval_role:'',
-            usernip:''
+            usernip:'',
+            anggaran_tersedia: 0
         }
     },
     props: ['dinasbop', 'dinasbopapproval','dinasbopdriver', 'route','print_action','api','access', 'approval_type'],
@@ -283,10 +288,19 @@ export default {
                 alert('TERJADI KESALAHAN PADA SISTEM!');
                 console.log(error);
             });
+        },
+        getAnggaranTersedia() {
+            service.postData('../api/ajax/sisa_anggaran', { 'tahun': this.dinasbop.created_at, 'kegiatan': this.dinasbop.kegiatan_id })
+                .then(result => {
+                    this.anggaran_tersedia = parseInt(result.sisa_anggaran);
+                }).catch(error => {
+                    console.log(error);
+                });
         }
     },
     created() {
         this.isLoading = true;
+        this.getAnggaranTersedia();
         if (this.dinasbopdriver.length === 0) {
             this.showTable = false;
             this.alert.empty = true;
