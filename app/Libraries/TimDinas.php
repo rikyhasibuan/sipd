@@ -1536,6 +1536,16 @@ class TimDinas
         return Pegawai::where('jabatan', 'Sekretaris')->first();
     }
 
+    /**
+     * mengambil data pegawai dengan jabatan sebagai sekretaris daerah
+     *
+     * @return object
+     */
+    public function get_sekda()
+    {
+        return Pegawai::where('jabatan', 'Sekretaris Daerah')->first();
+    }
+
     public function generate_approval_bop($id)
     {
         $tabs = [

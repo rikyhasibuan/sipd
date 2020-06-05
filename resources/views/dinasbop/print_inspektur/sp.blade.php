@@ -3,7 +3,7 @@ use App\Libraries\TimDinas;
 use App\Libraries\Common;
 $common = new Common;
 $timdinas = new TimDinas();
-$inspektur = $timdinas->get_sekretaris();
+$inspektur = $timdinas->get_sekda();
 ?>
     <!DOCTYPE html>
 <html lang="en">
@@ -41,7 +41,7 @@ $inspektur = $timdinas->get_sekretaris();
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <div style="text-align:center;"><img src="{!! asset('img/kop.png') !!}" style="width:100%;"></div>
+            <div style="text-align:center;"><img src="{!! asset('img/kop_sekda.png') !!}" style="width:100%;"></div>
             <h3 class="text-center">SURAT PERINTAH</h3>
             <h4 class="text-center">No. {!! $dinasbopinspektur->nomor_sp !!}</h4>
             <div style="margin-top:15px;"></div>

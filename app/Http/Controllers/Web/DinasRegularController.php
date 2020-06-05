@@ -76,7 +76,7 @@ class DinasRegularController extends Controller
         $kegiatan = [];
         $belanja = [];
         $auditan = Kabkota::all();
-        $anggota = Pegawai::all();
+        $anggota = Pegawai::where('jabatan', '!=', 'Sekretaris Daerah')->get();
 
         $data = [];
         $data['title']  = $this->title;
@@ -104,7 +104,7 @@ class DinasRegularController extends Controller
 
         $program = Program::all();
         $auditan = Kabkota::all();
-        $anggota = Pegawai::all();
+        $anggota = Pegawai::where('jabatan', '!=', 'Sekretaris Daerah')->get();
 
         $kegiatan = [];
         $belanja = [];

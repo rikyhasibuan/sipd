@@ -997,7 +997,7 @@ class DinasBopController extends Controller
         }
     
         $dinasbop_data = DinasBop::find($request['dinasbop']);
-        $pegawai = Pegawai::all();
+        $pegawai = Pegawai::where('jabatan', '!=', 'Sekretaris Daerah')->get();
 
         $jabatan_pj = ['Inspektur', 'Sekretaris'];
 
@@ -1087,7 +1087,7 @@ class DinasBopController extends Controller
         }
 
         $dinasbop_data = DinasBop::find($request['dinasbop']);
-        $pegawai = Pegawai::all();
+        $pegawai = Pegawai::where('jabatan', '!=', 'Sekretaris Daerah')->get();
 
         $jabatan_pj = ['Inspektur'];
 
