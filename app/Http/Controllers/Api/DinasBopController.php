@@ -1256,7 +1256,7 @@ class DinasBopController extends Controller
         $timdinasbop = $timdinas->generate_tim_custom_bop($parameter);
 
         $dinasbopcustomtim = DinasBopCustomTim::find($request['id']);
-        $biaya_bop_lama = $dinasboptim->total_anggaran;
+        $biaya_bop_lama = $dinasbopcustomtim->total_anggaran;
 
         $dinasbopcustomtim->dinasbop_id = $request['dinasbop'];
         $dinasbopcustomtim->auditan = $request->input('auditan');
@@ -1358,7 +1358,7 @@ class DinasBopController extends Controller
                     return View::make('dinasbop.print_administrasi.sp', ['timadministrasi'=>$dinasbopadministrasi]);
                     break;
                 case 'custom':
-                    $dinasbopcustom = DinasBopCustom::with('dinasbop')->find($_id);
+                    $dinasbopcustom = DinasBopCustomTim::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_custom.sp', ['dinasbopcustom'=>$dinasbopcustom]);
                     break;
             }
@@ -1406,7 +1406,7 @@ class DinasBopController extends Controller
                     return View::make('dinasbop.print_administrasi.spd', ['timadministrasi'=>$dinasbopadministrasi]);
                     break;
                 case 'custom':
-                    $dinasbopcustom = DinasBopCustom::with('dinasbop')->find($_id);
+                    $dinasbopcustom = DinasBopCustomTim::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_custom.spd', ['dinasbopcustom'=>$dinasbopcustom]);
                     break;
             }
@@ -1454,7 +1454,7 @@ class DinasBopController extends Controller
                     return View::make('dinasbop.print_administrasi.rbpd', ['timadministrasi'=>$dinasbopadministrasi]);
                     break;
                 case 'custom':
-                    $dinasbopcustom = DinasBopCustom::with('dinasbop')->find($_id);
+                    $dinasbopcustom = DinasBopCustomTim::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_custom.rbpd', ['dinasbopcustom'=>$dinasbopcustom]);
                     break;
             }
@@ -1513,7 +1513,7 @@ class DinasBopController extends Controller
                     return View::make('dinasbop.print_administrasi.dpbo', ['timadministrasi'=>$dinasbopadministrasi]);
                     break;
                 case 'custom':
-                    $dinasbopcustom = DinasBopCustom::with('dinasbop')->find($_id);
+                    $dinasbopcustom = DinasBopCustomTim::with('dinasbop')->find($_id);
                     return View::make('dinasbop.print_custom.dpbo', ['dinasbopcustom'=>$dinasbopcustom]);
                     break;
             }
@@ -1588,6 +1588,17 @@ class DinasBopController extends Controller
             } else {
                 return response()->json(['status'=>'failed'], 500);
             }
+        }
+    }
+
+    public function put_lock_data(Request $request)
+    {
+        $dinasbop = DinasBop::find($request['id']);
+        $dinasbop->status = 1;
+        if ($dinasbop->save()) {
+            return response()->json(['status'=>'ok'], 200);
+        } else {
+            return response()->json(['status'=>'failed'], 500);
         }
     }
 }

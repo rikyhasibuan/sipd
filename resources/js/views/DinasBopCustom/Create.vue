@@ -231,7 +231,7 @@
             }
         },
         created() {
-            this.$cookies.set("last_tab", "tim");
+            this.$cookies.set("last_tab", "custom");
             this.isLoading = true;
             this.audit_data = this.auditan_data;
             this.anggota_data = [];

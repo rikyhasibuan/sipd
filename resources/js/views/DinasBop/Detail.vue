@@ -199,6 +199,8 @@
 </template>
 
 <script>
+
+    import service from './../../services.js';
     export default {
         data() {
             return {
@@ -232,7 +234,22 @@
                 $("#lock_modal").modal('show');
             },
             lockDinas() {
-
+                service.putData(this.api + '/lock?id='+this.dinasbop.id)
+                .then(response => {
+                    if(response.status === 'ok') {
+                        $('#lock_modal').modal('hide');
+                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                        alert('DATA DINAS BERHASIL DIKUNCI');
+                        location.reload();
+                    }
+                }).catch(error => {
+                    this.alert.delete = false;
+                    this.alert.error = true;
+                    $('#lock_modal').modal('hide');
+                    alert('TERJADI KESALAHAN PADA SISTEM!');
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                    console.log(error);
+                });
             },
             onChangeTabs(evt) {
                 const data_set = evt.target.dataset.id;

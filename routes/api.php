@@ -171,6 +171,7 @@ Route::post('dinasbop/custom/edit', 'Api\DinasBopController@put_tim_custom_data'
 Route::delete('dinasbop/custom', 'Api\DinasBopController@delete_tim_custom_data');
 Route::post('dinasbop/approval', 'Api\DinasBopController@post_approval_data');
 Route::put('dinasbop/approval', 'Api\DinasBopController@put_approval_data');
+Route::put('dinasbop/lock', 'Api\DinasBopController@put_lock_data');
 
 // dinas regular
 Route::get('dinasregular', 'Api\DinasRegularController@get_data');

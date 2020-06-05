@@ -67,11 +67,11 @@
             <div class="col-md-12">
                 <div class="pull-left">
                     <span v-if="dinasbopsupervisi === null">
-                        <a v-if="access.write === 1" :href="route + '/supervisi/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Tim Supervisi</a>
+                        <a v-if="(approval_tab.lock === 0 && access.write === 1) && (dinasbop.status === 0 && access.write === 1)" :href="route + '/supervisi/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Tim Supervisi</a>
                     </span>
                     <span v-else>
-                        <a v-if="approval_tab.lock === 0 && access.update === 1" :href="route + '/supervisi/edit?id='+dinasbopsupervisi.id+'&dinasbop=' + dinasbop.id" class="btn btn-warning mb-2 mr-2"><i class="fa fa-wrench"></i> Ubah Tim Supervisi</a>
-                        <div class="btn-group" v-if="approval_tab.lock === 1">
+                        <a v-if="(approval_tab.lock === 0 && access.update === 1) && (dinasbop.status === 0 && access.update === 1)" :href="route + '/supervisi/edit?id='+dinasbopsupervisi.id+'&dinasbop=' + dinasbop.id" class="btn btn-warning mb-2 mr-2"><i class="fa fa-wrench"></i> Ubah Tim Supervisi</a>
+                        <div class="btn-group" v-if="approval_tab.lock === 1 || dinasbop.status === 1">
                             <button type="button" class="btn btn-default mb-2"><i class="fa fa-print"></i> Print</button>
                             <button type="button" class="btn btn-default mb-2 dropdown-toggle dropdown-icon" data-toggle="dropdown">
                                 <span class="sr-only">Toggle Dropdown</span>
@@ -84,7 +84,7 @@
                             </button>
                         </div>
                     </span>
-                    <span v-if="dinasbopsupervisi !== null && access.approval === 1">
+                    <span v-if="dinasbopsupervisi !== null && access.approval === 1 && dinasbop.status === 0">
                         <a v-if="(approval_type === 'kassubag' || approval_type === 'administrator') && (approval_tab.kassubag.approval === 0)" class="btn btn-warning mb-2 mr-2" href="#" @click="toggleRevisiModal('kassubag')">
                             <i class="fa fa-edit"></i> Form Revisi Kassubag
                         </a>

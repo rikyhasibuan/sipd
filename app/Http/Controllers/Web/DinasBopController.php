@@ -1072,7 +1072,7 @@ class DinasBopController extends Controller
         $breadcrumb[1] = '<a href="'.url($this->route).'/detail?id='.$request['dinasbop'].'"><i class="fa fa-database"></i> '.$this->title.'</a>';
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data Tim';
 
-        $dinasboptim = DinasBopCustomTim::find($request['id']);
+        $dinasbopcustom = DinasBopCustomTim::find($request['id']);
 
         $kabkota = IrbanKabkota::with('kabkota')->get();
         $skpd = IrbanSkpd::with('skpd')->get();
@@ -1095,7 +1095,8 @@ class DinasBopController extends Controller
             'Inspektur Pembantu Bidang Pemerintahan dan Kesejahteraan Masyarakat',
             'Inspektur Pembantu Bidang Administrasi',
             'Inspektur Pembantu Bidang Khusus',
-            'Inspektur Pembantu Bidang Perekonomian dan Pembangunan'
+            'Inspektur Pembantu Bidang Perekonomian dan Pembangunan',
+            'Sekretaris'
         ];
 
         $jabatan_dalnis = [
@@ -1143,11 +1144,10 @@ class DinasBopController extends Controller
         $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
-        $data['dinasboptim'] = $dinasboptim;
+        $data['dinasbopcustom'] = $dinasbopcustom;
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api);
         $data['act'] = 'edit';
-        $data['irban'] = $irban;
         $data['auditan'] = $auditan;
         $data['personil'] = $personil;
         $data['dinasbop'] = $request['dinasbop'];

@@ -90,10 +90,10 @@
                                         name="dari"
                                         v-model="dinasregular.dari"
                                         :config="options"
-                                        class="form-control"
+                                        class="form-control disabled"
                                         placeholder="Tanggal Mulai"
                                         autocomplete="off"
-                                        required="required">
+                                        disabled>
                                     </date-picker>
                                 </div>
                             </div>
@@ -108,10 +108,10 @@
                                         name="sampai"
                                         v-model="dinasregular.sampai"
                                         :config="options"
-                                        class="form-control"
+                                        class="form-control disabled"
                                         placeholder="Tanggal Selesai"
                                         autocomplete="off"
-                                        required="required">
+                                        disabled>
                                     </date-picker>
                                 </div>
                             </div>

@@ -113,6 +113,20 @@ $total = $dinasbopcustom->dinasbop->total_anggaran;
 								<td>
 									<table width="100%" class="table-print table table-borderless">
 										<tr>
+											<td style="width:20%;vertical-align:middle;">{!! $dinasbopcustom->tim['penanggungjawab']['nama'] !!}</td>
+											<td style="width:20%;text-align:center;vertical-align:middle;">Penanggung Jawab</td>
+											<td style="width:15%;text-align:center;vertical-align:middle;">
+												{!! $dinasbopcustom->tim['penanggungjawab']['golongan'] !!}
+											</td>
+											<td style="width:4%;text-align:center;vertical-align:middle;">
+												{!! $dinasbopcustom->tim['penanggungjawab']['hari'] !!} hari
+											</td>
+											<td style="width:1%;text-align:center;vertical-align:middle;">x</td>
+											<td style="width:10%;vertical-align:middle;">
+												Rp.{!! $common->rupiah($dinasbopcustom->tim['penanggungjawab']['biaya']) !!}
+											</td>
+										</tr>
+										<tr>
 											<td style="width:20%;vertical-align:middle;">{!! $dinasbopcustom->tim['wakilpenanggungjawab']['nama'] !!}</td>
 											<td style="width:20%;text-align:center;vertical-align:middle;">Wakil Penanggung Jawab</td>
 											<td style="width:15%;text-align:center;vertical-align:middle;">

@@ -13,7 +13,7 @@ $inspektur = $timdinas->get_inspektur();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Surat Perintah</title>
     <link rel="stylesheet" href="{!! asset('css/bootstrap.min.css') !!}">
-    <link href="https://db.onlinewebfonts.com/c/4267d8aa8711bb8c72cbefb26066c9e0?family=Bookman+Old+Style" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="{!! asset('css/print.css') !!}">
     <style>
         * {
             font-family: "Bookman Old Style";
@@ -91,6 +91,21 @@ $inspektur = $timdinas->get_inspektur();
                                 <span style="margin-right:1rem;">1.</span>
                                 <span style="margin-right:3rem;">Nama</span>
                                 <span style="margin-right:2rem;">:</span>
+                                <span>{!! $dinasbopcustom->tim['penanggungjawab']['nama'] !!}</span>
+                                <br>
+                                <span style="margin-right:2.3rem;"></span>
+                                <span style="margin-right:4.1rem;">NIP</span>
+                                <span style="margin-right:2rem;">:</span>
+                                <span>{!! $dinasbopcustom->tim['penanggungjawab']['nip'] !!}</span>
+                                <br>
+                                <span style="margin-right:2.3rem;"></span>
+                                <span style="margin-right:1.8rem;">Jabatan</span>
+                                <span style="margin-right:2rem;">:</span>
+                                <span>Penanggung Jawab</span>
+                                <br><br>
+                                <span style="margin-right:1rem;">2.</span>
+                                <span style="margin-right:3rem;">Nama</span>
+                                <span style="margin-right:2rem;">:</span>
                                 <span>{!! $dinasbopcustom->tim['wakilpenanggungjawab']['nama'] !!}</span>
                                 <br>
                                 <span style="margin-right:2.3rem;"></span>
@@ -104,7 +119,7 @@ $inspektur = $timdinas->get_inspektur();
                                 <span>Wakil Penanggung Jawab</span>
                                 <br><br>
 
-                                <span style="margin-right:1rem;">2.</span>
+                                <span style="margin-right:1rem;">3.</span>
                                 <span style="margin-right:3rem;">Nama</span>
                                 <span style="margin-right:2rem;">:</span>
                                 <span>{!! $dinasbopcustom->tim['pengendaliteknis']['nama'] !!}</span>
@@ -120,7 +135,7 @@ $inspektur = $timdinas->get_inspektur();
                                 <span>Pengendali Teknis</span>
                                 <br><br>
 
-                                <span style="margin-right:1rem;">3.</span>
+                                <span style="margin-right:1rem;">4.</span>
                                 <span style="margin-right:3rem;">Nama</span>
                                 <span style="margin-right:2rem;">:</span>
                                 <span>{!! $dinasbopcustom->tim['ketuatim']['nama'] !!}</span>
@@ -136,7 +151,7 @@ $inspektur = $timdinas->get_inspektur();
                                 <span>Ketua Tim</span>
                                 <br><br>
 
-                                <?php $i = 4; ?>
+                                <?php $i = 5; ?>
                                 @foreach($dinasbopcustom->tim['anggota'] as $anggota)
                                     <span style="margin-right:1rem;">{!! $i !!}.</span>
                                     <span style="margin-right:3rem;">Nama</span>

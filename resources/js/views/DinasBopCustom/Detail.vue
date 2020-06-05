@@ -67,14 +67,12 @@
         <div class="col-md-12">
             <hr>
             <div class="pull-left">
-                <a v-if="approval_tab.lock === 0 && access.write === 1" :href="route + '/custom/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Tim</a>
-                <span v-if="dinasbopcustom.length > 0">
+                <a v-if="(approval_tab.lock === 0 && access.write === 1) && (dinasbop.status === 0 && access.write === 1)" :href="route + '/custom/create?dinasbop=' + dinasbop.id" class="btn btn-success mb-2 mr-2"><i class="fa fa-plus"></i> Tambah Tim</a>
+                <!-- <span v-if="dinasbopcustom.length > 0">
+                    <a v-if="approval_tab.lock === 1 || dinasbop.status === 1 && dinasbopcustom.length !== 0" class="btn btn-default mb-2 mr-2" href="#" @click="print_personil_all(dinasbop.id)"><i class="fa fa-users"></i> Cetak Daftar Personil</a>
+                </span> -->
 
-                <a v-if="approval_tab.lock === 1" class="btn btn-default mb-2 mr-2" href="#" @click="print_personil_all(dinasbop.id)">
-                    <i class="fa fa-users"></i> Cetak Daftar Personil</a>
-                </span>
-
-                <span v-if="dinasbopcustom.length !== 0 && access.approval === 1">
+                <span v-if="dinasbopcustom.length !== 0 && access.approval === 1 && dinasbop.status === 0">
                     <a v-if="(approval_type === 'kassubag' || approval_type === 'administrator') && (approval_tab.kassubag.approval === 0)" class="btn btn-warning mb-2 mr-2" href="#" @click="toggleRevisiModal('kassubag')">
                         <i class="fa fa-edit"></i> Form Revisi Kassubag
                     </a>
@@ -185,16 +183,16 @@
                             </td>
                             <td style="text-align: center; vertical-align:middle;">
                                 <div style="text-align: center;">
-                                    <a v-if="approval_tab.lock === 0 && access.update === 1" :href="route + '/tim/edit?dinasbop='+ dinasbop.id +'&id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
+                                    <a v-if="(approval_tab.lock === 0 && access.update === 1) && (dinasbop.status === 0 && access.update === 1)" :href="route + '/custom/edit?dinasbop='+ dinasbop.id +'&id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
                                         <i class="fa fa-wrench"></i> Ubah
                                     </a>
                                     <button v-else class="btn btn-sm btn-warning disabled mr-sm-1"><i class="fa fa-wrench"></i> Ubah</button>
-                                    <a v-if="approval_tab.lock === 0 && access.delete === 1" href="#" @click="toggleModal(v.id)"
+                                    <a v-if="(approval_tab.lock === 0 && access.delete === 1) && (dinasbop.status === 0 && access.delete === 1)" href="#" @click="toggleModal(v.id)"
                                         class="btn btn-sm btn-danger">
                                         <i class="fa fa-trash-o"></i> Hapus
                                     </a>
                                     <button v-else class="btn btn-sm btn-danger disabled"><i class="fa fa-trash-o"></i> Hapus</button>
-                                    <div class="btn-group" v-if="approval_tab.lock === 1">
+                                    <div class="btn-group" v-if="approval_tab.lock === 1 || dinasbop.status === 1">
                                         <button type="button" class="btn btn-default"><i class="fa fa-print"></i> Print</button>
                                         <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
                                             <span class="sr-only">Toggle Dropdown</span>
@@ -278,19 +276,19 @@ export default {
     methods: {
         print_sp(id) {
             let new_window = window.open();
-            new_window.location = this.api + '/print/sp/'+ id +'/tim';
+            new_window.location = this.api + '/print/sp/'+ id +'/custom';
         },
         print_spd(id) {
             let new_window = window.open();
-            new_window.location = this.api + '/print/spd/'+ id +'/tim';
+            new_window.location = this.api + '/print/spd/'+ id +'/custom';
         },
         print_rbpd(id) {
             let new_window = window.open();
-            new_window.location = this.api + '/print/rbpd/'+ id +'/tim';
+            new_window.location = this.api + '/print/rbpd/'+ id +'/custom';
         },
         print_personil(id) {
             let new_window = window.open();
-            new_window.location = this.api + '/print/personil/'+ id +'/tim';
+            new_window.location = this.api + '/print/personil/'+ id +'/custom';
         },
         print_personil_all(id) {
             let new_window = window.open();
@@ -298,7 +296,7 @@ export default {
         },
         print_dpbo(id) {
             let new_window = window.open();
-            new_window.location = this.api + '/print/dpbo/'+ id +'/tim';
+            new_window.location = this.api + '/print/dpbo/'+ id +'/custom';
         },
         toggleModal(id) {
             $("#custom_delete_modal").modal('show');

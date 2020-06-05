@@ -67,58 +67,68 @@ $kpa = $timdinas->get_sekretaris();
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td style="text-align: center;">1</td>
-                    <td>{!! $dinasbopcustom->tim['wakilpenanggungjawab']['nama'] !!}</td>
-                    <td style="text-align: center;">WAKIL PENANGGUNGJAWAB {!! $dinasbopcustom->tim['wakilpenanggungjawab']['golongan'] !!}</td>
-                    <td style="text-align: right;">Rp.{!! $common->rupiah($dinasbopcustom->tim['wakilpenanggungjawab']['total']) !!}</td>
-                    <td></td>
-                    <td></td>
-                    <td style="text-align: right;">Rp.{!! $common->rupiah($dinasbopcustom->tim['wakilpenanggungjawab']['total']) !!}</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td style="text-align: center;">2</td>
-                    <td>{!! $dinasbopcustom->tim['pengendaliteknis']['nama'] !!}</td>
-                    <td style="text-align: center;">PENGENDALI TEKNIS {!! $dinasbopcustom->tim['pengendaliteknis']['golongan'] !!}</td>
-                    <td style="text-align: right;">Rp.{!! $common->rupiah($dinasbopcustom->tim['pengendaliteknis']['total']) !!}</td>
-                    <td></td>
-                    <td></td>
-                    <td style="text-align: right;">Rp.{!! $common->rupiah($dinasbopcustom->tim['pengendaliteknis']['total']) !!}</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td style="text-align: center;">3</td>
-                    <td>{!! $dinasbopcustom->tim['ketuatim']['nama'] !!}</td>
-                    <td style="text-align: center;">KETUA TIM {!! $dinasbopcustom->tim['ketuatim']['golongan'] !!}</td>
-                    <td style="text-align: right;">Rp.{!! $common->rupiah($dinasbopcustom->tim['ketuatim']['total']) !!}</td>
-                    <td></td>
-                    <td></td>
-                    <td style="text-align: right;">Rp.{!! $common->rupiah($dinasbopcustom->tim['ketuatim']['total']) !!}</td>
-                    <td></td>
-                </tr>
-                <?php $i = 3; ?>
-                @foreach($dinasbopcustom->tim['anggota'] as $v)
                     <tr>
-                        <td style="text-align: center;">{!! ++$i !!}</td>
-                        <td>{!! $v['nama'] !!}</td>
-                        <td style="text-align: center;">ANGGOTA {!! $v['golongan'] !!}</td>
-                        <td style="text-align: right;">Rp.{!! $common->rupiah($v['total']) !!}</td>
+                        <td style="text-align: center;">1</td>
+                        <td>{!! $dinasbopcustom->tim['penanggungjawab']['nama'] !!}</td>
+                        <td style="text-align: center;">PENANGGUNGJAWAB {!! $dinasbopcustom->tim['penanggungjawab']['golongan'] !!}</td>
+                        <td style="text-align: right;">Rp.{!! $common->rupiah($dinasbopcustom->tim['penanggungjawab']['total']) !!}</td>
                         <td></td>
                         <td></td>
-                        <td style="text-align: right;">Rp.{!! $common->rupiah($v['total']) !!}</td>
+                        <td style="text-align: right;">Rp.{!! $common->rupiah($dinasbopcustom->tim['penanggungjawab']['total']) !!}</td>
                         <td></td>
                     </tr>
-                @endforeach
-                <tr>
-                    <td colspan="6" style="text-align: center;"><b>JUMLAH</b></td>
-                    <td style="text-align: right;"><b>Rp.{!! $common->rupiah($dinasbopcustom->total_anggaran) !!}</b></td>
-                    <td></td>
-                </tr>
+                    <tr>
+                        <td style="text-align: center;">2</td>
+                        <td>{!! $dinasbopcustom->tim['wakilpenanggungjawab']['nama'] !!}</td>
+                        <td style="text-align: center;">WAKIL PENANGGUNGJAWAB {!! $dinasbopcustom->tim['wakilpenanggungjawab']['golongan'] !!}</td>
+                        <td style="text-align: right;">Rp.{!! $common->rupiah($dinasbopcustom->tim['wakilpenanggungjawab']['total']) !!}</td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: right;">Rp.{!! $common->rupiah($dinasbopcustom->tim['wakilpenanggungjawab']['total']) !!}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">3</td>
+                        <td>{!! $dinasbopcustom->tim['pengendaliteknis']['nama'] !!}</td>
+                        <td style="text-align: center;">PENGENDALI TEKNIS {!! $dinasbopcustom->tim['pengendaliteknis']['golongan'] !!}</td>
+                        <td style="text-align: right;">Rp.{!! $common->rupiah($dinasbopcustom->tim['pengendaliteknis']['total']) !!}</td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: right;">Rp.{!! $common->rupiah($dinasbopcustom->tim['pengendaliteknis']['total']) !!}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">3</td>
+                        <td>{!! $dinasbopcustom->tim['ketuatim']['nama'] !!}</td>
+                        <td style="text-align: center;">KETUA TIM {!! $dinasbopcustom->tim['ketuatim']['golongan'] !!}</td>
+                        <td style="text-align: right;">Rp.{!! $common->rupiah($dinasbopcustom->tim['ketuatim']['total']) !!}</td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: right;">Rp.{!! $common->rupiah($dinasbopcustom->tim['ketuatim']['total']) !!}</td>
+                        <td></td>
+                    </tr>
+                    <?php $i = 4; ?>
+                    @foreach($dinasbopcustom->tim['anggota'] as $v)
+                        <tr>
+                            <td style="text-align: center;">{!! ++$i !!}</td>
+                            <td>{!! $v['nama'] !!}</td>
+                            <td style="text-align: center;">ANGGOTA {!! $v['golongan'] !!}</td>
+                            <td style="text-align: right;">Rp.{!! $common->rupiah($v['total']) !!}</td>
+                            <td></td>
+                            <td></td>
+                            <td style="text-align: right;">Rp.{!! $common->rupiah($v['total']) !!}</td>
+                            <td></td>
+                        </tr>
+                    @endforeach
+                    <tr>
+                        <td colspan="6" style="text-align: center;"><b>JUMLAH</b></td>
+                        <td style="text-align: right;"><b>Rp.{!! $common->rupiah($dinasbopcustom->total_anggaran) !!}</b></td>
+                        <td></td>
+                    </tr>
                 </tbody>
             </table>
             Terbilang : <i>{!! $common->terbilang($dinasbopcustom->total_anggaran) !!} rupiah *</i>
-            <br><br>
+            <br>
             <table width="100%">
                 <tr>
                     <td width="25%"></td>

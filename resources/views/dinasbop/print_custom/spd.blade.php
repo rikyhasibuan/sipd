@@ -95,8 +95,8 @@ $total = $dinasbopcustom->dinasbop->total_anggaran;
                                 <td width="3%" style="text-align: center;">2</td>
                                 <td width="30%">Nama / NIP Pegawai yang melaksanakan perjalanan</td>
                                 <td width="60%" colspan="2">
-                                    {!! $dinasbopcustom->tim['wakilpenanggungjawab']['nama'] !!}<br>
-                                    {!! $dinasbopcustom->tim['wakilpenanggungjawab']['nip'] !!}
+                                    {!! $dinasbopcustom->tim['penanggungjawab']['nama'] !!}<br>
+                                    {!! $dinasbopcustom->tim['penanggungjawab']['nip'] !!}
                                 </td>
                             </tr>
                             <tr>
@@ -105,9 +105,9 @@ $total = $dinasbopcustom->dinasbop->total_anggaran;
                                     Tingkat Biaya Perjalanan Dinas
                                 </td>
                                 <td width="60%" colspan="2">
-                                    {!! $dinasbopcustom->tim['wakilpenanggungjawab']['pangkat'] !!}
-                                    {!! $dinasbopcustom->tim['wakilpenanggungjawab']['golongan'] !!}<br>
-                                    Wakil Penanggungjawab<br>
+                                    {!! $dinasbopcustom->tim['penanggungjawab']['pangkat'] !!}
+                                    {!! $dinasbopcustom->tim['penanggungjawab']['golongan'] !!}<br>
+                                    Penanggungjawab<br>
                                 </td>
                             </tr>
                             <tr>
@@ -148,6 +148,7 @@ $total = $dinasbopcustom->dinasbop->total_anggaran;
                                 <td width="3%" style="text-align: center;"></td>
                                 <td width="30%">
                                     <ol style="margin-left: -30px;">
+                                        <li>{!! $dinasbopcustom->tim['wakilpenanggungjawab']['nama'] !!}</li>
                                         <li>{!! $dinasbopcustom->tim['pengendaliteknis']['nama'] !!}</li>
                                         <li>{!! $dinasbopcustom->tim['ketuatim']['nama'] !!}</li>
                                         @for($i = 0; $i < count($dinasbopcustom->tim['anggota']); $i++)

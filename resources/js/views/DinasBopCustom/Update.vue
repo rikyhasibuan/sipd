@@ -8,11 +8,11 @@
                     <form method="POST" v-on:submit.prevent="onSubmit" enctype="multipart/form-data" autocomplete="off">
                         <div class="col-md-12 col-sm-12">
                             <div class="row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label>Nomor Surat Perintah *</label>
-                                    <input type="text" class="form-control" v-model="tim.nomor_sp" placeholder="Isi Nomor Surat Perintah" required="required">
+                                    <input type="text" class="form-control" v-model="timcustom.nomor_sp" placeholder="Isi Nomor Surat Perintah" required>
                                 </div>
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label>Tanggal Surat Perintah *</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
@@ -21,28 +21,18 @@
                                         <date-picker
                                             id="tgl_sp"
                                             name="tgl_sp"
-                                            v-model="tim.tgl_sp"
+                                            v-model="timcustom.tgl_sp"
                                             :config="options"
                                             class="form-control"
-                                            placeholder="Tanggal Surat Perintah" autocomplete="off">
+                                            placeholder="Tanggal Surat Perintah" autocomplete="off" required>
                                         </date-picker>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label>Irban *</label>
-                                    <select v-model="tim.irban_id" @change="onChangeIrban($event)" class="form-control" required="required">
-                                        <option value="">Pilih Irban</option>
-                                        <option v-for="v in this.irban_data" :value="v.id" :key="v.id">{{ v.nama_irban }}</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label>Auditan *</label>
-                                    <select v-model="tim.auditan" class="form-control" required="required">
+                                    <select v-model="timcustom.auditan" class="form-control" required>
                                         <option value="">Pilih Auditan</option>
-                                        <optgroup v-for="(k,v) in this.audit_data" :key="v" :label="v">
+                                        <optgroup v-for="(k,v) in this.auditan_data" :key="v" :label="v">
                                             <option v-for="val in k" :key="val" :value="val">{{ val }}</option>
                                         </optgroup>
                                     </select>
@@ -50,27 +40,38 @@
                             </div>
 
                             <div class="row">
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
+                                    <label>Penanggung Jawab *</label>
+                                    <select v-model="timcustom.penanggungjawab" class="form-control" required>
+                                        <option value="">Pilih Penanggung Jawab</option>
+                                        <option v-for="v in personil_data.penanggungjawab" :key="v.id" :value="v.nip">
+                                            {{ v.nama }} - {{ v.jabatan }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
                                     <label>Wakil Penanggung Jawab *</label>
-                                    <select v-model="tim.wakilpenanggungjawab" class="form-control" required="required">
+                                    <select v-model="timcustom.wakilpenanggungjawab" class="form-control" required>
                                         <option value="">Pilih Wakil Penanggung Jawab</option>
                                         <option v-for="v in personil_data.wakilpenanggungjawab" :key="v.id" :value="v.nip">
                                             {{ v.nama }} - {{ v.jabatan }}
                                         </option>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-4">
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
                                     <label>Pengendali Teknis *</label>
-                                    <select v-model="tim.pengendaliteknis" class="form-control" required="required">
+                                    <select v-model="timcustom.pengendaliteknis" class="form-control" required>
                                         <option value="">Pilih Pengendali Teknis</option>
                                         <option v-for="v in personil_data.pengendaliteknis" :key="v.id" :value="v.nip">
                                             {{ v.nama }} - {{ v.jabatan }}
                                         </option>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <label>Ketua Tim *</label>
-                                    <select v-model="tim.ketuatim" class="form-control" required="required">
+                                    <select v-model="timcustom.ketuatim" class="form-control" required>
                                         <option value="">Pilih Ketua Tim</option>
                                         <option v-for="v in personil_data.ketuatim" :key="v.id" :value="v.nip">
                                             {{ v.nama }} - {{ v.jabatan }}
@@ -86,11 +87,12 @@
                                         :multiple="true"
                                         :taggable="true"
                                         placeholder="Pilih Anggota"
-                                        v-model="tim.anggota"
+                                        v-model="timcustom.anggota"
                                         :options="anggota_data"
                                         track-by="key"
                                         label="label"
-                                        :allow-empty="true">
+                                        :allow-empty="true"
+                                    >
                                     </multiselect>
                                 </div>
                             </div>
@@ -122,10 +124,6 @@
     export default {
         data() {
             return {
-                alert: {
-                    error: false,
-                    update: false
-                },
                 options: {
                     format: 'YYYY-MM-DD',
                     useCurrent: false,
@@ -136,56 +134,63 @@
                         moment(this.dinasbop_data.sampai).add(1, 'day')
                     ]
                 },
-                personil_data:[],
-                anggota_data:[],
-                audit_data:[],
-                isLoading: false,
-                tim: {
+                timcustom: {
                     'nomor_sp': '',
                     'tgl_sp': '',
                     'auditan': '',
-                    'irban_id': '',
+                    'penanggungjawab':'',
                     'wakilpenanggungjawab':'',
                     'pengendaliteknis':'',
                     'ketuatim':'',
                     'anggota':[],
                     'lampiran':''
                 },
+                form:'',
+                anggota_data:[],
+                audit_data:[],
+                alert: {
+                    error: false,
+                    save: false,
+                    duplicate: false
+                },
+                isLoading: false,
+                usernip:''
             }
         },
         props: [
             'auditan_data',
-            'irban_data',
+            'personil_data',
             'dinasbop',
             'dinasbop_data',
-            'dinasboptim',
+            'dinasbopcustom',
             'api',
             'route'
         ],
         methods: {
             handleFileUpload() {
-                this.tim.lampiran = this.$refs.file.files[0];
+                this.timcustom.lampiran = this.$refs.file.files[0];
             },
             formReady() {
                 let formData = new FormData();
-                formData.append('nomor_sp', this.tim.nomor_sp);
-                formData.append('tgl_sp', this.tim.tgl_sp);
-                formData.append('auditan', this.tim.auditan);
-                formData.append('irban_id', this.tim.irban_id);
-                formData.append('wakilpenanggungjawab', this.tim.wakilpenanggungjawab);
-                formData.append('pengendaliteknis', this.tim.pengendaliteknis);
-                formData.append('ketuatim', this.tim.ketuatim);
-                formData.append('anggota', JSON.stringify(this.tim.anggota));
-                if(this.tim.lampiran !== '') {
-                    formData.append('lampiran', this.tim.lampiran);
+                formData.append('nomor_sp', this.timcustom.nomor_sp);
+                formData.append('tgl_sp', this.timcustom.tgl_sp);
+                formData.append('auditan', this.timcustom.auditan);
+                formData.append('penanggungjawab', this.timcustom.penanggungjawab);
+                formData.append('wakilpenanggungjawab', this.timcustom.wakilpenanggungjawab);
+                formData.append('pengendaliteknis', this.timcustom.pengendaliteknis);
+                formData.append('ketuatim', this.timcustom.ketuatim);
+                formData.append('anggota', JSON.stringify(this.timcustom.anggota));
+                if(this.timcustom.lampiran !== '') {
+                    formData.append('lampiran', this.timcustom.lampiran);
                 }
+
                 return formData;
             },
             onSubmit(evt) {
                 this.isLoading = false;
 
                 this.form = this.formReady();
-                service.postUploadData(this.api + '/tim/edit?nip='+this.usernip+'&dinasbop='+this.dinasbop+'&id='+this.dinasboptim.id, this.form)
+                service.postUploadData(this.api + '/custom/edit?nip='+this.usernip+'&dinasbop='+this.dinasbop+'&id='+this.dinasbopcustom.id, this.form)
                 .then(result => {
                     this.response(result);
                 }).catch(error => {
@@ -203,79 +208,26 @@
                     setTimeout(() => this.alert.update = false, 5000);
                 }
                 this.isLoading = false;
-            },
-            onChangeIrban(evt) {
-                const irban = evt.target.value;
-
-                // ambil data auditan berdasarkan irban
-                service.fetchData('../../api/ajax/dinasbop/tujuan?dinas=tim&act=create&dinasbop='+this.dinasbop+'&irban='+ irban)
-                .then(response => {
-                    this.tim.auditan = '';
-                    this.audit_data = response;
-                })
-                .catch(error => {
-                    this.isLoading = false;
-                    this.alert.error = true;
-                    console.log(error);
-                });
-
-                // ambil data personil berdasarkan irban
-                service.fetchData('../../api/ajax/dinasbop/personil?irban='+ irban)
-                .then(response => {
-                    this.tim.wakilpenanggungjawab = '';
-                    this.tim.pengendaliteknis = '';
-                    this.tim.ketuatim = '';
-                    this.tim.anggota = [];
-                    this.personil_data = response;
-                    this.anggota_data = [];
-                    this.personil_data.anggota.forEach(item => {
-                        this.anggota_data.push({'label': item.nama +' - '+ item.jabatan,'key':item.nip})
-                    });
-                })
-                .catch(error => {
-                    this.isLoading = false;
-                    this.alert.error = true;
-                    console.log(error);
-                });
             }
         },
         created() {
-            this.$cookies.set("last_tab", "tim");
+            this.$cookies.set("last_tab", "custom");
             this.isLoading = true;
-            this.tim.irban_id = this.dinasboptim.irban_id;
-            this.tim.auditan = this.dinasboptim.auditan;
-            this.tim.nomor_sp = this.dinasboptim.nomor_sp;
-            this.tim.tgl_sp = this.dinasboptim.tgl_sp;
-            this.tim.wakilpenanggungjawab = this.dinasboptim.tim.wakilpenanggungjawab.nip;
-            this.tim.pengendaliteknis = this.dinasboptim.tim.pengendaliteknis.nip;
-            this.tim.ketuatim = this.dinasboptim.tim.ketuatim.nip;
-
-            const irban = this.dinasboptim.irban_id;
-
-            // ambil data auditan berdasarkan irban
-            service.fetchData('../../api/ajax/dinasbop/tujuan?dinas=tim&act=update&dinasbop='+this.dinasbop+'&irban='+ irban)
-            .then(response => {
-                this.audit_data = response;
-            })
-            .catch(error => {
-                console.log(error);
+            this.timcustom.auditan = this.dinasbopcustom.auditan;
+            this.timcustom.nomor_sp = this.dinasbopcustom.nomor_sp;
+            this.timcustom.tgl_sp = this.dinasbopcustom.tgl_sp;
+            this.timcustom.penanggungjawab = this.dinasbopcustom.tim.penanggungjawab.nip;
+            this.timcustom.wakilpenanggungjawab = this.dinasbopcustom.tim.wakilpenanggungjawab.nip;
+            this.timcustom.pengendaliteknis = this.dinasbopcustom.tim.pengendaliteknis.nip;
+            this.timcustom.ketuatim = this.dinasbopcustom.tim.ketuatim.nip;
+            
+            this.personil_data.anggota.forEach(item => {
+                this.anggota_data.push({'label': item.nama +' - '+ item.jabatan,'key':item.nip});
             });
 
-            // ambil data personil berdasarkan irban
-            service.fetchData('../../api/ajax/dinasbop/personil?irban='+ irban)
-            .then(response => {
-                this.personil_data = response;
-                this.personil_data.anggota.forEach(item => {
-                    this.anggota_data.push({'label': item.nama +' - '+ item.jabatan,'key':item.nip});
-                });
-            })
-            .catch(error => {
-                console.log(error);
-            });
-
-            let anggota = this.dinasboptim.tim.anggota;
+            let anggota = this.dinasbopcustom.tim.anggota;
             anggota.forEach(item => {
-                this.tim.anggota.push({'label': item.nama +' - '+ item.jabatan,'key':item.nip});
+                this.timcustom.anggota.push({'label': item.nama +' - '+ item.jabatan,'key':item.nip});
             });
         },
         mounted() {
