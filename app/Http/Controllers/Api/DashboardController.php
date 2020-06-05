@@ -20,7 +20,7 @@ class DashboardController extends Controller
             $common = new Common();
             $kas = new KasAnggaran();
             $tahun = ($request['tahun'] != '') ? $request['tahun'] : date('Y');
-            $bulan = ($request['bulan'] != '') ? $request['bulan'] : '';
+            $bulan = ($request['bulan'] != '') ? $request['bulan'] : '12';
 
             if ($bulan != '' || $bulan != null) {
                 $message = ' ' .$common->generate_indonesia_month($bulan).' ';
@@ -44,14 +44,13 @@ class DashboardController extends Controller
                 $sisa_int = 0;
 
                 $total_regular = 0;
-                array_push($kegiatan, $v->nama_kegiatan);
                 $sql_anggaran = Anggaran::searchTahun($tahun)->searchKegiatan($v->id)->sum('jumlah');
                 $sql_serapan_bop = DinasBop::searchTahun($tahun)->searchToBulan($bulan)->searchKegiatan($v->id)->sum('total_anggaran');
                 $sql_serapan_regular = DinasRegular::searchTahun($tahun)->searchToBulan($bulan)->searchKegiatan($v->id)->get();
 
                 if (count($sql_serapan_regular) > 0) {
                     foreach ($sql_serapan_regular as $o) {
-                        $total_regular = $o->total_harian + $o->total_akomodasi + $o->total_transportasi['total'];
+                        $total_regular += $o->total_harian + $o->total_akomodasi + $o->total_transportasi['total'];
                     }
                 }
 
@@ -61,6 +60,8 @@ class DashboardController extends Controller
                 $anggaran_int = intval($sql_anggaran);
                 $serapan_int = intval($total_regular + $sql_serapan_bop);
                 $sisa_int = intval($sql_anggaran) - intval($total_regular + $sql_serapan_bop);
+
+                array_push($kegiatan, $v->nama_kegiatan);
                 array_push($output_table, ['kegiatan' => $v->nama_kegiatan,'anggaran' => $anggaran_int, 'serapan' => $serapan_int, 'sisa' => $sisa_int]);
             }
 
