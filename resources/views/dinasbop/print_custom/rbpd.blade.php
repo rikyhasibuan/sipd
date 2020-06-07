@@ -182,6 +182,11 @@ $total = $dinasbopcustom->dinasbop->total_anggaran;
 								</td>
 								<td>
 									<table width="100%" class="table-print table table-borderless">
+                                        <tr>
+                                            <td style="text-align:right;vertical-align:middle;">
+                                                Rp.{!! $common->rupiah($dinasbopcustom->tim['penanggungjawab']['total']) !!}
+                                            </td>
+                                        </tr>
 										<tr>
 											<td style="text-align:right;vertical-align:middle;">
 												Rp.{!! $common->rupiah($dinasbopcustom->tim['wakilpenanggungjawab']['total']) !!}
@@ -208,6 +213,7 @@ $total = $dinasbopcustom->dinasbop->total_anggaran;
 								</td>
 								<td style="vertical-align:middle; text-align:center;">
 									<table width="100%" class="table-print table table-borderless">
+                                        <tr><td style="text-align:center;vertical-align:middle;">Terlampir</td></tr>
 										<tr><td style="text-align:center;vertical-align:middle;">Terlampir</td></tr>
 										<tr><td style="text-align:center;vertical-align:middle;">Terlampir</td></tr>
 										<tr><td style="text-align:center;vertical-align:middle;">Terlampir</td></tr>

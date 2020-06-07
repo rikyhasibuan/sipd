@@ -995,11 +995,11 @@ class DinasBopController extends Controller
                 $auditan['Perangkat Daerah'][$v->skpd->nama_skpd] = $v->skpd->nama_skpd;
             }
         }
-    
+
         $dinasbop_data = DinasBop::find($request['dinasbop']);
         $pegawai = Pegawai::where('jabatan', '!=', 'Sekretaris Daerah')->get();
 
-        $jabatan_pj = ['Inspektur', 'Sekretaris'];
+        $jabatan_pj = ['Inspektur'];
 
         $jabatan_wp = [
             'Inspektur Pembantu Bidang Pemerintahan dan Kesejahteraan Masyarakat',
@@ -1010,11 +1010,17 @@ class DinasBopController extends Controller
         ];
 
         $jabatan_dalnis = [
+            'Kepala Sub Bagian Kepegawaian dan Umum',
+            'Kepala Sub Bagian Keuangan dan Aset',
+            'Kepala Sub Bagian Perencanaan dan Pelaporan',
             'Auditor Madya',
             'Pengawas Pemerintahan Madya',
         ];
 
         $jabatan_ketua = [
+            'Kepala Sub Bagian Kepegawaian dan Umum',
+            'Kepala Sub Bagian Keuangan dan Aset',
+            'Kepala Sub Bagian Perencanaan dan Pelaporan',
             'Auditor Madya',
             'Auditor Muda',
             'Pengawas Pemerintahan Madya',
@@ -1033,7 +1039,7 @@ class DinasBopController extends Controller
             if (in_array($v->jabatan, $jabatan_pj)) {
                 array_push($personil['penanggungjawab'], $v);
             }
-            
+
             if (in_array($v->jabatan, $jabatan_wp)) {
                 array_push($personil['wakilpenanggungjawab'], $v);
             }
@@ -1050,7 +1056,7 @@ class DinasBopController extends Controller
                 array_push($personil['anggota'], $v);
             }
         }
-    
+
         $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
@@ -1100,11 +1106,17 @@ class DinasBopController extends Controller
         ];
 
         $jabatan_dalnis = [
+            'Kepala Sub Bagian Kepegawaian dan Umum',
+            'Kepala Sub Bagian Keuangan dan Aset',
+            'Kepala Sub Bagian Perencanaan dan Pelaporan',
             'Auditor Madya',
             'Pengawas Pemerintahan Madya',
         ];
 
         $jabatan_ketua = [
+            'Kepala Sub Bagian Kepegawaian dan Umum',
+            'Kepala Sub Bagian Keuangan dan Aset',
+            'Kepala Sub Bagian Perencanaan dan Pelaporan',
             'Auditor Madya',
             'Auditor Muda',
             'Pengawas Pemerintahan Madya',
@@ -1123,7 +1135,7 @@ class DinasBopController extends Controller
             if (in_array($v->jabatan, $jabatan_pj)) {
                 array_push($personil['penanggungjawab'], $v);
             }
-            
+
             if (in_array($v->jabatan, $jabatan_wp)) {
                 array_push($personil['wakilpenanggungjawab'], $v);
             }

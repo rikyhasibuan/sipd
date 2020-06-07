@@ -143,6 +143,7 @@
                                 </ol>
                             </td>
                             <td>
+                                <div style="margin-top:19px;"></div>
                                 {{ v.tim.ketuatim.hari }} hari
                                 x
                                 Rp.{{ v.tim.ketuatim.biaya | rupiah }} =

@@ -150,8 +150,7 @@
                 audit_data:[],
                 alert: {
                     error: false,
-                    save: false,
-                    duplicate: false
+                    update: false
                 },
                 isLoading: false,
                 usernip:''
@@ -220,7 +219,7 @@
             this.timcustom.wakilpenanggungjawab = this.dinasbopcustom.tim.wakilpenanggungjawab.nip;
             this.timcustom.pengendaliteknis = this.dinasbopcustom.tim.pengendaliteknis.nip;
             this.timcustom.ketuatim = this.dinasbopcustom.tim.ketuatim.nip;
-            
+
             this.personil_data.anggota.forEach(item => {
                 this.anggota_data.push({'label': item.nama +' - '+ item.jabatan,'key':item.nip});
             });
