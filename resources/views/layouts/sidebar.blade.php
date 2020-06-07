@@ -23,7 +23,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{!! url('dinasregular') !!}">
                                 <i class="nav-icon fa fa-circle-o"></i>
-                                <p>Perjalanan Dinas Regular</p>
+                                <p>Perjalanan Dinas Reguler</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -181,7 +181,7 @@
                         <p>Log Aktifitas</p>
                     </a>
                 </li>
-                
+
                 <li class="nav-item">
                     <a @if($link=='report' ) class="nav-link active" @else class="nav-link" @endif
                     href="{!! url('report') !!}">

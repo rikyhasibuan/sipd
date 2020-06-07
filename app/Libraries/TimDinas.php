@@ -45,25 +45,25 @@ class TimDinas
     public function generate_tim_bop($parameter)
     {
         $tim = [];
-        $query_dinasbop = DinasBop::find($parameter['dinasbop']);
-        $diff = date_diff($query_dinasbop->dari, $query_dinasbop->sampai);
+        $dinasbop = DinasBop::find($parameter['dinasbop']);
+        $diff = date_diff($dinasbop->dari, $dinasbop->sampai);
         $durasi = $diff->days + 1;
         $total_anggaran = 0;
 
         // Wakil Penanggung Jawab
-        $query_pegawai = Pegawai::searchNip($parameter['wakilpenanggungjawab'])->first();
-        $query_bop = Bop::where('jabatan', 'Wakil Penanggungjawab/Suvervisi')->first();
-        $check_wp = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $query_pegawai['nip'], $query_dinasbop->dari, $query_dinasbop->sampai, $parameter['act'], 'tim');
-        $tim['wakilpenanggungjawab']['nip'] = $query_pegawai['nip'];
-        $tim['wakilpenanggungjawab']['nama'] = $query_pegawai['nama'];
-        $tim['wakilpenanggungjawab']['golongan'] = $query_pegawai['golongan'];
-        $tim['wakilpenanggungjawab']['pangkat'] = $query_pegawai['pangkat'];
-        $tim['wakilpenanggungjawab']['jabatan'] = $query_pegawai['jabatan'];
+        $pegawai = Pegawai::searchNip($parameter['wakilpenanggungjawab'])->first();
+        $bop = Bop::where('jabatan', 'Wakil Penanggungjawab/Suvervisi')->first();
+        $check_wp = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $pegawai['nip'], $dinasbop->dari, $dinasbop->sampai, $parameter['act'], 'tim');
+        $tim['wakilpenanggungjawab']['nip'] = $pegawai['nip'];
+        $tim['wakilpenanggungjawab']['nama'] = $pegawai['nama'];
+        $tim['wakilpenanggungjawab']['golongan'] = $pegawai['golongan'];
+        $tim['wakilpenanggungjawab']['pangkat'] = $pegawai['pangkat'];
+        $tim['wakilpenanggungjawab']['jabatan'] = $pegawai['jabatan'];
         $tim['wakilpenanggungjawab']['hari'] = $durasi;
         if ($check_wp == true) {
-            $tim['wakilpenanggungjawab']['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['wakilpenanggungjawab']['total'] = $durasi * $query_bop['biaya_per_hari'];
-            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+            $tim['wakilpenanggungjawab']['biaya'] = $bop['biaya_per_hari'];
+            $tim['wakilpenanggungjawab']['total'] = $durasi * $bop['biaya_per_hari'];
+            $total_anggaran += $durasi * $bop['biaya_per_hari'];
         } else {
             $tim['wakilpenanggungjawab']['biaya'] = 0;
             $tim['wakilpenanggungjawab']['total'] = 0;
@@ -71,19 +71,19 @@ class TimDinas
         }
 
         // Pengendali Teknis
-        $query_pegawai = Pegawai::SearchNip($parameter['pengendaliteknis'])->first();
-        $query_bop = Bop::where('jabatan', 'Pengendali Teknis')->first();
-        $check_dalnis = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $query_pegawai['nip'], $query_dinasbop->dari, $query_dinasbop->sampai, $parameter['act'], 'tim');
-        $tim['pengendaliteknis']['nip'] = $query_pegawai['nip'];
-        $tim['pengendaliteknis']['nama'] = $query_pegawai['nama'];
-        $tim['pengendaliteknis']['golongan'] = $query_pegawai['golongan'];
-        $tim['pengendaliteknis']['pangkat'] = $query_pegawai['pangkat'];
-        $tim['pengendaliteknis']['jabatan'] = $query_pegawai['jabatan'];
+        $pegawai = Pegawai::SearchNip($parameter['pengendaliteknis'])->first();
+        $bop = Bop::where('jabatan', 'Pengendali Teknis')->first();
+        $check_dalnis = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $pegawai['nip'], $dinasbop->dari, $dinasbop->sampai, $parameter['act'], 'tim');
+        $tim['pengendaliteknis']['nip'] = $pegawai['nip'];
+        $tim['pengendaliteknis']['nama'] = $pegawai['nama'];
+        $tim['pengendaliteknis']['golongan'] = $pegawai['golongan'];
+        $tim['pengendaliteknis']['pangkat'] = $pegawai['pangkat'];
+        $tim['pengendaliteknis']['jabatan'] = $pegawai['jabatan'];
         $tim['pengendaliteknis']['hari'] = $durasi;
         if ($check_dalnis == true) {
-            $tim['pengendaliteknis']['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['pengendaliteknis']['total'] = $durasi * $query_bop['biaya_per_hari'];
-            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+            $tim['pengendaliteknis']['biaya'] = $bop['biaya_per_hari'];
+            $tim['pengendaliteknis']['total'] = $durasi * $bop['biaya_per_hari'];
+            $total_anggaran += $durasi * $bop['biaya_per_hari'];
         } else {
             $tim['pengendaliteknis']['biaya'] = 0;
             $tim['pengendaliteknis']['total'] = 0;
@@ -91,19 +91,19 @@ class TimDinas
         }
 
         // Ketua Tim
-        $query_pegawai = Pegawai::searchNip($parameter['ketuatim'])->first();
-        $query_bop = Bop::where('jabatan', 'Ketua Tim')->first();
-        $check_ketua = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $query_pegawai['nip'], $query_dinasbop->dari, $query_dinasbop->sampai, $parameter['act'], 'tim');
-        $tim['ketuatim']['nip'] = $query_pegawai['nip'];
-        $tim['ketuatim']['nama'] = $query_pegawai['nama'];
-        $tim['ketuatim']['golongan'] = $query_pegawai['golongan'];
-        $tim['ketuatim']['pangkat'] = $query_pegawai['pangkat'];
-        $tim['ketuatim']['jabatan'] = $query_pegawai['jabatan'];
+        $pegawai = Pegawai::searchNip($parameter['ketuatim'])->first();
+        $bop = Bop::where('jabatan', 'Ketua Tim')->first();
+        $check_ketua = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $pegawai['nip'], $dinasbop->dari, $dinasbop->sampai, $parameter['act'], 'tim');
+        $tim['ketuatim']['nip'] = $pegawai['nip'];
+        $tim['ketuatim']['nama'] = $pegawai['nama'];
+        $tim['ketuatim']['golongan'] = $pegawai['golongan'];
+        $tim['ketuatim']['pangkat'] = $pegawai['pangkat'];
+        $tim['ketuatim']['jabatan'] = $pegawai['jabatan'];
         $tim['ketuatim']['hari'] = $durasi;
         if ($check_ketua == true) {
-            $tim['ketuatim']['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['ketuatim']['total'] = $durasi * $query_bop['biaya_per_hari'];
-            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+            $tim['ketuatim']['biaya'] = $bop['biaya_per_hari'];
+            $tim['ketuatim']['total'] = $durasi * $bop['biaya_per_hari'];
+            $total_anggaran += $durasi * $bop['biaya_per_hari'];
         } else {
             $tim['ketuatim']['biaya'] = 0;
             $tim['ketuatim']['total'] = 0;
@@ -113,21 +113,21 @@ class TimDinas
         // Anggota Tim
         $n = 0;
         foreach ($parameter['anggota'] as $s) {
-            $query_pegawai = Pegawai::searchNip($s['key'])->first();
-            $query_bop = Bop::where('jabatan', 'Anggota Tim')->first();
-            $check_anggota = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $query_pegawai['nip'], $query_dinasbop->dari, $query_dinasbop->sampai, $parameter['act'], 'tim');
-            $tim['anggota'][$n]['nip'] = $query_pegawai['nip'];
-            $tim['anggota'][$n]['nama'] = $query_pegawai['nama'];
-            $tim['anggota'][$n]['golongan'] = $query_pegawai['golongan'];
-            $tim['anggota'][$n]['pangkat'] = $query_pegawai['pangkat'];
-            $tim['anggota'][$n]['jabatan'] = $query_pegawai['jabatan'];
+            $pegawai = Pegawai::searchNip($s['key'])->first();
+            $bop = Bop::where('jabatan', 'Anggota Tim')->first();
+            $check_anggota = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $pegawai['nip'], $dinasbop->dari, $dinasbop->sampai, $parameter['act'], 'tim');
+            $tim['anggota'][$n]['nip'] = $pegawai['nip'];
+            $tim['anggota'][$n]['nama'] = $pegawai['nama'];
+            $tim['anggota'][$n]['golongan'] = $pegawai['golongan'];
+            $tim['anggota'][$n]['pangkat'] = $pegawai['pangkat'];
+            $tim['anggota'][$n]['jabatan'] = $pegawai['jabatan'];
             $tim['anggota'][$n]['hari'] = $durasi;
-            $tim['anggota'][$n]['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['anggota'][$n]['total'] = $durasi * $query_bop['biaya_per_hari'];
+            $tim['anggota'][$n]['biaya'] = $bop['biaya_per_hari'];
+            $tim['anggota'][$n]['total'] = $durasi * $bop['biaya_per_hari'];
             if ($check_anggota == true) {
-                $tim['anggota'][$n]['biaya'] = $query_bop['biaya_per_hari'];
-                $tim['anggota'][$n]['total'] = $durasi * $query_bop['biaya_per_hari'];
-                $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+                $tim['anggota'][$n]['biaya'] = $bop['biaya_per_hari'];
+                $tim['anggota'][$n]['total'] = $durasi * $bop['biaya_per_hari'];
+                $total_anggaran += $durasi * $bop['biaya_per_hari'];
             } else {
                 $tim['anggota'][$n]['biaya'] = 0;
                 $tim['anggota'][$n]['total'] = 0;
@@ -140,33 +140,33 @@ class TimDinas
     }
 
     /**
-     * membuat sebuah array berisi tim dinas bop
+     * membuat sebuah array berisi tim custom dinas bop
      * @param array $parameter
      * @return array $callback
      */
     public function generate_tim_custom_bop($parameter)
     {
         $tim = [];
-        $query_dinasbop = DinasBop::find($parameter['dinasbop']);
-        $diff = date_diff($query_dinasbop->dari, $query_dinasbop->sampai);
+        $dinasbop = DinasBop::find($parameter['dinasbop']);
+        $diff = date_diff($dinasbop->dari, $dinasbop->sampai);
         $durasi = $diff->days + 1;
         $total_anggaran = 0;
 
         // Penanggung Jawab
-        $query_pegawai = Pegawai::searchNip($parameter['penanggungjawab'])->first();
-        $query_bop = Bop::where('jabatan', 'Penanggungjawab/Pengendali Mutu')->first();
-        $check_pj = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $query_pegawai['nip'], $query_dinasbop->dari, $query_dinasbop->sampai, $parameter['act'], 'custom');
+        $pegawai = Pegawai::searchNip($parameter['penanggungjawab'])->first();
+        $bop = Bop::where('jabatan', 'Penanggungjawab/Pengendali Mutu')->first();
+        $check_pj = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $pegawai['nip'], $dinasbop->dari, $dinasbop->sampai, $parameter['act'], 'custom');
 
-        $tim['penanggungjawab']['nip'] = $query_pegawai['nip'];
-        $tim['penanggungjawab']['nama'] = $query_pegawai['nama'];
-        $tim['penanggungjawab']['golongan'] = $query_pegawai['golongan'];
-        $tim['penanggungjawab']['pangkat'] = $query_pegawai['pangkat'];
-        $tim['penanggungjawab']['jabatan'] = $query_pegawai['jabatan'];
+        $tim['penanggungjawab']['nip'] = $pegawai['nip'];
+        $tim['penanggungjawab']['nama'] = $pegawai['nama'];
+        $tim['penanggungjawab']['golongan'] = $pegawai['golongan'];
+        $tim['penanggungjawab']['pangkat'] = $pegawai['pangkat'];
+        $tim['penanggungjawab']['jabatan'] = $pegawai['jabatan'];
         $tim['penanggungjawab']['hari'] = $durasi;
         if ($check_pj == true) {
-            $tim['penanggungjawab']['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['penanggungjawab']['total'] = $durasi * $query_bop['biaya_per_hari'];
-            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+            $tim['penanggungjawab']['biaya'] = $bop['biaya_per_hari'];
+            $tim['penanggungjawab']['total'] = $durasi * $bop['biaya_per_hari'];
+            $total_anggaran += $durasi * $bop['biaya_per_hari'];
         } else {
             $tim['penanggungjawab']['biaya'] = 0;
             $tim['penanggungjawab']['total'] = 0;
@@ -174,19 +174,19 @@ class TimDinas
         }
 
         // Wakil Penanggung Jawab
-        $query_pegawai = Pegawai::searchNip($parameter['wakilpenanggungjawab'])->first();
-        $query_bop = Bop::where('jabatan', 'Wakil Penanggungjawab/Suvervisi')->first();
-        $check_wp = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $query_pegawai['nip'], $query_dinasbop->dari, $query_dinasbop->sampai, $parameter['act'], 'custom');
-        $tim['wakilpenanggungjawab']['nip'] = $query_pegawai['nip'];
-        $tim['wakilpenanggungjawab']['nama'] = $query_pegawai['nama'];
-        $tim['wakilpenanggungjawab']['golongan'] = $query_pegawai['golongan'];
-        $tim['wakilpenanggungjawab']['pangkat'] = $query_pegawai['pangkat'];
-        $tim['wakilpenanggungjawab']['jabatan'] = $query_pegawai['jabatan'];
+        $pegawai = Pegawai::searchNip($parameter['wakilpenanggungjawab'])->first();
+        $bop = Bop::where('jabatan', 'Wakil Penanggungjawab/Suvervisi')->first();
+        $check_wp = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $pegawai['nip'], $dinasbop->dari, $dinasbop->sampai, $parameter['act'], 'custom');
+        $tim['wakilpenanggungjawab']['nip'] = $pegawai['nip'];
+        $tim['wakilpenanggungjawab']['nama'] = $pegawai['nama'];
+        $tim['wakilpenanggungjawab']['golongan'] = $pegawai['golongan'];
+        $tim['wakilpenanggungjawab']['pangkat'] = $pegawai['pangkat'];
+        $tim['wakilpenanggungjawab']['jabatan'] = $pegawai['jabatan'];
         $tim['wakilpenanggungjawab']['hari'] = $durasi;
         if ($check_wp == true) {
-            $tim['wakilpenanggungjawab']['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['wakilpenanggungjawab']['total'] = $durasi * $query_bop['biaya_per_hari'];
-            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+            $tim['wakilpenanggungjawab']['biaya'] = $bop['biaya_per_hari'];
+            $tim['wakilpenanggungjawab']['total'] = $durasi * $bop['biaya_per_hari'];
+            $total_anggaran += $durasi * $bop['biaya_per_hari'];
         } else {
             $tim['wakilpenanggungjawab']['biaya'] = 0;
             $tim['wakilpenanggungjawab']['total'] = 0;
@@ -194,19 +194,19 @@ class TimDinas
         }
 
         // Pengendali Teknis
-        $query_pegawai = Pegawai::SearchNip($parameter['pengendaliteknis'])->first();
-        $query_bop = Bop::where('jabatan', 'Pengendali Teknis')->first();
-        $check_dalnis = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $query_pegawai['nip'], $query_dinasbop->dari, $query_dinasbop->sampai, $parameter['act'], 'custom');
-        $tim['pengendaliteknis']['nip'] = $query_pegawai['nip'];
-        $tim['pengendaliteknis']['nama'] = $query_pegawai['nama'];
-        $tim['pengendaliteknis']['golongan'] = $query_pegawai['golongan'];
-        $tim['pengendaliteknis']['pangkat'] = $query_pegawai['pangkat'];
-        $tim['pengendaliteknis']['jabatan'] = $query_pegawai['jabatan'];
+        $pegawai = Pegawai::SearchNip($parameter['pengendaliteknis'])->first();
+        $bop = Bop::where('jabatan', 'Pengendali Teknis')->first();
+        $check_dalnis = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $pegawai['nip'], $dinasbop->dari, $dinasbop->sampai, $parameter['act'], 'custom');
+        $tim['pengendaliteknis']['nip'] = $pegawai['nip'];
+        $tim['pengendaliteknis']['nama'] = $pegawai['nama'];
+        $tim['pengendaliteknis']['golongan'] = $pegawai['golongan'];
+        $tim['pengendaliteknis']['pangkat'] = $pegawai['pangkat'];
+        $tim['pengendaliteknis']['jabatan'] = $pegawai['jabatan'];
         $tim['pengendaliteknis']['hari'] = $durasi;
         if ($check_dalnis == true) {
-            $tim['pengendaliteknis']['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['pengendaliteknis']['total'] = $durasi * $query_bop['biaya_per_hari'];
-            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+            $tim['pengendaliteknis']['biaya'] = $bop['biaya_per_hari'];
+            $tim['pengendaliteknis']['total'] = $durasi * $bop['biaya_per_hari'];
+            $total_anggaran += $durasi * $bop['biaya_per_hari'];
         } else {
             $tim['pengendaliteknis']['biaya'] = 0;
             $tim['pengendaliteknis']['total'] = 0;
@@ -214,19 +214,19 @@ class TimDinas
         }
 
         // Ketua Tim
-        $query_pegawai = Pegawai::searchNip($parameter['ketuatim'])->first();
-        $query_bop = Bop::where('jabatan', 'Ketua Tim')->first();
-        $check_ketua = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $query_pegawai['nip'], $query_dinasbop->dari, $query_dinasbop->sampai, $parameter['act'], 'custom');
-        $tim['ketuatim']['nip'] = $query_pegawai['nip'];
-        $tim['ketuatim']['nama'] = $query_pegawai['nama'];
-        $tim['ketuatim']['golongan'] = $query_pegawai['golongan'];
-        $tim['ketuatim']['pangkat'] = $query_pegawai['pangkat'];
-        $tim['ketuatim']['jabatan'] = $query_pegawai['jabatan'];
+        $pegawai = Pegawai::searchNip($parameter['ketuatim'])->first();
+        $bop = Bop::where('jabatan', 'Ketua Tim')->first();
+        $check_ketua = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $pegawai['nip'], $dinasbop->dari, $dinasbop->sampai, $parameter['act'], 'custom');
+        $tim['ketuatim']['nip'] = $pegawai['nip'];
+        $tim['ketuatim']['nama'] = $pegawai['nama'];
+        $tim['ketuatim']['golongan'] = $pegawai['golongan'];
+        $tim['ketuatim']['pangkat'] = $pegawai['pangkat'];
+        $tim['ketuatim']['jabatan'] = $pegawai['jabatan'];
         $tim['ketuatim']['hari'] = $durasi;
         if ($check_ketua == true) {
-            $tim['ketuatim']['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['ketuatim']['total'] = $durasi * $query_bop['biaya_per_hari'];
-            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+            $tim['ketuatim']['biaya'] = $bop['biaya_per_hari'];
+            $tim['ketuatim']['total'] = $durasi * $bop['biaya_per_hari'];
+            $total_anggaran += $durasi * $bop['biaya_per_hari'];
         } else {
             $tim['ketuatim']['biaya'] = 0;
             $tim['ketuatim']['total'] = 0;
@@ -236,21 +236,21 @@ class TimDinas
         // Anggota Tim
         $n = 0;
         foreach ($parameter['anggota'] as $s) {
-            $query_pegawai = Pegawai::searchNip($s['key'])->first();
-            $query_bop = Bop::where('jabatan', 'Anggota Tim')->first();
-            $check_anggota = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $query_pegawai['nip'], $query_dinasbop->dari, $query_dinasbop->sampai, $parameter['act'], 'custom');
-            $tim['anggota'][$n]['nip'] = $query_pegawai['nip'];
-            $tim['anggota'][$n]['nama'] = $query_pegawai['nama'];
-            $tim['anggota'][$n]['golongan'] = $query_pegawai['golongan'];
-            $tim['anggota'][$n]['pangkat'] = $query_pegawai['pangkat'];
-            $tim['anggota'][$n]['jabatan'] = $query_pegawai['jabatan'];
+            $pegawai = Pegawai::searchNip($s['key'])->first();
+            $bop = Bop::where('jabatan', 'Anggota Tim')->first();
+            $check_anggota = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $pegawai['nip'], $dinasbop->dari, $dinasbop->sampai, $parameter['act'], 'custom');
+            $tim['anggota'][$n]['nip'] = $pegawai['nip'];
+            $tim['anggota'][$n]['nama'] = $pegawai['nama'];
+            $tim['anggota'][$n]['golongan'] = $pegawai['golongan'];
+            $tim['anggota'][$n]['pangkat'] = $pegawai['pangkat'];
+            $tim['anggota'][$n]['jabatan'] = $pegawai['jabatan'];
             $tim['anggota'][$n]['hari'] = $durasi;
-            $tim['anggota'][$n]['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['anggota'][$n]['total'] = $durasi * $query_bop['biaya_per_hari'];
+            $tim['anggota'][$n]['biaya'] = $bop['biaya_per_hari'];
+            $tim['anggota'][$n]['total'] = $durasi * $bop['biaya_per_hari'];
             if ($check_anggota == true) {
-                $tim['anggota'][$n]['biaya'] = $query_bop['biaya_per_hari'];
-                $tim['anggota'][$n]['total'] = $durasi * $query_bop['biaya_per_hari'];
-                $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+                $tim['anggota'][$n]['biaya'] = $bop['biaya_per_hari'];
+                $tim['anggota'][$n]['total'] = $durasi * $bop['biaya_per_hari'];
+                $total_anggaran += $durasi * $bop['biaya_per_hari'];
             } else {
                 $tim['anggota'][$n]['biaya'] = 0;
                 $tim['anggota'][$n]['total'] = 0;
@@ -270,25 +270,25 @@ class TimDinas
     public function generate_pengumpuldata_bop($parameter)
     {
         $tim = [];
-        $query_dinasbop = DinasBopPengumpulData::find($parameter['pengumpuldata']);
-        $diff = date_diff(date_create($query_dinasbop->dari), date_create($query_dinasbop->sampai));
+        $dinasbop = DinasBopPengumpulData::find($parameter['pengumpuldata']);
+        $diff = date_diff(date_create($dinasbop->dari), date_create($dinasbop->sampai));
         $durasi = $diff->days + 1;
         $total_anggaran = 0;
 
         // Ketua Tim
-        $query_pegawai = Pegawai::searchNip($parameter['ketuatim'])->first();
-        $query_bop = Bop::where('jabatan', 'Ketua Tim')->first();
-        $check_ketua = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $query_pegawai['nip'], $query_dinasbop->dari, $query_dinasbop->sampai, $parameter['act'], 'pengumpuldata');
-        $tim['ketuatim']['nip'] = $query_pegawai['nip'];
-        $tim['ketuatim']['nama'] = $query_pegawai['nama'];
-        $tim['ketuatim']['golongan'] = $query_pegawai['golongan'];
-        $tim['ketuatim']['pangkat'] = $query_pegawai['pangkat'];
-        $tim['ketuatim']['jabatan'] = $query_pegawai['jabatan'];
+        $pegawai = Pegawai::searchNip($parameter['ketuatim'])->first();
+        $bop = Bop::where('jabatan', 'Ketua Tim')->first();
+        $check_ketua = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $pegawai['nip'], $dinasbop->dari, $dinasbop->sampai, $parameter['act'], 'pengumpuldata');
+        $tim['ketuatim']['nip'] = $pegawai['nip'];
+        $tim['ketuatim']['nama'] = $pegawai['nama'];
+        $tim['ketuatim']['golongan'] = $pegawai['golongan'];
+        $tim['ketuatim']['pangkat'] = $pegawai['pangkat'];
+        $tim['ketuatim']['jabatan'] = $pegawai['jabatan'];
         $tim['ketuatim']['hari'] = $durasi;
         if ($check_ketua == true) {
-            $tim['ketuatim']['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['ketuatim']['total'] = $durasi * $query_bop['biaya_per_hari'];
-            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+            $tim['ketuatim']['biaya'] = $bop['biaya_per_hari'];
+            $tim['ketuatim']['total'] = $durasi * $bop['biaya_per_hari'];
+            $total_anggaran += $durasi * $bop['biaya_per_hari'];
         } else {
             $tim['ketuatim']['biaya'] = 0;
             $tim['ketuatim']['total'] = 0;
@@ -298,21 +298,21 @@ class TimDinas
         // Anggota Tim
         $n = 0;
         foreach ($parameter['anggota'] as $s) {
-            $query_pegawai = Pegawai::searchNip($s['key'])->first();
-            $query_bop = Bop::where('jabatan', 'Anggota Tim')->first();
-            $check_anggota = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $query_pegawai['nip'], $query_dinasbop->dari, $query_dinasbop->sampai, $parameter['act'], 'pengumpuldata');
-            $tim['anggota'][$n]['nip'] = $query_pegawai['nip'];
-            $tim['anggota'][$n]['nama'] = $query_pegawai['nama'];
-            $tim['anggota'][$n]['golongan'] = $query_pegawai['golongan'];
-            $tim['anggota'][$n]['pangkat'] = $query_pegawai['pangkat'];
-            $tim['anggota'][$n]['jabatan'] = $query_pegawai['jabatan'];
+            $pegawai = Pegawai::searchNip($s['key'])->first();
+            $bop = Bop::where('jabatan', 'Anggota Tim')->first();
+            $check_anggota = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $pegawai['nip'], $dinasbop->dari, $dinasbop->sampai, $parameter['act'], 'pengumpuldata');
+            $tim['anggota'][$n]['nip'] = $pegawai['nip'];
+            $tim['anggota'][$n]['nama'] = $pegawai['nama'];
+            $tim['anggota'][$n]['golongan'] = $pegawai['golongan'];
+            $tim['anggota'][$n]['pangkat'] = $pegawai['pangkat'];
+            $tim['anggota'][$n]['jabatan'] = $pegawai['jabatan'];
             $tim['anggota'][$n]['hari'] = $durasi;
-            $tim['anggota'][$n]['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['anggota'][$n]['total'] = $durasi * $query_bop['biaya_per_hari'];
+            $tim['anggota'][$n]['biaya'] = $bop['biaya_per_hari'];
+            $tim['anggota'][$n]['total'] = $durasi * $bop['biaya_per_hari'];
             if ($check_anggota == true) {
-                $tim['anggota'][$n]['biaya'] = $query_bop['biaya_per_hari'];
-                $tim['anggota'][$n]['total'] = $durasi * $query_bop['biaya_per_hari'];
-                $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+                $tim['anggota'][$n]['biaya'] = $bop['biaya_per_hari'];
+                $tim['anggota'][$n]['total'] = $durasi * $bop['biaya_per_hari'];
+                $total_anggaran += $durasi * $bop['biaya_per_hari'];
             } else {
                 $tim['anggota'][$n]['biaya'] = 0;
                 $tim['anggota'][$n]['total'] = 0;
@@ -332,25 +332,25 @@ class TimDinas
     public function generate_administrasi_bop($parameter)
     {
         $tim = [];
-        $query_dinasbop = DinasBopAdministrasi::find($parameter['administrasi']);
-        $diff = date_diff(date_create($query_dinasbop->dari), date_create($query_dinasbop->sampai));
+        $dinasbop = DinasBopAdministrasi::find($parameter['administrasi']);
+        $diff = date_diff(date_create($dinasbop->dari), date_create($dinasbop->sampai));
         $durasi = $diff->days + 1;
         $total_anggaran = 0;
 
         // Ketua Tim
-        $query_pegawai = Pegawai::searchNip($parameter['ketuatim'])->first();
-        $query_bop = Bop::where('jabatan', 'Ketua Tim')->first();
-        $check_ketua = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $query_pegawai['nip'], $query_dinasbop->dari, $query_dinasbop->sampai, $parameter['act'], 'administrasi');
-        $tim['ketuatim']['nip'] = $query_pegawai['nip'];
-        $tim['ketuatim']['nama'] = $query_pegawai['nama'];
-        $tim['ketuatim']['golongan'] = $query_pegawai['golongan'];
-        $tim['ketuatim']['pangkat'] = $query_pegawai['pangkat'];
-        $tim['ketuatim']['jabatan'] = $query_pegawai['jabatan'];
+        $pegawai = Pegawai::searchNip($parameter['ketuatim'])->first();
+        $bop = Bop::where('jabatan', 'Ketua Tim')->first();
+        $check_ketua = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $pegawai['nip'], $dinasbop->dari, $dinasbop->sampai, $parameter['act'], 'administrasi');
+        $tim['ketuatim']['nip'] = $pegawai['nip'];
+        $tim['ketuatim']['nama'] = $pegawai['nama'];
+        $tim['ketuatim']['golongan'] = $pegawai['golongan'];
+        $tim['ketuatim']['pangkat'] = $pegawai['pangkat'];
+        $tim['ketuatim']['jabatan'] = $pegawai['jabatan'];
         $tim['ketuatim']['hari'] = $durasi;
         if ($check_ketua == true) {
-            $tim['ketuatim']['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['ketuatim']['total'] = $durasi * $query_bop['biaya_per_hari'];
-            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+            $tim['ketuatim']['biaya'] = $bop['biaya_per_hari'];
+            $tim['ketuatim']['total'] = $durasi * $bop['biaya_per_hari'];
+            $total_anggaran += $durasi * $bop['biaya_per_hari'];
         } else {
             $tim['ketuatim']['biaya'] = 0;
             $tim['ketuatim']['total'] = 0;
@@ -360,21 +360,21 @@ class TimDinas
         // Anggota Tim
         $n = 0;
         foreach ($parameter['anggota'] as $s) {
-            $query_pegawai = Pegawai::searchNip($s['key'])->first();
-            $query_bop = Bop::where('jabatan', 'Anggota Tim')->first();
-            $check_anggota = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $query_pegawai['nip'], $query_dinasbop->dari, $query_dinasbop->sampai, $parameter['act'], 'administrasi');
-            $tim['anggota'][$n]['nip'] = $query_pegawai['nip'];
-            $tim['anggota'][$n]['nama'] = $query_pegawai['nama'];
-            $tim['anggota'][$n]['golongan'] = $query_pegawai['golongan'];
-            $tim['anggota'][$n]['pangkat'] = $query_pegawai['pangkat'];
-            $tim['anggota'][$n]['jabatan'] = $query_pegawai['jabatan'];
+            $pegawai = Pegawai::searchNip($s['key'])->first();
+            $bop = Bop::where('jabatan', 'Anggota Tim')->first();
+            $check_anggota = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $pegawai['nip'], $dinasbop->dari, $dinasbop->sampai, $parameter['act'], 'administrasi');
+            $tim['anggota'][$n]['nip'] = $pegawai['nip'];
+            $tim['anggota'][$n]['nama'] = $pegawai['nama'];
+            $tim['anggota'][$n]['golongan'] = $pegawai['golongan'];
+            $tim['anggota'][$n]['pangkat'] = $pegawai['pangkat'];
+            $tim['anggota'][$n]['jabatan'] = $pegawai['jabatan'];
             $tim['anggota'][$n]['hari'] = $durasi;
-            $tim['anggota'][$n]['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['anggota'][$n]['total'] = $durasi * $query_bop['biaya_per_hari'];
+            $tim['anggota'][$n]['biaya'] = $bop['biaya_per_hari'];
+            $tim['anggota'][$n]['total'] = $durasi * $bop['biaya_per_hari'];
             if ($check_anggota == true) {
-                $tim['anggota'][$n]['biaya'] = $query_bop['biaya_per_hari'];
-                $tim['anggota'][$n]['total'] = $durasi * $query_bop['biaya_per_hari'];
-                $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+                $tim['anggota'][$n]['biaya'] = $bop['biaya_per_hari'];
+                $tim['anggota'][$n]['total'] = $durasi * $bop['biaya_per_hari'];
+                $total_anggaran += $durasi * $bop['biaya_per_hari'];
             } else {
                 $tim['anggota'][$n]['biaya'] = 0;
                 $tim['anggota'][$n]['total'] = 0;
@@ -400,22 +400,22 @@ class TimDinas
         $durasi = $diff->days + 1;
         $total_anggaran = 0;
 
-        $query_pegawai = Pegawai::searchNip($parameter['driver'])->first();
-        $golongan = $this->_common->split_golongan($query_pegawai['golongan']);
+        $pegawai = Pegawai::searchNip($parameter['driver'])->first();
+        $golongan = $this->_common->split_golongan($pegawai['golongan']);
         if ($golongan == 'I' or $golongan == 'II') {
             $jabatan_bop = 'Penunjang Administrasi Kesekretariatan (Gol. I/II)';
         } else {
             $jabatan_bop = 'Penunjang Administrasi Kesekretariatan (Gol. III)';
         }
-        $query_bop = Bop::where('jabatan', $jabatan_bop)->first();
-        $driver['nip'] = $query_pegawai['nip'];
-        $driver['nama'] = $query_pegawai['nama'];
-        $driver['golongan'] = $query_pegawai['golongan'];
-        $driver['pangkat'] = $query_pegawai['pangkat'];
+        $bop = Bop::where('jabatan', $jabatan_bop)->first();
+        $driver['nip'] = $pegawai['nip'];
+        $driver['nama'] = $pegawai['nama'];
+        $driver['golongan'] = $pegawai['golongan'];
+        $driver['pangkat'] = $pegawai['pangkat'];
         $driver['hari'] = $durasi;
-        $driver['biaya'] = $query_bop['biaya_per_hari'];
-        $driver['total'] = $durasi * $query_bop['biaya_per_hari'];
-        $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+        $driver['biaya'] = $bop['biaya_per_hari'];
+        $driver['total'] = $durasi * $bop['biaya_per_hari'];
+        $total_anggaran += $durasi * $bop['biaya_per_hari'];
 
         return ['driver' => $driver, 'total_anggaran' => $total_anggaran];
     }
@@ -434,16 +434,16 @@ class TimDinas
         $durasi = $diff->days + 1;
         $total_anggaran = 0;
 
-        $query_pegawai = Pegawai::searchJabatan('Inspektur')->first();
-        $query_bop = Bop::where('jabatan', 'Penanggungjawab/Pengendali Mutu')->first();
-        $inspektur['nip'] = $query_pegawai['nip'];
-        $inspektur['nama'] = $query_pegawai['nama'];
-        $inspektur['golongan'] = $query_pegawai['golongan'];
-        $inspektur['pangkat'] = $query_pegawai['pangkat'];
+        $pegawai = Pegawai::searchJabatan('Inspektur')->first();
+        $bop = Bop::where('jabatan', 'Penanggungjawab/Pengendali Mutu')->first();
+        $inspektur['nip'] = $pegawai['nip'];
+        $inspektur['nama'] = $pegawai['nama'];
+        $inspektur['golongan'] = $pegawai['golongan'];
+        $inspektur['pangkat'] = $pegawai['pangkat'];
         $inspektur['hari'] = $durasi;
-        $inspektur['biaya'] = $query_bop['biaya_per_hari'];
-        $inspektur['total'] = $durasi * $query_bop['biaya_per_hari'];
-        $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+        $inspektur['biaya'] = $bop['biaya_per_hari'];
+        $inspektur['total'] = $durasi * $bop['biaya_per_hari'];
+        $total_anggaran += $durasi * $bop['biaya_per_hari'];
 
         return ['inspektur' => $inspektur, 'total_anggaran' => $total_anggaran];
     }
@@ -462,16 +462,16 @@ class TimDinas
         $durasi = $diff->days + 1;
         $total_anggaran = 0;
 
-        $query_pegawai = Pegawai::searchJabatan('Sekretaris')->first();
-        $query_bop = Bop::where('jabatan', 'Wakil Penanggungjawab/Suvervisi')->first();
-        $sekretaris['nip'] = $query_pegawai['nip'];
-        $sekretaris['nama'] = $query_pegawai['nama'];
-        $sekretaris['golongan'] = $query_pegawai['golongan'];
-        $sekretaris['pangkat'] = $query_pegawai['pangkat'];
+        $pegawai = Pegawai::searchJabatan('Sekretaris')->first();
+        $bop = Bop::where('jabatan', 'Wakil Penanggungjawab/Suvervisi')->first();
+        $sekretaris['nip'] = $pegawai['nip'];
+        $sekretaris['nama'] = $pegawai['nama'];
+        $sekretaris['golongan'] = $pegawai['golongan'];
+        $sekretaris['pangkat'] = $pegawai['pangkat'];
         $sekretaris['hari'] = $durasi;
-        $sekretaris['biaya'] = $query_bop['biaya_per_hari'];
-        $sekretaris['total'] = $durasi * $query_bop['biaya_per_hari'];
-        $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+        $sekretaris['biaya'] = $bop['biaya_per_hari'];
+        $sekretaris['total'] = $durasi * $bop['biaya_per_hari'];
+        $total_anggaran += $durasi * $bop['biaya_per_hari'];
 
         return ['sekretaris' => $sekretaris, 'total_anggaran' => $total_anggaran];
     }
@@ -491,20 +491,20 @@ class TimDinas
         $total_anggaran = 0;
 
         // Ketua Tim
-        $query_pegawai = Pegawai::searchNip($parameter['ketuatim'])->first();
-        $query_bop = Bop::where('jabatan', 'Ketua Tim')->first();
-        $check_ketua = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $query_pegawai['nip'], $dari, $sampai, $parameter['act'], 'reviu');
+        $pegawai = Pegawai::searchNip($parameter['ketuatim'])->first();
+        $bop = Bop::where('jabatan', 'Ketua Tim')->first();
+        $check_ketua = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $pegawai['nip'], $dari, $sampai, $parameter['act'], 'reviu');
 
-        $tim['ketuatim']['nip'] = $query_pegawai['nip'];
-        $tim['ketuatim']['nama'] = $query_pegawai['nama'];
-        $tim['ketuatim']['golongan'] = $query_pegawai['golongan'];
-        $tim['ketuatim']['pangkat'] = $query_pegawai['pangkat'];
-        $tim['ketuatim']['jabatan'] = $query_pegawai['jabatan'];
+        $tim['ketuatim']['nip'] = $pegawai['nip'];
+        $tim['ketuatim']['nama'] = $pegawai['nama'];
+        $tim['ketuatim']['golongan'] = $pegawai['golongan'];
+        $tim['ketuatim']['pangkat'] = $pegawai['pangkat'];
+        $tim['ketuatim']['jabatan'] = $pegawai['jabatan'];
         $tim['ketuatim']['hari'] = $durasi;
         if ($check_ketua == true) {
-            $tim['ketuatim']['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['ketuatim']['total'] = $durasi * $query_bop['biaya_per_hari'];
-            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+            $tim['ketuatim']['biaya'] = $bop['biaya_per_hari'];
+            $tim['ketuatim']['total'] = $durasi * $bop['biaya_per_hari'];
+            $total_anggaran += $durasi * $bop['biaya_per_hari'];
         } else {
             $tim['ketuatim']['biaya'] = 0;
             $tim['ketuatim']['total'] = 0;
@@ -514,22 +514,22 @@ class TimDinas
         // Anggota Tim
         $n = 0;
         foreach ($parameter['anggota'] as $s) {
-            $query_pegawai = Pegawai::searchNip($s['key'])->first();
-            $query_bop = Bop::where('jabatan', 'Anggota Tim')->first();
-            $check_anggota = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $query_pegawai['nip'], $dari, $sampai, $parameter['act'], 'reviu');
+            $pegawai = Pegawai::searchNip($s['key'])->first();
+            $bop = Bop::where('jabatan', 'Anggota Tim')->first();
+            $check_anggota = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $pegawai['nip'], $dari, $sampai, $parameter['act'], 'reviu');
 
-            $tim['anggota'][$n]['nip'] = $query_pegawai['nip'];
-            $tim['anggota'][$n]['nama'] = $query_pegawai['nama'];
-            $tim['anggota'][$n]['golongan'] = $query_pegawai['golongan'];
-            $tim['anggota'][$n]['pangkat'] = $query_pegawai['pangkat'];
-            $tim['anggota'][$n]['jabatan'] = $query_pegawai['jabatan'];
+            $tim['anggota'][$n]['nip'] = $pegawai['nip'];
+            $tim['anggota'][$n]['nama'] = $pegawai['nama'];
+            $tim['anggota'][$n]['golongan'] = $pegawai['golongan'];
+            $tim['anggota'][$n]['pangkat'] = $pegawai['pangkat'];
+            $tim['anggota'][$n]['jabatan'] = $pegawai['jabatan'];
             $tim['anggota'][$n]['hari'] = $durasi;
-            $tim['anggota'][$n]['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['anggota'][$n]['total'] = $durasi * $query_bop['biaya_per_hari'];
+            $tim['anggota'][$n]['biaya'] = $bop['biaya_per_hari'];
+            $tim['anggota'][$n]['total'] = $durasi * $bop['biaya_per_hari'];
             if ($check_anggota == true) {
-                $tim['anggota'][$n]['biaya'] = $query_bop['biaya_per_hari'];
-                $tim['anggota'][$n]['total'] = $durasi * $query_bop['biaya_per_hari'];
-                $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+                $tim['anggota'][$n]['biaya'] = $bop['biaya_per_hari'];
+                $tim['anggota'][$n]['total'] = $durasi * $bop['biaya_per_hari'];
+                $total_anggaran += $durasi * $bop['biaya_per_hari'];
             } else {
                 $tim['anggota'][$n]['biaya'] = 0;
                 $tim['anggota'][$n]['total'] = 0;
@@ -556,20 +556,20 @@ class TimDinas
         $total_anggaran = 0;
 
         // Ketua Tim
-        $query_pegawai = Pegawai::searchNip($parameter['ketuatim'])->first();
-        $query_bop = Bop::where('jabatan', 'Ketua Tim')->first();
-        $check_ketua = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $query_pegawai['nip'], $dari, $sampai, $parameter['act'], 'supervisi');
+        $pegawai = Pegawai::searchNip($parameter['ketuatim'])->first();
+        $bop = Bop::where('jabatan', 'Ketua Tim')->first();
+        $check_ketua = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $pegawai['nip'], $dari, $sampai, $parameter['act'], 'supervisi');
 
-        $tim['ketuatim']['nip'] = $query_pegawai['nip'];
-        $tim['ketuatim']['nama'] = $query_pegawai['nama'];
-        $tim['ketuatim']['golongan'] = $query_pegawai['golongan'];
-        $tim['ketuatim']['pangkat'] = $query_pegawai['pangkat'];
-        $tim['ketuatim']['jabatan'] = $query_pegawai['jabatan'];
+        $tim['ketuatim']['nip'] = $pegawai['nip'];
+        $tim['ketuatim']['nama'] = $pegawai['nama'];
+        $tim['ketuatim']['golongan'] = $pegawai['golongan'];
+        $tim['ketuatim']['pangkat'] = $pegawai['pangkat'];
+        $tim['ketuatim']['jabatan'] = $pegawai['jabatan'];
         $tim['ketuatim']['hari'] = $durasi;
         if ($check_ketua == true) {
-            $tim['ketuatim']['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['ketuatim']['total'] = $durasi * $query_bop['biaya_per_hari'];
-            $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+            $tim['ketuatim']['biaya'] = $bop['biaya_per_hari'];
+            $tim['ketuatim']['total'] = $durasi * $bop['biaya_per_hari'];
+            $total_anggaran += $durasi * $bop['biaya_per_hari'];
         } else {
             $tim['ketuatim']['biaya'] = 0;
             $tim['ketuatim']['total'] = 0;
@@ -579,22 +579,22 @@ class TimDinas
         // Anggota Tim
         $n = 0;
         foreach ($parameter['anggota'] as $s) {
-            $query_pegawai = Pegawai::searchNip($s['key'])->first();
-            $query_bop = Bop::where('jabatan', 'Anggota Tim')->first();
-            $check_anggota = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $query_pegawai['nip'], $dari, $sampai, $parameter['act'], 'supervisi');
+            $pegawai = Pegawai::searchNip($s['key'])->first();
+            $bop = Bop::where('jabatan', 'Anggota Tim')->first();
+            $check_anggota = self::check_dinas_bop($parameter['dinasbop'], $parameter['idtim'], $pegawai['nip'], $dari, $sampai, $parameter['act'], 'supervisi');
 
-            $tim['anggota'][$n]['nip'] = $query_pegawai['nip'];
-            $tim['anggota'][$n]['nama'] = $query_pegawai['nama'];
-            $tim['anggota'][$n]['golongan'] = $query_pegawai['golongan'];
-            $tim['anggota'][$n]['pangkat'] = $query_pegawai['pangkat'];
-            $tim['anggota'][$n]['jabatan'] = $query_pegawai['jabatan'];
+            $tim['anggota'][$n]['nip'] = $pegawai['nip'];
+            $tim['anggota'][$n]['nama'] = $pegawai['nama'];
+            $tim['anggota'][$n]['golongan'] = $pegawai['golongan'];
+            $tim['anggota'][$n]['pangkat'] = $pegawai['pangkat'];
+            $tim['anggota'][$n]['jabatan'] = $pegawai['jabatan'];
             $tim['anggota'][$n]['hari'] = $durasi;
-            $tim['anggota'][$n]['biaya'] = $query_bop['biaya_per_hari'];
-            $tim['anggota'][$n]['total'] = $durasi * $query_bop['biaya_per_hari'];
+            $tim['anggota'][$n]['biaya'] = $bop['biaya_per_hari'];
+            $tim['anggota'][$n]['total'] = $durasi * $bop['biaya_per_hari'];
             if ($check_anggota == true) {
-                $tim['anggota'][$n]['biaya'] = $query_bop['biaya_per_hari'];
-                $tim['anggota'][$n]['total'] = $durasi * $query_bop['biaya_per_hari'];
-                $total_anggaran += $durasi * $query_bop['biaya_per_hari'];
+                $tim['anggota'][$n]['biaya'] = $bop['biaya_per_hari'];
+                $tim['anggota'][$n]['total'] = $durasi * $bop['biaya_per_hari'];
+                $total_anggaran += $durasi * $bop['biaya_per_hari'];
             } else {
                 $tim['anggota'][$n]['biaya'] = 0;
                 $tim['anggota'][$n]['total'] = 0;
@@ -704,11 +704,11 @@ class TimDinas
     public function check_driver_bop($param)
     {
         $dinasbop = DinasBopDriver::where('dinasbop_id', $param['dinasbop'])
-                                    ->where('driver->nip', $param['driver'])
-                                    ->where(function ($query) use ($param) {
-                                        $query->whereBetween('dari', [$param['dari'],$param['sampai']])
-                                        ->whereBetween('sampai', [$param['dari'], $param['sampai']]);
-                                    })->count();
+            ->where('driver->nip', $param['driver'])
+            ->where(function ($query) use ($param) {
+                $query->whereBetween('dari', [$param['dari'],$param['sampai']])
+                    ->whereBetween('sampai', [$param['dari'], $param['sampai']]);
+            })->count();
         if ($dinasbop > 0) {
             return false;
         } else {
@@ -725,10 +725,10 @@ class TimDinas
     public function check_inspektur_bop($param)
     {
         $dinasbop = DinasBopInspektur::where('dinasbop_id', $param['dinasbop'])
-                                    ->where(function ($query) use ($param) {
-                                        $query->whereBetween('dari', [$param['dari'],$param['sampai']])
-                                                ->whereBetween('sampai', [$param['dari'], $param['sampai']]);
-                                    })->count();
+            ->where(function ($query) use ($param) {
+                $query->whereBetween('dari', [$param['dari'],$param['sampai']])
+                    ->whereBetween('sampai', [$param['dari'], $param['sampai']]);
+            })->count();
         if ($dinasbop > 0) {
             return false;
         } else {
@@ -745,10 +745,10 @@ class TimDinas
     public function check_sekretaris_bop($param)
     {
         $dinasbop = DinasBopSekretaris::where('dinasbop_id', $param['dinasbop'])
-                                        ->where(function ($query) use ($param) {
-                                            $query->whereBetween('dari', [$param['dari'],$param['sampai']])
-                                                ->whereBetween('sampai', [$param['dari'], $param['sampai']]);
-                                        })->count();
+            ->where(function ($query) use ($param) {
+                $query->whereBetween('dari', [$param['dari'],$param['sampai']])
+                    ->whereBetween('sampai', [$param['dari'], $param['sampai']]);
+            })->count();
         if ($dinasbop > 0) {
             return false;
         } else {
@@ -766,7 +766,7 @@ class TimDinas
     public function check_dinas_bop($id, $idtim, $nip, $dari, $sampai, $act, $tipe)
     {
         if ($act == 'create') {
-            $query_bop = self::check_bop_query_create($dari, $sampai);
+            $bop = self::check_bop_query_create($dari, $sampai);
             $query_reguler = DinasRegular::whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai])->get();
 
             $i = 0;
@@ -780,8 +780,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasbopreviu']) > 0) {
-                foreach ($query_bop['dinasbopreviu'] as $v) {
+            if (count($bop['dinasbopreviu']) > 0) {
+                foreach ($bop['dinasbopreviu'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         $i++;
                     }
@@ -794,8 +794,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasbopsupervisi']) > 0) {
-                foreach ($query_bop['dinasbopsupervisi'] as $v) {
+            if (count($bop['dinasbopsupervisi']) > 0) {
+                foreach ($bop['dinasbopsupervisi'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         $i++;
                     }
@@ -808,8 +808,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasboptim']) > 0) {
-                foreach ($query_bop['dinasboptim'] as $v) {
+            if (count($bop['dinasboptim']) > 0) {
+                foreach ($bop['dinasboptim'] as $v) {
                     if ($v['tim']['wakilpenanggungjawab']['nip'] == $nip) {
                         $i++;
                     }
@@ -830,8 +830,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasboppengumpuldata']) > 0) {
-                foreach ($query_bop['dinasboppengumpuldata'] as $v) {
+            if (count($bop['dinasboppengumpuldata']) > 0) {
+                foreach ($bop['dinasboppengumpuldata'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         $i++;
                     }
@@ -844,8 +844,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasbopadministrasi']) > 0) {
-                foreach ($query_bop['dinasbopadministrasi'] as $v) {
+            if (count($bop['dinasbopadministrasi']) > 0) {
+                foreach ($bop['dinasbopadministrasi'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         $i++;
                     }
@@ -858,8 +858,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasbopcustom']) > 0) {
-                foreach ($query_bop['dinasbopcustom'] as $v) {
+            if (count($bop['dinasbopcustom']) > 0) {
+                foreach ($bop['dinasbopcustom'] as $v) {
                     if ($v['tim']['penanggungjawab']['nip'] == $nip) {
                         $i++;
                     }
@@ -884,13 +884,37 @@ class TimDinas
                 }
             }
 
+            if (count($bop['dinasbopinspektur']) > 0) {
+                foreach ($bop['dinasbopinspektur'] as $v) {
+                    if ($v['inspektur']['nip'] == $nip) {
+                        $i++;
+                    }
+                }
+            }
+
+            if (count($bop['dinasbopsekretaris']) > 0) {
+                foreach ($bop['dinasbopsekretaris'] as $v) {
+                    if ($v['sekretaris']['nip'] == $nip) {
+                        $i++;
+                    }
+                }
+            }
+
+            if (count($bop['dinasbopdriver']) > 0) {
+                foreach ($bop['dinasbopdriver'] as $v) {
+                    if ($v['driver']['nip'] == $nip) {
+                        $i++;
+                    }
+                }
+            }
+
             if ($i == 0) {
                 return true;
             } else {
                 return false;
             }
         } elseif ($act == 'put') {
-            $query_bop = self::check_bop_query_put($id, $idtim, $tipe, $dari, $sampai);
+            $bop = self::check_bop_query_put($id, $idtim, $tipe, $dari, $sampai);
             $query_reguler = DinasRegular::whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai])->get();
 
             $i = 0;
@@ -906,8 +930,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasbopreviu']) > 0) {
-                foreach ($query_bop['dinasbopreviu'] as $v) {
+            if (count($bop['dinasbopreviu']) > 0) {
+                foreach ($bop['dinasbopreviu'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         if ($v['tim']['ketuatim']['total'] != 0) {
                             $i++;
@@ -924,8 +948,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasbopsupervisi']) > 0) {
-                foreach ($query_bop['dinasbopsupervisi'] as $v) {
+            if (count($bop['dinasbopsupervisi']) > 0) {
+                foreach ($bop['dinasbopsupervisi'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         if ($v['tim']['ketuatim']['total'] != 0) {
                             $i++;
@@ -942,8 +966,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasboptim']) > 0) {
-                foreach ($query_bop['dinasboptim'] as $v) {
+            if (count($bop['dinasboptim']) > 0) {
+                foreach ($bop['dinasboptim'] as $v) {
                     if ($v['tim']['wakilpenanggungjawab']['nip'] == $nip) {
                         if ($v['tim']['wakilpenanggungjawab']['total'] != 0) {
                             $i++;
@@ -972,8 +996,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasboppengumpuldata']) > 0) {
-                foreach ($query_bop['dinasboppengumpuldata'] as $v) {
+            if (count($bop['dinasboppengumpuldata']) > 0) {
+                foreach ($bop['dinasboppengumpuldata'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         if ($v['tim']['ketuatim']['total'] != 0) {
                             $i++;
@@ -990,8 +1014,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasbopadministrasi']) > 0) {
-                foreach ($query_bop['dinasbopadministrasi'] as $v) {
+            if (count($bop['dinasbopadministrasi']) > 0) {
+                foreach ($bop['dinasbopadministrasi'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         if ($v['tim']['ketuatim']['total'] != 0) {
                             $i++;
@@ -1008,8 +1032,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasbopcustom']) > 0) {
-                foreach ($query_bop['dinasbopcustom'] as $v) {
+            if (count($bop['dinasbopcustom']) > 0) {
+                foreach ($bop['dinasbopcustom'] as $v) {
                     if ($v['tim']['penanggungjawab']['nip'] == $nip) {
                         $i++;
                     }
@@ -1034,6 +1058,30 @@ class TimDinas
                 }
             }
 
+            if (count($bop['dinasbopinspektur']) > 0) {
+                foreach ($bop['dinasbopinspektur'] as $v) {
+                    if ($v['inspektur']['nip'] == $nip) {
+                        $i++;
+                    }
+                }
+            }
+
+            if (count($bop['dinasbopsekretaris']) > 0) {
+                foreach ($bop['dinasbopsekretaris'] as $v) {
+                    if ($v['sekretaris']['nip'] == $nip) {
+                        $i++;
+                    }
+                }
+            }
+
+            if (count($bop['dinasbopdriver']) > 0) {
+                foreach ($bop['dinasbopdriver'] as $v) {
+                    if ($v['driver']['nip'] == $nip) {
+                        $i++;
+                    }
+                }
+            }
+
             if ($i == 0) {
                 return true;
             } else {
@@ -1044,29 +1092,57 @@ class TimDinas
 
     public function check_bop_query_create($dari, $sampai)
     {
-        //$dinasbop = DinasBop::find($id);
+        $dinasbop = DinasBop::whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari, $sampai])->get();
+        if (count($dinasbop) > 0) {
+            $dinasbop_id = [];
+            foreach ($dinasbop as $d) {
+                array_push($dinasbop_id, $d->id);
+            }
 
-        $dinasbopreviu = DinasBopReviu::whereBetween('dari', [$dari, $sampai])
-            ->whereBetween('sampai', [$dari,$sampai])->get();
+            $dinasbopinspektur = DinasBopInspektur::whereIn('dinasbop_id', $dinasbop_id)->get();
+            $dinasbopsekretaris = DinasBopSekretaris::whereIn('dinasbop_id', $dinasbop_id)->get();
+            $dinasbopdriver = DinasBopInspektur::whereIn('dinasbop_id', $dinasbop_id)->get();
+            $dinasbopreviu = DinasBopReviu::whereIn('dinasbop_id', $dinasbop_id)->get();
+            $dinasbopsupervisi = DinasBopSupervisi::whereIn('dinasbop_id', $dinasbop_id)->get();
+            $dinasboptim = DinasBopTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+            $dinasboppengumpuldata = DinasBopPengumpulDataTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+            $dinasbopadministrasi = DinasBopAdministrasiTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+            $dinasbopcustom = DinasBopCustomTim::whereIn('dinasbop_id', $dinasbop_id)->get();
 
-        $dinasbopsupervisi = DinasBopSupervisi::whereBetween('dari', [$dari, $sampai])
-            ->whereBetween('sampai', [$dari,$sampai])->get();
+            /*$dinasbopinspektur = DinasBopInspektur::whereBetween('dari', [$dari, $sampai])
+                ->whereBetween('sampai', [$dari, $sampai])->get();
+            $dinasbopsekretaris = DinasBopSekretaris::whereBetween('dari', [$dari, $sampai])
+                ->whereBetween('sampai', [$dari, $sampai])->get();
+            $dinasbopdriver = DinasBopInspektur::whereBetween('dari', [$dari, $sampai])
+                ->whereBetween('sampai', [$dari, $sampai])->get();
+            $dinasbopreviu = DinasBopReviu::whereBetween('dari', [$dari, $sampai])
+                ->whereBetween('sampai', [$dari, $sampai])->get();
+            $dinasbopsupervisi = DinasBopSupervisi::whereBetween('dari', [$dari, $sampai])
+                ->whereBetween('sampai', [$dari, $sampai])->get();
+            $dinasboptim = DinasBopTim::with(['dinasbop' => function ($query) use ($dari, $sampai) {
+                $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari, $sampai]);
+            }])->get();
+            $dinasboppengumpuldata = DinasBopPengumpulDataTim::with(['dinasboppengumpuldata' => function ($query) use ($dari, $sampai) {
+                $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari, $sampai]);
+            }])->get();
+            $dinasbopadministrasi = DinasBopAdministrasiTim::with(['dinasbopadministrasi' => function ($query) use ($dari, $sampai) {
+                $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
+            }])->get();
+            $dinasbopcustom = DinasBopCustomTim::with(['dinasbop' => function ($query) use ($dari, $sampai) {
+                $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari, $sampai]);
+            }])->get();*/
 
-        $dinasboptim = DinasBopTim::with(['dinasbop' => function ($query) use ($dari, $sampai) {
-            $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-        }])->get();
-
-        $dinasboppengumpuldata = DinasBopPengumpulDataTim::with(['dinasboppengumpuldata' => function ($query) use ($dari, $sampai) {
-            $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-        }])->get();
-
-        $dinasbopadministrasi = DinasBopAdministrasiTim::with(['dinasbopadministrasi' => function ($query) use ($dari, $sampai) {
-            $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-        }])->get();
-
-        $dinasbopcustom = DinasBopCustomTim::with(['dinasbop' => function ($query) use ($dari, $sampai) {
-            $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-        }])->get();
+        } else {
+            $dinasbopinspektur = [];
+            $dinasbopsekretaris = [];
+            $dinasbopdriver = [];
+            $dinasbopreviu = [];
+            $dinasbopsupervisi = [];
+            $dinasboptim = [];
+            $dinasboppengumpuldata = [];
+            $dinasbopadministrasi = [];
+            $dinasbopcustom = [];
+        }
 
         $response = [
             'dinasbopreviu' => $dinasbopreviu,
@@ -1074,7 +1150,10 @@ class TimDinas
             'dinasboptim' => $dinasboptim,
             'dinasbopcustom' => $dinasbopcustom,
             'dinasboppengumpuldata' => $dinasboppengumpuldata,
-            'dinasbopadministrasi' => $dinasbopadministrasi
+            'dinasbopadministrasi' => $dinasbopadministrasi,
+            'dinasbopinspektur' => $dinasbopinspektur,
+            'dinasbopsekretaris' => $dinasbopsekretaris,
+            'dinasbopdriver' => $dinasbopdriver
         ];
 
         return $response;
@@ -1088,131 +1167,84 @@ class TimDinas
         $dinasboppengumpuldata = [];
         $dinasbopadministrasi = [];
         $dinasbopcustom = [];
+        $dinasbopinspektur = [];
+        $dinasbopsekretaris = [];
+        $dinasbopdriver = [];
+
+        $dinasbop = DinasBop::whereBetween('dari', [$dari, $sampai])
+            ->whereBetween('sampai', [$dari,$sampai])->get();
+
+        $dinasbop_id = [];
+        foreach ($dinasbop as $d) {
+            array_push($dinasbop_id, $d->id);
+        }
 
         switch ($tipe) {
             case 'tim':
-                $dinasboptim = DinasBopTim::with(['dinasbop' => function ($query) use ($dari, $sampai) {
-                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->where('id', '!=', $idtim)->get();
-
-                $dinasbopreviu = DinasBopReviu::whereBetween('dari', [$dari, $sampai])
-                    ->whereBetween('sampai', [$dari,$sampai])->get();
-
-                $dinasbopsupervisi = DinasBopSupervisi::whereBetween('dari', [$dari, $sampai])
-                    ->whereBetween('sampai', [$dari,$sampai])->get();
-
-                $dinasboppengumpuldata = DinasBopPengumpulDataTim::with(['dinasboppengumpuldata' => function ($query) use ($dari, $sampai) {
-                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->get();
-
-                $dinasbopadministrasi = DinasBopAdministrasiTim::with(['dinasbopadministrasi' => function ($query) use ($dari, $sampai) {
-                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->get();
-    
+                $dinasboptim = DinasBopTim::whereIn('dinasbop_id', $dinasbop_id)->where('id', '!=', $idtim)->get();
+                $dinasbopreviu = DinasBopReviu::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopsupervisi = DinasBopSupervisi::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasboppengumpuldata = DinasBopPengumpulDataTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopadministrasi = DinasBopAdministrasiTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopcustom = DinasBopCustomTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopinspektur = DinasBopInspektur::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopsekretaris = DinasBopSekretaris::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopdriver = DinasBopInspektur::whereIn('dinasbop_id', $dinasbop_id)->get();
             break;
             case 'reviu':
-                $dinasboptim = DinasBopTim::with(['dinasbop' => function ($query) use ($dari, $sampai) {
-                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->get();
-
-                $dinasbopreviu = DinasBopReviu::whereBetween('dari', [$dari, $sampai])
-                    ->whereBetween('sampai', [$dari,$sampai])->where('id', '!=', $idtim)->get();
-
-                $dinasbopsupervisi = DinasBopSupervisi::whereBetween('dari', [$dari, $sampai])
-                    ->whereBetween('sampai', [$dari,$sampai])->get();
-
-                $dinasboppengumpuldata = DinasBopPengumpulDataTim::with(['dinasboppengumpuldata' => function ($query) use ($dari, $sampai) {
-                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->get();
-
-                $dinasbopadministrasi = DinasBopAdministrasiTim::with(['dinasbopadministrasi' => function ($query) use ($dari, $sampai) {
-                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->get();
-                
+                $dinasboptim = DinasBopTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopreviu = DinasBopReviu::whereIn('dinasbop_id', $dinasbop_id)->where('id', '!=', $idtim)->get();
+                $dinasbopsupervisi = DinasBopSupervisi::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasboppengumpuldata = DinasBopPengumpulDataTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopadministrasi = DinasBopAdministrasiTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopcustom = DinasBopCustomTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopinspektur = DinasBopInspektur::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopsekretaris = DinasBopSekretaris::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopdriver = DinasBopInspektur::whereIn('dinasbop_id', $dinasbop_id)->get();
             break;
             case 'supervisi':
-                $dinasboptim = DinasBopTim::with(['dinasbop' => function ($query) use ($dari, $sampai) {
-                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->get();
-
-                $dinasbopreviu = DinasBopReviu::whereBetween('dari', [$dari, $sampai])
-                    ->whereBetween('sampai', [$dari,$sampai])->get();
-
-                $dinasbopsupervisi = DinasBopSupervisi::whereBetween('dari', [$dari, $sampai])
-                    ->whereBetween('sampai', [$dari,$sampai])->where('id', '!=', $idtim)->get();
-
-                $dinasboppengumpuldata = DinasBopPengumpulDataTim::with(['dinasboppengumpuldata' => function ($query) use ($dari, $sampai) {
-                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->get();
-
-                $dinasbopadministrasi = DinasBopAdministrasiTim::with(['dinasbopadministrasi' => function ($query) use ($dari, $sampai) {
-                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->get();
-                
+                $dinasboptim = DinasBopTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopreviu = DinasBopReviu::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopsupervisi = DinasBopSupervisi::whereIn('dinasbop_id', $dinasbop_id)->where('id', '!=', $idtim)->get();
+                $dinasboppengumpuldata = DinasBopPengumpulDataTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopadministrasi = DinasBopAdministrasiTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopcustom = DinasBopCustomTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopinspektur = DinasBopInspektur::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopsekretaris = DinasBopSekretaris::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopdriver = DinasBopInspektur::whereIn('dinasbop_id', $dinasbop_id)->get();
             break;
             case 'pengumpuldata':
-                $dinasboptim = DinasBopTim::with(['dinasbop' => function ($query) use ($dari, $sampai) {
-                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->get();
-
-                $dinasbopreviu = DinasBopReviu::whereBetween('dari', [$dari, $sampai])
-                    ->whereBetween('sampai', [$dari,$sampai])->get();
-
-                $dinasbopsupervisi = DinasBopSupervisi::whereBetween('dari', [$dari, $sampai])
-                    ->whereBetween('sampai', [$dari,$sampai])->get();
-
-                $dinasboppengumpuldata = DinasBopPengumpulDataTim::with(['dinasboppengumpuldata' => function ($query) use ($dari, $sampai) {
-                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->where('id', '!=', $idtim)->get();
-
-                $dinasbopadministrasi = DinasBopAdministrasiTim::with(['dinasbopadministrasi' => function ($query) use ($dari, $sampai) {
-                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->get();
-                
+                $dinasboptim = DinasBopTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopreviu = DinasBopReviu::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopsupervisi = DinasBopSupervisi::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasboppengumpuldata = DinasBopPengumpulDataTim::whereIn('dinasbop_id', $dinasbop_id)->where('id', '!=', $idtim)->get();
+                $dinasbopadministrasi = DinasBopAdministrasiTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopcustom = DinasBopCustomTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopinspektur = DinasBopInspektur::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopsekretaris = DinasBopSekretaris::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopdriver = DinasBopInspektur::whereIn('dinasbop_id', $dinasbop_id)->get();
             break;
             case 'administrasi':
-                $dinasboptim = DinasBopTim::with(['dinasbop' => function ($query) use ($dari, $sampai) {
-                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->get();
-
-                $dinasbopreviu = DinasBopReviu::whereBetween('dari', [$dari, $sampai])
-                    ->whereBetween('sampai', [$dari,$sampai])->get();
-
-                $dinasbopsupervisi = DinasBopSupervisi::whereBetween('dari', [$dari, $sampai])
-                    ->whereBetween('sampai', [$dari,$sampai])->get();
-
-                $dinasboppengumpuldata = DinasBopPengumpulDataTim::with(['dinasboppengumpuldata' => function ($query) use ($dari, $sampai) {
-                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->get();
-
-                $dinasbopadministrasi = DinasBopAdministrasiTim::with(['dinasbopadministrasi' => function ($query) use ($dari, $sampai) {
-                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->where('id', '!=', $idtim)->get();
-                
+                $dinasboptim = DinasBopTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopreviu = DinasBopReviu::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopsupervisi = DinasBopSupervisi::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasboppengumpuldata = DinasBopPengumpulDataTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopadministrasi = DinasBopAdministrasiTim::whereIn('dinasbop_id', $dinasbop_id)->where('id', '!=', $idtim)->get();
+                $dinasbopcustom = DinasBopCustomTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopinspektur = DinasBopInspektur::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopsekretaris = DinasBopSekretaris::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopdriver = DinasBopInspektur::whereIn('dinasbop_id', $dinasbop_id)->get();
             break;
             case 'custom':
-                $dinasboptim = DinasBopTim::with(['dinasbop' => function ($query) use ($dari, $sampai) {
-                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->get();
-
-                $dinasbopreviu = DinasBopReviu::whereBetween('dari', [$dari, $sampai])
-                    ->whereBetween('sampai', [$dari,$sampai])->get();
-
-                $dinasbopsupervisi = DinasBopSupervisi::whereBetween('dari', [$dari, $sampai])
-                    ->whereBetween('sampai', [$dari,$sampai])->get();
-
-                $dinasboppengumpuldata = DinasBopPengumpulDataTim::with(['dinasboppengumpuldata' => function ($query) use ($dari, $sampai) {
-                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->get();
-
-                $dinasbopadministrasi = DinasBopAdministrasiTim::with(['dinasbopadministrasi' => function ($query) use ($dari, $sampai) {
-                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->get();
-
-                $dinasbopcustom = DinasBopCustomTim::with(['dinasbop' => function ($query) use ($dari, $sampai) {
-                    $query->whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai]);
-                }])->where('id', '!=', $idtim)->get();
-    
+                $dinasboptim = DinasBopTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopreviu = DinasBopReviu::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopsupervisi = DinasBopSupervisi::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasboppengumpuldata = DinasBopPengumpulDataTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopadministrasi = DinasBopAdministrasiTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopcustom = DinasBopCustomTim::whereIn('dinasbop_id', $dinasbop_id)->where('id', '!=', $idtim)->get();
+                $dinasbopinspektur = DinasBopInspektur::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopsekretaris = DinasBopSekretaris::whereIn('dinasbop_id', $dinasbop_id)->get();
+                $dinasbopdriver = DinasBopInspektur::whereIn('dinasbop_id', $dinasbop_id)->get();
             break;
         }
 
@@ -1222,7 +1254,10 @@ class TimDinas
             'dinasboptim' => $dinasboptim,
             'dinasbopcustom' => $dinasbopcustom,
             'dinasboppengumpuldata' => $dinasboppengumpuldata,
-            'dinasbopadministrasi' => $dinasbopadministrasi
+            'dinasbopadministrasi' => $dinasbopadministrasi,
+            'dinasbopinspektur' => $dinasbopinspektur,
+            'dinasbopsekretaris' => $dinasbopsekretaris,
+            'dinasbopdriver' => $dinasbopdriver
         ];
 
         return $response;
@@ -1237,12 +1272,14 @@ class TimDinas
     public function check_personil_regular($act, $id, $dari, $sampai, $nip)
     {
         if ($act == 'create') {
-            $query_bop = self::check_bop_query_create($id, $dari, $sampai);
-            $query_reguler = DinasRegular::whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai])->get();
+            $dinasbop = self::check_bop_query_create($dari, $sampai);
+            $dinasreguler = DinasRegular::whereBetween('dari', [$dari, $sampai])
+                ->whereBetween('sampai', [$dari, $sampai])
+                ->get();
 
             $i = 0;
-            if (count($query_reguler) > 0) {
-                foreach ($query_reguler as $y) {
+            if (count($dinasreguler) > 0) {
+                foreach ($dinasreguler as $y) {
                     foreach ($y->tim as $v) {
                         if ($v['nip'] == $nip) {
                             $i++;
@@ -1251,8 +1288,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasbopreviu']) > 0) {
-                foreach ($query_bop['dinasbopreviu'] as $v) {
+            if (count($dinasbop['dinasbopreviu']) > 0) {
+                foreach ($dinasbop['dinasbopreviu'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         $i++;
                     }
@@ -1265,8 +1302,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasbopsupervisi']) > 0) {
-                foreach ($query_bop['dinasbopsupervisi'] as $v) {
+            if (count($dinasbop['dinasbopsupervisi']) > 0) {
+                foreach ($dinasbop['dinasbopsupervisi'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         $i++;
                     }
@@ -1279,8 +1316,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasboptim']) > 0) {
-                foreach ($query_bop['dinasboptim'] as $v) {
+            if (count($dinasbop['dinasboptim']) > 0) {
+                foreach ($dinasbop['dinasboptim'] as $v) {
                     if ($v['tim']['wakilpenanggungjawab']['nip'] == $nip) {
                         $i++;
                     }
@@ -1301,8 +1338,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasboppengumpuldata']) > 0) {
-                foreach ($query_bop['dinasboppengumpuldata'] as $v) {
+            if (count($dinasbop['dinasboppengumpuldata']) > 0) {
+                foreach ($dinasbop['dinasboppengumpuldata'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         $i++;
                     }
@@ -1315,8 +1352,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasbopadministrasi']) > 0) {
-                foreach ($query_bop['dinasbopadministrasi'] as $v) {
+            if (count($dinasbop['dinasbopadministrasi']) > 0) {
+                foreach ($dinasbop['dinasbopadministrasi'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         $i++;
                     }
@@ -1329,8 +1366,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasbopcustom']) > 0) {
-                foreach ($query_bop['dinasbopcustom'] as $v) {
+            if (count($dinasbop['dinasbopcustom']) > 0) {
+                foreach ($dinasbop['dinasbopcustom'] as $v) {
                     if ($v['tim']['penanggungjawab']['nip'] == $nip) {
                         $i++;
                     }
@@ -1361,14 +1398,15 @@ class TimDinas
                 return false;
             }
         } elseif ($act == 'put') {
-            $query_bop = self::check_bop_query_create($id, $dari, $sampai);
-            $query_reguler = DinasRegular::whereBetween('dari', [$dari, $sampai])
-                ->whereBetween('sampai', [$dari,$sampai])->where('id', '!=', $id)->get();
+            $dinasbop = self::check_bop_query_create($dari, $sampai);
+            $dinasreguler = DinasRegular::whereBetween('dari', [$dari, $sampai])
+                ->whereBetween('sampai', [$dari,$sampai])
+                ->where('id', '!=', $id)->get();
 
             $i = 0;
-            if (count($query_reguler) > 0) {
+            if (count($dinasreguler) > 0) {
                 $x = 0;
-                foreach ($query_reguler as $y) {
+                foreach ($dinasreguler as $y) {
                     foreach ($y->tim as $v) {
                         if ($v['nip'] == $nip) {
                             $x++;
@@ -1380,8 +1418,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasbopreviu']) > 0) {
-                foreach ($query_bop['dinasbopreviu'] as $v) {
+            if (count($dinasbop['dinasbopreviu']) > 0) {
+                foreach ($dinasbop['dinasbopreviu'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         if ($v['tim']['ketuatim']['total'] != 0) {
                             $i++;
@@ -1398,8 +1436,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasbopsupervisi']) > 0) {
-                foreach ($query_bop['dinasbopsupervisi'] as $v) {
+            if (count($dinasbop['dinasbopsupervisi']) > 0) {
+                foreach ($dinasbop['dinasbopsupervisi'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         if ($v['tim']['ketuatim']['total'] != 0) {
                             $i++;
@@ -1416,8 +1454,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasboptim']) > 0) {
-                foreach ($query_bop['dinasboptim'] as $v) {
+            if (count($dinasbop['dinasboptim']) > 0) {
+                foreach ($dinasbop['dinasboptim'] as $v) {
                     if ($v['tim']['wakilpenanggungjawab']['nip'] == $nip) {
                         if ($v['tim']['wakilpenanggungjawab']['total'] != 0) {
                             $i++;
@@ -1446,8 +1484,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasboppengumpuldata']) > 0) {
-                foreach ($query_bop['dinasboppengumpuldata'] as $v) {
+            if (count($dinasbop['dinasboppengumpuldata']) > 0) {
+                foreach ($dinasbop['dinasboppengumpuldata'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         if ($v['tim']['ketuatim']['total'] != 0) {
                             $i++;
@@ -1464,8 +1502,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasbopadministrasi']) > 0) {
-                foreach ($query_bop['dinasbopadministrasi'] as $v) {
+            if (count($dinasbop['dinasbopadministrasi']) > 0) {
+                foreach ($dinasbop['dinasbopadministrasi'] as $v) {
                     if ($v['tim']['ketuatim']['nip'] == $nip) {
                         if ($v['tim']['ketuatim']['total'] != 0) {
                             $i++;
@@ -1482,8 +1520,8 @@ class TimDinas
                 }
             }
 
-            if (count($query_bop['dinasbopcustom']) > 0) {
-                foreach ($query_bop['dinasbopcustom'] as $v) {
+            if (count($dinasbop['dinasbopcustom']) > 0) {
+                foreach ($dinasbop['dinasbopcustom'] as $v) {
                     if ($v['tim']['penanggungjawab']['nip'] == $nip) {
                         $i++;
                     }

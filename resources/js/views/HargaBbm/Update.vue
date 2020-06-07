@@ -9,13 +9,19 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label>Harga BBM Per Liter *</label>
-                                <input type="text" class="form-control" v-model="hargabbm.harga_perliter" required="required">
+                                <input type="text" class="form-control" v-model="hargabbm.harga_perliter" :class="{ 'is-invalid': validasi.harga_perliter }">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Simpan Data</button>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <b>*) Wajib Diisi</b>
                             </div>
                         </div>
                     </form>
@@ -32,33 +38,64 @@
             return {
                 alert: {
                     error: false,
-                    update: false
+                    update: false,
+                    validate: false
+                },
+                validasi: {
+                    harga_perliter:''
                 },
                 isLoading: false,
             }
         },
         props: ['api', 'route', 'hargabbm'],
         methods: {
-            onSubmit() {
-                this.isLoading = true;
-                service.putData(this.api, this.hargabbm)
-                    .then(result => {
-                        this.response(result);
-                    }).catch(error => {
-                        this.isLoading = false;
-                        this.alert.error = true;
-                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-                        console.log(error);
-                    });
+            onSubmit(evt) {
+                evt.preventDefault();
+                this.alert.error = false;
+                this.alert.update = false;
+
+                let validasi = this.validate();
+
+                if (validasi === true) {
+                    this.isLoading = true;
+                    service.putData(this.api, this.hargabbm)
+                        .then(result => {
+                            this.response(result);
+                        }).catch(error => {
+                            this.isLoading = false;
+                            this.alert.error = true;
+                            window.scroll({top: 0, left: 0, behavior: 'smooth'});
+                            console.log(error);
+                        });
+                } else {
+                    this.alert.validate = true;
+                    setTimeout(() => this.alert.validate = false, 2000);
+                }
             },
             response(result) {
+                setTimeout(() => { this.isLoading = false }, 1000);
                 if (result.status === 'ok') {
                     this.alert.error = false;
                     this.alert.update = true;
                     window.scroll({top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(() => this.alert.update = false, 5000);
                 }
-                this.isLoading = false;
+            },
+            validate() {
+                let condition = 0;
+
+                if (this.hargabbm.harga_perliter.length === 0) {
+                    this.validasi.harga_perliter = true;
+                    condition++;
+                } else {
+                    this.validasi.harga_perliter = false;
+                }
+
+                if (condition > 0) {
+                    return false;
+                } else {
+                    return true;
+                }
             }
         },
         created() {

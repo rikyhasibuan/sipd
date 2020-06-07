@@ -18,7 +18,7 @@ use Closure;
 
 class DinasRegularController extends Controller
 {
-    protected $title = 'Perjalanan Dinas Regular';
+    protected $title = 'Perjalanan Dinas Reguler';
     protected $link  = 'dinasregular';
     protected $api   = 'api/dinasregular';
     protected $route = 'dinasregular';

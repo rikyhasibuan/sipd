@@ -79,13 +79,13 @@ class PerangkatDaerahController extends Controller
         $breadcrumb[1] = '<a href="' . url($this->route) . '"><i class="fa fa-user"></i> '.$this->title.'</a>';
         $breadcrumb[2] = '<i class="fa fa-wrench"></i> Ubah Data';
 
-        $perangkatdaerah = Skpd::find($request['id']);
+        $skpd = Skpd::find($request['id']);
         $kabkota = Kabkota::all();
 
         $data = [];
         $data['title']  = $this->title;
         $data['link'] = $this->link;
-        $data['perangkatdaerah'] = $perangkatdaerah;
+        $data['skpd'] = $skpd;
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api . '?nip='.$this->_nip.'&id=' . $perangkatdaerah->id);
         $data['route'] = url($this->route);

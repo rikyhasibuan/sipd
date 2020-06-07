@@ -122,16 +122,15 @@ export default {
                 this.isLoading = true;
                 service.postData(this.api, this.pegawai)
                     .then(result => {
-                        this.isLoading = false;
                         this.response(result);
                     }).catch(error => {
-                    this.isLoading = false;
-                    this.alert.error = true;
-                    this.alert.duplicate = false;
-                    this.alert.save = false;
-                    window.scroll({top: 0, left: 0, behavior: 'smooth'});
-                    console.log(error);
-                });
+                        this.isLoading = false;
+                        this.alert.error = true;
+                        this.alert.duplicate = false;
+                        this.alert.save = false;
+                        window.scroll({top: 0, left: 0, behavior: 'smooth'});
+                        console.log(error);
+                    });
             } else {
                 this.alert.validate = true;
                 setTimeout(() => this.alert.validate = false, 2000);
@@ -148,6 +147,7 @@ export default {
             });
         },
         response(result) {
+            setTimeout(() => { this.isLoading = false }, 1000);
             if (result.status === 'ok') {
                 this.alert.error = false;
                 this.alert.duplicate = false;

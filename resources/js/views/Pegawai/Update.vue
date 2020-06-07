@@ -97,21 +97,24 @@
         props: ['golongan_data', 'pangkat_data', 'jabatan_data','eselon_data', 'api', 'route', 'pegawai'],
         methods: {
             onSubmit(evt) {
+                evt.preventDefault();
                 this.alert.error = false;
                 this.alert.update = false;
                 this.alert.validate = false;
+
                 let validasi = this.validate();
+
                 if (validasi === true) {
                     this.isLoading = true;
                     service.putData(this.api, this.pegawai)
                         .then(result => {
                             this.response(result);
                         }).catch(error => {
-                        this.isLoading = false;
-                        this.alert.error = true;
-                        window.scroll({top: 0, left: 0, behavior: 'smooth'});
-                        console.log(error);
-                    });
+                            this.isLoading = false;
+                            this.alert.error = true;
+                            window.scroll({top: 0, left: 0, behavior: 'smooth'});
+                            console.log(error);
+                        });
                 } else {
                     this.alert.validate = true;
                     setTimeout(() => this.alert.validate = false, 3000);
@@ -128,6 +131,7 @@
                 });
             },
             response(result) {
+                setTimeout(() => { this.isLoading = false }, 1000);
                 if (result.status === 'ok') {
                     this.alert.error = false;
                     this.alert.update = true;

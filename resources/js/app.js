@@ -11,8 +11,6 @@ import accounting from 'accounting';
 import datePicker from 'vue-bootstrap-datetimepicker';
 import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 import Multiselect from 'vue-multiselect';
-import VCalendar from 'v-calendar';
-
 
 Vue.use(money, {
     decimal: ',',
@@ -26,7 +24,6 @@ Vue.use(money, {
 Vue.use(datePicker);
 Vue.use(accounting);
 Vue.use(VueCookies);
-Vue.use(VCalendar);
 
 // Component Config
 $.extend(true, $.fn.datetimepicker.defaults, {
@@ -93,7 +90,7 @@ Vue.filter('short_difference', function (since, until) {
     let days = duration.asDays();
     if (parseInt(days) > 0) {
         return days;
-    } else if (parseInt(days) == 0) {
+    } else if (parseInt(days) === 0) {
         return 1;
     }
 });
@@ -103,40 +100,40 @@ Vue.filter('month', function (month) {
     switch (month) {
         case 1:
             return 'Januari';
-        break;
+            break;
         case 2:
             return 'Februari';
-        break;
+            break;
         case 3:
             return 'Maret';
-        break;
+            break;
         case 4:
             return 'April';
-        break;
+            break;
         case 5:
             return 'Mei';
-        break;
+            break;
         case 6:
             return 'Juni';
-        break;
+            break;
         case 7:
             return 'Juli';
-        break;
+            break;
         case 8:
             return 'Agustus';
-        break;
+            break;
         case 9:
             return 'September';
-        break;
+            break;
         case 10:
             return 'Oktober';
-        break;
+            break;
         case 11:
             return 'November';
-        break;
+            break;
         case 12:
             return 'Desember';
-        break;
+            break;
         default:
             break;
     }

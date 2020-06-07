@@ -10,26 +10,26 @@
                             <form method="POST" v-on:submit.prevent="onSubmit">
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label>Nama Perangkat Daerah</label>
-                                        <input type="text" class="form-control" id="nama_skpd" v-model="skpd.nama_skpd" placeholder="Nama Perangkat Daerah" required="required">
+                                        <label>Nama Perangkat Daerah *</label>
+                                        <input type="text" class="form-control" id="nama_skpd" v-model="skpd.nama_skpd" placeholder="Nama Perangkat Daerah" :class="{ 'is-invalid': validasi.nama_skpd }">
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label>Kontak</label>
-                                        <input type="text" class="form-control" id="kontak" v-model="skpd.kontak" placeholder="Nomor Telepon" required="required">
+                                        <label>Kontak *</label>
+                                        <input type="text" class="form-control" id="kontak" v-model="skpd.kontak" placeholder="Nomor Telepon" :class="{ 'is-invalid': validasi.kontak }">
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label>Alamat</label>
-                                        <textarea class="form-control" id="alamat" v-model="skpd.alamat" required="required"></textarea>
+                                        <label>Alamat *</label>
+                                        <textarea class="form-control" id="alamat" v-model="skpd.alamat" :class="{ 'is-invalid': validasi.alamat }"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label>Kota</label>
-                                        <select v-model="skpd.kota" class="form-control" required="required">
+                                        <label>Kota *</label>
+                                        <select v-model="skpd.kota" class="form-control" :class="{ 'is-invalid': validasi.kota }">
                                             <option value="">Pilih Kota</option>
                                             <option v-for="v in this.kabkota" :value="v.nama_kabkota" :key="v.id">
                                                 {{ v.nama_kabkota }}</option>
@@ -40,6 +40,11 @@
                                     <div class="form-group col-md-12">
                                         <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Simpan Data</button>
                                         <a :href="route" class="btn btn-danger"><i class="fa fa-arrow-left"></i> Kembali</a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <b>*) Wajib Diisi</b>
                                     </div>
                                 </div>
                             </form>
@@ -63,10 +68,17 @@ export default {
                 alamat:'',
                 kota:''
             },
+            validasi: {
+                'nama_skpd': '',
+                'kontak': '',
+                'alamat': '',
+                'kota': ''
+            },
             alert: {
                 error: false,
                 save: false,
-                duplicate: false
+                duplicate: false,
+                validate:false
             },
             isLoading: false
         }
@@ -80,21 +92,35 @@ export default {
             this.skpd.kota = '';
         },
         onSubmit (evt) {
-            this.isLoading = true;
-            service.postData(this.api, this.skpd)
-            .then(result => {
-                this.isLoading = false;
-                this.response(result);
-            }).catch(error => {
-                this.isLoading = false;
-                this.alert.error = true;
-                this.alert.duplicate = false;
-                this.alert.save = false;
-                window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-                console.log(error);
-            });
+            evt.preventDefault();
+            this.alert.error = false;
+            this.alert.duplicate = false;
+            this.alert.save = false;
+            this.alert.validate = false;
+
+            let validasi = this.validate();
+
+            if (validasi === true) {
+                this.isLoading = true;
+                service.postData(this.api, this.skpd)
+                    .then(result => {
+                        this.isLoading = false;
+                        this.response(result);
+                    }).catch(error => {
+                        this.isLoading = false;
+                        this.alert.error = true;
+                        this.alert.duplicate = false;
+                        this.alert.save = false;
+                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                        console.log(error);
+                    });
+            } else {
+                this.alert.validate = true;
+                setTimeout(() => this.alert.validate = false, 2000);
+            }
         },
         response(result) {
+            setTimeout(() => { this.isLoading = false }, 1000);
             if (result.status === 'ok') {
                 this.alert.error = false;
                 this.alert.duplicate = false;
@@ -109,6 +135,43 @@ export default {
                 window.scroll({ top: 0, left: 0, behavior: 'smooth' });
             }
         },
+        validate() {
+            let condition = 0;
+
+            if (this.skpd.nama_skpd.length === 0) {
+                this.validasi.nama_skpd = true;
+                condition++;
+            } else {
+                this.validasi.nama_skpd = false;
+            }
+
+            if (this.skpd.kontak.length === 0) {
+                this.validasi.kontak = true;
+                condition++;
+            } else {
+                this.validasi.kontak = false;
+            }
+
+            if (this.skpd.alamat.length === 0) {
+                this.validasi.alamat = true;
+                condition++;
+            } else {
+                this.validasi.alamat = false;
+            }
+
+            if (this.skpd.kota.length === 0) {
+                this.validasi.kota = true;
+                condition++;
+            } else {
+                this.validasi.kota = false;
+            }
+
+            if (condition > 0) {
+                return false;
+            } else {
+                return true;
+            }
+        }
     },
     created() {
         this.isLoading = true;
