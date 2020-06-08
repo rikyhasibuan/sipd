@@ -87,7 +87,7 @@ class PerangkatDaerahController extends Controller
         $data['link'] = $this->link;
         $data['skpd'] = $skpd;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api . '?nip='.$this->_nip.'&id=' . $perangkatdaerah->id);
+        $data['api'] = url($this->api . '?nip='.$this->_nip.'&id=' . $skpd->id);
         $data['route'] = url($this->route);
         $data['kabkota'] = $kabkota;
         $data['act'] = 'edit';

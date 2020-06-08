@@ -49,15 +49,8 @@ class KegiatanController extends Controller
 
     public function post_data(Request $request)
     {
-        $check = Kegiatan::where(
-            [
-                'program_id' => $request->input('program_id'),
-                'kode_kegiatan' => $request->input('kode_kegiatan'),
-                'nama_kegiatan' => $request->input('nama_kegiatan'),
-                'bendahara' => $request->input('bendahara'),
-            ]
-        )->count();
-
+        $check = Kegiatan::where('kode_kegiatan', $request->input('kode_kegiatan'))
+            ->orWhere('nama_kegiatan', $request->input('nama_kegiatan'))->count();
         if ($check == 0) {
             $kegiatan = new Kegiatan();
             $kegiatan->program_id = $request->input('program_id');

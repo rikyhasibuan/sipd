@@ -86,6 +86,7 @@
                     .then(result => {
                         this.response(result);
                     }).catch(error => {
+                        this.isLoading = false;
                         this.alert.error = true;
                         this.alert.duplicate = false;
                         this.alert.save = false;

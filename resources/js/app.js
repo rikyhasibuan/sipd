@@ -49,7 +49,7 @@ Vue.filter('moment', function (date) {
 
 // Date Filtering
 Vue.filter('long_moment', function (date) {
-    return moment(date).format('h:mm [WIB], DD MMMM YYYY');
+    return moment(date).format('HH:mm [WIB], DD MMMM YYYY');
 });
 
 // Short Date Filtering

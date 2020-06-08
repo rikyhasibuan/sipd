@@ -19,7 +19,7 @@
                                 <label>Kabupaten / Kota</label>
                                 <select v-model="irbankabkota.kabkota_id" class="form-control mb-2 mr-sm-2" :class="{ 'is-invalid': validasi.kabkota_id }">
                                     <option value="">Pilih Kabupaten / Kota</option>
-                                    <option v-for="v in this.kabkota_data" :value="v.id" :key="v.id">{{ obj.nama_kabkota }}</option>
+                                    <option v-for="v in this.kabkota_data" :value="v.id" :key="v.id">{{ v.nama_kabkota }}</option>
                                 </select>
                             </div>
                         </div>
