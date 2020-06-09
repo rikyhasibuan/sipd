@@ -61,35 +61,41 @@ class DinasBopController extends Controller
     public function post_data(Request $request)
     {
         try {
-            $dasar = array_values(array_filter($request->input('dasar')));
-            $untuk = array_values(array_filter($request->input('untuk')));
+            $check = DinasBop::whereBetween('dari', [$request->input('dari'), $request->input('sampai')])
+            ->whereBetween('sampai', [$request->input('dari'), $request->input('sampai')])->count();
 
-            $dinasbop = new DinasBop();
-            $dinasbop->program_id = $request->input('program_id');
-            $dinasbop->kegiatan_id = $request->input('kegiatan_id');
-            $dinasbop->belanja_id = $request->input('belanja_id');
-            $dinasbop->dasar = $dasar;
-            $dinasbop->untuk = $untuk;
-            $dinasbop->dari = $request->input('dari');
-            $dinasbop->sampai = $request->input('sampai');
-            $dinasbop->status = 0;
-            $dinasbop->created_at = date('Y-m-d H:i:s');
+            if ($check == 0) {
+                $dasar = array_values(array_filter($request->input('dasar')));
+                $untuk = array_values(array_filter($request->input('untuk')));
 
-            if ($dinasbop->save()) {
-                $timdinas = new TimDinas();
-                $timdinas->generate_approval_bop($dinasbop->id);
+                $dinasbop = new DinasBop();
+                $dinasbop->program_id = $request->input('program_id');
+                $dinasbop->kegiatan_id = $request->input('kegiatan_id');
+                $dinasbop->belanja_id = $request->input('belanja_id');
+                $dinasbop->dasar = $dasar;
+                $dinasbop->untuk = $untuk;
+                $dinasbop->dari = $request->input('dari');
+                $dinasbop->sampai = $request->input('sampai');
+                $dinasbop->status = 0;
+                $dinasbop->created_at = date('Y-m-d H:i:s');
 
-                $payload = [
-                    'page' => 'Dinas BOP',
-                    'message' => 'User dengan NIP '.$request->query('nip').' menambahkan data Dinas BOP baru'
-                ];
-                $this->_common->generate_log($payload);
+                if ($dinasbop->save()) {
+                    $timdinas = new TimDinas();
+                    $timdinas->generate_approval_bop($dinasbop->id);
 
-                return response()->json(['status'=>'ok'], 200);
+                    $payload = [
+                        'page' => 'Dinas BOP',
+                        'message' => 'User dengan NIP '.$request->query('nip').' menambahkan data Dinas BOP baru'
+                    ];
+                    $this->_common->generate_log($payload);
+
+                    return response()->json(['status'=>'ok'], 200);
+                } else {
+                    return response()->json(['status'=>'failed'], 500);
+                }
             } else {
-                return response()->json(['status'=>'failed'], 500);
+                return response()->json(['status'=>'duplicate'], 200);
             }
-
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
