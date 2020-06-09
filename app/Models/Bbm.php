@@ -34,4 +34,11 @@ class Bbm extends Model
     {
         return $this->belongsTo('App\Models\Kabkota', 'kabkota_id');
     }
+
+    public function scopeSearchKabkota($query, $kabkota)
+    {
+        if ($kabkota) {
+            return $query->where('kabkota_id', $kabkota);
+        }
+    }
 }

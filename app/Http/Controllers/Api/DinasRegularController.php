@@ -175,6 +175,7 @@ class DinasRegularController extends Controller
                 'page' => 'Dinas Reguler',
                 'message' => 'User dengan NIP '.$request->query('nip').' melakukan hapus data pada Dinas Reguler'
             ];
+            DinasRegularApproval::where('dinasregular_id', $request['id'])->delete();
             $this->_common->generate_log($payload);
             return response()->json(['status' => 'ok'], 200);
         } else {

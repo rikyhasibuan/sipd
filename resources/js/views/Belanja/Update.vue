@@ -78,18 +78,23 @@
                 alert: {
                     error: false,
                     update: false,
-                    validate: false
+                    validate: false,
+                    duplicate: false
                 },
                 isLoading: false
             }
         },
         props: ['program_data','kegiatan_data', 'belanja', 'api', 'route'],
         methods: {
-            onSubmit(evt) {
-                evt.preventDefault();
+            clearAlert() {
                 this.alert.error = false;
                 this.alert.update = false;
-
+                this.alert.duplicate = false;
+                this.alert.validate = false;
+            },
+            onSubmit(evt) {
+                evt.preventDefault();
+                this.clearAlert();
                 let validasi = this.validate();
 
                 if (validasi === true) {
@@ -100,7 +105,6 @@
                         }).catch(error => {
                             this.isLoading = false;
                             this.alert.error = true;
-                            this.alert.update = false;
                             window.scroll({top: 0, left: 0, behavior: 'smooth'});
                             console.log(error);
                         });
@@ -115,16 +119,18 @@
                 .then(response => {
                     this.belanja.kegiatan_id = '';
                     this.kegiatan = response;
-                })
-                .catch(error => {
+                }).catch(error => {
                     console.log(error);
                 });
             },
             response(result) {
                 setTimeout(() => { this.isLoading = false }, 1000);
                 if (result.status === 'ok') {
-                    this.alert.error = false;
                     this.alert.update = true;
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                    setTimeout(() => this.alert.update = false, 5000);
+                } else if (result.status === 'duplicate') {
+                    this.alert.duplicate = true;
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(() => this.alert.update = false, 5000);
                 }

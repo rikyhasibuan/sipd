@@ -89,48 +89,41 @@ export default {
     },
     props: ['level_data', 'pegawai_data', 'api', 'route'],
     methods: {
-        onSubmit(evt) {
+        clearAlert() {
             this.alert.error = false;
-            this.alert.duplicate = false;
             this.alert.save = false;
+            this.alert.duplicate = false;
             this.alert.validate = false;
-
+        },
+        onSubmit(evt) {
+            evt.preventDefault();
+            this.clearAlert();
             let validasi = this.validate();
-
             if (validasi === true) {
                 this.isLoading = true;
                 service.postData(this.api, this.user)
                     .then(result => {
-                        this.isLoading = false;
                         this.response(result);
                     }).catch(error => {
-                    this.isLoading = false;
-                    this.alert.error = true;
-                    this.alert.duplicate = false;
-                    this.alert.save = false;
-                    window.scroll({top: 0, left: 0, behavior: 'smooth'});
-                    console.log(error);
-                });
+                        this.isLoading = false;
+                        this.alert.error = true;
+                        window.scroll({top: 0, left: 0, behavior: 'smooth'});
+                        console.log(error);
+                    });
             } else {
-                this.alert.error = false;
-                this.alert.duplicate = false;
-                this.alert.save = false;
                 this.alert.validate = true;
                 setTimeout(() => this.alert.validate = false, 2000);
             }
         },
         response(result) {
+            setTimeout(() => { this.isLoading = false }, 1000);
             if (result.status === 'ok') {
-                this.alert.error = false;
-                this.alert.duplicate = false;
                 this.alert.save = true;
                 window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 this.reset();
                 setTimeout(() => this.alert.save = false, 5000);
             } else if (result.status === 'duplicate') {
                 this.alert.duplicate = true;
-                this.alert.error = false;
-                this.alert.save = false;
                 window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 setTimeout(() => this.alert.duplicate = false, 3000);
             }

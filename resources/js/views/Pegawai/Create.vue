@@ -108,16 +108,16 @@ export default {
     },
     props: ['pangkat_data', 'jabatan_data', 'eselon_data', 'api', 'route'],
     methods: {
+        clearAlert() {
+            this.alert.error = false;
+            this.alert.save = false;
+            this.alert.duplicate = false;
+            this.alert.validate = false;
+        },
         onSubmit(evt) {
             evt.preventDefault();
-
-            this.alert.error = false;
-            this.alert.duplicate = false;
-            this.alert.save = false;
-            this.alert.validate = false;
-
+            this.clearAlert();
             let validasi = this.validate();
-
             if (validasi === true) {
                 this.isLoading = true;
                 service.postData(this.api, this.pegawai)
@@ -126,8 +126,6 @@ export default {
                     }).catch(error => {
                         this.isLoading = false;
                         this.alert.error = true;
-                        this.alert.duplicate = false;
-                        this.alert.save = false;
                         window.scroll({top: 0, left: 0, behavior: 'smooth'});
                         console.log(error);
                     });
@@ -149,22 +147,17 @@ export default {
         response(result) {
             setTimeout(() => { this.isLoading = false }, 1000);
             if (result.status === 'ok') {
-                this.alert.error = false;
-                this.alert.duplicate = false;
                 this.alert.save = true;
                 window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 this.reset();
                 setTimeout(() => this.alert.save = false, 5000);
             } else if (result.status === 'duplicate') {
                 this.alert.duplicate = true;
-                this.alert.error = false;
-                this.alert.save = false;
                 window.scroll({ top: 0, left: 0, behavior: 'smooth' });
             }
         },
         validate() {
             let condition = 0;
-
             if (this.pegawai.nip.length === 0) {
                 this.validasi.nip = true;
                 condition++;

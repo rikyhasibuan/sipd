@@ -67,7 +67,8 @@
                 alert: {
                     error: false,
                     update: false,
-                    validate:false
+                    validate:false,
+                    duplicate:false
                 },
                 validasi: {
                     'program_id': '',
@@ -80,14 +81,16 @@
         },
         props: ['program_data','bendahara_data', 'api', 'route', 'kegiatan'],
         methods: {
-            onSubmit(evt) {
-                evt.preventDefault();
+            clearAlert() {
                 this.alert.error = false;
                 this.alert.update = false;
+                this.alert.duplicate = false;
                 this.alert.validate = false;
-
+            },
+            onSubmit(evt) {
+                evt.preventDefault();
+                this.clearAlert();
                 let validasi = this.validate();
-
                 if (validasi === true) {
                     this.isLoading = true;
                     service.putData(this.api, this.kegiatan)
@@ -107,12 +110,14 @@
             response(result) {
                 setTimeout(() => { this.isLoading = false }, 1000);
                 if (result.status === 'ok') {
-                    this.alert.error = false;
                     this.alert.update = true;
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(() => this.alert.update = false, 5000);
+                } else if (result.status === 'duplicate') {
+                    this.alert.duplicate = true;
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                    setTimeout(() => this.alert.update = false, 5000);
                 }
-                this.isLoading = false;
             },
             validate() {
                 let condition = 0;

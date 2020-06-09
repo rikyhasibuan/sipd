@@ -44,12 +44,14 @@ class BelanjaController extends Controller
     public function post_data(Request $request)
     {
         try {
-            $check = Belanja::where([
-                'kode_belanja' => $request->input('kode_belanja'),
-                'nama_belanja' => $request->input('nama_belanja'),
-                'program_id' => $request->input('program_id'),
-                'kegiatan_id' => $request->input('kegiatan_id')
-            ])->count();
+            $check = Belanja::where(function ($query) use ($request) {
+                $query->where('kode_belanja', $request->input('kode_belanja'))
+                ->orWhere('nama_belanja', $request->input('nama_belanja'));
+            })
+            ->where(function ($query) use ($request) {
+                $query->where('program_id', $request->input('program_id'))
+                ->where('kegiatan_id', $request->input('kegiatan_id'));
+            })->count();
 
             if ($check == 0) {
                 $belanja = new Belanja();
@@ -79,21 +81,35 @@ class BelanjaController extends Controller
     public function put_data(Request $request)
     {
         try {
-            $belanja = Belanja::find($request->input('id'));
-            $belanja->program_id = $request->input('program_id');
-            $belanja->kegiatan_id = $request->input('kegiatan_id');
-            $belanja->kode_belanja = $request->input('kode_belanja');
-            $belanja->nama_belanja = $request->input('nama_belanja');
-            $belanja->updated_at = date('Y-m-d H:i:s');
-            if ($belanja->save()) {
-                $payload = [
-                    'page' => 'Belanja',
-                    'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data belanja'
-                ];
-                $this->_common->generate_log($payload);
-                return response()->json(['status' => 'ok'], 200);
+            $check = Belanja::where('id', '<>', $request['id'])
+            ->where(function ($query) use ($request) {
+                $query->where('kode_belanja', $request->input('kode_belanja'))
+                ->orWhere('nama_belanja', $request->input('nama_belanja'));
+            })
+            ->where(function ($query) use ($request) {
+                $query->where('program_id', $request->input('program_id'))
+                ->where('kegiatan_id', $request->input('kegiatan_id'));
+            })->count();
+
+            if ($check == 0) {
+                $belanja = Belanja::find($request->input('id'));
+                $belanja->program_id = $request->input('program_id');
+                $belanja->kegiatan_id = $request->input('kegiatan_id');
+                $belanja->kode_belanja = $request->input('kode_belanja');
+                $belanja->nama_belanja = $request->input('nama_belanja');
+                $belanja->updated_at = date('Y-m-d H:i:s');
+                if ($belanja->save()) {
+                    $payload = [
+                        'page' => 'Belanja',
+                        'message' => 'User dengan NIP ' . $request->query('nip') . ' melakukan perubahan pada data belanja'
+                    ];
+                    $this->_common->generate_log($payload);
+                    return response()->json(['status' => 'ok'], 200);
+                } else {
+                    return response()->json(['status' => 'failed'], 500);
+                }
             } else {
-                return response()->json(['status' => 'failed'], 500);
+                return response()->json(['status' => 'duplicate'], 200);
             }
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

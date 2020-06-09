@@ -24,7 +24,9 @@ Vue.use(money, {
 Vue.use(datePicker);
 Vue.use(accounting);
 Vue.use(VueCookies);
-
+Vue.use(Loading, {
+    color: 'red'
+});
 // Component Config
 $.extend(true, $.fn.datetimepicker.defaults, {
     icons: {
@@ -153,8 +155,8 @@ Vue.component('v-delete', require('./components/Delete.vue'));
 Vue.component('v-revision', require('./components/Revision.vue'));
 Vue.component('v-approval', require('./components/Approval.vue'));
 Vue.component('v-revision-log', require('./components/RevisionLog.vue'));
-Vue.component('loading', Loading);
 Vue.component('multiselect', Multiselect);
+Vue.component('loading', Loading);
 
 Vue.component('login', require('./views/Login.vue'));
 Vue.component('dashboard', require('./views/Dashboard.vue'));

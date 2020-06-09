@@ -49,8 +49,11 @@ class KegiatanController extends Controller
 
     public function post_data(Request $request)
     {
-        $check = Kegiatan::where('kode_kegiatan', $request->input('kode_kegiatan'))
-            ->orWhere('nama_kegiatan', $request->input('nama_kegiatan'))->count();
+        $check = Kegiatan::where(function ($query) use ($request) {
+            $query->where('kode_kegiatan', $request->input('kode_kegiatan'))
+            ->orWhere('nama_kegiatan', $request->input('nama_kegiatan'));
+        })->count();
+        
         if ($check == 0) {
             $kegiatan = new Kegiatan();
             $kegiatan->program_id = $request->input('program_id');
@@ -75,21 +78,31 @@ class KegiatanController extends Controller
 
     public function put_data(Request $request)
     {
-        $kegiatan = Kegiatan::find($request['id']);
-        $kegiatan->program_id = $request->input('program_id');
-        $kegiatan->kode_kegiatan = $request->input('kode_kegiatan');
-        $kegiatan->nama_kegiatan = $request->input('nama_kegiatan');
-        $kegiatan->bendahara = $request->input('bendahara');
-        $kegiatan->updated_at = date('Y-m-d H:i:s');
-        if ($kegiatan->save()) {
-            $payload = [
-                'page' => 'Kegiatan',
-                'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data kegiatan'
-            ];
-            $this->_common->generate_log($payload);
-            return response()->json(['status' => 'ok'], 200);
+        $check = Kegiatan::where('id', '<>', $request['id'])
+        ->where(function ($query) use ($request) {
+            $query->where('kode_kegiatan', $request->input('kode_kegiatan'))
+            ->orWhere('nama_kegiatan', $request->input('nama_kegiatan'));
+        })->count();
+
+        if($check === 0) {
+            $kegiatan = Kegiatan::find($request['id']);
+            $kegiatan->program_id = $request->input('program_id');
+            $kegiatan->kode_kegiatan = $request->input('kode_kegiatan');
+            $kegiatan->nama_kegiatan = $request->input('nama_kegiatan');
+            $kegiatan->bendahara = $request->input('bendahara');
+            $kegiatan->updated_at = date('Y-m-d H:i:s');
+            if ($kegiatan->save()) {
+                $payload = [
+                    'page' => 'Kegiatan',
+                    'message' => 'User dengan NIP ' . $request->query('nip') . ' melakukan perubahan pada data kegiatan'
+                ];
+                $this->_common->generate_log($payload);
+                return response()->json(['status' => 'ok'], 200);
+            } else {
+                return response()->json(['status' => 'failed'], 500);
+            }
         } else {
-            return response()->json(['status' => 'failed'], 500);
+            return response()->json(['status' => 'duplicate'], 200);
         }
     }
 

@@ -38,19 +38,25 @@ class BbmController extends Controller
 
     public function put_data(Request $request)
     {
-        $bbm = Bbm::find($request['id']);
-        $bbm->kabkota_id = $request->input('kabkota_id');
-        $bbm->liter = $request->input('liter');
-        $bbm->updated_at = date('Y-m-d H:i:s');
-        if ($bbm->save()) {
-            $payload = [
-                'page' => 'BBM',
-                'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data BBM'
-            ];
-            $this->_common->generate_log($payload);
-            return response()->json(['status' => 'ok'], 200);
+        $check = Bbm::searchKabkota($request->input('kabkota_id'))->where('id', '!=', $request['id'])->count();
+        
+        if ($check == 0) {
+            $bbm = Bbm::find($request['id']);
+            $bbm->kabkota_id = $request->input('kabkota_id');
+            $bbm->liter = $request->input('liter');
+            $bbm->updated_at = date('Y-m-d H:i:s');
+            if ($bbm->save()) {
+                $payload = [
+                    'page' => 'BBM',
+                    'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data BBM'
+                ];
+                $this->_common->generate_log($payload);
+                return response()->json(['status' => 'ok'], 200);
+            } else {
+                return response()->json(['status' => 'failed'], 500);
+            }
         } else {
-            return response()->json(['status' => 'failed'], 500);
+            return response()->json(['status' => 'ok'], 200);
         }
     }
 }

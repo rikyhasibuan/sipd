@@ -37,7 +37,7 @@ class ProgramController extends Controller
     public function post_data(Request $request)
     {
         $check = Program::where('kode_program', $request->input('kode_program'))
-            ->orWhere('nama_program', $request->input('nama_program'))->count();
+        ->orWhere('nama_program', $request->input('nama_program'))->count();
 
         if ($check == 0) {
             $program = new Program();
@@ -61,19 +61,28 @@ class ProgramController extends Controller
 
     public function put_data(Request $request)
     {
-        $program = Program::find($request['id']);
-        $program->kode_program = $request->input('kode_program');
-        $program->nama_program = $request->input('nama_program');
-        $program->updated_at = date('Y-m-d H:i:s');
-        if ($program->save()) {
-            $payload = [
-                'page' => 'Program',
-                'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data program'
-            ];
-            $this->_common->generate_log($payload);
-            return response()->json(['status' => 'ok'], 200);
+        $check = Program::where('id', '<>', $request['id'])->where(function ($query) use ($request) {
+            $query->where('kode_program', $request->input('kode_program'))
+            ->orWhere('nama_program', $request->input('nama_program'));
+        })->count();
+
+        if ($check == 0) {
+            $program = Program::find($request['id']);
+            $program->kode_program = $request->input('kode_program');
+            $program->nama_program = $request->input('nama_program');
+            $program->updated_at = date('Y-m-d H:i:s');
+            if ($program->save()) {
+                $payload = [
+                    'page' => 'Program',
+                    'message' => 'User dengan NIP ' . $request->query('nip') . ' melakukan perubahan pada data program'
+                ];
+                $this->_common->generate_log($payload);
+                return response()->json(['status' => 'ok'], 200);
+            } else {
+                return response()->json(['status' => 'failed'], 500);
+            }
         } else {
-            return response()->json(['status' => 'failed'], 500);
+            return response()->json(['status' => 'duplicate'], 200);
         }
     }
 

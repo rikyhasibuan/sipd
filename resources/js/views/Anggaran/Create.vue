@@ -120,6 +120,12 @@
         },
         props: ['program_data', 'kegiatan_data', 'belanja_data', 'bulan_data', 'tahun_data', 'api', 'route'],
         methods: {
+            clearAlert() {
+                this.alert.error = false;
+                this.alert.save = false;
+                this.alert.duplicate = false;
+                this.alert.validate = false;
+            },
             onChangeProgram(evt) {
                 const program = evt.target.value;
                 service.fetchData('../api/ajax/kegiatan/' + program)
@@ -146,12 +152,7 @@
             },
             onSubmit(evt) {
                 evt.preventDefault();
-
-                this.alert.error = false;
-                this.alert.duplicate = false;
-                this.alert.save = false;
-                this.alert.validate = false;
-
+                this.clearAlert();
                 let validasi = this.validate();
 
                 if (validasi === true) {
@@ -161,8 +162,6 @@
                         }).catch(error => {
                             this.isLoading = false
                             this.alert.error = true;
-                            this.alert.save = false;
-                            this.alert.duplicate = false;
                             window.scroll({top: 0, left: 0, behavior: 'smooth'});
                             console.log(error);
                         });
@@ -175,15 +174,11 @@
                 setTimeout(() => { this.isLoading = false }, 1000);
                 if (result.status === 'ok') {
                     this.reset();
-                    this.alert.error = false;
-                    this.alert.duplicate = false;
                     this.alert.save = true;
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(() => this.alert.save = false, 5000);
                 } else if (result.status === 'duplicate') {
                     this.alert.duplicate = true;
-                    this.alert.error = false;
-                    this.alert.save = false;
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 }
             },

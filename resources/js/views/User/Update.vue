@@ -80,11 +80,14 @@
         },
         props: ['level_data', 'pegawai_data', 'user', 'api', 'route'],
         methods: {
-            onSubmit(evt) {
+            clearAlert() {
                 this.alert.error = false;
                 this.alert.update = false;
                 this.alert.validate = false;
-
+            },
+            onSubmit(evt) {
+                evt.preventDefault();
+                this.clearAlert();
                 let validasi = this.validate();
                 if (validasi === true) {
                     this.isLoading = true;
@@ -99,19 +102,16 @@
                     });
                 } else {
                     this.alert.validate = true;
-                    this.alert.error = false;
-                    this.alert.update = false;
                     setTimeout(() => this.alert.validate = false, 3000);
                 }
             },
             response(result) {
+                setTimeout(() => { this.isLoading = false }, 1000);
                 if (result.status === 'ok') {
-                    this.alert.error = false;
                     this.alert.update = true;
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(() => this.alert.update = false, 5000);
                 }
-                this.isLoading = false;
             },
             validate() {
                 let condition = 0;

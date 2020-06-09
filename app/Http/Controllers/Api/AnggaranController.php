@@ -48,11 +48,11 @@ class AnggaranController extends Controller
     public function post_data(Request $request)
     {
         $check = Anggaran::searchBulan($request->input('bulan'))
-                        ->searchTahun($request->input('tahun'))
-                        ->searchKegiatan($request->input('kegiatan_id'))
-                        ->searchProgram($request->input('program_id'))
-                        ->searchBelanja($request->input('belanja_id'))
-                        ->count();
+        ->searchTahun($request->input('tahun'))
+        ->searchKegiatan($request->input('kegiatan_id'))
+        ->searchProgram($request->input('program_id'))
+        ->searchBelanja($request->input('belanja_id'))
+        ->count();
 
         if ($check == 0) {
             $anggaran = new Anggaran();
@@ -80,23 +80,35 @@ class AnggaranController extends Controller
 
     public function put_data(Request $request)
     {
-        $anggaran = Anggaran::find($request['id']);
-        $anggaran->program_id = $request->input('program_id');
-        $anggaran->kegiatan_id = $request->input('kegiatan_id');
-        $anggaran->belanja_id = $request->input('belanja_id');
-        $anggaran->jumlah = $request->input('jumlah');
-        $anggaran->bulan = $request->input('bulan');
-        $anggaran->tahun = $request->input('tahun');
-        $anggaran->updated_at = date('Y-m-d H:i:s');
-        if ($anggaran->save()) {
-            $payload = [
-                'page' => 'Anggaran',
-                'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data anggaran'
-            ];
-            $this->_common->generate_log($payload);
-            return response()->json(['status' => 'ok'], 200);
+        $check = Anggaran::searchBulan($request->input('bulan'))
+        ->searchTahun($request->input('tahun'))
+        ->searchKegiatan($request->input('kegiatan_id'))
+        ->searchProgram($request->input('program_id'))
+        ->searchBelanja($request->input('belanja_id'))
+        ->where('id', '!=', $request['id'])
+        ->count();
+        
+        if ($check == 0) {
+            $anggaran = Anggaran::find($request['id']);
+            $anggaran->program_id = $request->input('program_id');
+            $anggaran->kegiatan_id = $request->input('kegiatan_id');
+            $anggaran->belanja_id = $request->input('belanja_id');
+            $anggaran->jumlah = $request->input('jumlah');
+            $anggaran->bulan = $request->input('bulan');
+            $anggaran->tahun = $request->input('tahun');
+            $anggaran->updated_at = date('Y-m-d H:i:s');
+            if ($anggaran->save()) {
+                $payload = [
+                    'page' => 'Anggaran',
+                    'message' => 'User dengan NIP '.$request->query('nip').' melakukan perubahan pada data anggaran'
+                ];
+                $this->_common->generate_log($payload);
+                return response()->json(['status' => 'ok'], 200);
+            } else {
+                return response()->json(['status' => 'failed'], 500);
+            }
         } else {
-            return response()->json(['status' => 'failed'], 500);
+            return response()->json(['status' => 'duplicate'], 200);
         }
     }
 

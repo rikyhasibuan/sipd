@@ -143,7 +143,6 @@ class DinasBopController extends Controller
             $anggaran = DinasBop::find($request['id']);
             $parent = $anggaran->id;
             if ($anggaran->delete()) {
-
                 DinasBopTim::where('dinasbop_id',  $request['id'])->delete();
                 DinasBopDriver::where('dinasbop_id',  $request['id'])->delete();
                 DinasBopInspektur::where('dinasbop_id',  $request['id'])->delete();

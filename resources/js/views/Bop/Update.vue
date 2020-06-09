@@ -58,11 +58,14 @@
         },
         props: ['api', 'route', 'bop'],
         methods: {
-            onSubmit(evt) {
-                evt.preventDefault();
+            clearAlert() {
                 this.alert.error = false;
                 this.alert.update = false;
-
+                this.alert.validate = false;
+            },
+            onSubmit(evt) {
+                evt.preventDefault();
+                this.clearAlert();
                 let validasi = this.validate();
                 if (validasi === true) {
                     this.isLoading = true;
@@ -83,7 +86,6 @@
             response(result) {
                 setTimeout(() => { this.isLoading = false }, 1000);
                 if (result.status === 'ok') {
-                    this.alert.error = false;
                     this.alert.update = true;
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(() => this.alert.update = false, 5000);

@@ -22,7 +22,7 @@ class DashboardController extends Controller
             $tahun = ($request['tahun'] != '') ? $request['tahun'] : date('Y');
             $bulan = ($request['bulan'] != '') ? $request['bulan'] : '12';
 
-            if ($bulan != '' || $bulan != null) {
+            if ($request['bulan'] != '') {
                 $message = ' ' .$common->generate_indonesia_month($bulan).' ';
             } else {
                 $message = '';
