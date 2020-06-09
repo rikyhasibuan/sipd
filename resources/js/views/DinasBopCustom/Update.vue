@@ -23,8 +23,11 @@
                                             name="tgl_sp"
                                             v-model="timcustom.tgl_sp"
                                             :config="options"
-                                            class="form-control"
-                                            placeholder="Tanggal Surat Perintah" autocomplete="off" required>
+                                            class="form-control disabled"
+                                            placeholder="Tanggal Surat Perintah" 
+                                            autocomplete="off" 
+                                            required
+                                            disabled>
                                         </date-picker>
                                     </div>
                                 </div>

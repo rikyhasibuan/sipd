@@ -23,8 +23,10 @@
                                             name="tgl_sp"
                                             v-model="dinasbopsekretaris.tgl_sp"
                                             :config="options"
-                                            class="form-control"
-                                            placeholder="Tanggal Surat Perintah" autocomplete="off">
+                                            class="form-control disabled"
+                                            placeholder="Tanggal Surat Perintah" 
+                                            autocomplete="off"
+                                            disabled>
                                         </date-picker>
                                     </div>
                                 </div>
@@ -42,8 +44,10 @@
                                             name="dari"
                                             v-model="dinasbopsekretaris.dari"
                                             :config="options"
-                                            class="form-control"
-                                            placeholder="Tanggal Mulai" autocomplete="off">
+                                            class="form-control disabled"
+                                            placeholder="Tanggal Mulai" 
+                                            autocomplete="off"
+                                            disabled>
                                         </date-picker>
                                     </div>
                                 </div>
@@ -58,8 +62,10 @@
                                             name="sampai"
                                             v-model="dinasbopsekretaris.sampai"
                                             :config="options"
-                                            class="form-control"
-                                            placeholder="Tanggal Selesai" autocomplete="off">
+                                            class="form-control disabled"
+                                            placeholder="Tanggal Selesai" 
+                                            autocomplete="off"
+                                            disabled>
                                         </date-picker>
                                     </div>
                                 </div>
