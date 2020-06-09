@@ -62,7 +62,7 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
                     <div style="text-align:center;"><img src="{!! asset('img/kop.png') !!}" style="width:100%;"></div>
                     <strong><u><h4 class="text-center">RINCIAN BIAYA PERJALANAN DINAS</h4></u></strong>
                     <br>
-                    <div style="text-align: center;">
+                    <center>
                         <table width="100%">
                             <tr>
                                 <td style="width:5%;"></td>
@@ -83,7 +83,7 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
                                 <td style="width:20%;">: {!! $dinasregular->belanja->kode_belanja !!}</td>
                             </tr>
                         </table>
-                    </div>
+                    </center>
                     <br>
                     <table class="table table-bordered">
                         <thead>
@@ -212,7 +212,7 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
 							</tr>
 							<tr>
                                 <td style="text-align: center;"></td>
-                                <td>{!! $dinasregular->total_transportasi['jenis'] !!}</td>
+                                <td>{!! isset($dinasregular->total_transportasi['jenis']) ? $dinasregular->total_transportasi['jenis'] : '' !!}</td>
                                 <td></td>
                                 <td></td>
                             </tr>

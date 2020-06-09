@@ -255,7 +255,7 @@ class Common
     {
         $bulan = self::generate_integer_month();
         $timestamp = strtotime($date);
-        $indonesia_date = date('d', $timestamp) .' '. $bulan[date('n', $timestamp)] . date(' Y', $timestamp);
+        $indonesia_date = date('j', $timestamp) .' '. $bulan[date('n', $timestamp)] . date(' Y', $timestamp);
         return $indonesia_date;
     }
 

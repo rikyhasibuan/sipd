@@ -153,7 +153,7 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
 								<tr>
 									<td width="3%" style="text-align: center;"></td>
 									<td width="30%">
-										<ol style="margin-left: -15%;">
+										<ol style="margin-left: -13%;">
 											@for($i = 1; $i < count($dinasregular->tim); $i++)
 												<li>{!! $dinasregular->tim[$i]['nama'] !!}</li>
 											@endfor
@@ -165,7 +165,7 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
 								<tr>
 									<td width="3%" style="text-align: center;">9</td>
 									<td width="30%">Pembebanan anggaran<br>
-										<ol type="a" style="margin-left: -15%;">
+										<ol type="a" style="margin-left: -13%;">
 											<li>Instansi</li>
 											<li>Akun</li>
 										</ol>
