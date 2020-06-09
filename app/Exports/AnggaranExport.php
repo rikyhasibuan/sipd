@@ -59,7 +59,7 @@ class AnggaranExport implements FromView, ShouldAutoSize
 
                     if (count($sql_serapan_regular) > 0) {
                         foreach ($sql_serapan_regular as $o) {
-                            $total_regular = $o->total_harian + $o->total_akomodasi + $o->total_transportasi['total'];
+                            $total_regular += $o->total_harian + $o->total_akomodasi + $o->total_transportasi['total'];
                         }
                     }
 

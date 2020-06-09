@@ -159,7 +159,7 @@ $inspektur = $timdinas->get_sekda();
                             </table>
                             <table cellpadding="2" cellspacing="2" style="width:100%;">
                                 <tr>
-                                    <td width="20%" style="text-align: center;">Plh <b>SEKRETARIS DAERAH PROVINSI JAWA BARAT</b></td>
+                                    <td width="20%" style="text-align: center;"><b>SEKRETARIS DAERAH PROVINSI JAWA BARAT</b></td>
                                 </tr>
                                 <tr>
                                     <td width="10%" style="text-align: center;"><br><br><br><br></td>
