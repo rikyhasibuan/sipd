@@ -1,6 +1,6 @@
 <template>
     <div>
-        <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
+        <loading :opacity="100" :active.sync="isLoading" :can-cancel="false" :is-full-page="false"></loading>
         <transition name="fade">
             <form v-on:submit.prevent="onSubmit" method="post">
                 <div class="input-group mb-3">

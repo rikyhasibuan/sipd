@@ -5,7 +5,7 @@
                 <div class="card">
                     <div class="card-body">
                         <v-alert :alert=alert></v-alert>
-                        <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
+                        <loading :opacity="100" :active.sync="isLoading" :can-cancel="false" :is-full-page="false"></loading>
                         <form method="POST" v-on:submit.prevent="onSubmit" enctype="multipart/form-data" autocomplete="off">
                             <div class="col-md-12 col-sm-12">
                                 <div class="row">

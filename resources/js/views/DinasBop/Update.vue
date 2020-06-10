@@ -3,12 +3,8 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <!-- <div class="alert alert-warning">
-                        <h4><i class="fa fa-exclamation-triangle"></i> Peringatan!</h4>
-                        Perubahan data pada Dinas BOP akan mengakibatkan semua data tim yang berkaitan akan terhapus.
-                    </div> -->
                     <v-alert :alert=alert></v-alert>
-                    <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
+                    <loading :opacity="100" :active.sync="isLoading" :can-cancel="false" :is-full-page="false"></loading>
                     <form method="POST" v-on:submit.prevent="onSubmit">
                         <div class="row">
                             <div class="form-group col-md-4">

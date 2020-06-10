@@ -3,7 +3,7 @@
         <div class="col-lg-12">
             <div class="card table-responsive">
                 <div class="card-body table-responsive">
-                    <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
+                    <loading :opacity="100" :active.sync="isLoading" :can-cancel="false" :is-full-page="false"></loading>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
                             <a data-toggle="tab" :style="[dinasboptim.length === 0 ? {background:'#eee'} : '']" class="nav-link" href="#tim" :data-id="'tabtim'" @click="onChangeTabs($event)" :class="(last_tab == 'tim') ? 'active' : ''">

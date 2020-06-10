@@ -1,6 +1,5 @@
 <template>
     <div>
-        <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
         <transition name="fade">
             <div class="row">
                 <div class="col-lg-12">
@@ -49,6 +48,7 @@
                         </div>
                         <div class="card-body table-responsive">
                             <v-alert :alert="alert"></v-alert>
+                            <loading :opacity="100" :active.sync="isLoading" :can-cancel="false" :is-full-page="false"></loading>
                             <transition name="fade">
                                 <table class="table table-hover table-striped table-bordered" v-if="showTable == true">
                                     <thead>

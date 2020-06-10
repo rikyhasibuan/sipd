@@ -6,7 +6,7 @@
                     <transition name="fade">
                         <v-alert :alert=alert></v-alert>
                     </transition>
-                    <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
+                    <loading :opacity="100" :active.sync="isLoading" :can-cancel="false" :is-full-page="false"></loading>
                     <form method="POST" v-on:submit.prevent="onSubmit">
                         <div class="row">
                             <div class="form-group col-md-6 col-xs-12">

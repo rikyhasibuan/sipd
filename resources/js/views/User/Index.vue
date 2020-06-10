@@ -1,88 +1,91 @@
 <template>
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="pull-right">
-                        <button type="button" v-on:click.prevent="toggle" class="btn btn-outline-info mb-2"><i class="fa fa-search"></i> Form Pencarian</button>
-                        <a v-if="access.write === 1" :href="route + '/create'" class="btn btn-success mb-2"><i class="fa fa-plus"></i> Tambah Data</a>
-                    </div>
-                    <transition name="fade">
-                        <div class="card" style="margin-top:50px;" v-show="showForm">
-                            <div class="card-body">
-                                <form v-on:submit.prevent="fetchData()">
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <input type="text" class="form-control" v-model="search.q" placeholder="Nama / NIP">
+    <div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="pull-right">
+                            <button type="button" v-on:click.prevent="toggle" class="btn btn-outline-info mb-2"><i class="fa fa-search"></i> Form Pencarian</button>
+                            <a v-if="access.write === 1" :href="route + '/create'" class="btn btn-success mb-2"><i class="fa fa-plus"></i> Tambah Data</a>
+                        </div>
+                        <transition name="fade">
+                            <div class="card" style="margin-top:50px;" v-show="showForm">
+                                <div class="card-body">
+                                    <form v-on:submit.prevent="fetchData()">
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
+                                                <input type="text" class="form-control" v-model="search.q" placeholder="Nama / NIP">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <select v-model="search.level" class="form-control">
+                                                    <option value="">Pilih Level</option>
+                                                    <option v-for="v in this.level_data" :value="v.id" :key="v.id">{{ v.nama_level }}</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                        <div class="form-group col-md-4">
-                                            <select v-model="search.level" class="form-control">
-                                                <option value="">Pilih Level</option>
-                                                <option v-for="v in this.level_data" :value="v.id" :key="v.id">{{ v.nama_level }}</option>
-                                            </select>
+                                        <div class="row">
+                                            <div class="input-group col-md-4">
+                                                <button type="submit" class="btn btn-outline-success mr-sm-2"><i class="fa fa-search"></i> CARI DATA</button>
+                                                <button type="button" v-on:click.prevent="clear" class="btn btn-outline-info"><i class="fa fa-refresh"></i> RESET</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="input-group col-md-4">
-                                            <button type="submit" class="btn btn-outline-success mr-sm-2"><i class="fa fa-search"></i> CARI DATA</button>
-                                            <button type="button" v-on:click.prevent="clear" class="btn btn-outline-info"><i class="fa fa-refresh"></i> RESET</button>
-                                        </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-                    </transition>
-                </div>
-                <div class="card-body table-responsive">
-                    <v-alert :alert="alert"></v-alert>
-                    <transition name="fade">
-                        <table class="table table-hover table-striped table-bordered" v-if="showTable == true">
-                            <thead>
-                                <tr>
-                                    <th style="width:10%; text-align:center;">NIP</th>
-                                    <th style="width:22%; text-align:center;">Nama</th>
-                                    <th style="width:20%; text-align:center;">Jabatan</th>
-                                    <th style="width:10%; text-align:center;">Level</th>
-                                    <th style="width:10%; text-align:center;">Status</th>
-                                    <th style="width:15%; text-align:center;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="v in user" :key="v.id">
-                                    <td>{{ v.nip }}</td>
-                                    <td>{{ v.pegawai.nama }}</td>
-                                    <td>{{ v.pegawai.jabatan }}</td>
-                                    <td>{{ v.level.nama_level }}</td>
-                                    <td style="text-align:center;" v-html="statusText(v.status)"></td>
-                                    <td>
-                                        <div style="text-align: center;">
-                                            <a v-if="(access.update === 1)" :href="route + '/edit?id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
-                                                <i class="fa fa-wrench"></i> Ubah
-                                            </a>
-                                            <button v-else class="btn btn-sm btn-warning disabled mr-sm-1"><i class="fa fa-wrench"></i> Ubah</button>
-                                            <a v-if="(access.delete === 1)" href="#" @click="toggleModal(v.id)"
-                                                class="btn btn-sm btn-danger">
-                                                <i class="fa fa-trash-o"></i> Hapus
-                                            </a>
-                                            <button v-else class="btn btn-sm btn-danger disabled"><i class="fa fa-trash-o"></i> Hapus</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </transition>
+                        </transition>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <v-alert :alert="alert"></v-alert>
+                        <loading :opacity="100" :active.sync="isLoading" :can-cancel="false" :is-full-page="false"></loading>
+                        <transition name="fade">
+                            <table class="table table-hover table-striped table-bordered" v-if="showTable == true">
+                                <thead>
+                                    <tr>
+                                        <th style="width:10%; text-align:center;">NIP</th>
+                                        <th style="width:22%; text-align:center;">Nama</th>
+                                        <th style="width:20%; text-align:center;">Jabatan</th>
+                                        <th style="width:10%; text-align:center;">Level</th>
+                                        <th style="width:10%; text-align:center;">Status</th>
+                                        <th style="width:15%; text-align:center;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="v in user" :key="v.id">
+                                        <td>{{ v.nip }}</td>
+                                        <td>{{ v.pegawai.nama }}</td>
+                                        <td>{{ v.pegawai.jabatan }}</td>
+                                        <td>{{ v.level.nama_level }}</td>
+                                        <td style="text-align:center;" v-html="statusText(v.status)"></td>
+                                        <td>
+                                            <div style="text-align: center;">
+                                                <a v-if="(access.update === 1)" :href="route + '/edit?id=' + v.id" class="btn btn-sm btn-warning mr-sm-1">
+                                                    <i class="fa fa-wrench"></i> Ubah
+                                                </a>
+                                                <button v-else class="btn btn-sm btn-warning disabled mr-sm-1"><i class="fa fa-wrench"></i> Ubah</button>
+                                                <a v-if="(access.delete === 1)" href="#" @click="toggleModal(v.id)"
+                                                    class="btn btn-sm btn-danger">
+                                                    <i class="fa fa-trash-o"></i> Hapus
+                                                </a>
+                                                <button v-else class="btn btn-sm btn-danger disabled"><i class="fa fa-trash-o"></i> Hapus</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </transition>
 
-                    <transition name="fade"><v-delete :element="'user_delete_modal'" :id="id" @delete="deleteData"></v-delete></transition>
-                    <transition name="fade">
-                        <div class="card-footer clearfix">
-                            <v-pagination
-                                :pagination="pagination"
-                                v-on:next="nextPage"
-                                v-on:previous="prevPage"
-                                v-if="showTable === true">
-                            </v-pagination>
-                        </div>
-                    </transition>
+                        <transition name="fade"><v-delete :element="'user_delete_modal'" :id="id" @delete="deleteData"></v-delete></transition>
+                        <transition name="fade">
+                            <div class="card-footer clearfix">
+                                <v-pagination
+                                    :pagination="pagination"
+                                    v-on:next="nextPage"
+                                    v-on:previous="prevPage"
+                                    v-if="showTable === true">
+                                </v-pagination>
+                            </div>
+                        </transition>
+                    </div>
                 </div>
             </div>
         </div>

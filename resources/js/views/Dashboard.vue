@@ -1,6 +1,5 @@
 <template>
     <div>
-        <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -33,6 +32,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body table-responsive">
+                        <loading :opacity="100" :active.sync="isLoading" :can-cancel="false" :is-full-page="false"></loading>
                         <transition name="fade">
                             <table class="table table-hover table-striped table-bordered">
                                 <thead>
@@ -61,6 +61,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body table-responsive">
+                        <loading :opacity="100" :active.sync="isLoading" :can-cancel="false" :is-full-page="false"></loading>
                         <highcharts :options="anggaran"></highcharts>
                     </div>
                 </div>
@@ -70,6 +71,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body table-responsive">
+                        <loading :opacity="100" :active.sync="isLoading" :can-cancel="false" :is-full-page="false"></loading>
                         <highcharts :options="serapan"></highcharts>
                     </div>
                 </div>
