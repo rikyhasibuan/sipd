@@ -8,7 +8,7 @@
                 :irbanskpd='{!! json_encode($irbanskpd) !!}'
                 :route='{!! json_encode($route) !!}'
                 :api='{!! json_encode($api) !!}'>
-            </petugas-irban-update>
+            </irban-skpd-update>
         @elseif ($act == 'create')
             <irban-skpd-create
                 :irban_data='{!! json_encode($irban) !!}'

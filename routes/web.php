@@ -78,6 +78,11 @@ Route::get('pegawai', 'Web\PegawaiController@index');
 Route::get('pegawai/create', 'Web\PegawaiController@create');
 Route::get('pegawai/edit', 'Web\PegawaiController@edit');
 
+// pokja
+Route::get('pokja', 'Web\PokjaController@index');
+Route::get('pokja/create', 'Web\PokjaController@create');
+Route::get('pokja/edit', 'Web\PokjaController@edit');
+
 // user
 Route::get('user', 'Web\UserController@index');
 Route::get('user/create', 'Web\UserController@create');

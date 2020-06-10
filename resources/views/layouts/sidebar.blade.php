@@ -40,6 +40,7 @@
                     'kegiatan',
                     'belanja',
                     'pegawai',
+                    'pokja',
                     'perangkatdaerah',
                     'user',
                     'irban',
@@ -73,6 +74,12 @@
                                 <a class="nav-link" href="{!! url('pegawai') !!}">
                                     <i class="nav-icon fa fa-circle-o"></i>
                                     <p>Pegawai Inspektorat</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{!! url('pokja') !!}">
+                                    <i class="nav-icon fa fa-circle-o"></i>
+                                    <p>Kelompok Kerja</p>
                                 </a>
                             </li>
                             <li class="nav-item">

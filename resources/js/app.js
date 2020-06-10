@@ -204,6 +204,10 @@ Vue.component('pegawai-index', require('./views/Pegawai/Index.vue'));
 Vue.component('pegawai-create', require('./views/Pegawai/Create.vue'));
 Vue.component('pegawai-update', require('./views/Pegawai/Update.vue'));
 
+Vue.component('pokja-index', require('./views/Pokja/Index.vue'));
+Vue.component('pokja-create', require('./views/Pokja/Create.vue'));
+Vue.component('pokja-update', require('./views/Pokja/Update.vue'));
+
 Vue.component('user-index', require('./views/User/Index.vue'));
 Vue.component('user-create', require('./views/User/Create.vue'));
 Vue.component('user-update', require('./views/User/Update.vue'));

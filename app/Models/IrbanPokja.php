@@ -47,4 +47,11 @@ class IrbanPokja extends Model
         }
     }
 
+    public function scopeSearchPegawai($query, $q) {
+        if ($q != '') {
+            $query->whereHas('pegawai', function ($query) use ($q) {
+                $query->searchPegawai($q);
+            });
+        }
+    }
 }

@@ -103,6 +103,13 @@ Route::post('pegawai', 'Api\PegawaiController@post_data');
 Route::put('pegawai', 'Api\PegawaiController@put_data');
 Route::delete('pegawai', 'Api\PegawaiController@delete_data');
 
+// pokja
+Route::get('pokja', 'Api\PokjaController@get_data');
+Route::get('pokja/{id}', 'Api\PokjaController@show_data');
+Route::post('pokja', 'Api\PokjaController@post_data');
+Route::put('pokja', 'Api\PokjaController@put_data');
+Route::delete('pokja', 'Api\PokjaController@delete_data');
+
 // user
 Route::get('user', 'Api\UserController@get_data');
 Route::get('user/{id}', 'Api\UserController@show_data');

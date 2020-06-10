@@ -9,17 +9,19 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label>Irban *</label>
-                                <select v-model="irbanskpd.irban_id" class="form-control mb-2 mr-sm-2" :class="{ 'is-invalid': validasi.irban_id }">
+                                <select v-model="pokja.irban_id" class="form-control mb-2 mr-sm-2" :class="{ 'is-invalid': validasi.irban_id }">
                                     <option value="">Pilih Irban</option>
                                     <option v-for="val in this.irban_data" :value="val.id" :key="val.id">{{ val.nama_irban }}</option>
                                 </select>
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label>Perangkat Daerah *</label>
-                                <select v-model="irbanskpd.skpd_id" class="form-control mb-2 mr-sm-2" :class="{ 'is-invalid': validasi.skpd_id }">
-                                    <option value="">Pilih Perangkat Daerah</option>
-                                    <option v-for="obj in this.skpd_data" :value="obj.id" :key="obj.id">{{ obj.nama_skpd }}</option>
+                                <label>Pegawai *</label>
+                                <select v-model="pokja.pegawai_id" class="form-control mb-2 mr-sm-2" :class="{ 'is-invalid': validasi.pegawai_id }">
+                                    <option value="">Pilih Pegawai</option>
+                                    <option v-for="obj in this.pegawai_data" :value="obj.id" :key="obj.id">
+                                        {{ obj.nama }} - {{ obj.jabatan }}
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -56,12 +58,12 @@ export default {
             },
             validasi: {
                 irban_id:'',
-                kabkota_id:''
+                pegawai_id:''
             },
             isLoading: false
         }
     },
-    props: ['api', 'skpd_data', 'irban_data', 'irbanskpd', 'route'],
+    props: ['api', 'pegawai_data', 'irban_data', 'pokja', 'route'],
     methods: {
         clearAlert() {
             this.alert.error = false;
@@ -74,7 +76,7 @@ export default {
             let validasi = this.validate();
             if (validasi === true) {
                 this.isLoading = true;
-                service.putData(this.api, this.irbanskpd)
+                service.putData(this.api, this.pokja)
                     .then(result => {
                         this.response(result);
                     }).catch(error => {
@@ -99,15 +101,14 @@ export default {
         },
         validate() {
             let condition = 0;
-
-            if (this.irbanskpd.skpd_id.length === 0) {
-                this.validasi.skpd_id = true;
+            if (this.pokja.pegawai_id.length === 0) {
+                this.validasi.pegawai_id = true;
                 condition++;
             } else {
-                this.validasi.skpd_id = false;
+                this.validasi.pegawai_id = false;
             }
 
-            if (this.irbanskpd.irban_id.length === 0) {
+            if (this.pokja.irban_id.length === 0) {
                 this.validasi.irban_id = true;
                 condition++;
             } else {
