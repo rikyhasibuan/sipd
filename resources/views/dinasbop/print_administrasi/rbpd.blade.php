@@ -157,8 +157,6 @@ $total = $timadministrasi->dinasbopadministrasi->total_anggaran;
 								<td style="vertical-align:middle; text-align:center;">
 									<table width="100%" class="table-print table table-borderless">
 										<tr><td style="text-align:center;vertical-align:middle;">Terlampir</td></tr>
-										<tr><td style="text-align:center;vertical-align:middle;">Terlampir</td></tr>
-										<tr><td style="text-align:center;vertical-align:middle;">Terlampir</td></tr>
 										@foreach($timadministrasi->tim['anggota'] as $v)
 											<tr><td style="text-align:center;vertical-align:middle;">Terlampir</td></tr>
 										@endforeach
@@ -169,7 +167,9 @@ $total = $timadministrasi->dinasbopadministrasi->total_anggaran;
 								<td style="text-align:center;"></td>
 								<td><b>Jumlah Biaya Operasional Inspektorat</b></td>
 								<td style="text-align: right;vertical-align:middle;">
-									<b>Rp.{!! $common->rupiah($timadministrasi->total_anggaran) !!}</b>
+									<span style="margin-right: 5px;font-weight: bold;">
+										Rp.{!! $common->rupiah($timadministrasi->total_anggaran) !!}
+									</span>
 								</td>
 								<td></td>
 							</tr>
@@ -200,7 +200,11 @@ $total = $timadministrasi->dinasbopadministrasi->total_anggaran;
 							</tr>
 							<tr>
 								<td colspan="2"><b>Jumlah Total</b></td>
-								<td style="text-align: right; vertical-align:middle;"><b>Rp.{!! $common->rupiah(($timadministrasi->total_anggaran) ) !!}</b></td>
+								<td style="text-align: right; vertical-align:middle;">
+									<span style="margin-right: 5px;font-weight: bold;">
+										Rp.{!! $common->rupiah(($timadministrasi->total_anggaran) ) !!}
+									</span>
+								</td>
 								<td></td>
 							</tr>
 							<tr>

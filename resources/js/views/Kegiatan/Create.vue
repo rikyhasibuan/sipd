@@ -96,7 +96,7 @@
             },
             onSubmit(evt) {
                 evt.preventDefault();
-                this.clear();
+                this.clearAlert();
                 let validasi = this.validate();
                 if (validasi === true) {
                     this.isLoading = true;

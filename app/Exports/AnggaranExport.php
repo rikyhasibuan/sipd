@@ -27,34 +27,29 @@ class AnggaranExport implements FromView, ShouldAutoSize
         $sql_kegiatan = Kegiatan::searchBendahara($this->bendahara)->with('pegawai')->get();
         $output = [];
         $i = 0;
+        $dari = $this->dari;
+        $sampai = $this->sampai;
         if (count($sql_kegiatan) > 0) {
             foreach ($sql_kegiatan as $v) {
                 $total_regular = 0;
                 $belanja = Belanja::where('kegiatan_id', $v->id)->get();
                 foreach ($belanja as $obj) {
-                    $sql_anggaran = Anggaran::where('bulan','>=', $this->dari[1])
-                        ->where('tahun','>=', $this->dari[0])
-                        ->where('tahun','<=', $this->sampai[0])
-                        ->where('kegiatan_id', $v->id)
-                        ->where('belanja_id', $obj->id)
-                        ->sum('jumlah');
+                    $sql_anggaran = Anggaran::where(function ($query) use ($dari, $sampai) {
+                        $query->whereBetween('tahun', [$dari[0], $sampai[0]]);
+                    })->where(['kegiatan_id' => $v->id, 'belanja_id' => $obj->id])->sum('jumlah');
 
-                    $sql_serapan_bop = DinasBop::whereMonth('created_at','>=', $this->dari[1])
-                        ->whereYear('created_at','>=', $this->dari[0])
-                        ->whereMonth('created_at','>=', $this->dari[1])
-                        ->whereMonth('created_at','<=', $this->sampai[1])
-                        ->whereYear('created_at','<=', $this->sampai[0])
-                        ->where('kegiatan_id', $v->id)
-                        ->where('belanja_id', $obj->id)
+                    $sql_serapan_bop = DinasBop::whereMonth('created_at','>=', $dari[1])
+                        ->whereYear('created_at','>=', $dari[0])
+                        ->whereMonth('created_at','<=', $sampai[1])
+                        ->whereYear('created_at','<=', $sampai[0])
+                        ->where(['kegiatan_id' => $v->id, 'belanja_id' => $obj->id])
                         ->sum('total_anggaran');
 
-                    $sql_serapan_regular = DinasRegular::whereMonth('created_at','>=', $this->dari[1])
-                        ->whereYear('created_at','>=', $this->dari[0])
-                        ->whereMonth('created_at','>=', $this->dari[1])
-                        ->whereMonth('created_at','<=', $this->sampai[1])
-                        ->whereYear('created_at','<=', $this->sampai[0])
-                        ->where('kegiatan_id', $v->id)
-                        ->where('belanja_id', $obj->id)
+                    $sql_serapan_regular = DinasRegular::whereMonth('created_at','>=', $dari[1])
+                        ->whereYear('created_at','>=', $dari[0])
+                        ->whereMonth('created_at','<=', $sampai[1])
+                        ->whereYear('created_at','<=', $sampai[0])
+                        ->where(['kegiatan_id' => $v->id, 'belanja_id' => $obj->id])
                         ->get();
 
                     if (count($sql_serapan_regular) > 0) {
@@ -79,7 +74,7 @@ class AnggaranExport implements FromView, ShouldAutoSize
                     array_push($output, $result);
                 }
             }
-            return view('excel', ['data' => $output, 'dari'=>$this->dari[1], 'sampai' => $this->sampai[1], 'tahun' => $this->sampai[0]]);
+            return view('excel', ['data' => $output, 'dari' => $dari[1], 'sampai' => $sampai[1], 'tahun' => $sampai[0]]);
         } else {
             return false;
         }

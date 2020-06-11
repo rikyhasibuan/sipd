@@ -102,6 +102,8 @@
                                     Nomor : <b>{{ v.nomor_sp }}</b>
                                     <br>
                                     Tanggal : {{ v.tgl_sp | moment }}
+                                    <br>
+                                    {{ v.dari | moment }} s.d {{ v.sampai | moment }}
                                 </td>
                                 <td style="vertical-align:middle;text-align:center;">
                                 {{ v.driver.nama }}

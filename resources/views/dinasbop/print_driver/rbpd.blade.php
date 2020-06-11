@@ -149,7 +149,9 @@ $total = $dinasbopdriver->total;
 								<td style="text-align:center;"></td>
 								<td><b>Jumlah Biaya Operasional Inspektorat</b></td>
 								<td style="text-align: right;vertical-align:middle;">
-									<b>Rp.{!! $common->rupiah($total) !!}</b>
+									<span style="margin-right: 5px;font-weight: bold;">
+											Rp.{!! $common->rupiah(($total) ) !!}
+									</span>
 								</td>
 								<td></td>
 							</tr>
@@ -180,7 +182,11 @@ $total = $dinasbopdriver->total;
 							</tr>
 							<tr>
 								<td colspan="2"><b>Jumlah Total</b></td>
-								<td style="text-align: right; vertical-align:middle;"><b>Rp.{!! $common->rupiah(($total) ) !!}</b></td>
+								<td style="text-align: right; vertical-align:middle;">
+									<span style="margin-right: 5px;font-weight: bold;">
+											Rp.{!! $common->rupiah(($total) ) !!}
+									</span>
+								</td>
 								<td></td>
 							</tr>
 							<tr>
@@ -192,7 +198,7 @@ $total = $dinasbopdriver->total;
 						<tr>
 							<td width="25%"></td>
 							<td width="25%">
-								<div style="text-align: center;">
+								<center>
 									<table cellpadding="2" cellspacing="2" style="width:30%;">
 										<tr>
 											<td width="10%" style="text-align: center;">
@@ -200,7 +206,7 @@ $total = $dinasbopdriver->total;
 											</td>
 										</tr>
 									</table>
-								</div>
+								</center>
 							</td>
 						</tr>
 						<tr>

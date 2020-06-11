@@ -145,8 +145,8 @@ $inspektur = $timdinas->get_sekda();
                 <div style="margin-top:5px;"></div>
                 <table width="100%">
                     <tr>
-                        <td width="50%"></td>
-                        <td width="25%">
+                        <td width="40%"></td>
+                        <td width="30%">
                             <table cellpadding="2" cellspacing="2" style="width:100%;">
                                 <tr>
                                     <td width="10%" style="text-align: justify;">Ditetapkan di</td>

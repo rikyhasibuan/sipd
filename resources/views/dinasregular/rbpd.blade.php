@@ -144,12 +144,14 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
                                         @endforeach
                                     </table>
                                 </td>
-														</tr>
-														<tr>
+							</tr>
+							<tr>
                                 <td style="text-align:center;"></td>
                                 <td><b>Jumlah Uang Harian</b></td>
                                 <td style="text-align: right;vertical-align:middle;">
-                                    <b>Rp.{!! $common->rupiah($dinasregular->total_harian) !!}</b>
+                                    <span style="margin-right: 5px;font-weight: bold; ">
+                                        Rp.{!! $common->rupiah($dinasregular->total_harian) !!}
+                                    </span>
 								</td>
                                 <td></td>
                             </tr>
@@ -200,7 +202,9 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
                                 <td style="text-align: center;"></td>
                                 <td><b>Jumlah akomodasi</b></td>
                                 <td style="text-align: right; vertical-align:middle;">
-                                    <b>Rp.{!! $common->rupiah($dinasregular->total_akomodasi) !!}</b>
+                                    <span style="margin-right: 5px;font-weight: bold; ">
+                                        Rp.{!! $common->rupiah($dinasregular->total_akomodasi) !!}
+                                    </span>
                                 </td>
                                 <td></td>
                             </tr>
@@ -220,13 +224,19 @@ $total = $dinasregular->total_harian + $dinasregular->total_akomodasi + $dinasre
                                 <td style="text-align: center;"></td>
                                 <td><b>Jumlah transportasi</b></td>
                                 <td style="text-align: right;vertical-align:middle;">
-                                    <b>Rp.{!! $common->rupiah($dinasregular->total_transportasi['total']) !!}</b>
+                                    <span style="margin-right: 5px;font-weight: bold; ">
+                                        Rp.{!! $common->rupiah($dinasregular->total_transportasi['total']) !!}
+                                    </span>
                                 </td>
                                 <td></td>
 							</tr>
                             <tr>
                                 <td colspan="2"><b>Jumlah Total</b></td>
-                                <td style="text-align: right; vertical-align:middle;"><b>Rp.{!! $common->rupiah(($total) ) !!}</b></td>
+                                <td style="text-align: right; vertical-align:middle;">
+                                    <span style="margin-right: 5px;font-weight: bold;">
+                                        Rp.{!! $common->rupiah(($total) ) !!}
+                                    </span>
+                                </td>
                                 <td></td>
                             </tr>
                             <tr>
