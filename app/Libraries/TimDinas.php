@@ -666,8 +666,10 @@ class TimDinas
      * @param array $tim
      * @return array $akomodasi
      */
-    public function calculate_regular_accomodation($durasi, $tujuan, $tim)
+    public function calculate_regular_accomodation($pdreguler, $durasi, $tujuan, $tim)
     {
+        $dinasreguler = DinasRegular::find($pdreguler);
+
         $kabkota = Kabkota::where('nama_kabkota', $tujuan)->first();
         $akomodasi = Akomodasi::where('kabkota_id', $kabkota['id'])->first();
         $output = [];
@@ -676,6 +678,7 @@ class TimDinas
         foreach ($tim as $v) {
             $roman_golongan = $this->_common->split_golongan($v['golongan']);
             $eselon = $this->_common->generate_eselon($roman_golongan, $v['eselon']);
+            $check_personil = self::check_personil_regular('put', $pdreguler, $dinasreguler->dari, $dinasreguler->sampai, $v['nip']);
 
             $output[$i]['nip'] = $v['nip'];
             $output[$i]['nama'] = $v['nama'];
@@ -685,11 +688,20 @@ class TimDinas
             $output[$i]['jabatan'] = $v['jabatan'];
             $output[$i]['hari'] = $v['hari'];
             $output[$i]['inap'] = $durasi;
-            $output[$i]['biaya_harian'] = $v['biaya_harian'];
-            $output[$i]['total_harian'] = $v['total_harian'];
-            $output[$i]['biaya_akomodasi'] = $akomodasi[$eselon];
-            $output[$i]['total_akomodasi'] = $durasi * $akomodasi[$eselon];
-            $total_akomodasi += ($durasi * $akomodasi[$eselon]);
+
+            if ($check_personil == true) {
+                $output[$i]['biaya_harian'] = $v['biaya_harian'];
+                $output[$i]['total_harian'] = $v['total_harian'];
+                $output[$i]['biaya_akomodasi'] = $akomodasi[$eselon];
+                $output[$i]['total_akomodasi'] = $durasi * $akomodasi[$eselon];
+                $total_akomodasi += ($durasi * $akomodasi[$eselon]);
+            } else {
+                $output[$i]['biaya_harian'] = $v['biaya_harian'];
+                $output[$i]['total_harian'] = $v['total_harian'];
+                $output[$i]['biaya_akomodasi'] = 0;
+                $output[$i]['total_akomodasi'] =0;
+                $total_akomodasi += ($durasi * $akomodasi[$eselon]);
+            }
             $i++;
         }
         return ['tim'=> $output, 'akomodasi' => $total_akomodasi];
@@ -707,7 +719,7 @@ class TimDinas
             ->where('driver->nip', $param['driver'])
             ->where(function ($query) use ($param) {
                 $query->whereBetween('dari', [$param['dari'],$param['sampai']])
-                    ->orWhereBetween('sampai', [$param['dari'], $param['sampai']]);
+                ->orWhereBetween('sampai', [$param['dari'], $param['sampai']]);
             })->count();
         if ($dinasbop > 0) {
             return false;
@@ -767,7 +779,7 @@ class TimDinas
     {
         if ($act == 'create') {
             $bop = self::check_bop_query_create($dari, $sampai);
-            $reguler = DinasRegular::whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari,$sampai])->get();
+            $reguler = DinasRegular::whereBetween('dari', [$dari, $sampai])->orWhereBetween('sampai', [$dari,$sampai])->get();
 
             $i = 0;
             if (count($reguler) > 0) {
@@ -915,7 +927,7 @@ class TimDinas
             }
         } elseif ($act == 'put') {
             $bop = self::check_bop_query_put($id, $idtim, $tipe, $dari, $sampai);
-            $reguler = DinasRegular::whereBetween('dari', [$dari, $sampai])->whereBetween('sampai', [$dari, $sampai])->get();
+            $reguler = DinasRegular::whereBetween('dari', [$dari, $sampai])->orWhereBetween('sampai', [$dari, $sampai])->get();
 
             $i = 0;
             if (count($reguler) > 0) {
@@ -1249,7 +1261,8 @@ class TimDinas
     {
         if ($act == 'create') {
             $dinasbop = self::check_bop_query_create($dari, $sampai);
-            $dinasreguler = DinasRegular::whereBetween('dari', [$dari, $sampai])->orWhereBetween('sampai', [$dari, $sampai])->get();
+            $dinasreguler = DinasRegular::whereBetween('dari', [$dari, $sampai])
+            ->orWhereBetween('sampai', [$dari, $sampai])->get();
 
             $i = 0;
             if (count($dinasreguler) > 0) {
@@ -1373,9 +1386,9 @@ class TimDinas
             }
         } elseif ($act == 'put') {
             $dinasbop = self::check_bop_query_create($dari, $sampai);
-            $dinasreguler = DinasRegular::where(function ($query) use ($param) {
-                $query->whereBetween('dari', [$param['dari'], $param['sampai']])
-                ->orWhereBetween('sampai', [$param['dari'], $param['sampai']]);
+            $dinasreguler = DinasRegular::where(function ($query) use ($dari, $sampai) {
+                $query->whereBetween('dari', [$dari, $sampai])
+                ->orWhereBetween('sampai', [$dari, $sampai]);
             })->where('id', '!=', $id)->get();
 
             $i = 0;

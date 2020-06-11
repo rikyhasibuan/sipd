@@ -39,15 +39,10 @@ class DashboardController extends Controller
         $breadcrumb = [];
         $breadcrumb[0] = '<i class="fa fa-home"></i> Dashboard';
 
-        $bulan = $this->common->generate_integer_month();
-        $tahun = $this->common->generate_year();
-
         $data = [];
         $data['breadcrumb'] = $breadcrumb;
         $data['title']  = $this->title;
         $data['link'] = $this->link;
-        $data['tahun'] = $tahun;
-        $data['bulan'] = $bulan;
         $data['api'] = url($this->api);
         return View::make('dashboard', $data);
     }

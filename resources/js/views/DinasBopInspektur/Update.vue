@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-body">
                     <v-alert :alert=alert></v-alert>
-                    <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
+                    <loading :opacity="100" :active.sync="isLoading" :can-cancel="false" :is-full-page="false"></loading>
                     <form method="POST" v-on:submit.prevent="onSubmit" enctype="multipart/form-data" autocomplete="off">
                         <div class="col-md-12 col-sm-12">
                             <div class="row">
@@ -135,26 +135,30 @@
             'route'
         ],
         methods: {
+            clearAlert() {
+                this.alert.error = false;
+                this.alert.update = false;
+            },
             onSubmit(evt) {
-                this.isLoading = false;
+                this.clearAlert();
+                this.isLoading = true;
                 service.putData(this.api + '/inspektur?nip='+this.usernip+'&dinasbop='+this.dinasbop+'&id='+this.dinasbopinspektur.id, this.dinasbopinspektur)
                 .then(result => {
                     this.response(result);
                 }).catch(error => {
-                    this.isLoading = false;
+                    setTimeout(() => { this.isLoading = false }, 1000);
                     this.alert.error = true;
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     console.log(error);
                 });
             },
             response(result) {
+                setTimeout(() => { this.isLoading = false }, 1000);
                 if (result.status === 'ok') {
-                    this.alert.error = false;
                     this.alert.update = true;
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     setTimeout(() => this.alert.update = false, 5000);
                 }
-                this.isLoading = false;
             }
         },
         created() {
@@ -162,9 +166,9 @@
             this.isLoading = true;
         },
         mounted() {
-            this.isLoading = false;
             this.dinasbopinspektur.inspektur = this.dinasbopinspektur.inspektur.nip;
             this.usernip = this.$cookies.get('nip');
+            setTimeout(() => { this.isLoading = false }, 1000);
         }
     };
 </script>

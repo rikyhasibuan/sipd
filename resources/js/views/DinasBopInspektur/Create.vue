@@ -5,7 +5,7 @@
                 <div class="card">
                     <div class="card-body">
                         <v-alert :alert=alert></v-alert>
-                        <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
+                        <loading :opacity="100" :active.sync="isLoading" :can-cancel="false" :is-full-page="false"></loading>
                         <form method="POST" v-on:submit.prevent="onSubmit" enctype="multipart/form-data" autocomplete="off">
                             <div class="col-md-12 col-sm-12">
                                 <div class="row">
@@ -140,33 +140,33 @@
             'route'
         ],
         methods: {
+            clearAlert() {
+                this.alert.error = false;
+                this.alert.duplicate = false;
+                this.alert.save = false;
+            },
             onSubmit(evt) {
+                this.clearAlert();
                 this.isLoading = true;
                 service.postData(this.api + '/inspektur?nip='+this.usernip+'&dinasbop='+this.dinasbop, this.dinasbopinspektur)
                 .then(result => {
                     this.response(result);
                 }).catch(error => {
-                    this.isLoading = false;
+                    setTimeout(() => { this.isLoading = false }, 1000);
                     this.alert.error = true;
-                    this.alert.duplicate = false;
-                    this.alert.save = false;
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     console.log(error);
                 });
             },
             response(result) {
-                this.isLoading = false;
+                setTimeout(() => { this.isLoading = false }, 1000);
                 if (result.status === 'ok') {
-                    this.alert.error = false;
-                    this.alert.duplicate = false;
                     this.alert.save = true;
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     this.reset();
                     setTimeout(() => this.alert.save = false, 2000);
                 } else if (result.status === 'duplicate') {
                     this.alert.duplicate = true;
-                    this.alert.error = false;
-                    this.alert.save = false;
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                 }
             },
@@ -184,8 +184,8 @@
             this.isLoading = true;
         },
         mounted() {
-            this.isLoading = false;
             this.usernip = this.$cookies.get('nip');
+            setTimeout(() => { this.isLoading = false }, 1000);
         }
     };
 </script>

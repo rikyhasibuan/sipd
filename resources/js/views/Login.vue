@@ -54,21 +54,16 @@ export default {
             this.userlogin.password = "";
         },
         onSubmit(evt) {
+            evt.preventDefault();
             this.isLoading = true;
-            service
-                .postData(this.api, this.userlogin)
+            service.postData(this.api, this.userlogin)
                 .then(result => {
                     if (result.login == "true") {
                         this.login = true;
                         this.generateCookie(result);
-                        this.$cookies.set('nip', result.nip);
-                        this.$cookies.set('id', result.id);
-                        this.$cookies.set('level', result.level);
-                        this.$cookies.set('jabatan', result.jabatan);
-                        this.$cookies.set('login', result.login);
                         this.formReset();
                         window.location.href = this.redirect;
-                    } else if(result.login === 'inactive') {
+                    } else if (result.login === 'inactive') {
                         this.login = false;
                     } else {
                         this.login = false;
@@ -83,10 +78,11 @@ export default {
                 });
         },
         generateCookie(result) {
-            this.$cookies.set("nip", result.nip);
-            this.$cookies.set("id", result.id);
-            this.$cookies.set("level", result.level);
-            this.$cookies.set("login", result.login);
+            this.$cookies.set('nip', result.nip);
+            this.$cookies.set('id', result.id);
+            this.$cookies.set('level', result.level);
+            this.$cookies.set('jabatan', result.jabatan);
+            this.$cookies.set('login', result.login);
         }
     },
     created() {

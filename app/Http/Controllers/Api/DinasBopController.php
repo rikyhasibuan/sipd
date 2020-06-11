@@ -62,7 +62,7 @@ class DinasBopController extends Controller
     {
         try {
             $check = DinasBop::whereBetween('dari', [$request->input('dari'), $request->input('sampai')])
-            ->whereBetween('sampai', [$request->input('dari'), $request->input('sampai')])->count();
+            ->orWhereBetween('sampai', [$request->input('dari'), $request->input('sampai')])->count();
 
             if ($check == 0) {
                 $dasar = array_values(array_filter($request->input('dasar')));
@@ -438,7 +438,7 @@ class DinasBopController extends Controller
             $timdinasbop = $timdinas->generate_inspektur_bop($parameter);
 
             $dasar = array_values(array_filter($request->input('dasar')));
-            $untuk = array_values(array_filter($request->input('tujuan')));
+            $tujuan = array_values(array_filter($request->input('tujuan')));
 
             $dinasbopinspektur = new DinasBopInspektur();
             $dinasbopinspektur->dinasbop_id = $request['dinasbop'];
@@ -447,7 +447,7 @@ class DinasBopController extends Controller
             $dinasbopinspektur->dari = $request->input('dari');
             $dinasbopinspektur->sampai = $request->input('sampai');
             $dinasbopinspektur->dasar = $dasar;
-            $dinasbopinspektur->tujuan = $untuk;
+            $dinasbopinspektur->tujuan = $tujuan;
             $dinasbopinspektur->inspektur = $timdinasbop['inspektur'];
             $dinasbopinspektur->total = $timdinasbop['total_anggaran'];
             $dinasbopinspektur->created_at = date('Y-m-d H:i:s');

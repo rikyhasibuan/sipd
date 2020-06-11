@@ -163,11 +163,12 @@
                 this.clearAlert();
                 let validasi = this.validate();
                 if (validasi === true) {
+                    this.isLoading = true;
                     service.postData(this.api, this.dinasbop)
                         .then(result => {
                             this.response(result);
                         }).catch(error => {
-                            this.isLoading = false;
+                            setTimeout(() => { this.isLoading = false }, 1000);
                             this.alert.error = true;
                             window.scroll({top: 0, left: 0, behavior: 'smooth'});
                             console.log(error);
@@ -297,7 +298,7 @@
             this.belanja = this.belanja_data;
         },
         mounted() {
-            this.isLoading = false;
+            setTimeout(() => { this.isLoading = false }, 1000);
         }
     };
 </script>

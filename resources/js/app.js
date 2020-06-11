@@ -24,9 +24,7 @@ Vue.use(money, {
 Vue.use(datePicker);
 Vue.use(accounting);
 Vue.use(VueCookies);
-Vue.use(Loading, {
-    color: 'red'
-});
+
 // Component Config
 $.extend(true, $.fn.datetimepicker.defaults, {
     icons: {
@@ -46,7 +44,7 @@ VueCookies.config('1d');
 
 // Date Filtering
 Vue.filter('moment', function (date) {
-    return moment(date).format('DD MMMM YYYY');
+    return moment(date).format('D MMMM YYYY');
 });
 
 // Date Filtering
@@ -56,7 +54,7 @@ Vue.filter('long_moment', function (date) {
 
 // Short Date Filtering
 Vue.filter('short_moment', function (date) {
-    return moment(date).format('DD/MM/YYYY');
+    return moment(date).format('D/MM/YYYY');
 });
 
 // Generate Year
@@ -72,73 +70,53 @@ Vue.filter('difference', function (date) {
     const duration = moment.duration(end.diff(now));
     let days = duration.asDays();
     let months = duration.asMonths();
-    if (parseInt(days) <= 60 && parseInt(days) > 0) {
-        return '<span class="badge alert-danger" style="font-size:100%;">' + parseInt(days) + ' Hari</span>';
+    let output = '';
+
+    if ((parseInt(days) <= 60) && (parseInt(days) > 0)) {
+        output = '<span class="badge alert-danger" style="font-size:100%;">' + parseInt(days) + ' Hari</span>';
     } else if (parseInt(days) > 60) {
-        return '<span class="badge alert-success" style="font-size:100%;">' + parseInt(months) + ' Bulan</span>';
+        output = '<span class="badge alert-success" style="font-size:100%;">' + parseInt(months) + ' Bulan</span>';
     } else if (parseInt(days) === 0) {
-        return '<span class="badge alert-danger" style="font-size:100%;">Hari Ini</span>';
+        output = '<span class="badge alert-danger" style="font-size:100%;">Hari Ini</span>';
     } else if (parseInt(days) < 0) {
-        return '<span class="badge alert-default" style="font-size:100%;">Kontrak Habis</span>';
+        output = '<span class="badge alert-default" style="font-size:100%;">Kontrak Habis</span>';
     }
+    return output;
 });
 
 // Short Date Filtering
 Vue.filter('short_difference', function (since, until) {
     const from = moment(new Date(since));
     const end = moment(new Date(until));
-
     const duration = moment.duration(end.diff(from));
     let days = duration.asDays();
+    let callback;
     if (parseInt(days) > 0) {
-        return days;
+        callback = days;
     } else if (parseInt(days) === 0) {
-        return 1;
+        callback = 1;
     }
+    return callback;
 });
 
 // Filter Generate Date
 Vue.filter('month', function (month) {
-    switch (month) {
-        case 1:
-            return 'Januari';
-            break;
-        case 2:
-            return 'Februari';
-            break;
-        case 3:
-            return 'Maret';
-            break;
-        case 4:
-            return 'April';
-            break;
-        case 5:
-            return 'Mei';
-            break;
-        case 6:
-            return 'Juni';
-            break;
-        case 7:
-            return 'Juli';
-            break;
-        case 8:
-            return 'Agustus';
-            break;
-        case 9:
-            return 'September';
-            break;
-        case 10:
-            return 'Oktober';
-            break;
-        case 11:
-            return 'November';
-            break;
-        case 12:
-            return 'Desember';
-            break;
-        default:
-            break;
-    }
+    const bulan = {
+        1: 'Januari',
+        2: 'Februari',
+        3: 'Maret',
+        4: 'April',
+        5: 'Mei',
+        6: 'Juni',
+        7: 'Juli',
+        8: 'Agustus',
+        9: 'September',
+        10: 'Oktober',
+        11: 'November',
+        12: 'Desember',
+    };
+    let output = bulan[month];
+    return output;
 });
 
 // Filter Rupiah

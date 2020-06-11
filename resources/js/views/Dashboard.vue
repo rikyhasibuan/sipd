@@ -3,20 +3,24 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-body table-responsive">
+                    <div class="card-body">
                         <form method="POST" v-on:submit.prevent="fetchData">
-                            <div class="row">
+                            <div class="form-row">
                                 <div class="form-group col-md-4">
-                                    <select v-model="periode.tahun" class="form-control">
-                                        <option value="">Pilih Tahun</option>
-                                        <option v-for="(v,k) in this.tahun_data" :value="v" :key="k">{{ v }}</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <select v-model="periode.bulan" class="form-control">
-                                        <option value="">Pilih Bulan</option>
-                                        <option v-for="(v,k) in this.bulan_data" :value="k" :key="k">{{ v }}</option>
-                                    </select>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                        <date-picker
+                                            id="periode"
+                                            name="periode"
+                                            v-model="periode"
+                                            :config="options"
+                                            class="form-control"
+                                            placeholder="Periode"
+                                            autocomplete="off">
+                                        </date-picker>
+                                    </div>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <button type="submit" class="btn btn-success"><i class="fa fa-search"></i> Tampikan Data</button>
@@ -88,10 +92,7 @@ import { Chart } from 'highcharts-vue';
 export default {
     data: function() {
         return {
-            periode: {
-                bulan:'',
-                tahun:''
-            },
+            periode:'',
             tahun: '',
             chart_tahun: '',
             resapanAnggaran: {},
@@ -110,10 +111,17 @@ export default {
             title: {
                 anggaran:'',
                 serapan:''
+            },
+            options: {
+                format: 'YYYY-MM',
+                viewMode:'years',
+                useCurrent: false,
+                locale: 'id',
+                minDate:'2020/01/01'
             }
         }
     },
-    props:['api', 'tahun_data', 'bulan_data'],
+    props:['api'],
     components: {
         highcharts: Chart
     },
@@ -128,132 +136,123 @@ export default {
     methods: {
         fetchData() {
             this.isLoading = true;
-            let tahun = this.periode.tahun;
-            let bulan = this.periode.bulan;
+            let date  = this.periode.split('-');
+            let tahun = date[0];
+            let bulan = (typeof date[1] !== "undefined") ? parseInt(date[1]) : '';
+
             service.fetchData(this.api + '?tahun='+tahun+'&bulan='+bulan)
                 .then(
                     response => {
                         this.isLoading = false;
                         this.chart_tahun = this.tahun;
                         this.output_table = response.output_table;
-
-                        this.anggaran = {
-                            chart: {
-                                type: 'bar',
-                                height: '50%'
-                            },
-                            title: {
-                                text: response.anggaran.anggaran[0].name
-                            },
-                            yAxis: {
-                                min: 0,
-                                title: {
-                                    text: 'Total Pagu'
-                                },
-                                labels: {
-                                    formatter: function() {
-                                        if (this.value >= 1E6) {
-                                            return (this.value / 1000000).toFixed(0) + ' Jt';
-                                        }
-                                        return this.value / 1000;
-                                    }
-                                },
-                            },
-                            xAxis: {
-                                categories: response.kegiatan,
-                                title: {
-                                    text: null
-                                }
-                            },
-                            series: response.anggaran.anggaran,
-                            tooltip: {
-                                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}:</td><td style="padding:0"><b>Rp.{point.y:.1f}</b></td></tr>',
-                                footerFormat: '</table>',
-                                shared: true,
-                                useHTML: true
-                            },
-
-                            plotOptions: {
-                                bar: {
-                                    dataLabels: {
-                                        enabled: true
-                                    }
-                                }
-                            },
-                            legend: {
-                                enabled: false
-                            }
-                        }
-
-                        this.serapan = {
-                            chart: {
-                                type: 'bar',
-                                height: '50%'
-                            },
-                            title: {
-                                text: response.serapan.serapan[0].name
-                            },
-                            yAxis: {
-                                min: 0,
-                                title: {
-                                    text: 'Total Realisasi Anggaran'
-                                },
-                                labels: {
-                                    formatter: function() {
-                                        if (this.value >= 1E6) {
-                                            return (this.value / 1000000).toFixed(0) + ' Jt';
-                                        }
-                                        return this.value / 1000;
-                                    }
-                                },
-                            },
-                            xAxis: {
-                                categories: response.kegiatan,
-                                title: {
-                                    text: null
-                                }
-                            },
-                            series: response.serapan.serapan,
-                            tooltip: {
-                                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}:</td><td style="padding:0"><b>Rp.{point.y:.1f}</b></td></tr>',
-                                footerFormat: '</table>',
-                                shared: true,
-                                useHTML: true
-                            },
-
-                            plotOptions: {
-                                bar: {
-                                    dataLabels: {
-                                        enabled: true
-                                    }
-                                }
-                            },
-                            legend: {
-                                enabled: false
-                            }
-                        }
+                        this.generateAnggaranChart(response);
+                        this.generateSerapanChart(response);
                     }
-                )
-                .catch(error => {
+                ).catch(error => {
                     this.isLoading = false;
                     console.log(error);
                 });
-        }
-    },
-    filters: {
-        moment: function (date) {
-            return moment(date).format('DD MMMM YYYY');
         },
-        date: function (date) {
-            return moment(date).format('DD');
+        generateAnggaranChart(response) {
+            this.anggaran = {
+                chart: {
+                    type: 'bar',
+                    height: '50%'
+                },
+                title: {
+                    text: response.anggaran.anggaran[0].name
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Total Pagu'
+                    },
+                    labels: {
+                        formatter: function() {
+                            if (this.value >= 1E6) {
+                                return (this.value / 1000000).toFixed(0) + ' Jt';
+                            }
+                            return this.value / 1000;
+                        }
+                    },
+                },
+                xAxis: {
+                    categories: response.kegiatan,
+                    title: {
+                        text: null
+                    }
+                },
+                series: response.anggaran.anggaran,
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}:</td><td style="padding:0"><b>Rp.{point.y:.1f}</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+                legend: {
+                    enabled: false
+                }
+            }
         },
-        month: function (date) {
-            return moment(date).format('MMMM');
-        },
-        year: function (date) {
-            return moment(date).format('YYYY');
+        generateSerapanChart() {
+            this.serapan = {
+                chart: {
+                    type: 'bar',
+                    height: '50%'
+                },
+                title: {
+                    text: response.serapan.serapan[0].name
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Total Realisasi Anggaran'
+                    },
+                    labels: {
+                        formatter: function() {
+                            if (this.value >= 1E6) {
+                                return (this.value / 1000000).toFixed(0) + ' Jt';
+                            }
+                            return this.value / 1000;
+                        }
+                    },
+                },
+                xAxis: {
+                    categories: response.kegiatan,
+                    title: {
+                        text: null
+                    }
+                },
+                series: response.serapan.serapan,
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}:</td><td style="padding:0"><b>Rp.{point.y:.1f}</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+                legend: {
+                    enabled: false
+                }
+            }
         }
     }
 };

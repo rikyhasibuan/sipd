@@ -336,7 +336,7 @@ class DinasBopController extends Controller
         $data['link'] = $this->link;
         $data['dinasbopinspektur'] = $dinasbopinspektur;
         $data['breadcrumb'] = $breadcrumb;
-        $data['api'] = url($this->api.'?nip=' . $this->_nip);
+        $data['api'] = url($this->api);
         $data['act'] = 'edit';
         $data['dinasbop'] = $request['dinasbop'];
         $data['dinasbop_data'] = $dinasbop_data;

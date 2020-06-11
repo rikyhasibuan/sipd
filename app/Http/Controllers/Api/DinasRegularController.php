@@ -212,7 +212,7 @@ class DinasRegularController extends Controller
         }
 
         $timdinasregular = new TimDinas();
-        $anggaran_akomodasi = $timdinasregular->calculate_regular_accomodation($_durasi, $dinasregular->auditan, $dinasregular->tim);
+        $anggaran_akomodasi = $timdinasregular->calculate_regular_accomodation($request['id'], $_durasi, $dinasregular->auditan, $dinasregular->tim);
         $dinasregular->tim = $anggaran_akomodasi['tim'];
         $dinasregular->total_akomodasi = $anggaran_akomodasi['akomodasi'];
         $dinasregular->lama_inap = $_durasi;
