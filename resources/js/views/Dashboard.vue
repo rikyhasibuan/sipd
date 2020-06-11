@@ -204,7 +204,7 @@ export default {
                 }
             }
         },
-        generateSerapanChart() {
+        generateSerapanChart(response) {
             this.serapan = {
                 chart: {
                     type: 'bar',
