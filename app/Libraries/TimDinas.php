@@ -1107,6 +1107,7 @@ class TimDinas
         $dinasbop = DinasBop::whereBetween('dari', [$dari, $sampai])->orWhereBetween('sampai', [$dari, $sampai])->get();
         if (count($dinasbop) > 0) {
             $dinasbop_id = [];
+
             foreach ($dinasbop as $d) {
                 array_push($dinasbop_id, $d->id);
             }
@@ -1117,9 +1118,39 @@ class TimDinas
             $dinasbopreviu = DinasBopReviu::whereIn('dinasbop_id', $dinasbop_id)->get();
             $dinasbopsupervisi = DinasBopSupervisi::whereIn('dinasbop_id', $dinasbop_id)->get();
             $dinasboptim = DinasBopTim::whereIn('dinasbop_id', $dinasbop_id)->get();
-            $dinasboppengumpuldata = DinasBopPengumpulDataTim::whereIn('dinasbop_id', $dinasbop_id)->get();
-            $dinasbopadministrasi = DinasBopAdministrasiTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+
+            $pengumpuldata = DinasBopPengumpulData::whereIn('dinasbop_id', $dinasbop_id)
+                ->where(function ($query) use ($dari, $sampai) {
+                    $query->whereBetween('dari', [$dari, $sampai])->orWhereBetween('sampai', [$dari, $sampai]);
+                })->get();
+
+            if (count($pengumpuldata) > 0) {
+                $pengumpuldata_id = [];
+                foreach ($pengumpuldata as $p) {
+                    array_push($pengumpuldata_id, $p->id);
+                }
+                $dinasboppengumpuldata = DinasBopPengumpulDataTim::whereIn('dinasbop_pengumpuldata_id', $pengumpuldata_id)->get();
+            } else {
+                $dinasboppengumpuldata = [];
+            }
+
+            $administrasi = DinasBopAdministrasi::whereIn('dinasbop_id', $dinasbop_id)
+                ->where(function ($query) use ($dari, $sampai) {
+                    $query->whereBetween('dari', [$dari, $sampai])->orWhereBetween('sampai', [$dari, $sampai]);
+                })->get();
+
+            if (count($administrasi) > 0) {
+                $administrasi_id = [];
+                foreach ($administrasi as $a) {
+                    array_push($administrasi_id, $a->id);
+                }
+                $dinasbopadministrasi = DinasBopAdministrasiTim::whereIn('dinasbop_administrasi_id', $administrasi_id)->get();
+            } else {
+                $dinasbopadministrasi = [];
+            }
+
             $dinasbopcustom = DinasBopCustomTim::whereIn('dinasbop_id', $dinasbop_id)->get();
+
         } else {
             $dinasbopinspektur = [];
             $dinasbopsekretaris = [];
@@ -1159,8 +1190,7 @@ class TimDinas
         $dinasbopsekretaris = [];
         $dinasbopdriver = [];
 
-        $dinasbop = DinasBop::whereBetween('dari', [$dari, $sampai])
-            ->orWhereBetween('sampai', [$dari,$sampai])->get();
+        $dinasbop = DinasBop::whereBetween('dari', [$dari, $sampai])->orWhereBetween('sampai', [$dari,$sampai])->get();
 
         $dinasbop_id = [];
         foreach ($dinasbop as $d) {

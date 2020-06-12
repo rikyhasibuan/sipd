@@ -143,41 +143,52 @@ Route::get('dinasbop/print/dpbo/{id}/{type}', 'Api\DinasBopController@get_print_
 Route::post('dinasbop', 'Api\DinasBopController@post_data');
 Route::put('dinasbop', 'Api\DinasBopController@put_data');
 Route::delete('dinasbop', 'Api\DinasBopController@delete_data');
-Route::post('dinasbop/tim', 'Api\DinasBopController@post_tim_data');
-Route::post('dinasbop/tim/edit', 'Api\DinasBopController@put_tim_data');
-Route::delete('dinasbop/tim', 'Api\DinasBopController@delete_tim_data');
-Route::post('dinasbop/driver', 'Api\DinasBopController@post_driver_data');
-Route::put('dinasbop/driver', 'Api\DinasBopController@put_driver_data');
-Route::delete('dinasbop/driver', 'Api\DinasBopController@delete_driver_data');
-Route::post('dinasbop/inspektur', 'Api\DinasBopController@post_inspektur_data');
-Route::put('dinasbop/inspektur', 'Api\DinasBopController@put_inspektur_data');
-Route::delete('dinasbop/inspektur', 'Api\DinasBopController@delete_inspektur_data');
-Route::post('dinasbop/sekretaris', 'Api\DinasBopController@post_sekretaris_data');
-Route::put('dinasbop/sekretaris', 'Api\DinasBopController@put_sekretaris_data');
-Route::delete('dinasbop/sekretaris', 'Api\DinasBopController@delete_sekretaris_data');
-Route::post('dinasbop/reviu', 'Api\DinasBopController@post_reviu_data');
-Route::put('dinasbop/reviu', 'Api\DinasBopController@put_reviu_data');
-Route::delete('dinasbop/reviu', 'Api\DinasBopController@delete_reviu_data');
-Route::post('dinasbop/supervisi', 'Api\DinasBopController@post_supervisi_data');
-Route::put('dinasbop/supervisi', 'Api\DinasBopController@put_supervisi_data');
-Route::delete('dinasbop/supervisi', 'Api\DinasBopController@delete_supervisi_data');
-Route::post('dinasbop/pengumpuldata', 'Api\DinasBopController@post_pengumpuldata_data');
-Route::put('dinasbop/pengumpuldata', 'Api\DinasBopController@put_pengumpuldata_data');
-Route::delete('dinasbop/pengumpuldata', 'Api\DinasBopController@delete_pengumpuldata_data');
-Route::post('dinasbop/timpengumpuldata', 'Api\DinasBopController@post_pengumpuldata_tim_data');
-Route::put('dinasbop/timpengumpuldata', 'Api\DinasBopController@put_pengumpuldata_tim_data');
-Route::delete('dinasbop/timpengumpuldata', 'Api\DinasBopController@delete_pengumpuldata_tim_data');
-Route::post('dinasbop/administrasi', 'Api\DinasBopController@post_administrasi_data');
-Route::put('dinasbop/administrasi', 'Api\DinasBopController@put_administrasi_data');
-Route::delete('dinasbop/administrasi', 'Api\DinasBopController@delete_administrasi_data');
-Route::post('dinasbop/timadministrasi', 'Api\DinasBopController@post_administrasi_tim_data');
-Route::put('dinasbop/timadministrasi', 'Api\DinasBopController@put_administrasi_tim_data');
-Route::delete('dinasbop/timadministrasi', 'Api\DinasBopController@delete_administrasi_tim_data');
-Route::post('dinasbop/custom', 'Api\DinasBopController@post_tim_custom_data');
-Route::post('dinasbop/custom/edit', 'Api\DinasBopController@put_tim_custom_data');
-Route::delete('dinasbop/custom', 'Api\DinasBopController@delete_tim_custom_data');
+
+Route::post('dinasbop/tim', 'Api\DinasBopTimController@post_data');
+Route::post('dinasbop/tim/edit', 'Api\DinasBopTimController@put_data');
+Route::delete('dinasbop/tim', 'Api\DinasBopTimController@delete_data');
+
+Route::post('dinasbop/driver', 'Api\DinasBopDriverController@post_data');
+Route::put('dinasbop/driver', 'Api\DinasBopDriverController@put_data');
+Route::delete('dinasbop/driver', 'Api\DinasBopDriverController@delete_data');
+
+Route::post('dinasbop/inspektur', 'Api\DinasBopInspekturController@post_data');
+Route::put('dinasbop/inspektur', 'Api\DinasBopInspekturController@put_data');
+Route::delete('dinasbop/inspektur', 'Api\DinasBopInspekturController@delete_data');
+
+Route::post('dinasbop/sekretaris', 'Api\DinasBopSekretarisController@post_data');
+Route::put('dinasbop/sekretaris', 'Api\DinasBopSekretarisController@put_data');
+Route::delete('dinasbop/sekretaris', 'Api\DinasBopSekretarisController@delete_data');
+
+Route::post('dinasbop/reviu', 'Api\DinasBopReviuController@post_data');
+Route::put('dinasbop/reviu', 'Api\DinasBopReviuController@put_data');
+Route::delete('dinasbop/reviu', 'Api\DinasBopReviuController@delete_data');
+
+Route::post('dinasbop/supervisi', 'Api\DinasBopSekretarisController@post_data');
+Route::put('dinasbop/supervisi', 'Api\DinasBopSekretarisController@put_data');
+Route::delete('dinasbop/supervisi', 'Api\DinasBopSekretarisController@delete_data');
+
+Route::post('dinasbop/pengumpuldata', 'Api\DinasBopPengumpulDataController@post_data');
+Route::put('dinasbop/pengumpuldata', 'Api\DinasBopPengumpulDataController@put_data');
+Route::delete('dinasbop/pengumpuldata', 'Api\DinasBopPengumpulDataController@delete_data');
+Route::post('dinasbop/timpengumpuldata', 'Api\DinasBopPengumpulDataController@post_tim_data');
+Route::put('dinasbop/timpengumpuldata', 'Api\DinasBopPengumpulDataController@put_tim_data');
+Route::delete('dinasbop/timpengumpuldata', 'Api\DinasBopPengumpulDataController@delete_tim_data');
+
+Route::post('dinasbop/administrasi', 'Api\DinasBopAdministrasiController@post_data');
+Route::put('dinasbop/administrasi', 'Api\DinasBopAdministrasiController@put_data');
+Route::delete('dinasbop/administrasi', 'Api\DinasBopAdministrasiController@delete_data');
+Route::post('dinasbop/timadministrasi', 'Api\DinasBopAdministrasiController@post_tim_data');
+Route::put('dinasbop/timadministrasi', 'Api\DinasBopAdministrasiController@put_tim_data');
+Route::delete('dinasbop/timadministrasi', 'Api\DinasBopAdministrasiController@delete_tim_data');
+
+Route::post('dinasbop/custom', 'Api\DinasBopCustomController@post_data');
+Route::post('dinasbop/custom/edit', 'Api\DinasBopCustomController@put_data');
+Route::delete('dinasbop/custom', 'Api\DinasBopCustomController@delete_data');
+
 Route::post('dinasbop/approval', 'Api\DinasBopController@post_approval_data');
 Route::put('dinasbop/approval', 'Api\DinasBopController@put_approval_data');
+
 Route::put('dinasbop/lock', 'Api\DinasBopController@put_lock_data');
 
 // dinas regular

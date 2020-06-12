@@ -233,7 +233,8 @@
             },
             validate() {
                 let condition = 0;
-
+                let callback = false;
+                
                 if (this.dinasbop.program_id.length === 0) {
                     this.validasi.program_id = true;
                     condition++;
@@ -284,10 +285,12 @@
                 }
 
                 if (condition > 0) {
-                    return false;
+                    callback = false;
                 } else {
-                    return true;
+                    callback = true;
                 }
+
+                return callback;
             }
         },
         created() {

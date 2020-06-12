@@ -206,7 +206,7 @@ class DinasBopController extends Controller
         $dinasbop_data = DinasBop::find($request['dinasbop']);
 
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Tim';
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api);
@@ -237,7 +237,7 @@ class DinasBopController extends Controller
         $dinasbop_data = DinasBop::find($request['dinasbop']);
 
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Tim';
         $data['link'] = $this->link;
         $data['dinasboptim'] = $dinasboptim;
         $data['breadcrumb'] = $breadcrumb;
@@ -263,7 +263,7 @@ class DinasBopController extends Controller
         $dinasbop_data = DinasBop::find($request['dinasbop']);
 
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Pengemudi';
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api);
@@ -287,7 +287,7 @@ class DinasBopController extends Controller
         $dinasbop_data = DinasBop::find($request['dinasbop']);
 
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Pengemudi';
         $data['link'] = $this->link;
         $data['dinasbopdriver'] = $dinasbopdriver;
         $data['breadcrumb'] = $breadcrumb;
@@ -310,7 +310,7 @@ class DinasBopController extends Controller
         $dinasbop_data = DinasBop::find($request['dinasbop']);
 
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Inspektur';
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api);
@@ -332,7 +332,7 @@ class DinasBopController extends Controller
         $dinasbop_data = DinasBop::find($request['dinasbop']);
 
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Inspektur';
         $data['link'] = $this->link;
         $data['dinasbopinspektur'] = $dinasbopinspektur;
         $data['breadcrumb'] = $breadcrumb;
@@ -354,7 +354,7 @@ class DinasBopController extends Controller
         $dinasbop_data = DinasBop::find($request['dinasbop']);
 
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Sekretaris';
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api);
@@ -376,7 +376,7 @@ class DinasBopController extends Controller
         $dinasbop_data = DinasBop::find($request['dinasbop']);
 
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Sekretaris';
         $data['link'] = $this->link;
         $data['dinasbopsekretaris'] = $dinasbopsekretaris;
         $data['breadcrumb'] = $breadcrumb;
@@ -427,7 +427,7 @@ class DinasBopController extends Controller
         $ketua = Pegawai::whereIn('jabatan', $jabatan_ketua)->get();
 
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Reviu & Monitoring';
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api);
@@ -480,7 +480,7 @@ class DinasBopController extends Controller
         $ketua = Pegawai::whereIn('jabatan', $jabatan_ketua)->get();
 
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Reviu & Monitoring';
         $data['link'] = $this->link;
         $data['dinasbopreviu'] = $dinasbopreviu;
         $data['breadcrumb'] = $breadcrumb;
@@ -533,7 +533,7 @@ class DinasBopController extends Controller
         $ketua = Pegawai::whereIn('jabatan', $jabatan_ketua)->get();
 
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Supervisi';
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api);
@@ -586,7 +586,7 @@ class DinasBopController extends Controller
         $ketua = Pegawai::whereIn('jabatan', $jabatan_ketua)->get();
 
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Supervisi';
         $data['link'] = $this->link;
         $data['dinasbopsupervisi'] = $dinasbopsupervisi;
         $data['breadcrumb'] = $breadcrumb;
@@ -608,8 +608,9 @@ class DinasBopController extends Controller
         $breadcrumb[2] = '<i class="fa fa-plus"></i> Tambah Pengumpul Data';
 
         $dinasbop = DinasBop::find($request['dinasbop']);
+
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Pengumpul Data';
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api . '/pengumpuldata?nip='.$this->_nip.'&dinasbop=' . $request['dinasbop']);
@@ -630,7 +631,7 @@ class DinasBopController extends Controller
         $dinasbop = DinasBop::find($request['dinasbop']);
 
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Pengumpul Data';
         $data['link'] = $this->link;
         $data['dinasboppengumpuldata'] = $dinasboppengumpuldata;
         $data['dinasbop'] = $request['dinasbop'];
@@ -692,7 +693,7 @@ class DinasBopController extends Controller
         $ketua = Pegawai::whereIn('jabatan', $jabatan_ketua)->get();
 
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Pengumpul Data';
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api . '/timpengumpuldata?nip='.$this->_nip.'&dinasbop='.$request['dinasbop'].'&pengumpuldata=' . $request['pengumpuldata']);
@@ -758,7 +759,7 @@ class DinasBopController extends Controller
         }
 
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Pengumpul Data';
         $data['link'] = $this->link;
         $data['dinasboptimpengumpuldata'] = $dinasboptimpengumpuldata;
         $data['breadcrumb'] = $breadcrumb;
@@ -783,7 +784,7 @@ class DinasBopController extends Controller
         $dinasbop = DinasBop::find($request['dinasbop']);
 
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Pengadministrasi';
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api . '/administrasi?nip='.$this->_nip.'&dinasbop=' . $request['dinasbop']);
@@ -804,7 +805,7 @@ class DinasBopController extends Controller
         $dinasbop = DinasBop::find($request['dinasbop']);
 
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Pengadministrasi';
         $data['link'] = $this->link;
         $data['dinasbopadministrasi'] = $dinasbopadministrasi;
         $data['dinasbop'] = $request['dinasbop'];
@@ -866,7 +867,7 @@ class DinasBopController extends Controller
         $ketua = Pegawai::whereIn('jabatan', $jabatan_ketua)->get();
 
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Pengadministrasi';
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api . '/timadministrasi?nip='.$this->_nip.'&dinasbop='.$request['dinasbop'].'&administrasi=' . $request['administrasi']);
@@ -932,7 +933,7 @@ class DinasBopController extends Controller
         }
 
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Pengadministrasi';
         $data['link'] = $this->link;
         $data['dinasboptimadministrasi'] = $dinasboptimadministrasi;
         $data['breadcrumb'] = $breadcrumb;
@@ -1058,7 +1059,7 @@ class DinasBopController extends Controller
         }
 
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Kustomisasi';
         $data['link'] = $this->link;
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api);
@@ -1154,7 +1155,7 @@ class DinasBopController extends Controller
         }
 
         $data = [];
-        $data['title']  = $this->title;
+        $data['title']  = $this->title . ' - Kustomisasi';
         $data['link'] = $this->link;
         $data['dinasbopcustom'] = $dinasbopcustom;
         $data['breadcrumb'] = $breadcrumb;
