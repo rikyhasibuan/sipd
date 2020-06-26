@@ -98,6 +98,7 @@ class UserController extends Controller
         $data['user'] = $user;
         $data['breadcrumb'] = $breadcrumb;
         $data['api'] = url($this->api . '?nip='.$this->_nip.'&id=' . $user->id);
+        $data['reset_password'] = url($this->api . '/resetpassword?nip='.$this->_nip.'&id=' . $user->id);
         $data['act'] = 'edit';
         $data['pegawai'] = $pegawai;
         $data['level'] = $level;

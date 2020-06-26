@@ -66,7 +66,6 @@
                 this.alert.validate = false;
             },
             onSubmit(evt) {
-                evt.preventDefault();
                 this.clearAlert();
                 let validasi = this.validate();
                 if (validasi === true) {
@@ -119,7 +118,7 @@
                 } else {
                     return true;
                 }
-            }
+            },
         },
         created() {
             this.isLoading = true;

@@ -115,6 +115,7 @@ Route::get('user', 'Api\UserController@get_data');
 Route::get('user/{id}', 'Api\UserController@show_data');
 Route::post('user', 'Api\UserController@post_data');
 Route::put('user', 'Api\UserController@put_data');
+Route::put('user/resetpassword', 'Api\UserController@reset_password');
 Route::delete('user', 'Api\UserController@delete_data');
 
 // perangkat daerah

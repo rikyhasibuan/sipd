@@ -21,6 +21,9 @@
         <div class="alert alert-success" v-if="alert.update === true" style="text-align: center;">
             <i class="fa fa-exclamation-triangle"></i> DATA BERHASIL DIPERBAHARUI!
         </div>
+        <div class="alert alert-success" v-if="alert.reset === true" style="text-align: center;">
+            <i class="fa fa-exclamation-triangle"></i> PASSWORD BERHASIL DIRESET ULANG!
+        </div>
         <div class="alert alert-danger" v-if="alert.validate === true" style="text-align: center;">
             <i class="fa fa-exclamation-triangle"></i> SILAHKAN PERIKSA KEMBALI FORM ANDA!
         </div>

@@ -14,7 +14,8 @@
                 :level_data='{{ json_encode($level) }}'
                 :pegawai_data='{{ json_encode($pegawai) }}'
                 :route='{{ json_encode($route) }}'
-                :api='{{ json_encode($api) }}'>
+                :api='{{ json_encode($api) }}'
+                :reset_password='{{ json_encode($reset_password) }}'>
             </user-update>
         @endif
     </div>

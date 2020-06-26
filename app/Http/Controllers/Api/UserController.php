@@ -86,6 +86,23 @@ class UserController extends Controller
         }
     }
 
+    public function reset_password(Request $request)
+    {
+        $user = User::find($request['id']);
+        $user->password = md5('inspektorat');
+        $user->updated_at = date('Y-m-d H:i:s');
+        if ($user->save()) {
+            $payload = [
+                'page' => 'Program',
+                'message' => 'User dengan NIP '.$request->query('nip').' melakukan reset password pada data user'
+            ];
+            $this->_common->generate_log($payload);
+            return response()->json(['status' => 'ok'], 200);
+        } else {
+            return response()->json(['status' => 'failed'], 500);
+        }
+    }
+
     public function delete_data(Request $request)
     {
         $user = User::find($request['id']);

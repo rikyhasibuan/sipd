@@ -40,7 +40,8 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i>Simpan Data</button>
+                                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Simpan Data</button>
+                                <button type="button" class="btn btn-warning" @click.prevent="resetPassword()"><i class="fa fa-refresh"></i> Reset Password</button>
                                 <a :href="route" class="btn btn-danger"><i class="fa fa-arrow-left"></i> Kembali</a>
                             </div>
                         </div>
@@ -64,6 +65,7 @@
                 alert: {
                     error: false,
                     update: false,
+                    reset:false,
                     validate: false
                 },
                 status: {
@@ -78,11 +80,12 @@
                 }
             }
         },
-        props: ['level_data', 'pegawai_data', 'user', 'api', 'route'],
+        props: ['level_data', 'pegawai_data', 'user', 'api', 'route','reset_password'],
         methods: {
             clearAlert() {
                 this.alert.error = false;
                 this.alert.update = false;
+                this.alert.reset = false;
                 this.alert.validate = false;
             },
             onSubmit(evt) {
@@ -142,6 +145,22 @@
                 } else {
                     return true;
                 }
+            },
+            resetPassword() {
+                service.putData(this.reset_password)
+                .then(result => {
+                    setTimeout(() => { this.isLoading = false }, 1000);
+                    if (result.status === 'ok') {
+                        this.alert.reset = true;
+                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+                        setTimeout(() => this.alert.reset = false, 5000);
+                    }
+                }).catch(error => {
+                    this.isLoading = false;
+                    this.alert.error = true;
+                    window.scroll({top: 0, left: 0, behavior: 'smooth'});
+                    console.log(error);
+                });
             }
         },
         created() {
